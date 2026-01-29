@@ -43,7 +43,7 @@ void DifficultyState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyP
 
     if((key.code==sf::Keyboard::Key::X)||(key.code==sf::Keyboard::Key::Escape))
     {
-        app_.stack_.popState();
+        app_.stack_.popRequest();
     }
 
     if(key.code==sf::Keyboard::Key::Z)
@@ -53,7 +53,7 @@ void DifficultyState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyP
             case 1:
             {
                 std::cout<<"Easy mode\n";
-                app_.stack_.pushState(std::make_unique<GameState>(app_));
+                app_.stack_.pushRequest(std::make_unique<GameState>(app_));
                 break;
             }
         

@@ -1,4 +1,5 @@
 #include "core/StateStack.h"
+//#include "state.h"
 #include <iostream>
 
 StateStack::StateStack()
@@ -21,18 +22,6 @@ void StateStack::pop()
     }
 }
 
-/*
-void StateStack::HandleEvent(sf::RenderWindow& window,const auto& event)
-{
-    for(auto it=stack_.rbegin();it!=stack_.rend();++it)
-    {
-        (*it)->HandleEvent(window,event);
-        if((*it)->blocksUpdate())
-            break;
-    }
-}
-    */
-
 void StateStack::Update()
 {
     for (auto it = stack_.rbegin(); it != stack_.rend(); ++it)
@@ -53,14 +42,14 @@ void StateStack::Render(sf::RenderWindow& window)
     }
 }
 
-void StateStack::pushState(std::unique_ptr<State> state)
+void StateStack::pushRequest(std::unique_ptr<State> state)
 {
     changestate_.action=Action::Push;
     changestate_.state=std::move(state);
     std::cout<<"wait for push success\n";
 }
 
-void StateStack::popState()
+void StateStack::popRequest()
 {
     changestate_.action=Action::Pop;
 }

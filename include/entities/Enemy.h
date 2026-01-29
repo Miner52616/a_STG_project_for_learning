@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 
+//敌人
 class Enemy:public Entity
 {
 private:
@@ -10,12 +11,12 @@ private:
     long long int endframe_;
 
 public:
-    Enemy(const sf::Texture &texture);
+    Enemy(const sf::Texture &texture);  //初始化资源引用，默认敌人设置
 
 public:
-    void set_exist(bool set);
-    void set_exist(long long int frame);
-    void set_start_end(long long int start,long long int end);
+    void set_exist(bool set);  //直接设置敌人是否出现
+    void set_exist(long long int frame);  //输入游戏进程此时帧，根据帧判断敌人是否出现
+    void set_start_end(long long int start,long long int end);  //设置敌人会出现的帧范围
 
-    void drawwindow(sf::RenderWindow& window) override;
+    void drawwindow(sf::RenderWindow& window) override;  //渲染敌人至屏幕
 };

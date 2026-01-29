@@ -62,14 +62,14 @@ void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed
             case 1:
             {
                 std::cout<<"choose difficulty\n";
-                app_.stack_.pushState(std::make_unique<DifficultyState>(app_));
+                app_.stack_.pushRequest(std::make_unique<DifficultyState>(app_));
                 break;
             }
 
             case 3:
             {
                 std::cout<<"manual for playing\n";
-                app_.stack_.pushState(std::make_unique<ManualState>(app_));
+                app_.stack_.pushRequest(std::make_unique<ManualState>(app_));
                 break;
             }
         

@@ -1,44 +1,14 @@
 #pragma  once
 #include "basicstates/ButtonState.h"
 
+//总按钮数为4
 constexpr int MenuButtonNum=4;
 
+//主菜单页面
 class MenuState:public ButtonState<MenuState>
 {
 public:
     using ButtonState<MenuState>::HandleEvent;
-    MenuState(application &app);
-    void HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed&);
+    MenuState(application &app);  //初始化所有按钮的属性
+    void HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed&);  //处理“按键按下”事件
 };
-
-/*
-#pragma once
-#include "state.h"
-#include "Button.h"
-//class Button;
-
-constexpr int ButtonNum=4;
-
-class MenuState:public State
-{
-private:
-    int focus;
-    Button buttonlist[ButtonNum];
-
-public:
-    MenuState(application &app);
-    void ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;
-    void Update() override;
-    void Render(sf::RenderWindow& window) override;
-
-private:
-    void DrawButton(sf::RenderWindow& window);
-    void updatebuttonlist();
-
-public:
-    void HandleEvent(sf::RenderWindow& window,const sf::Event::Closed&);
-    void HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed&);
-    void HandleEvent(sf::RenderWindow& window,const auto&){};//其它无反应事件
-};
-
-*/

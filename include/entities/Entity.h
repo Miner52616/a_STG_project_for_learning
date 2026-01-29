@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
+//实体，所有实体的基类
 class Entity
 {
 protected:
@@ -14,12 +15,12 @@ protected:
 
 public:
     void setPosition();
-    void setPosition(sf::Vector2f position);
-    sf::Vector2f getPosition();
-    int getHitbox_r();
+    void setPosition(sf::Vector2f position);  //设置实体位置
+    sf::Vector2f getPosition();  //获得实体位置
+    int getHitbox_r();  //获得实体碰撞半径
 
-    virtual void drawwindow(sf::RenderWindow& window);
+    virtual void drawwindow(sf::RenderWindow& window);  //渲染实体至屏幕
 
 public:
-    Entity(const sf::Texture &texture);
+    Entity(const sf::Texture &texture);  //初始化资源引用，默认实体设置
 };

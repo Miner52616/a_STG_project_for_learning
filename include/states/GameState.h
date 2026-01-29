@@ -14,21 +14,21 @@ private:
     std::vector<std::unique_ptr<Bullet>> player_bulletlist;
 
 public:
-    void ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;
-    void Update() override;
-    void Render(sf::RenderWindow& window) override;
+    void ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理被分发到的事件
+    void Update() override;  //统一更新属性
+    void Render(sf::RenderWindow& window) override;  //统一渲染至屏幕
 
 public:
-    GameState(application &app);
+    GameState(application &app);  //初始化起始帧，初始化资源引用，初始化实体设置
 
 protected:
-    void player_bulletlist_update();
+    void player_bulletlist_update();  //更新玩家子弹数组
 
 protected:
-    void player_bulletlist_move();
-    void player_bulletlist_clear();
-    void player_bulletlist_add();
-    void player_bulletlist_drawwindow(sf::RenderWindow& window);
-    void HandleEvent(sf::RenderWindow& window,const sf::Event::Closed);
-    void HandleEvent(sf::RenderWindow& window,auto){};
+    void player_bulletlist_move();  //所有子弹按规定移动
+    void player_bulletlist_clear();  //清理无效子弹
+    void player_bulletlist_add();   //加入新的子弹
+    void player_bulletlist_drawwindow(sf::RenderWindow& window);  //渲染玩家子弹
+    void HandleEvent(sf::RenderWindow& window,const sf::Event::Closed);  //处理“关闭窗口”事件
+    void HandleEvent(sf::RenderWindow& window,auto){};  //其它无反应事件
 };

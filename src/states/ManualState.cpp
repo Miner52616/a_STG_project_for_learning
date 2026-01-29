@@ -54,6 +54,6 @@ void ManualState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPress
 
     if((key.code==sf::Keyboard::Key::X)||(key.code==sf::Keyboard::Key::Escape))
     {
-        app_.stack_.popState();
+        app_.stack_.popRequest();
     }
 }
