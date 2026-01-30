@@ -1,5 +1,6 @@
 #pragma once
 #include "core/state.h"
+#include "ui/Frame.h"
 #include "entities/Player.h"
 #include "entities/Enemy.h"
 #include "entities/Bullet.h"
@@ -10,6 +11,7 @@ private:
     long long int frame_;
     Player player_;
     Enemy enemy1_;
+    Frame outline1;
 
     std::vector<std::unique_ptr<Bullet>> player_bulletlist;
 

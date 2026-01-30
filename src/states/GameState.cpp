@@ -7,7 +7,8 @@ GameState::GameState(application &app):
     State(app),
     frame_(0),
     player_(app.playerTexture_),
-    enemy1_(app.enemyTexture_)
+    enemy1_(app.enemyTexture_),
+    outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128))
 {
     player_.setPosition({640,480});
     enemy1_.setPosition({640,100});
@@ -39,6 +40,8 @@ void GameState::Update()
 
 void GameState::Render(sf::RenderWindow& window)
 {
+    outline1.drawwindow(window);
+
     player_.drawwindow(window);
 
     enemy1_.drawwindow(window);

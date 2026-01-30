@@ -17,6 +17,7 @@
         "src/ui/Text.cpp",
         "src/ui/Page.cpp",
         "src/ui/Button.cpp",
+        "src/ui/Frame.cpp",
         "src/entities/Entity.cpp",
         "src/entities/Player.cpp",
         "src/entities/Enemy.cpp",
