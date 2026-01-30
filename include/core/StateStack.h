@@ -22,9 +22,11 @@ class StateStack
 public:
     void push(std::unique_ptr<State> state);  //push一个状态
     void pop();  //pop一个状态
+    void clear(); //clear清除所有状态
 
     void pushRequest(std::unique_ptr<State> state);  //发送push申请
     void popRequest();  //发送pop申请
+    void clearRequest();
 //    void clear();
 
     void applyStateChanges(); //响应push/pop申请
@@ -36,10 +38,10 @@ public:
 private:
     ChangeState changestate_;
     std::vector<std::unique_ptr<State>> stack_;
-    
+    application &app_;
 
 public:
-    StateStack(); //初始化申请为“保持”状态
+    StateStack(application &app); //初始化申请为“保持”状态
 };
 
 #include "core/StateStack.ipp"

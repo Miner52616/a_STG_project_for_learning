@@ -7,7 +7,7 @@ Button::Button(const sf::Font &font):
     text_.setString("input");
     text_.setCharacterSize(50);
     text_.setFillColor(sf::Color::White);
-    text_.setOrigin(text_.getGlobalBounds().getCenter());
+    text_.setOrigin(text_.getGlobalBounds().getCenter());//存在问题！！button的原点实际仍在左上角
 }
 
 sf::Text Button::getButtonText_()
@@ -28,19 +28,7 @@ void Button::setButtonPosition(sf::Vector2f position)
 void Button::setButtonFocused(int focus)
 {
     focused_=focus;
- /*   if(focus==befocused)
-    text_.setFillColor(sf::Color::Yellow);
-    else
-    text_.setFillColor(sf::Color::White);*/
 }
-
-/*
-void Button::removeButtonFocused()
-{
-    focused_=not_befocused;
-    text_.setFillColor(sf::Color::White);
-}
-*/
 
 void Button::setButtonLock(int lock)
 {

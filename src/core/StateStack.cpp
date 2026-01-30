@@ -1,8 +1,10 @@
 #include "core/StateStack.h"
+#include "states/MenuState.h"
 //#include "state.h"
 #include <iostream>
 
-StateStack::StateStack()
+StateStack::StateStack(application &app):
+    app_(app)
 {
     changestate_.action=Action::Maintain;
 }
@@ -20,6 +22,11 @@ void StateStack::pop()
         stack_.pop_back();
         std::cout<<"pop success\n";
     }
+}
+
+void StateStack::clear()
+{
+    stack_.clear();
 }
 
 void StateStack::Update()
@@ -54,6 +61,11 @@ void StateStack::popRequest()
     changestate_.action=Action::Pop;
 }
 
+void StateStack::clearRequest()
+{
+    changestate_.action=Action::Clear;
+}
+
 void StateStack::applyStateChanges()
 {
     switch(changestate_.action)
@@ -74,6 +86,11 @@ void StateStack::applyStateChanges()
         case Action::Maintain:
         {
             break;
+        }
+        case Action::Clear:
+        {
+            clear();
+            push(std::make_unique<MenuState>(app_));
         }
         default:
         {

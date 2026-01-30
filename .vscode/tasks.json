@@ -13,6 +13,7 @@
         "src/states/DifficultyState.cpp",
         "src/states/ManualState.cpp",
         "src/states/GameState.cpp",
+        "src/states/PauseState.cpp",
         "src/ui/Text.cpp",
         "src/ui/Page.cpp",
         "src/ui/Button.cpp",

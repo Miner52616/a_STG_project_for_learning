@@ -30,5 +30,6 @@ protected:
     void player_bulletlist_add();   //加入新的子弹
     void player_bulletlist_drawwindow(sf::RenderWindow& window);  //渲染玩家子弹
     void HandleEvent(sf::RenderWindow& window,const sf::Event::Closed);  //处理“关闭窗口”事件
+    void HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed& key);//处理“按钮按下”（单点）事件
     void HandleEvent(sf::RenderWindow& window,auto){};  //其它无反应事件
 };

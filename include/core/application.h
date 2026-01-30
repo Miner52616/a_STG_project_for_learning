@@ -6,7 +6,7 @@
 //应用，整个游戏就是一个应用的实例
 class application
 {
-private:
+public:
     //窗口资源需要作为参数传入使用，以明确窗口
     sf::RenderWindow window_;
 

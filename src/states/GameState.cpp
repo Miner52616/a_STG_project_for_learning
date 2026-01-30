@@ -1,4 +1,5 @@
 #include "states/GameState.h"
+#include "states/PauseState.h"
 #include "core/application.h"
 #include <iostream>
 
@@ -104,4 +105,13 @@ void GameState::HandleEvent(sf::RenderWindow& window,const sf::Event::Closed)
 {
     window.close();
     std::cout<<"window closed";
+}
+
+void GameState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed& key)
+{
+    if(key.code==sf::Keyboard::Key::Escape)
+    {
+        std::cout<<"Game Pause"<<std::endl;
+        app_.stack_.pushRequest(std::make_unique<PauseState>(app_));
+    }
 }

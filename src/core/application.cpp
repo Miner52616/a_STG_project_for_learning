@@ -4,6 +4,7 @@
 #include <iostream>
 
 application::application():
+    stack_(*(this)),
     window_(sf::VideoMode({1280,960}),"trytry window"),
     mainFont_("assets/fonts/abc.ttf"),
     playerTexture_("assets/textures/player.png"),
