@@ -41,11 +41,19 @@ void StateStack::Update()
 
 void StateStack::Render(sf::RenderWindow& window)
 {
+    std::vector<State*> renderlist;
+
     for (auto it = stack_.rbegin(); it != stack_.rend(); ++it) 
     {
-        (*it)->Render(window);
+        //(*it)->Render(window);
+        renderlist.emplace_back(it->get());
         if ((*it)->blocksRender())
             break;
+    }
+
+    for(auto it=renderlist.rbegin();it!=renderlist.rend();++it)
+    {
+        (*it)->Render(window);
     }
 }
 
