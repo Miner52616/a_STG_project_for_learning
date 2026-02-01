@@ -110,6 +110,12 @@ void GameState::HandleEvent(sf::RenderWindow& window,const sf::Event::Closed)
     std::cout<<"window closed";
 }
 
+void GameState::HandleEvent(sf::RenderWindow& window,const sf::Event::Resized&)
+{
+    app_.applyLetterBox();
+    app_.window_.setView(app_.gameview_);
+}
+
 void GameState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed& key)
 {
     if(key.code==sf::Keyboard::Key::Escape)

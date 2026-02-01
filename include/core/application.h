@@ -8,6 +8,7 @@ class application
 {
 public:
     //窗口资源需要作为参数传入使用，以明确窗口
+    sf::View gameview_;
     sf::RenderWindow window_;
 
 public:
@@ -27,4 +28,5 @@ public:
     void Update();  //统一更新属性
     void Render();  //统一渲染至屏幕
     void End_operation();  //一套流程中最后的操作
+    void applyLetterBox();
 };

@@ -58,3 +58,10 @@ void TextState<Derived>::HandleEvent(sf::RenderWindow& window,const sf::Event::C
     window.close();
     std::cout<<"window closed\n";
 }
+
+template<typename Derived>
+void TextState<Derived>::HandleEvent(sf::RenderWindow& window,const sf::Event::Resized&)
+{
+    app_.applyLetterBox();
+    app_.window_.setView(app_.gameview_);
+}

@@ -27,6 +27,13 @@ void ButtonState<Derived>::HandleEvent(sf::RenderWindow& window,const sf::Event:
 }
 
 template<typename Derived>
+void ButtonState<Derived>::HandleEvent(sf::RenderWindow& window,const sf::Event::Resized&)
+{
+    app_.applyLetterBox();
+    app_.window_.setView(app_.gameview_);
+}
+
+template<typename Derived>
 void ButtonState<Derived>::DrawButton_(sf::RenderWindow& window)
 {
     for(int i=1;i<=buttonlist_.size();i++)

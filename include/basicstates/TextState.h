@@ -12,6 +12,7 @@ protected:
 
 protected:
     void HandleEvent(sf::RenderWindow& window,const sf::Event::Closed&);  //处理“关闭窗口”事件
+    void HandleEvent(sf::RenderWindow& window,const sf::Event::Resized&);
     void HandleEvent(sf::RenderWindow& window,const auto&){};  //其它无反应事件
 
 public:

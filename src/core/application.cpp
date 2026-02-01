@@ -12,6 +12,10 @@ application::application():
     bulletTexture_("assets/textures/bullet.png")
 {
     window_.setFramerateLimit(60);
+    gameview_.setSize({1280,960});
+    gameview_.setCenter({640,480});
+    applyLetterBox();
+    window_.setView(gameview_);
     stack_.push(std::make_unique<MenuState>(*this));
 }
 
@@ -44,4 +48,30 @@ void application::Render()
 void application::End_operation()
 {
     stack_.applyStateChanges();
+}
+
+void application::applyLetterBox()
+{
+    float windowRatio =
+        window_.getSize().x / static_cast<float>(window_.getSize().y);
+    float viewRatio =
+        gameview_.getSize().x / gameview_.getSize().y;
+
+    float sizeX = 1.f;
+    float sizeY = 1.f;
+    float posX = 0.f;
+    float posY = 0.f;
+
+    if (windowRatio > viewRatio)
+    {
+        sizeX = viewRatio / windowRatio;
+        posX = (1.f - sizeX) / 2.f;
+    }
+    else
+    {
+        sizeY = windowRatio / viewRatio;
+        posY = (1.f - sizeY) / 2.f;
+    }
+
+    gameview_.setViewport(sf::FloatRect({posX, posY},{sizeX, sizeY}));
 }
