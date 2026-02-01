@@ -1,0 +1,19 @@
+#include "bullets/PlayerBullet.h"
+#include "core/application.h"
+#include "ui/Frame.h"
+
+PlayerBullet::PlayerBullet(application &app,const sf::Texture &texture,sf::Vector2f position,Frame &outline):
+    Bullet(app,texture,position),outline_(outline)
+{
+    ;
+}
+
+void PlayerBullet::update()
+{
+    setPosition({getPosition().x,getPosition().y-12});
+
+    if((getPosition().x<outline_.getBounds_left())||(getPosition().y<-50)||(getPosition().x>outline_.getBounds_right())||(getPosition().y>outline_.getBounds_bottom()))
+    {
+        dead_=true;
+    }
+}

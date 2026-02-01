@@ -14,7 +14,28 @@ Frame::Frame(sf::Vector2f lefttop,sf::Vector2f rightbottom,int width,sf::Color c
 
 sf::FloatRect Frame::getGlobalBounds()
 {
-    return frame_in_.getGlobalBounds();
+    sf::FloatRect a=frame_in_.getGlobalBounds();
+    return a;
+}
+
+float Frame::getBounds_top()
+{
+    return  (this->getGlobalBounds().position.y);
+}
+
+float Frame::getBounds_bottom()
+{
+    return (this->getGlobalBounds().position.y+this->getGlobalBounds().size.y);
+}
+
+float Frame::getBounds_left()
+{
+    return (this->getGlobalBounds().position.x);
+}
+
+float Frame::getBounds_right()
+{
+    return (this->getGlobalBounds().position.x+this->getGlobalBounds().size.x);
 }
 
 void Frame::drawwindow(sf::RenderWindow& window)

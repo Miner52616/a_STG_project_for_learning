@@ -11,7 +11,7 @@ private:
     long long int endframe_;
 
 public:
-    Enemy(const sf::Texture &texture);  //初始化资源引用，默认敌人设置
+    Enemy(application &app,const sf::Texture &texture);  //初始化资源引用，默认敌人设置
 
 public:
     void set_exist(bool set);  //直接设置敌人是否出现

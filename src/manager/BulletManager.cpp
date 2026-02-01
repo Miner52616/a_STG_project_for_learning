@@ -1,22 +1,48 @@
 #include "manager/BulletManager.h"
+#include "ui/Frame.h"
 #include "core/Clock.h"
 
-BulletManager::BulletManager(application &app,Player &player):
-    app_(app),player_(player)
+BulletManager::BulletManager(application &app):
+    app_(app)//,outline_(outline),player_(player)
 {
     ;
 }
 
+void BulletManager::add_process(std::unique_ptr<Bullet> bullet)
+{
+    bulletlist_.emplace_back(std::move(bullet));
+}
+
 void BulletManager::update()
 {
-    playerbulletlist_update();
+    bulletlist_update();
+
+    bulletlist_.erase
+    (
+        std::remove_if
+        (
+            bulletlist_.begin(),bulletlist_.end(),
+            [this](const std::unique_ptr<Bullet>& bullet)
+            {
+                if(bullet->isDead())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        ),
+        bulletlist_.end()
+    );
 }
 
 void BulletManager::render(sf::RenderWindow& window)
 {
-    playerbulletlist_render(window);
+    bulletlist_render(window);
 }
-
+/*
 void BulletManager::playerbulletlist_add()
 {
     if(player_.Handle_shoot_request())
@@ -24,22 +50,30 @@ void BulletManager::playerbulletlist_add()
         playerbulletlist_.emplace_back(std::make_unique<Bullet>(app_.bulletTexture_,player_.getPosition()));
     }
 }
+*/
 
-void BulletManager::playerbulletlist_update()
+void BulletManager::bulletlist_update()
 {
+    /*
     playerbulletlist_clear();
     playerbulletlist_move();
     playerbulletlist_add();
+    */
+   for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
+   {
+        (*it)->update();
+   }
 }
 
-void BulletManager::playerbulletlist_render(sf::RenderWindow& window)
+void BulletManager::bulletlist_render(sf::RenderWindow& window)
 {
-    for(auto it=playerbulletlist_.begin();it!=playerbulletlist_.end();++it)
+    for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {
         (*it)->drawwindow(window);
     }
 }
 
+/*
 void BulletManager::playerbulletlist_clear()
 {
     playerbulletlist_.erase
@@ -47,9 +81,9 @@ void BulletManager::playerbulletlist_clear()
         std::remove_if
         (
             playerbulletlist_.begin(),playerbulletlist_.end(),
-            [](const std::unique_ptr<Bullet>& bullet)
+            [this](const std::unique_ptr<Bullet>& bullet)
             {
-                if((bullet->getPosition().x<0)||(bullet->getPosition().y<0)||(bullet->getPosition().x>1280)||(bullet->getPosition().y>960))
+                if((bullet->getPosition().x<outline_.getBounds_left())||(bullet->getPosition().y<-50)||(bullet->getPosition().x>outline_.getBounds_right())||(bullet->getPosition().y>outline_.getBounds_bottom()))
                 {
                     return true;
                 }
@@ -62,7 +96,8 @@ void BulletManager::playerbulletlist_clear()
         playerbulletlist_.end()
     );
 }
-
+*/
+/*
 void BulletManager::playerbulletlist_move()
 {
     for(auto it=playerbulletlist_.begin();it!=playerbulletlist_.end();++it)
@@ -70,3 +105,4 @@ void BulletManager::playerbulletlist_move()
         (*it)->setPosition({(*it)->getPosition().x,(*it)->getPosition().y-12});
     }
 }
+*/

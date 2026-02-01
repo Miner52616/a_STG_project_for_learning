@@ -7,20 +7,15 @@ class BulletManager
 {
 private:
     application &app_;
-    Player &player_;
-    std::vector<std::unique_ptr<Bullet>> playerbulletlist_;
+    std::vector<std::unique_ptr<Bullet>> bulletlist_;
 
 public:
-    BulletManager(application &app,Player &player);
+    BulletManager(application &app);
+    void add_process(std::unique_ptr<Bullet> bullet);
     void update();
     void render(sf::RenderWindow& window);
 
 private:
-    void playerbulletlist_update();
-    void playerbulletlist_render(sf::RenderWindow& window);
-
-private:
-    void playerbulletlist_clear();
-    void playerbulletlist_move();
-    void playerbulletlist_add();
+    void bulletlist_update();
+    void bulletlist_render(sf::RenderWindow& window);
 };
