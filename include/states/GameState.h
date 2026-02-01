@@ -4,6 +4,8 @@
 #include "entities/Player.h"
 #include "entities/Enemy.h"
 #include "entities/Bullet.h"
+#include "core/EnemyManager.h"
+#include "core/BulletManager.h"
 
 class GameState:public State
 {
@@ -13,6 +15,10 @@ private:
     Enemy enemy1_;
     Frame outline1;
 
+    std::vector<Enemy*> enemylist_;
+
+    EnemyManager enemymanager_;
+    BulletManager bulletmanager_;
     std::vector<std::unique_ptr<Bullet>> player_bulletlist;
 
 public:
@@ -31,6 +37,7 @@ protected:
     void player_bulletlist_clear();  //清理无效子弹
     void player_bulletlist_add();   //加入新的子弹
     void player_bulletlist_drawwindow(sf::RenderWindow& window);  //渲染玩家子弹
+    void enemylist_add(Enemy* enemy);
     void HandleEvent(sf::RenderWindow& window,const sf::Event::Closed);  //处理“关闭窗口”事件
     void HandleEvent(sf::RenderWindow& window,const sf::Event::Resized&);  //拉伸窗口时保证宽高比一致
     void HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed& key);//处理“按钮按下”（单点）事件

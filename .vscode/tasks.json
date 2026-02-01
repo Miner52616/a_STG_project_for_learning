@@ -9,6 +9,8 @@
         "src/main.cpp",
         "src/core/application.cpp",
         "src/core/state.cpp",
+        "src/core/EnemyManager.cpp",
+        "src/core/BulletManager.cpp",
         "src/states/MenuState.cpp",
         "src/states/DifficultyState.cpp",
         "src/states/ManualState.cpp",

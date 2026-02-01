@@ -8,12 +8,15 @@ GameState::GameState(application &app):
     frame_(0),
     player_(app.playerTexture_),
     enemy1_(app.enemyTexture_),
-    outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128))
+    outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
+    enemymanager_(enemylist_),
+    bulletmanager_(app_,player_)
 {
     player_.setPosition({640,480});
-    enemy1_.setPosition({640,100});
 
+    enemy1_.setPosition({640,100});
     enemy1_.set_start_end(480,216000);
+    enemylist_add(&enemy1_);
 }
 
 void GameState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
@@ -31,9 +34,9 @@ void GameState::Update()
 {
     player_.Player_update();
 
-    enemy1_.set_exist(frame_);
+    enemymanager_.update(frame_);
 
-    player_bulletlist_update();
+    bulletmanager_.update();
 
     frame_++;
 }
@@ -44,10 +47,9 @@ void GameState::Render(sf::RenderWindow& window)
 
     player_.drawwindow(window);
 
-    enemy1_.drawwindow(window);
+    enemymanager_.render(window);
 
-    player_bulletlist_drawwindow(window);
-    
+    bulletmanager_.render(window);
 }
 
 void GameState::player_bulletlist_update()
@@ -102,6 +104,11 @@ void GameState::player_bulletlist_drawwindow(sf::RenderWindow& window)
     {
         (*it)->drawwindow(window);
     }
+}
+
+void GameState::enemylist_add(Enemy* enemy)
+{
+    enemylist_.emplace_back(enemy);
 }
 
 void GameState::HandleEvent(sf::RenderWindow& window,const sf::Event::Closed)
