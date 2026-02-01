@@ -1,4 +1,5 @@
-#include "core/BulletManager.h"
+#include "manager/BulletManager.h"
+#include "core/Clock.h"
 
 BulletManager::BulletManager(application &app,Player &player):
     app_(app),player_(player)

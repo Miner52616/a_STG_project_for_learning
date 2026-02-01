@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "core/Clock.h"
 
 struct Rate
 {
@@ -15,9 +16,11 @@ private:
     int speed_;
     Rate rate_;
     bool request_shoot_;
+    Clock clock_;
 
 public:
     bool Handle_shoot_request();  //是否有发弹申请，使用后处理发弹申请
+    void clock_count();
 
 public:
     Player(const sf::Texture &texture);  //初始化资源引用，默认玩家设置

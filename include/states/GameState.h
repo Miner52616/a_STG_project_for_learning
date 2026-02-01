@@ -1,11 +1,12 @@
 #pragma once
 #include "core/state.h"
+#include "core/Clock.h"
 #include "ui/Frame.h"
 #include "entities/Player.h"
 #include "entities/Enemy.h"
 #include "entities/Bullet.h"
-#include "core/EnemyManager.h"
-#include "core/BulletManager.h"
+#include "manager/EnemyManager.h"
+#include "manager/BulletManager.h"
 
 class GameState:public State
 {
@@ -19,7 +20,6 @@ private:
 
     EnemyManager enemymanager_;
     BulletManager bulletmanager_;
-    std::vector<std::unique_ptr<Bullet>> player_bulletlist;
 
 public:
     void ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理被分发到的事件
@@ -30,14 +30,8 @@ public:
     GameState(application &app);  //初始化起始帧，初始化资源引用，初始化实体设置
 
 protected:
-    void player_bulletlist_update();  //更新玩家子弹数组
-
-protected:
-    void player_bulletlist_move();  //所有子弹按规定移动
-    void player_bulletlist_clear();  //清理无效子弹
-    void player_bulletlist_add();   //加入新的子弹
-    void player_bulletlist_drawwindow(sf::RenderWindow& window);  //渲染玩家子弹
     void enemylist_add(Enemy* enemy);
+    void clock_update();
     void HandleEvent(sf::RenderWindow& window,const sf::Event::Closed);  //处理“关闭窗口”事件
     void HandleEvent(sf::RenderWindow& window,const sf::Event::Resized&);  //拉伸窗口时保证宽高比一致
     void HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed& key);//处理“按钮按下”（单点）事件

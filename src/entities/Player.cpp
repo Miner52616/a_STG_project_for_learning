@@ -1,7 +1,7 @@
 #include "entities/Player.h"
 
 Player::Player(const sf::Texture &texture):
-    Entity(texture),hitbox_exist_(false),speed_(10),request_shoot_(false)
+    Entity(texture),hitbox_exist_(false),speed_(10),request_shoot_(false),clock_((long long int)15)
 {
     rate_.current=0;
     rate_.frame=15;
@@ -18,6 +18,11 @@ bool Player::Handle_shoot_request()
     {
         return false;
     }
+}
+
+void Player::clock_count()
+{
+    clock_.count();
 }
 
 void Player::drawwindow(sf::RenderWindow& window)
@@ -64,11 +69,18 @@ void Player::Player_update()
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))
     {
+        /*
         rate_.current++;
         if(rate_.current>=rate_.frame)
         {
             request_shoot_=true;
             rate_.current=0;
+        }
+            */
+        if(clock_.get_condition())
+        {
+            request_shoot_=true;
+            clock_.reset();
         }
     }
 }

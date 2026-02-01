@@ -38,6 +38,8 @@ void GameState::Update()
 
     bulletmanager_.update();
 
+    clock_update();
+
     frame_++;
 }
 
@@ -52,63 +54,14 @@ void GameState::Render(sf::RenderWindow& window)
     bulletmanager_.render(window);
 }
 
-void GameState::player_bulletlist_update()
-{
-    player_bulletlist_move();
-    player_bulletlist_clear();
-    player_bulletlist_add();
-}
-
-void GameState::player_bulletlist_move()
-{
-    for(auto it=player_bulletlist.begin();it!=player_bulletlist.end();++it)
-    {
-        (*it)->setPosition({(*it)->getPosition().x,(*it)->getPosition().y-12});
-    }
-}
-
-void GameState::player_bulletlist_clear()
-{
-    player_bulletlist.erase
-    (
-        std::remove_if
-        (
-            player_bulletlist.begin(),player_bulletlist.end(),
-            [](const std::unique_ptr<Bullet>& bullet)
-            {
-                if((bullet->getPosition().x<0)||(bullet->getPosition().y<0)||(bullet->getPosition().x>1280)||(bullet->getPosition().y>960))
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-        ),
-        player_bulletlist.end()
-    );
-}
-
-void GameState::player_bulletlist_add()
-{
-    if(player_.Handle_shoot_request())
-    {
-        player_bulletlist.emplace_back(std::make_unique<Bullet>(app_.bulletTexture_,player_.getPosition()));
-    }
-}
-
-void GameState::player_bulletlist_drawwindow(sf::RenderWindow& window)
-{
-    for(auto it=player_bulletlist.begin();it!=player_bulletlist.end();++it)
-    {
-        (*it)->drawwindow(window);
-    }
-}
-
 void GameState::enemylist_add(Enemy* enemy)
 {
     enemylist_.emplace_back(enemy);
+}
+
+void GameState::clock_update()
+{
+    player_.clock_count();
 }
 
 void GameState::HandleEvent(sf::RenderWindow& window,const sf::Event::Closed)

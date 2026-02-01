@@ -1,4 +1,4 @@
-#include "core/EnemyManager.h"
+#include "manager/EnemyManager.h"
 
 EnemyManager::EnemyManager(std::vector<Enemy*> &enemylist):
     enemylist_(enemylist)
