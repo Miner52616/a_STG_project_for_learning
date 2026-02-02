@@ -5,6 +5,7 @@
 class Bullet:public Entity
 {
 protected:
+    bool ofplayer_;
     bool exist_;
     bool dead_;
 
@@ -14,5 +15,7 @@ public:
 public:
     virtual void update()=0;
     bool isDead();
+    bool isPlayer();
+    void markDead();
     void drawwindow(sf::RenderWindow& window) override;  //渲染子弹至屏幕
 };

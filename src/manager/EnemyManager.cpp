@@ -20,6 +20,7 @@ void EnemyManager::enemylist_update(long long int frame)
 {
     for(auto it=enemylist_.begin();it!=enemylist_.end();++it)
     {
+        (*it)->store_position();
         (*it)->set_exist(frame);
     }
 }

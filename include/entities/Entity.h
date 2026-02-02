@@ -10,6 +10,7 @@ protected:
     application &app_;
     const sf::Texture &texture_;
     sf::Vector2f position_;
+    sf::Vector2f prev_position_;
     int hitbox_r_;
 
 protected:
@@ -17,9 +18,11 @@ protected:
     sf::Sprite picture_;
 
 public:
-    void setPosition();
-    void setPosition(sf::Vector2f position);  //设置实体位置
+    virtual void setPosition();
+    virtual void setPosition(sf::Vector2f position);  //设置实体位置
+    void store_position();
     sf::Vector2f getPosition();  //获得实体位置
+    sf::Vector2f getprevPosition();
     int getHitbox_r();  //获得实体碰撞半径
 
     virtual void drawwindow(sf::RenderWindow& window);  //渲染实体至屏幕

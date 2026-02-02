@@ -2,8 +2,8 @@
 #include "ui/Frame.h"
 #include "core/Clock.h"
 
-BulletManager::BulletManager(application &app):
-    app_(app)//,outline_(outline),player_(player)
+BulletManager::BulletManager(application &app,std::vector<std::unique_ptr<Bullet>> &bulletlist):
+    app_(app),bulletlist_(bulletlist)//,outline_(outline),player_(player)
 {
     ;
 }
@@ -16,7 +16,10 @@ void BulletManager::add_process(std::unique_ptr<Bullet> bullet)
 void BulletManager::update()
 {
     bulletlist_update();
+}
 
+void BulletManager::clear()
+{
     bulletlist_.erase
     (
         std::remove_if

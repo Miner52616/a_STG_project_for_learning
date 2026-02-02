@@ -3,7 +3,7 @@
 #include <iostream>
 
 Entity::Entity(application &app,const sf::Texture &texture):
-    app_(app),texture_(texture),hitbox_r_(5),picture_(texture_),position_({0,0})
+    app_(app),texture_(texture),hitbox_r_(5),picture_(texture_),position_({0,0}),prev_position_({0,0})
     {
         hitbox_.setRadius(hitbox_r_);
 
@@ -25,9 +25,19 @@ void Entity::setPosition(sf::Vector2f position)
     setPosition();
 }
 
+void Entity::store_position()
+{
+    prev_position_=position_;
+}
+
 sf::Vector2f Entity::getPosition()
 {
     return position_;
+}
+
+sf::Vector2f Entity::getprevPosition()
+{
+    return prev_position_;
 }
 
 int Entity::getHitbox_r()

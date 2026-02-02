@@ -1,16 +1,17 @@
 #include "states/GameState.h"
 #include "states/PauseState.h"
 #include "core/application.h"
+#include "collision/CollisionCheck.h"
 #include <iostream>
 
 GameState::GameState(application &app):
     State(app),
     frame_(0),
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
+    bulletmanager_(app,bulletlist_),
     player_(app,app.playerTexture_,outline1,bulletmanager_),
     enemy1_(app,app.enemyTexture_),
-    enemymanager_(enemylist_),
-    bulletmanager_(app_)
+    enemymanager_(enemylist_)
 {
     top_cover1.setPosition({0,0});
     top_cover1.setSize({1280,25});
@@ -43,7 +44,11 @@ void GameState::Update()
 
     enemymanager_.update(frame_);
 
-    bulletmanager_.update();
+    bulletmanager_.update();//后续需要把清理子弹放到帧末统一处理，以不影响碰撞检测
+
+    handlecollision();
+
+    bulletmanager_.clear();
 
     clock_update();
 
@@ -72,6 +77,29 @@ void GameState::enemylist_add(Enemy* enemy)
 void GameState::clock_update()
 {
     player_.clock_count();
+}
+
+void GameState::handlecollision()
+{
+    handleplayerbulletcollision();
+}
+
+void GameState::handleplayerbulletcollision()
+{
+    for(auto it1=bulletlist_.begin();it1!=bulletlist_.end();++it1)
+    {
+        if((*it1)->isPlayer())
+        {
+            for(auto it2=enemylist_.begin();it2!=enemylist_.end();++it2)
+            {
+                if(isCollision(*(*it2),*(*it1))&&((*it2)->isExist()))
+                {
+                    (*it1)->markDead();
+                    std::cout<<"hit!"<<std::endl;
+                }
+            }
+        }
+    }
 }
 
 void GameState::HandleEvent(sf::RenderWindow& window,const sf::Event::Closed)

@@ -17,6 +17,8 @@ private:
     Frame &outline_;
     BulletManager &bulletmanager_;
 
+    sf::CircleShape point_;
+
 private:
     void check_position();
 
@@ -27,6 +29,8 @@ public:
 public:
     Player(application &app,const sf::Texture &texture,Frame &outline,BulletManager& bulletmanager);  //初始化资源引用，默认玩家设置
 
+    void setPosition() override;
+    void setPosition(sf::Vector2f position) override;
     void Player_update();  //更新玩家属性
     void drawwindow(sf::RenderWindow& window) override;  //渲染玩家至屏幕
 };

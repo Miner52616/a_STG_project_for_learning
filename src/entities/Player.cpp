@@ -13,7 +13,12 @@ Player::Player(application &app,const sf::Texture &texture,Frame &outline,Bullet
     outline_(outline),
     bulletmanager_(bulletmanager)
 {
-    ;
+    point_.setRadius(6);
+    point_.setOrigin(point_.getGlobalBounds().getCenter());
+    point_.setFillColor(sf::Color::White);
+
+    hitbox_r_=3;
+    hitbox_.setRadius(hitbox_r_);
 }
 
 void Player::check_position()
@@ -54,17 +59,31 @@ void Player::clock_count()
     clock_.count();
 }
 
+void Player::setPosition()
+{
+    hitbox_.setPosition(position_);
+    point_.setPosition(position_);
+    picture_.setPosition(position_);
+}
+
+void Player::setPosition(sf::Vector2f position)
+{
+    position_=position;
+    setPosition();
+}
+
 void Player::drawwindow(sf::RenderWindow& window)
 {
     window.draw(picture_);
     if(hitbox_exist_)
     {
-        window.draw(hitbox_);
+        window.draw(point_);
     }
 }
 
 void Player::Player_update()
 {
+    store_position();
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
     {
         setPosition({position_.x,(position_.y)-speed_});
@@ -105,6 +124,7 @@ void Player::Player_update()
         if(clock_.get_condition())
         {
             request_shoot_=true;
+            std::cout<<"shoot"<<std::endl;
             bulletmanager_.add_process(std::make_unique<PlayerBullet>(app_,app_.bulletTexture_,getPosition(),outline_));
             clock_.reset();
         }
