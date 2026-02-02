@@ -84,30 +84,54 @@ void Player::drawwindow(sf::RenderWindow& window)
 void Player::Player_update()
 {
     store_position();
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)))
+    {
+        setPosition({getPosition().x-(float)(speed_*0.707),getPosition().y-(float)(speed_*0.707)});
+        check_position();
+    }
+    else
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)))
+    {
+        setPosition({getPosition().x-(float)(speed_*0.707),getPosition().y+(float)(speed_*0.707)});
+        check_position();
+    }
+    else
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))
+    {
+        setPosition({getPosition().x+(float)(speed_*0.707),getPosition().y-(float)(speed_*0.707)});
+        check_position();
+    }
+    else
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))
+    {
+        setPosition({getPosition().x+(float)(speed_*0.707),getPosition().y+(float)(speed_*0.707)});
+        check_position();
+    }
+    else
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
     {
         setPosition({position_.x,(position_.y)-speed_});
         check_position();
     }
-
+    else
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
     {
         setPosition({position_.x,(position_.y)+speed_});
         check_position();
     }
-
+    else
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
     {
         setPosition({position_.x-speed_,position_.y});
         check_position();
     }
-
+    else
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
     {
         setPosition({position_.x+speed_,position_.y});
         check_position();
     }
-
+    
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
     {
         hitbox_exist_=true;
@@ -116,7 +140,7 @@ void Player::Player_update()
     else
     {
         hitbox_exist_=false;
-        speed_=15;
+        speed_=10;
     }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))

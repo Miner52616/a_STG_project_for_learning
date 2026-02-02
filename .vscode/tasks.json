@@ -13,6 +13,8 @@
         "src/manager/EnemyManager.cpp",
         "src/manager/BulletManager.cpp",
         "src/bullets/PlayerBullet.cpp",
+        "src/bullets/LinearBullet.cpp",
+        "src/enemies/Enemy1.cpp",
         "src/mathematics/mathematics.cpp",
         "src/collision/CollisionCheck.cpp",
         "src/states/MenuState.cpp",

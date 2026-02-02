@@ -5,6 +5,7 @@
 #include "entities/Player.h"
 #include "entities/Enemy.h"
 #include "entities/Bullet.h"
+#include "enemies/Enemy1.h"
 #include "manager/EnemyManager.h"
 #include "manager/BulletManager.h"
 
@@ -15,6 +16,12 @@ private:
     Frame outline1;
     sf::RectangleShape top_cover1;
     sf::RectangleShape top_cover2;
+    sf::RectangleShape left_cover1;
+    sf::RectangleShape left_cover2;
+    sf::RectangleShape right_cover1;
+    sf::RectangleShape right_cover2;
+    sf::RectangleShape bottom_cover1;
+    sf::RectangleShape bottom_cover2;
 
     std::vector<std::unique_ptr<Bullet>> bulletlist_;
     std::vector<Enemy*> enemylist_;
@@ -23,7 +30,7 @@ private:
     BulletManager bulletmanager_;
 
     Player player_;
-    Enemy enemy1_;
+    Enemy1 enemy1_;
 
 public:
     void ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理被分发到的事件

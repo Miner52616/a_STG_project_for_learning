@@ -16,6 +16,7 @@ public:
     virtual void update()=0;
     bool isDead();
     bool isPlayer();
+    bool isOut();
     void markDead();
     void drawwindow(sf::RenderWindow& window) override;  //渲染子弹至屏幕
 };

@@ -17,6 +17,18 @@ bool Bullet::isPlayer()
     return ofplayer_;
 }
 
+bool Bullet::isOut()
+{
+    if(getPosition().x<=0||getPosition().y<=0||getPosition().x>=1280||getPosition().y>=960)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
 void Bullet::markDead()
 {
     dead_=true;

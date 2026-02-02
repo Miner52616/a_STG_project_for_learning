@@ -1,17 +1,21 @@
 #pragma once
 #include "Entity.h"
 
+class BulletManager;
+
 //敌人
 class Enemy:public Entity
 {
-private:
+protected:
     bool exist_;
 
     long long int startframe_;
     long long int endframe_;
 
+    BulletManager &bulletmanager_;
+
 public:
-    Enemy(application &app,const sf::Texture &texture);  //初始化资源引用，默认敌人设置
+    Enemy(application &app,const sf::Texture &texture,BulletManager &bulletmanager);  //初始化资源引用，默认敌人设置
 
 public:
     void set_exist(bool set);  //直接设置敌人是否出现
@@ -19,5 +23,7 @@ public:
     void set_start_end(long long int start,long long int end);  //设置敌人会出现的帧范围
     bool isExist();
 
+    virtual void update(long long int frame)=0;
+    virtual void clock_count()=0;
     void drawwindow(sf::RenderWindow& window) override;  //渲染敌人至屏幕
 };
