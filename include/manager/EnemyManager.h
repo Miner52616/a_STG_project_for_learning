@@ -8,8 +8,10 @@ private:
 
 public:
     EnemyManager(std::vector<Enemy*> &enemylist);
+    void add_process(Enemy* enemy);
     void update(long long int frame);
     void render(sf::RenderWindow& window);
+    void clear();
     void clock_count();
 private:
     void enemylist_update(long long int frame);

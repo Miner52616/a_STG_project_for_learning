@@ -35,6 +35,16 @@ bool Enemy::isExist()
     return exist_;
 }
 
+long long int Enemy::getStartFrame()
+{
+    return startframe_;
+}
+
+long long int Enemy::getEndFrame()
+{
+    return endframe_;
+}
+
 void Enemy::drawwindow(sf::RenderWindow& window)
 {
     if(exist_)

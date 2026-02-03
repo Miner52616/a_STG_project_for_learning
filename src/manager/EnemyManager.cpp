@@ -6,6 +6,11 @@ EnemyManager::EnemyManager(std::vector<Enemy*> &enemylist):
     ;
 }
 
+void EnemyManager::add_process(Enemy* enemy)
+{
+    enemylist_.emplace_back(enemy);
+}
+
 void EnemyManager::update(long long int frame)
 {
     enemylist_update(frame);
@@ -15,6 +20,11 @@ void EnemyManager::update(long long int frame)
 void EnemyManager::render(sf::RenderWindow& window)
 {
     enemylist_render(window);
+}
+
+void EnemyManager::clear()
+{
+    enemylist_.clear();
 }
 
 void EnemyManager::clock_count()

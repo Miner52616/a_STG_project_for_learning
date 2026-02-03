@@ -22,6 +22,8 @@ public:
     void set_exist(long long int frame);  //输入游戏进程此时帧，根据帧判断敌人是否出现
     void set_start_end(long long int start,long long int end);  //设置敌人会出现的帧范围
     bool isExist();
+    long long int getStartFrame();
+    long long int getEndFrame();
 
     virtual void update(long long int frame)=0;
     virtual void clock_count()=0;

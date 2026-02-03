@@ -1,5 +1,7 @@
 #include "states/GameState.h"
 #include "states/PauseState.h"
+#include "phases/phases/MidPhase.h"
+#include "phases/phases/VoidPhase.h"
 #include "core/application.h"
 #include "collision/CollisionCheck.h"
 #include <iostream>
@@ -9,6 +11,7 @@ GameState::GameState(application &app):
     frame_(0),
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
     bulletmanager_(app,bulletlist_),
+    phasecontroller_(app,bulletmanager_,phaselist_),
     player_(app,app.playerTexture_,outline1,bulletmanager_),
     enemy1_(app,app.enemyTexture_,bulletmanager_,player_),
     enemymanager_(enemylist_)
@@ -38,11 +41,14 @@ GameState::GameState(application &app):
     bottom_cover2.setSize({780,5});
     bottom_cover2.setFillColor(sf::Color(128,128,128));
 
+    phasecontroller_.add_process(std::make_unique<MidPhase>(app_,phasecontroller_,bulletmanager_,enemymanager_,600,player_));
+    phasecontroller_.add_process(std::make_unique<VoidPhase>(app_,phasecontroller_,bulletmanager_,enemymanager_,180));
+
     player_.setPosition({640,480});
 
     enemy1_.setPosition({640,100});
     enemy1_.set_start_end(240,216000);
-    enemylist_add(&enemy1_);
+    //enemylist_add(&enemy1_);
 }
 
 void GameState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
@@ -60,9 +66,11 @@ void GameState::Update()
 {
     player_.Player_update();
 
-    enemymanager_.update(frame_);
+    phasecontroller_.update();
 
-    bulletmanager_.update();//后续需要把清理子弹放到帧末统一处理，以不影响碰撞检测
+//    enemymanager_.update(frame_);
+
+//    bulletmanager_.update();//后续需要把清理子弹放到帧末统一处理，以不影响碰撞检测
 
     handlecollision();
 
@@ -79,9 +87,16 @@ void GameState::Render(sf::RenderWindow& window)
 
     player_.drawwindow(window);
 
-    enemymanager_.render(window);
+    phasecontroller_.render(window);
+    if(!phasecontroller_.apply_change())
+    {
+        std::cout<<"Game Over"<<std::endl;
+        app_.stack_.pushRequest(std::make_unique<PauseState>(app_));
+    }
 
-    bulletmanager_.render(window);
+//    enemymanager_.render(window);
+
+//    bulletmanager_.render(window);
 
     window.draw(top_cover1);
     window.draw(top_cover2);

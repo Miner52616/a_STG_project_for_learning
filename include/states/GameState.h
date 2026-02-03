@@ -8,6 +8,7 @@
 #include "enemies/Enemy1.h"
 #include "manager/EnemyManager.h"
 #include "manager/BulletManager.h"
+#include "manager/PhaseController.h"
 
 class GameState:public State
 {
@@ -25,9 +26,12 @@ private:
 
     std::vector<std::unique_ptr<Bullet>> bulletlist_;
     std::vector<Enemy*> enemylist_;
+    std::vector<std::unique_ptr<Phase>> phaselist_;
 
     EnemyManager enemymanager_;
     BulletManager bulletmanager_;
+
+    PhaseController phasecontroller_;
 
     Player player_;
     Enemy1 enemy1_;
