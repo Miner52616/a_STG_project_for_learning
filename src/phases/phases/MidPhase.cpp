@@ -10,6 +10,7 @@ MidPhase::MidPhase(application &app,BulletManager &bulletmanager,CollisionSystem
     TimePhase(app,bulletmanager,collisionsystem,target_frame),enemymanager_(enemylist_),player_(player)//,enemy1_(app_,app_.enemyTexture_,bulletmanager_,player_)
 {
     enemy1_=std::make_unique<Enemy1>(app_,app_.enemyTexture_,bulletmanager_,player_);
+    enemy1_->setHP(200);
     enemy1_->setPosition({460,100});
     enemy1_->set_start_end(240,216000);
     enemymanager_.add_process(std::move(enemy1_));
@@ -17,6 +18,8 @@ MidPhase::MidPhase(application &app,BulletManager &bulletmanager,CollisionSystem
 
 void MidPhase::update()
 {
+    enemymanager_.clear_dead();
+
     enemymanager_.update(frame_);
     bulletmanager_.update();
     frame_++;

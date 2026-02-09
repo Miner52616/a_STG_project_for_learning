@@ -116,36 +116,7 @@ void GameState::clock_update()
 
 void GameState::handlecollision()
 {
-    //handleplayerbulletcollision();
     phasecontroller_.ProcessCollision();
-}
-
-void GameState::handleplayerbulletcollision()
-{
-    for(auto it1=bulletlist_.begin();it1!=bulletlist_.end();++it1)
-    {
-        if((*it1)->isPlayer())
-        {
-            /*
-            for(auto it2=enemylist_.begin();it2!=enemylist_.end();++it2)
-            {
-                if(isCollision(*(*it2),*(*it1))&&((*it2)->isExist()))
-                {
-                    (*it1)->markDead();
-                    //std::cout<<"hit!"<<std::endl;
-                }
-            }
-                */
-        }
-        else
-        {
-            if(isCollision(player_,*(*it1)))
-            {
-                (*it1)->markDead();
-                std::cout<<"be hit"<<std::endl;
-            }
-        }
-    }
 }
 
 void GameState::HandleEvent(sf::RenderWindow& window,const sf::Event::Closed)

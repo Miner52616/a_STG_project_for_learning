@@ -12,6 +12,7 @@ protected:
     long long int startframe_;
     long long int endframe_;
     float HP_;
+    bool dead_;
 
     BulletManager &bulletmanager_;
 
@@ -25,7 +26,10 @@ public:
     bool isExist();
     long long int getStartFrame();
     long long int getEndFrame();
+    void setHP(float HP);
     void be_damage(float damage);
+    void markDead();
+    bool isDead();
 
     virtual void update(long long int frame)=0;
     virtual void clock_count()=0;

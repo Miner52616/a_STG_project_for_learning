@@ -20,6 +20,10 @@ void Enemy1::update(long long int frame)
     set_exist(frame);
     if(isExist())
     {
+        if(HP_<=0)
+        {
+            markDead();
+        }
         store_position();
 
         move();

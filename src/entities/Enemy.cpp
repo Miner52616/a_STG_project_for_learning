@@ -2,7 +2,7 @@
 #include "manager/BulletManager.h"
 
 Enemy::Enemy(application &app,const sf::Texture &texture,BulletManager &bulletmanager):
-    Entity(app,texture),exist_(false),startframe_(0),endframe_(216000),HP_(500),bulletmanager_(bulletmanager)
+    Entity(app,texture),exist_(false),startframe_(0),endframe_(216000),HP_(500),dead_(false),bulletmanager_(bulletmanager)
 {
     hitbox_r_=15;
 }
@@ -45,9 +45,24 @@ long long int Enemy::getEndFrame()
     return endframe_;
 }
 
+void Enemy::setHP(float HP)
+{
+    HP_=HP;
+}
+
 void Enemy::be_damage(float damage)
 {
     HP_=HP_-damage;
+}
+
+void Enemy::markDead()
+{
+    dead_=true;
+}
+
+bool Enemy::isDead()
+{
+    return dead_;
 }
 
 void Enemy::drawwindow(sf::RenderWindow& window)

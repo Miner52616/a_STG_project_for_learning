@@ -22,6 +22,29 @@ void EnemyManager::render(sf::RenderWindow& window)
     enemylist_render(window);
 }
 
+void EnemyManager::clear_dead()
+{
+    enemylist_.erase
+    (
+        std::remove_if
+        (
+            enemylist_.begin(),enemylist_.end(),
+            [this](const std::unique_ptr<Enemy> &enemy)
+            {
+                if(enemy->isDead())
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        ),
+        enemylist_.end()
+    );
+}
+
 void EnemyManager::clear()
 {
     enemylist_.clear();

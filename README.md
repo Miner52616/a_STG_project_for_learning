@@ -1,12 +1,28 @@
 # SFML 小项目
 
-## 简介
-一个使用 **C++ 和 SFML** 编写的简单项目。
-目前已完成游戏页面的基本框架，支持多级页面切换。
-目前正在编写游戏页面逻辑。
-后续将继续完善框架和游戏页面。
+**这是一个学习项目**
 
-项目主要用于学习C++和面向对象。
+**项目主要用于学习C++和面向对象**
+
+## 简介
+一个使用 **C++ 和 SFML** 编写的简单项目，阶段目标是完成STG游戏的框架搭建。
+
+已完成页面的基本框架，支持多级页面切换。完成游戏页面的基本操作。完成包括脚本式道中、状态驱动多阶段Boss战、空白阶段和结束在内的游戏的基本流程。
+
+
+近期任务：
+
+1 固定、明确游戏页面的运行流程。统一不同模块的代码风格
+
+2 完善小怪、boss、道中阶段、boss战斗阶段等对象的创建方式，使其由继承式创建变为参数式创建。
+
+3 完善/搭建STG内容设计所需要的架构，制作设计STG弹幕和移动函数所需的工具
+
+4 加入界面切换动画，游戏不同阶段衔接等主要细节
+
+......
+
+此外，后续将继续完善框架和游戏页面。
 
 ---
 
@@ -35,10 +51,15 @@
 使用 g++ 手动编译（示例）：
 
 ```bash
-g++ src/main.cpp src/application.cpp src/core/state.cpp src/core/StateStack.cpp \
-    src/states/MenuState.cpp src/states/DifficultyState.cpp src/states/ManualState.cpp src/states/GameState.cpp \
-    src/ui/Button.cpp src/ui/Page.cpp src/ui/Text.cpp \
-    src/entities/Entity.cpp src/entities/Player.cpp src/entities/Enemy.cpp src/entities/Bullet.cpp \
+g++ src/main.cpp src/application.cpp src/core/state.cpp src/core StateStack.cpp src/core/Clock.cpp \
+    src/states/MenuState.cpp src/states/DifficultyState.cpp src/states/ManualState.cpp src/states/GameState.cpp src/states/PauseState.cpp \
+    src/manager/EnemyManager.cpp src/manager/BulletManager.cpp src/manager/PhaseController.cpp src/manager/CollisionSystem.cpp \
+    src/phases/Phase.cpp src/phases/basicphases/StartPhase.cpp src/phases/basicphases/TimePhase.cpp src/phases/basicphases/EventPhase.cpp src/phases/phases/MidPhase.cpp src/phases/phases/VoidPhase.cpp src/phases/phases/BossPhase.cpp src/phases/phases/SpellPhase.cpp \
+    src/bullets/PlayerBullet.cpp src/bullets/LinearBullet.cpp\
+    src/ui/Button.cpp src/ui/Page.cpp src/ui/Text.cpp src/ui/Frame.cpp \
+    src/entities/Entity.cpp src/entities/Player.cpp src/entities/Enemy.cpp src/entities/Bullet.cpp src/entities/Boss.cpp src/enemies/Enemy1.cpp \
+    src/mathematics/mathematics.cpp \
+    src/collision/CollisionCheck.cpp \
     -std=c++20 \
     -Iinclude \
     -IC:/msys64/mingw64/include \
@@ -47,7 +68,7 @@ g++ src/main.cpp src/application.cpp src/core/state.cpp src/core/StateStack.cpp 
     -o main.exe
 ```
 
-实际请根据安装的SFML位置自行指定路径。
+**实际请根据安装的SFML位置自行指定路径！！**
 
 请务必将.exe文件生成在项目文件夹根目录下（test文件夹下）。
 
@@ -107,11 +128,21 @@ root/
 
 │  ├─ basicstates/          # 基础状态类（基类、通用状态）
 
+│  ├─ bullets/              # 基础种类子弹（自机狙、直线弹等）
+
+│  ├─ collision/            # 碰撞处理算法
+
 │  ├─ core/                 # 核心系统（游戏循环、状态栈）
 
 │  ├─ entities/             # 游戏实体（玩家、敌人）
 
-│  ├─ states/               # 具体游戏状态（各级菜单）
+│  ├─ manager/              # 游戏页面资源、状态管理，碰撞处理系统
+
+│  ├─ mathematics/          # 数学工具
+
+│  ├─ phases/               # 游戏页面状态
+
+│  ├─ states/               # 具体页面（各级菜单）
 
 │  └─ ui/                   # UI
 
@@ -128,6 +159,10 @@ root/
 │  ├─ states/
 
 │  ├─ ui/
+
+│  ├─ ......（与include结构一一对应）/
+
+|  |
 
 │  └─ main.cpp              # 程序入口
 

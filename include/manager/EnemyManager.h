@@ -11,6 +11,7 @@ public:
     void add_process(std::unique_ptr<Enemy> enemy);
     void update(long long int frame);
     void render(sf::RenderWindow& window);
+    void clear_dead();
     void clear();
     void clock_count();
 private:

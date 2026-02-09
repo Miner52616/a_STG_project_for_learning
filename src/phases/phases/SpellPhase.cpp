@@ -8,6 +8,7 @@
 SpellPhase::SpellPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame,Player &player):
     TimePhase(app,bulletmanager,collisionsystem,target_frame),player_(player),boss_(NULL),moveclock_(240),shootclock_(60),nextposition_(460,200),fullHP_(1000),HP_(1000)
 {
+    setHP(600);
     HPline_.setFillColor(sf::Color::White);
     HPline_.setPosition({80,35});
     HPline_.setSize({760,8});
@@ -36,7 +37,7 @@ void SpellPhase::update()
     shootclock_.count();
     frame_++;
 
-    if(isTimeup())
+    if(isTimeup()||HP_<=0)
     {
         change_=true;
     }
@@ -47,6 +48,12 @@ void SpellPhase::render(sf::RenderWindow& window)
     boss_->drawwindow(window);
     window.draw(HPline_);
     bulletmanager_.render(window);
+}
+
+void SpellPhase::setHP(float HP)
+{
+    fullHP_=HP;
+    HP_=HP;
 }
 
 void SpellPhase::be_damage(float damage)
