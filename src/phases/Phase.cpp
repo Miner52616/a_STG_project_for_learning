@@ -3,13 +3,20 @@
 #include "manager/PhaseController.h"
 #include "manager/BulletManager.h"
 
-Phase::Phase(application &app,PhaseController &phasecontroller,BulletManager &bulletmanager):
-    app_(app),phasecontroller_(phasecontroller),bulletmanager_(bulletmanager)
+Phase::Phase(application &app,BulletManager &bulletmanager):
+    app_(app),bulletmanager_(bulletmanager),change_(false)
 {
     ;
 }
 
+bool Phase::isFinish()
+{
+    return change_;
+}
+
+/*
 void Phase::phase_change()
 {
     phasecontroller_.phase_change();
 }
+    */

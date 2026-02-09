@@ -37,6 +37,8 @@ void Enemy1::update(long long int frame)
             bulletmanager_.add_process(std::make_unique<LinearBullet>(app_,app_.bulletTexture_,getPosition(),player_.getPosition(),0.06,6));
             shootclock_.reset();
         }
+
+        clock_count();
     }
 }
 

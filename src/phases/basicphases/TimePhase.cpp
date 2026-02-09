@@ -3,8 +3,8 @@
 #include "manager/EnemyManager.h"
 #include "manager/BulletManager.h"
 
-TimePhase::TimePhase(application &app,PhaseController &phasecontroller,BulletManager &bulletmanager,EnemyManager& enemymaanager,int target_frame):
-    Phase(app,phasecontroller,bulletmanager),frame_(0),enemymanager_(enemymaanager),target_frame_(target_frame)
+TimePhase::TimePhase(application &app,BulletManager &bulletmanager,int target_frame):
+    Phase(app,bulletmanager),frame_(0),target_frame_(target_frame)
 {
     ;
 }
@@ -14,11 +14,31 @@ void TimePhase::frame_forward()
     frame_++;
 }
 
+bool TimePhase::isTimeup()
+{
+    if(frame_>=target_frame_)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+/*
 void TimePhase::update()
 {
+    
     enemymanager_.update(frame_);
     bulletmanager_.update();
     frame_++;
+
+    if(frame_>=target_frame_)
+    {
+        enemymanager_.clear();
+        change_=true;
+    }
+        
 
     if(frame_>=target_frame_)
     {
@@ -32,3 +52,4 @@ void TimePhase::render(sf::RenderWindow& window)
     enemymanager_.render(window);
     bulletmanager_.render(window);
 }
+    */

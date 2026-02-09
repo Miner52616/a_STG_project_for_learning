@@ -1,17 +1,7 @@
 #include "phases/basicphases/EventPhase.h"
 
-EventPhase::EventPhase(application &app,PhaseController &phasecontroller,BulletManager &bulletmanager):
-    Phase(app,phasecontroller,bulletmanager),change_(false)
+EventPhase::EventPhase(application &app,BulletManager &bulletmanager):
+    Phase(app,bulletmanager)
 {
     ;
-}
-
-void EventPhase::change_phase()
-{
-    change_=true;
-}
-
-bool EventPhase::isChange()
-{
-    return change_;
 }

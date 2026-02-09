@@ -2,6 +2,7 @@
 #include "states/PauseState.h"
 #include "phases/phases/MidPhase.h"
 #include "phases/phases/VoidPhase.h"
+#include "phases/phases/BossPhase.h"
 #include "core/application.h"
 #include "collision/CollisionCheck.h"
 #include <iostream>
@@ -14,6 +15,7 @@ GameState::GameState(application &app):
     phasecontroller_(app,bulletmanager_,phaselist_),
     player_(app,app.playerTexture_,outline1,bulletmanager_),
     enemy1_(app,app.enemyTexture_,bulletmanager_,player_),
+    boss1_(app,app.playerTexture_,bulletmanager_),
     enemymanager_(enemylist_)
 {
     top_cover1.setPosition({0,0});
@@ -41,14 +43,25 @@ GameState::GameState(application &app):
     bottom_cover2.setSize({780,5});
     bottom_cover2.setFillColor(sf::Color(128,128,128));
 
-    phasecontroller_.add_process(std::make_unique<MidPhase>(app_,phasecontroller_,bulletmanager_,enemymanager_,600,player_));
-    phasecontroller_.add_process(std::make_unique<VoidPhase>(app_,phasecontroller_,bulletmanager_,enemymanager_,180));
+    phasecontroller_.add_process(std::make_unique<MidPhase>(app_,bulletmanager_,enemymanager_,600,player_));
+    //std::unique_ptr<BossPhase> a=std::make_unique<BossPhase>(app_,phasecontroller_,bulletmanager_,)
+    //phasecontroller_.add_process();
+    phasecontroller_.add_process(std::make_unique<VoidPhase>(app_,bulletmanager_,180));
 
     player_.setPosition({640,480});
 
     enemy1_.setPosition({640,100});
     enemy1_.set_start_end(240,216000);
     //enemylist_add(&enemy1_);
+
+    spell1_=std::make_unique<SpellPhase>(app_,bulletmanager_,360,player_);
+    spell1_->setBoss(&boss1_);
+    boss1_.add_phase(std::move(spell1_));
+    
+    std::unique_ptr<BossPhase> a=std::make_unique<BossPhase>(app_,bulletmanager_,&boss1_,player_);
+    phasecontroller_.add_process(std::move(a));
+    phasecontroller_.add_process(std::make_unique<VoidPhase>(app_,bulletmanager_,180));
+
 }
 
 void GameState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)

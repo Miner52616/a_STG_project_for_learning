@@ -24,6 +24,7 @@ void PhaseController::update()
     }
 
     phaselist_[current_-1]->update();
+    check_phase();
 }
 
 void PhaseController::render(sf::RenderWindow& window)
@@ -32,6 +33,19 @@ void PhaseController::render(sf::RenderWindow& window)
     if (current_ > phaselist_.size()) return;
 
     phaselist_[current_-1]->render(window);
+}
+
+bool PhaseController::check_phase()
+{
+    if(phaselist_[current_-1]->isFinish())
+    {
+        phase_change();
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 void PhaseController::phase_change()

@@ -23,6 +23,7 @@ public:
     void add_process(std::unique_ptr<Phase> phase);
     void update();
     void render(sf::RenderWindow& window);
+    bool check_phase();
     void phase_change();
     bool apply_change();
 };

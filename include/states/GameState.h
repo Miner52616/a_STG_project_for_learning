@@ -4,7 +4,9 @@
 #include "ui/Frame.h"
 #include "entities/Player.h"
 #include "entities/Enemy.h"
+#include "entities/Boss.h"
 #include "entities/Bullet.h"
+#include "phases/phases/SpellPhase.h"
 #include "enemies/Enemy1.h"
 #include "manager/EnemyManager.h"
 #include "manager/BulletManager.h"
@@ -35,6 +37,8 @@ private:
 
     Player player_;
     Enemy1 enemy1_;
+    Boss boss1_;
+    std::unique_ptr<SpellPhase> spell1_;
 
 public:
     void ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理被分发到的事件

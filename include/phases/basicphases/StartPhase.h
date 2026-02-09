@@ -4,7 +4,6 @@
 class StartPhase:public Phase
 {
 public:
-    StartPhase(application &app,PhaseController &phasecontroller,BulletManager &bulletmanager);
-    void update() override;
+    StartPhase(application &app,BulletManager &bulletmanager);
     void render(sf::RenderWindow& window) override;
 };

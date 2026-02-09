@@ -6,11 +6,13 @@ class Player;
 
 class MidPhase:public TimePhase
 {
-private:
+protected:
     Player &player_;
-
+    EnemyManager &enemymanager_;
     Enemy1 enemy1_;
 
 public:
-    MidPhase(application &app,PhaseController &phasecontroller,BulletManager &bulletmanager,EnemyManager &enemymanager,int target_frame,Player &player);
+    MidPhase(application &app,BulletManager &bulletmanager,EnemyManager &enemymanager,int target_frame,Player &player);
+    void update() override;
+    void render(sf::RenderWindow& window) override;
 };

@@ -14,7 +14,7 @@ void EnemyManager::add_process(Enemy* enemy)
 void EnemyManager::update(long long int frame)
 {
     enemylist_update(frame);
-    clock_count();
+    //clock_count();
 }
 
 void EnemyManager::render(sf::RenderWindow& window)
