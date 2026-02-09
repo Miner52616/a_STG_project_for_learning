@@ -1,14 +1,14 @@
 #include "manager/EnemyManager.h"
 
-EnemyManager::EnemyManager(std::vector<Enemy*> &enemylist):
+EnemyManager::EnemyManager(std::vector<std::unique_ptr<Enemy>> &enemylist):
     enemylist_(enemylist)
 {
     ;
 }
 
-void EnemyManager::add_process(Enemy* enemy)
+void EnemyManager::add_process(std::unique_ptr<Enemy> enemy)
 {
-    enemylist_.emplace_back(enemy);
+    enemylist_.emplace_back(std::move(enemy));
 }
 
 void EnemyManager::update(long long int frame)

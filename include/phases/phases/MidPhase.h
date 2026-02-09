@@ -10,9 +10,9 @@ class MidPhase:public TimePhase
 protected:
     Player &player_;
     //EnemyManager &enemymanager_;
-    std::vector<Enemy*> enemylist_;
+    std::vector<std::unique_ptr<Enemy>> enemylist_;
     EnemyManager enemymanager_;
-    Enemy1 enemy1_;
+    std::unique_ptr<Enemy1> enemy1_;
 
 public:
     MidPhase(application &app,BulletManager &bulletmanager,int target_frame,Player &player);
