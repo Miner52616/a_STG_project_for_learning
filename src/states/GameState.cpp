@@ -14,9 +14,9 @@ GameState::GameState(application &app):
     bulletmanager_(app,bulletlist_),
     phasecontroller_(app,bulletmanager_,phaselist_),
     player_(app,app.playerTexture_,outline1,bulletmanager_),
-    enemy1_(app,app.enemyTexture_,bulletmanager_,player_),
-    boss1_(app,app.playerTexture_,bulletmanager_),
-    enemymanager_(enemylist_)
+//    enemy1_(app,app.enemyTexture_,bulletmanager_,player_),
+    boss1_(app,app.playerTexture_,bulletmanager_)
+//    enemymanager_(enemylist_)
 {
     top_cover1.setPosition({0,0});
     top_cover1.setSize({1280,25});
@@ -43,21 +43,18 @@ GameState::GameState(application &app):
     bottom_cover2.setSize({780,5});
     bottom_cover2.setFillColor(sf::Color(128,128,128));
 
-    phasecontroller_.add_process(std::make_unique<MidPhase>(app_,bulletmanager_,enemymanager_,600,player_));
-    //std::unique_ptr<BossPhase> a=std::make_unique<BossPhase>(app_,phasecontroller_,bulletmanager_,)
-    //phasecontroller_.add_process();
-    phasecontroller_.add_process(std::make_unique<VoidPhase>(app_,bulletmanager_,180));
-
     player_.setPosition({640,480});
 
-    enemy1_.setPosition({640,100});
-    enemy1_.set_start_end(240,216000);
+//    enemy1_.setPosition({640,100});
+//    enemy1_.set_start_end(240,216000);
     //enemylist_add(&enemy1_);
 
     spell1_=std::make_unique<SpellPhase>(app_,bulletmanager_,360,player_);
     spell1_->setBoss(&boss1_);
     boss1_.add_phase(std::move(spell1_));
     
+    phasecontroller_.add_process(std::make_unique<MidPhase>(app_,bulletmanager_,600,player_));
+    phasecontroller_.add_process(std::make_unique<VoidPhase>(app_,bulletmanager_,180));
     std::unique_ptr<BossPhase> a=std::make_unique<BossPhase>(app_,bulletmanager_,&boss1_,player_);
     phasecontroller_.add_process(std::move(a));
     phasecontroller_.add_process(std::make_unique<VoidPhase>(app_,bulletmanager_,180));
@@ -121,10 +118,12 @@ void GameState::Render(sf::RenderWindow& window)
     window.draw(bottom_cover2);
 }
 
+/*
 void GameState::enemylist_add(Enemy* enemy)
 {
     enemylist_.emplace_back(enemy);
 }
+*/
 
 void GameState::clock_update()
 {
@@ -142,6 +141,7 @@ void GameState::handleplayerbulletcollision()
     {
         if((*it1)->isPlayer())
         {
+            /*
             for(auto it2=enemylist_.begin();it2!=enemylist_.end();++it2)
             {
                 if(isCollision(*(*it2),*(*it1))&&((*it2)->isExist()))
@@ -150,6 +150,7 @@ void GameState::handleplayerbulletcollision()
                     //std::cout<<"hit!"<<std::endl;
                 }
             }
+                */
         }
         else
         {

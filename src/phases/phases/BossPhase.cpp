@@ -22,3 +22,8 @@ void BossPhase::render(sf::RenderWindow& window)
 {
     boss_->render(window);
 }
+
+void BossPhase::be_damage(float damage)
+{
+    boss_->be_damage(damage);
+}

@@ -8,6 +8,7 @@ protected:
     bool ofplayer_;
     bool exist_;
     bool dead_;
+    float damage_;
 
 public:
     Bullet(application &app,const sf::Texture &texture,sf::Vector2f position);  //初始化子弹位置，初始化资源引用，默认子弹设置
@@ -18,5 +19,6 @@ public:
     bool isPlayer();
     bool isOut();
     void markDead();
+    float getDamage();
     void drawwindow(sf::RenderWindow& window) override;  //渲染子弹至屏幕
 };

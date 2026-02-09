@@ -5,8 +5,8 @@
 #include "manager/PhaseController.h"
 #include "entities/Player.h"
 
-MidPhase::MidPhase(application &app,BulletManager &bulletmanager,EnemyManager &enemymanager,int target_frame,Player &player):
-    TimePhase(app,bulletmanager,target_frame),enemymanager_(enemymanager),player_(player),enemy1_(app_,app_.enemyTexture_,bulletmanager_,player_)
+MidPhase::MidPhase(application &app,BulletManager &bulletmanager,int target_frame,Player &player):
+    TimePhase(app,bulletmanager,target_frame),enemymanager_(enemylist_),player_(player),enemy1_(app_,app_.enemyTexture_,bulletmanager_,player_)
 {
     enemy1_.setPosition({460,100});
     enemy1_.set_start_end(240,216000);
@@ -30,4 +30,9 @@ void MidPhase::render(sf::RenderWindow& window)
 {
     enemymanager_.render(window);
     bulletmanager_.render(window);
+}
+
+void MidPhase::be_damage(float damage)
+{
+    ;
 }

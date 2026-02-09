@@ -2,7 +2,7 @@
 #include <iostream>
 
 Bullet::Bullet(application &app,const sf::Texture &texture,sf::Vector2f position):
-    Entity(app,texture),exist_(true),dead_(false),ofplayer_(true)
+    Entity(app,texture),exist_(true),dead_(false),ofplayer_(true),damage_(100)
 {
     position_=position;
 }
@@ -32,6 +32,11 @@ bool Bullet::isOut()
 void Bullet::markDead()
 {
     dead_=true;
+}
+
+float Bullet::getDamage()
+{
+    return damage_;
 }
 
 void Bullet::drawwindow(sf::RenderWindow& window)

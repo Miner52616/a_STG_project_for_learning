@@ -5,7 +5,7 @@
 #include "entities/Boss.h"
 
 SpellPhase::SpellPhase(application &app,BulletManager &bulletmanager,int target_frame,Player &player):
-    TimePhase(app,bulletmanager,target_frame),player_(player),boss_(NULL),moveclock_(240),shootclock_(60),nextposition_(460,200)
+    TimePhase(app,bulletmanager,target_frame),player_(player),boss_(NULL),moveclock_(240),shootclock_(60),nextposition_(460,200),fullHP_(1000),HP_(1000)
 {
     ;
 }
@@ -41,6 +41,11 @@ void SpellPhase::render(sf::RenderWindow& window)
 {
     boss_->drawwindow(window);
     bulletmanager_.render(window);
+}
+
+void SpellPhase::be_damage(float damage)
+{
+    HP_=HP_-damage;
 }
 
 void SpellPhase::setBoss(Boss *boss)

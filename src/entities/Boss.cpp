@@ -30,6 +30,11 @@ PhaseController* Boss::getPhaseController()
     return &phasecontroller_;
 }
 
+void Boss::be_damage(float damage)
+{
+    phasecontroller_.be_damage(damage);
+}
+
 bool Boss::isBeaten()
 {
     return beaten_;

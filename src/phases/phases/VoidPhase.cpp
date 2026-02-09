@@ -26,3 +26,8 @@ void VoidPhase::render(sf::RenderWindow& window)
 {
     bulletmanager_.render(window);
 }
+
+void VoidPhase::be_damage(float damage)
+{
+    ;
+}

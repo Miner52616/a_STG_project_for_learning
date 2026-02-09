@@ -13,10 +13,13 @@ protected:
     Clock moveclock_;
     Clock shootclock_;
     sf::Vector2f nextposition_;
+    float fullHP_;
+    float HP_;
 
 public:
     SpellPhase(application &app,BulletManager &bulletmanager,int target_frame,Player &player);
     void update() override;
     void render(sf::RenderWindow& window) override;
+    void be_damage(float damage) override;
     void setBoss(Boss *boss);
 };

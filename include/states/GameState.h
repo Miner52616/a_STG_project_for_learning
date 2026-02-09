@@ -27,16 +27,16 @@ private:
     sf::RectangleShape bottom_cover2;
 
     std::vector<std::unique_ptr<Bullet>> bulletlist_;
-    std::vector<Enemy*> enemylist_;
+//    std::vector<Enemy*> enemylist_;
     std::vector<std::unique_ptr<Phase>> phaselist_;
 
-    EnemyManager enemymanager_;
+//    EnemyManager enemymanager_;
     BulletManager bulletmanager_;
 
     PhaseController phasecontroller_;
 
     Player player_;
-    Enemy1 enemy1_;
+//    Enemy1 enemy1_;
     Boss boss1_;
     std::unique_ptr<SpellPhase> spell1_;
 
@@ -49,7 +49,7 @@ public:
     GameState(application &app);  //初始化起始帧，初始化资源引用，初始化实体设置
 
 protected:
-    void enemylist_add(Enemy* enemy);
+//    void enemylist_add(Enemy* enemy);
     void clock_update();
     void handlecollision();
     void handleplayerbulletcollision();

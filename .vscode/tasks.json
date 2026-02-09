@@ -13,6 +13,7 @@
         "src/manager/EnemyManager.cpp",
         "src/manager/BulletManager.cpp",
         "src/manager/PhaseController.cpp",
+        "src/manager/CollisionSystem.cpp",
         "src/phases/Phase.cpp",
         "src/phases/basicphases/StartPhase.cpp",
         "src/phases/basicphases/TimePhase.cpp",
