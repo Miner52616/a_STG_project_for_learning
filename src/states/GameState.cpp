@@ -12,11 +12,10 @@ GameState::GameState(application &app):
     frame_(0),
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
     bulletmanager_(app,bulletlist_),
+    collisionsystem_(bulletlist_),
     phasecontroller_(app,bulletmanager_,phaselist_),
     player_(app,app.playerTexture_,outline1,bulletmanager_),
-//    enemy1_(app,app.enemyTexture_,bulletmanager_,player_),
     boss1_(app,app.playerTexture_,bulletmanager_)
-//    enemymanager_(enemylist_)
 {
     top_cover1.setPosition({0,0});
     top_cover1.setSize({1280,25});
@@ -45,19 +44,15 @@ GameState::GameState(application &app):
 
     player_.setPosition({640,480});
 
-//    enemy1_.setPosition({640,100});
-//    enemy1_.set_start_end(240,216000);
-    //enemylist_add(&enemy1_);
-
-    spell1_=std::make_unique<SpellPhase>(app_,bulletmanager_,360,player_);
+    spell1_=std::make_unique<SpellPhase>(app_,bulletmanager_,collisionsystem_,360,player_);
     spell1_->setBoss(&boss1_);
     boss1_.add_phase(std::move(spell1_));
     
-    phasecontroller_.add_process(std::make_unique<MidPhase>(app_,bulletmanager_,600,player_));
-    phasecontroller_.add_process(std::make_unique<VoidPhase>(app_,bulletmanager_,180));
-    std::unique_ptr<BossPhase> a=std::make_unique<BossPhase>(app_,bulletmanager_,&boss1_,player_);
+    phasecontroller_.add_process(std::make_unique<MidPhase>(app_,bulletmanager_,collisionsystem_,600,player_));
+    phasecontroller_.add_process(std::make_unique<VoidPhase>(app_,bulletmanager_,collisionsystem_,180,player_));
+    std::unique_ptr<BossPhase> a=std::make_unique<BossPhase>(app_,bulletmanager_,collisionsystem_,&boss1_,player_);
     phasecontroller_.add_process(std::move(a));
-    phasecontroller_.add_process(std::make_unique<VoidPhase>(app_,bulletmanager_,180));
+    phasecontroller_.add_process(std::make_unique<VoidPhase>(app_,bulletmanager_,collisionsystem_,180,player_));
 
 }
 
@@ -104,10 +99,6 @@ void GameState::Render(sf::RenderWindow& window)
         app_.stack_.pushRequest(std::make_unique<PauseState>(app_));
     }
 
-//    enemymanager_.render(window);
-
-//    bulletmanager_.render(window);
-
     window.draw(top_cover1);
     window.draw(top_cover2);
     window.draw(left_cover1);
@@ -118,13 +109,6 @@ void GameState::Render(sf::RenderWindow& window)
     window.draw(bottom_cover2);
 }
 
-/*
-void GameState::enemylist_add(Enemy* enemy)
-{
-    enemylist_.emplace_back(enemy);
-}
-*/
-
 void GameState::clock_update()
 {
     player_.clock_count();
@@ -132,7 +116,8 @@ void GameState::clock_update()
 
 void GameState::handlecollision()
 {
-    handleplayerbulletcollision();
+    //handleplayerbulletcollision();
+    phasecontroller_.ProcessCollision();
 }
 
 void GameState::handleplayerbulletcollision()

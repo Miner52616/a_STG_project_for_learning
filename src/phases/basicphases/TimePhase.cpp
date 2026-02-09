@@ -3,8 +3,8 @@
 #include "manager/EnemyManager.h"
 #include "manager/BulletManager.h"
 
-TimePhase::TimePhase(application &app,BulletManager &bulletmanager,int target_frame):
-    Phase(app,bulletmanager),frame_(0),target_frame_(target_frame)
+TimePhase::TimePhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame):
+    Phase(app,bulletmanager,collisionsystem),frame_(0),target_frame_(target_frame)
 {
     ;
 }

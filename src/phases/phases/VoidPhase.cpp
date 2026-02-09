@@ -3,10 +3,11 @@
 #include "manager/EnemyManager.h"
 #include "manager/BulletManager.h"
 #include "manager/PhaseController.h"
+#include "manager/CollisionSystem.h"
 #include "entities/Player.h"
 
-VoidPhase::VoidPhase(application &app,BulletManager &bulletmanager,int target_frame):
-    TimePhase(app,bulletmanager,target_frame)
+VoidPhase::VoidPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame,Player &player):
+    TimePhase(app,bulletmanager,collisionsystem,target_frame),player_(player)
 {
     ;
 }
@@ -30,4 +31,9 @@ void VoidPhase::render(sf::RenderWindow& window)
 void VoidPhase::be_damage(float damage)
 {
     ;
+}
+
+void VoidPhase::ProcessCollision()
+{
+    collisionsystem_.ProcessCollision(&player_);
 }

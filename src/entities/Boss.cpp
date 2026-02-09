@@ -35,6 +35,11 @@ void Boss::be_damage(float damage)
     phasecontroller_.be_damage(damage);
 }
 
+void Boss::ProcessCollision()
+{
+    phasecontroller_.ProcessCollision();
+}
+
 bool Boss::isBeaten()
 {
     return beaten_;

@@ -4,5 +4,5 @@
 class EventPhase:public Phase
 {
 public:
-    EventPhase(application &app,BulletManager &bulletmanager);
+    EventPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem);
 };

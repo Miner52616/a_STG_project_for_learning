@@ -24,6 +24,7 @@ public:
     void update();
     void render(sf::RenderWindow& window);
     void be_damage(float damage);
+    void ProcessCollision();
     bool check_phase();
     void phase_change();
     bool apply_change();

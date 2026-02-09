@@ -40,6 +40,11 @@ void PhaseController::be_damage(float damage)
     phaselist_[current_-1]->be_damage(damage);
 }
 
+void PhaseController::ProcessCollision()
+{
+    phaselist_[current_-1]->ProcessCollision();
+}
+
 bool PhaseController::check_phase()
 {
     if(phaselist_[current_-1]->isFinish())

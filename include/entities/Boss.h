@@ -22,5 +22,6 @@ public:
     void add_phase(std::unique_ptr<Phase> spellphase);
     PhaseController* getPhaseController();
     void be_damage(float damage);
+    void ProcessCollision();
     bool isBeaten();
 };

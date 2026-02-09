@@ -16,7 +16,7 @@ void CollisionSystem::HandleCollision(Boss *boss,Bullet *bullet)
 {
     if(bullet->isPlayer())
     {
-        if(isCollision(*boss,*bullet));
+        if(isCollision(*boss,*bullet))
         {
             bullet->markDead();
             boss->be_damage(bullet->getDamage());
@@ -47,7 +47,7 @@ void CollisionSystem::HandleCollision(Player *player,Bullet *bullet)
     }
 }
 
-void CollisionSystem::ProcessCollision(Boss *&boss)
+void CollisionSystem::ProcessCollision(Boss *boss)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {
@@ -55,7 +55,7 @@ void CollisionSystem::ProcessCollision(Boss *&boss)
     }
 }
 
-void CollisionSystem::ProcessCollision(Enemy *&enemy)
+void CollisionSystem::ProcessCollision(Enemy *enemy)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {
@@ -63,7 +63,7 @@ void CollisionSystem::ProcessCollision(Enemy *&enemy)
     }
 }
 
-void CollisionSystem::ProcessCollision(Player *&player)
+void CollisionSystem::ProcessCollision(Player *player)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {

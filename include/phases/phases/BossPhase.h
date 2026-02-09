@@ -11,8 +11,9 @@ protected:
     Player &player_;
 
 public:
-    BossPhase(application &app,BulletManager &bulletmanager,Boss *boss,Player &player);
+    BossPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,Boss *boss,Player &player);
     void update() override;
     void render(sf::RenderWindow& window) override;
     void be_damage(float damage) override;
+    void ProcessCollision() override;
 };

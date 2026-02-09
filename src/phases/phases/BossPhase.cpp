@@ -1,8 +1,8 @@
 #include "phases/phases/BossPhase.h"
 #include "entities/Player.h"
 
-BossPhase::BossPhase(application &app,BulletManager &bulletmanager,Boss *boss,Player &player):
-    EventPhase(app,bulletmanager),boss_(boss),player_(player)
+BossPhase::BossPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,Boss *boss,Player &player):
+    EventPhase(app,bulletmanager,collisionsystem),boss_(boss),player_(player)
 {
     boss_->setPosition({460,100});
 }
@@ -26,4 +26,9 @@ void BossPhase::render(sf::RenderWindow& window)
 void BossPhase::be_damage(float damage)
 {
     boss_->be_damage(damage);
+}
+
+void BossPhase::ProcessCollision()
+{
+    boss_->ProcessCollision();
 }

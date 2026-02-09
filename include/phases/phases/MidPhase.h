@@ -15,8 +15,9 @@ protected:
     std::unique_ptr<Enemy1> enemy1_;
 
 public:
-    MidPhase(application &app,BulletManager &bulletmanager,int target_frame,Player &player);
+    MidPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame,Player &player);
     void update() override;
     void render(sf::RenderWindow& window) override;
     void be_damage(float damage) override;
+    void ProcessCollision() override;
 };

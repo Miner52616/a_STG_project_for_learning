@@ -18,7 +18,7 @@ protected:
 
 public:
     CollisionSystem(std::vector<std::unique_ptr<Bullet>> &bulletlist);
-    void ProcessCollision(Boss *&A);
-    void ProcessCollision(Enemy *&A);
-    void ProcessCollision(Player *&A);
+    void ProcessCollision(Boss *A);
+    void ProcessCollision(Enemy *A);
+    void ProcessCollision(Player *A);
 };
