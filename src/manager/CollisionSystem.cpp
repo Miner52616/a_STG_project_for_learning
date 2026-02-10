@@ -12,7 +12,7 @@ CollisionSystem::CollisionSystem(std::vector<std::unique_ptr<Bullet>> &bulletlis
     ;
 }
 
-void CollisionSystem::HandleCollision(Boss *boss,Bullet *bullet)
+void CollisionSystem::HandleCollision(std::shared_ptr<Boss> boss,Bullet *bullet)
 {
     if(bullet->isPlayer())
     {
@@ -24,7 +24,7 @@ void CollisionSystem::HandleCollision(Boss *boss,Bullet *bullet)
     }
 }
 
-void CollisionSystem::HandleCollision(Enemy *enemy,Bullet *bullet)
+void CollisionSystem::HandleCollision(std::shared_ptr<Enemy> enemy,Bullet *bullet)
 {
     if((bullet->isPlayer())&&(enemy->isExist()))
     {
@@ -36,7 +36,7 @@ void CollisionSystem::HandleCollision(Enemy *enemy,Bullet *bullet)
     }
 }
 
-void CollisionSystem::HandleCollision(Player *player,Bullet *bullet)
+void CollisionSystem::HandleCollision(std::shared_ptr<Player> player,Bullet *bullet)
 {
     if(!bullet->isPlayer())
     {
@@ -47,7 +47,7 @@ void CollisionSystem::HandleCollision(Player *player,Bullet *bullet)
     }
 }
 
-void CollisionSystem::ProcessCollision(Boss *boss)
+void CollisionSystem::ProcessCollision(std::shared_ptr<Boss> boss)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {
@@ -55,7 +55,7 @@ void CollisionSystem::ProcessCollision(Boss *boss)
     }
 }
 
-void CollisionSystem::ProcessCollision(Enemy *enemy)
+void CollisionSystem::ProcessCollision(std::shared_ptr<Enemy> enemy)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {
@@ -63,7 +63,7 @@ void CollisionSystem::ProcessCollision(Enemy *enemy)
     }
 }
 
-void CollisionSystem::ProcessCollision(Player *player)
+void CollisionSystem::ProcessCollision(std::shared_ptr<Player> player)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {

@@ -1,12 +1,12 @@
 #include "manager/EnemyManager.h"
 
-EnemyManager::EnemyManager(std::vector<std::unique_ptr<Enemy>> &enemylist):
+EnemyManager::EnemyManager(std::vector<std::shared_ptr<Enemy>> &enemylist):
     enemylist_(enemylist)
 {
     ;
 }
 
-void EnemyManager::add_process(std::unique_ptr<Enemy> enemy)
+void EnemyManager::add_process(std::shared_ptr<Enemy> enemy)
 {
     enemylist_.emplace_back(std::move(enemy));
 }
@@ -29,7 +29,7 @@ void EnemyManager::clear_dead()
         std::remove_if
         (
             enemylist_.begin(),enemylist_.end(),
-            [this](const std::unique_ptr<Enemy> &enemy)
+            [this](const std::shared_ptr<Enemy> &enemy)
             {
                 if(enemy->isDead())
                 {

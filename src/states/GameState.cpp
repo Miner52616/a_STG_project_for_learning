@@ -13,9 +13,9 @@ GameState::GameState(application &app):
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
     bulletmanager_(app,bulletlist_),
     collisionsystem_(bulletlist_),
-    phasecontroller_(app,bulletmanager_,phaselist_),
-    player_(app,app.playerTexture_,outline1,bulletmanager_),
-    boss1_(app,app.playerTexture_,bulletmanager_)
+    phasecontroller_(app,bulletmanager_,phaselist_)
+//    player_(app,app.playerTexture_,outline1,bulletmanager_)
+//    boss1_(app,app.playerTexture_,bulletmanager_)
 {
     top_cover1.setPosition({0,0});
     top_cover1.setSize({1280,25});
@@ -42,17 +42,19 @@ GameState::GameState(application &app):
     bottom_cover2.setSize({780,5});
     bottom_cover2.setFillColor(sf::Color(128,128,128));
 
-    player_.setPosition({640,480});
+    player_=std::make_shared<Player>(app,app.playerTexture_,outline1,bulletmanager_);
+    player_->setPosition({640,480});
 
-    spell1_=std::make_unique<SpellPhase>(app_,bulletmanager_,collisionsystem_,360,player_);
-    spell1_->setBoss(&boss1_);
-    boss1_.add_phase(std::move(spell1_));
+    boss1_=std::make_shared<Boss>(app,app.playerTexture_,bulletmanager_);
+    spell1_=std::make_shared<SpellPhase>(app_,bulletmanager_,collisionsystem_,360,player_);
+    spell1_->setBoss(boss1_);
+    boss1_->add_phase(spell1_);
     
-    phasecontroller_.add_process(std::make_unique<MidPhase>(app_,bulletmanager_,collisionsystem_,600,player_));
-    phasecontroller_.add_process(std::make_unique<VoidPhase>(app_,bulletmanager_,collisionsystem_,180,player_));
-    std::unique_ptr<BossPhase> a=std::make_unique<BossPhase>(app_,bulletmanager_,collisionsystem_,&boss1_,player_);
+    phasecontroller_.add_process(std::make_shared<MidPhase>(app_,bulletmanager_,collisionsystem_,600,player_));
+    phasecontroller_.add_process(std::make_shared<VoidPhase>(app_,bulletmanager_,collisionsystem_,180,player_));
+    std::shared_ptr<BossPhase> a=std::make_shared<BossPhase>(app_,bulletmanager_,collisionsystem_,boss1_,player_);
     phasecontroller_.add_process(std::move(a));
-    phasecontroller_.add_process(std::make_unique<VoidPhase>(app_,bulletmanager_,collisionsystem_,180,player_));
+    phasecontroller_.add_process(std::make_shared<VoidPhase>(app_,bulletmanager_,collisionsystem_,180,player_));
 
 }
 
@@ -69,7 +71,7 @@ void GameState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Ev
 
 void GameState::Update()
 {
-    player_.Player_update();
+    player_->Player_update();
 
     phasecontroller_.update();
 
@@ -90,7 +92,7 @@ void GameState::Render(sf::RenderWindow& window)
 {
     outline1.drawwindow(window);
 
-    player_.drawwindow(window);
+    player_->drawwindow(window);
 
     phasecontroller_.render(window);
     if(!phasecontroller_.apply_change())
@@ -111,7 +113,7 @@ void GameState::Render(sf::RenderWindow& window)
 
 void GameState::clock_update()
 {
-    player_.clock_count();
+    player_->clock_count();
 }
 
 void GameState::handlecollision()

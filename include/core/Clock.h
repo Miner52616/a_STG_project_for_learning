@@ -10,4 +10,5 @@ public:
     bool get_condition();
     void count();
     void reset();
+    void set_target(long long int target_frame);
 };

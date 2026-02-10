@@ -4,11 +4,11 @@
 class EnemyManager
 {
 private:
-    std::vector<std::unique_ptr<Enemy>> &enemylist_;
+    std::vector<std::shared_ptr<Enemy>> &enemylist_;
 
 public:
-    EnemyManager(std::vector<std::unique_ptr<Enemy>> &enemylist);
-    void add_process(std::unique_ptr<Enemy> enemy);
+    EnemyManager(std::vector<std::shared_ptr<Enemy>> &enemylist);
+    void add_process(std::shared_ptr<Enemy> enemy);
     void update(long long int frame);
     void render(sf::RenderWindow& window);
     void clear_dead();

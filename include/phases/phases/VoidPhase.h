@@ -6,10 +6,10 @@ class Player;
 class VoidPhase:public TimePhase
 {
 protected:
-    Player &player_;
+    std::shared_ptr<Player> player_;
 
 public:
-    VoidPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame,Player &player);
+    VoidPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame,std::shared_ptr<Player> player);
     void update() override;
     void render(sf::RenderWindow& window) override;
     void be_damage(float damage);

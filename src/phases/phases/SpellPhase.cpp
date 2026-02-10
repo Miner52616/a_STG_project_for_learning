@@ -5,7 +5,7 @@
 #include "bullets/LinearBullet.h"
 #include "entities/Boss.h"
 
-SpellPhase::SpellPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame,Player &player):
+SpellPhase::SpellPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame,std::shared_ptr<Player> player):
     TimePhase(app,bulletmanager,collisionsystem,target_frame),player_(player),boss_(NULL),moveclock_(240),shootclock_(60),nextposition_(460,200),fullHP_(1000),HP_(1000)
 {
     setHP(600);
@@ -29,7 +29,7 @@ void SpellPhase::update()
     bulletmanager_.update();
     if(shootclock_.get_condition())
     {
-        bulletmanager_.add_process(std::make_unique<LinearBullet>(app_,app_.bulletTexture_,boss_->getPosition(),player_.getPosition(),0.06,6));
+        bulletmanager_.add_process(std::make_unique<LinearBullet>(app_,app_.bulletTexture_,boss_->getPosition(),player_->getPosition(),0.06,6));
         shootclock_.reset();
     }
 
@@ -64,10 +64,10 @@ void SpellPhase::be_damage(float damage)
 void SpellPhase::ProcessCollision()
 {
     collisionsystem_.ProcessCollision(boss_);
-    collisionsystem_.ProcessCollision(&player_);
+    collisionsystem_.ProcessCollision(player_);
 }
 
-void SpellPhase::setBoss(Boss *boss)
+void SpellPhase::setBoss(std::shared_ptr<Boss> boss)
 {
     boss_=boss;
 }

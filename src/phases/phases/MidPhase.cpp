@@ -6,14 +6,14 @@
 #include "manager/CollisionSystem.h"
 #include "entities/Player.h"
 
-MidPhase::MidPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame,Player &player):
+MidPhase::MidPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame,std::shared_ptr<Player> player):
     TimePhase(app,bulletmanager,collisionsystem,target_frame),enemymanager_(enemylist_),player_(player)//,enemy1_(app_,app_.enemyTexture_,bulletmanager_,player_)
 {
-    enemy1_=std::make_unique<Enemy1>(app_,app_.enemyTexture_,bulletmanager_,player_);
+    enemy1_=std::make_shared<Enemy1>(app_,app_.enemyTexture_,bulletmanager_,player_);
     enemy1_->setHP(200);
     enemy1_->setPosition({460,100});
     enemy1_->set_start_end(240,216000);
-    enemymanager_.add_process(std::move(enemy1_));
+    enemymanager_.add_process(enemy1_);
 }
 
 void MidPhase::update()
@@ -46,7 +46,7 @@ void MidPhase::ProcessCollision()
 {
     for(auto it=enemylist_.begin();it!=enemylist_.end();++it)
     {
-        collisionsystem_.ProcessCollision(it->get());
+        collisionsystem_.ProcessCollision(*it);
     }
-    collisionsystem_.ProcessCollision(&player_);
+    collisionsystem_.ProcessCollision(player_);
 }

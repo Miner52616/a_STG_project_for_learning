@@ -28,15 +28,16 @@ private:
     sf::RectangleShape bottom_cover2;
 
     std::vector<std::unique_ptr<Bullet>> bulletlist_;
-    std::vector<std::unique_ptr<Phase>> phaselist_;
+    std::vector<std::shared_ptr<Phase>> phaselist_;
 
     BulletManager bulletmanager_;
     CollisionSystem collisionsystem_;
     PhaseController phasecontroller_;
 
-    Player player_;
-    Boss boss1_;
-    std::unique_ptr<SpellPhase> spell1_;
+    std::shared_ptr<Player> player_;
+//    Boss boss1_;
+    std::shared_ptr<Boss> boss1_;
+    std::shared_ptr<SpellPhase> spell1_;
 
 public:
     void ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理被分发到的事件

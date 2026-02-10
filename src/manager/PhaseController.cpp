@@ -2,14 +2,14 @@
 #include "phases/basicphases/StartPhase.h"
 #include <iostream>
 
-PhaseController::PhaseController(application &app,BulletManager &bulletmanager,std::vector<std::unique_ptr<Phase>> &phaselist):
+PhaseController::PhaseController(application &app,BulletManager &bulletmanager,std::vector<std::shared_ptr<Phase>> &phaselist):
     app_(app),bulletmanager_(bulletmanager),phaselist_(phaselist),current_(1),change_(false)
 {
     //phaselist_.emplace_back(std::make_unique<StartPhase>(app_,*this,bulletmanager_));
     ;
 }
 
-void PhaseController::add_process(std::unique_ptr<Phase> phase)
+void PhaseController::add_process(std::shared_ptr<Phase> phase)
 {
     phaselist_.emplace_back(std::move(phase));
 }

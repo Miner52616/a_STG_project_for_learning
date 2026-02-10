@@ -6,7 +6,7 @@
 #include "manager/CollisionSystem.h"
 #include "entities/Player.h"
 
-VoidPhase::VoidPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame,Player &player):
+VoidPhase::VoidPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame,std::shared_ptr<Player> player):
     TimePhase(app,bulletmanager,collisionsystem,target_frame),player_(player)
 {
     ;
@@ -35,5 +35,5 @@ void VoidPhase::be_damage(float damage)
 
 void VoidPhase::ProcessCollision()
 {
-    collisionsystem_.ProcessCollision(&player_);
+    collisionsystem_.ProcessCollision(player_);
 }

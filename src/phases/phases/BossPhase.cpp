@@ -1,7 +1,7 @@
 #include "phases/phases/BossPhase.h"
 #include "entities/Player.h"
 
-BossPhase::BossPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,Boss *boss,Player &player):
+BossPhase::BossPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,std::shared_ptr<Boss> boss,std::shared_ptr<Player> player):
     EventPhase(app,bulletmanager,collisionsystem),boss_(boss),player_(player)
 {
     boss_->setPosition({460,100});

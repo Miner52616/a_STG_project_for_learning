@@ -12,15 +12,15 @@ class PhaseController
 private:
     application &app_;
     BulletManager &bulletmanager_;
-    std::vector<std::unique_ptr<Phase>> &phaselist_; 
+    std::vector<std::shared_ptr<Phase>> &phaselist_; 
 
     int current_;
     bool change_;
 
 public:
-    PhaseController(application &app,BulletManager &bulletmanager,std::vector<std::unique_ptr<Phase>> &phaselist);
+    PhaseController(application &app,BulletManager &bulletmanager,std::vector<std::shared_ptr<Phase>> &phaselist);
 
-    void add_process(std::unique_ptr<Phase> phase);
+    void add_process(std::shared_ptr<Phase> phase);
     void update();
     void render(sf::RenderWindow& window);
     void be_damage(float damage);

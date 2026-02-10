@@ -27,3 +27,8 @@ bool Clock::get_condition()
         return false;
     }
 }
+
+void Clock::set_target(long long int target_frame)
+{
+    target_frame_=target_frame;
+}

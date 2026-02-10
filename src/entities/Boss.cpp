@@ -20,7 +20,7 @@ void Boss::render(sf::RenderWindow& window)
     phasecontroller_.render(window);
 }
 
-void Boss::add_phase(std::unique_ptr<Phase> spellphase)
+void Boss::add_phase(std::shared_ptr<Phase> spellphase)
 {
     phasecontroller_.add_process(std::move(spellphase));
 }

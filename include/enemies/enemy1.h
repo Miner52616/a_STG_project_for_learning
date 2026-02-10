@@ -7,11 +7,11 @@ class Player;
 class Enemy1:public Enemy
 {
     sf::Vector2f nextposition_;
-    Player &player_;
+    std::shared_ptr<Player> player_;
     Clock moveclock_;
     Clock shootclock_;
 public:
-    Enemy1(application &app,const sf::Texture &texture,BulletManager &bulletmanager,Player &player);
+    Enemy1(application &app,const sf::Texture &texture,BulletManager &bulletmanager,std::shared_ptr<Player> player);
 public:
     void update(long long int frame) override;
     void clock_count();
