@@ -65,6 +65,7 @@ GameState::GameState(application &app):
     enemy2_->setHP(200);
     enemy2_->set_start_end(240,216000);
     boss1_=std::make_shared<Boss>(app.playerTexture_,resource_);
+    boss1_->setPosition({460,150});
     spell1_=std::make_shared<SpellPhase>(resource_,360);
     
     enemy1_move_->set_resource(resource_);

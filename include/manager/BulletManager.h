@@ -2,6 +2,9 @@
 #include "core/application.h"
 #include "entities/Player.h"
 #include "entities/Bullet.h"
+#include "bullets/LinearBullet.h"
+#include "bullets/PlayerBullet.h"
+#include "packages/BulletConfig.h"
 
 class BulletManager
 {
@@ -12,6 +15,7 @@ private:
 public:
     BulletManager(application &app,std::vector<std::unique_ptr<Bullet>> &bulletlist);
     void add_process(std::unique_ptr<Bullet> bullet);
+    void add_process(BulletConfig& bulletconfig);
     void update();
     void clear();
     void render(sf::RenderWindow& window);
