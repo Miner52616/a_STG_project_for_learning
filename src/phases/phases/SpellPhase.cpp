@@ -18,6 +18,11 @@ void SpellPhase::update()
 {
     HPline_.setSize({(760*HP_)/fullHP_,8});
 
+    for(auto it=behaviorlist_.begin();it!=behaviorlist_.end();++it)
+    {
+        (*it)->update();
+    }
+    /*
     boss_->store_position();
     boss_->setPosition((nextposition_-boss_->getPosition())*0.01f+boss_->getPosition());
     if(moveclock_.get_condition())
@@ -26,13 +31,12 @@ void SpellPhase::update()
         moveclock_.reset();
     }
 
-    bulletmanager_.update();
     if(shootclock_.get_condition())
     {
         bulletmanager_.add_process(std::make_unique<LinearBullet>(app_,app_.bulletTexture_,boss_->getPosition(),player_->getPosition(),0.06,6));
         shootclock_.reset();
     }
-
+*/
     moveclock_.count();
     shootclock_.count();
     frame_++;
@@ -47,7 +51,11 @@ void SpellPhase::render(sf::RenderWindow& window)
 {
     boss_->drawwindow(window);
     window.draw(HPline_);
-    bulletmanager_.render(window);
+}
+
+void SpellPhase::addBehavior(std::shared_ptr<Behavior> behavior)
+{
+    behaviorlist_.emplace_back(std::move(behavior));
 }
 
 void SpellPhase::setHP(float HP)

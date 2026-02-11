@@ -1,6 +1,7 @@
 #pragma once
 #include "phases/basicphases/TimePhase.h"
 #include "core/Clock.h"
+#include "behaviors/Behavior.h"
 
 class Player;
 class Boss;
@@ -13,6 +14,7 @@ protected:
     Clock moveclock_;
     Clock shootclock_;
     sf::Vector2f nextposition_;
+    std::vector<std::shared_ptr<Behavior>> behaviorlist_;
     sf::RectangleShape HPline_;
     float fullHP_;
     float HP_;
@@ -21,6 +23,7 @@ public:
     SpellPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame,std::shared_ptr<Player> player);
     void update() override;
     void render(sf::RenderWindow& window) override;
+    void addBehavior(std::shared_ptr<Behavior> behavior);
     void setHP(float HP);
     void be_damage(float damage) override;
     void ProcessCollision() override;

@@ -23,6 +23,7 @@ void MoveToRandom1::update()
         nextposition_={getRandomNum(125,795),getRandomNum(20,300)};
         clock_.reset();
     }
+    clock_.count();
 }   
 
 void MoveToRandom1::set_entity(std::shared_ptr<Entity> entity)

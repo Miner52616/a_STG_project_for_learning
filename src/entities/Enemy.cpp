@@ -65,10 +65,36 @@ bool Enemy::isDead()
     return dead_;
 }
 
+void Enemy::addBehavior(std::shared_ptr<Behavior> behavior)
+{
+    behaviorlist_.emplace_back(std::move(behavior));
+}
+
+void Enemy::update(long long int frame)
+{
+    set_exist(frame);
+    if(isExist())
+    {
+        if(HP_<=0)
+        {
+            markDead();
+        }
+        for(auto it=behaviorlist_.begin();it!=behaviorlist_.end();++it)
+        {
+            (*it)->update();
+        }
+    }
+}
+
 void Enemy::drawwindow(sf::RenderWindow& window)
 {
     if(exist_)
     {
         window.draw(picture_);
     }
+}
+
+void Enemy::clock_count()
+{
+    ;
 }

@@ -14,7 +14,6 @@ VoidPhase::VoidPhase(application &app,BulletManager &bulletmanager,CollisionSyst
 
 void VoidPhase::update()
 {
-    bulletmanager_.update();
     frame_forward();
 
     if(isTimeup())
@@ -25,7 +24,7 @@ void VoidPhase::update()
 
 void VoidPhase::render(sf::RenderWindow& window)
 {
-    bulletmanager_.render(window);
+    ;
 }
 
 void VoidPhase::be_damage(float damage)

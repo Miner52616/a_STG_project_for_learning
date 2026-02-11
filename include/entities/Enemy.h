@@ -1,5 +1,6 @@
 #pragma once
 #include "Entity.h"
+#include "behaviors/Behavior.h"
 
 class BulletManager;
 
@@ -11,6 +12,7 @@ protected:
 
     long long int startframe_;
     long long int endframe_;
+    std::vector<std::shared_ptr<Behavior>> behaviorlist_;
     float HP_;
     bool dead_;
 
@@ -30,8 +32,9 @@ public:
     void be_damage(float damage);
     void markDead();
     bool isDead();
+    void addBehavior(std::shared_ptr<Behavior> behavior);
 
-    virtual void update(long long int frame)=0;
-    virtual void clock_count()=0;
+    virtual void update(long long int frame);
+    virtual void clock_count();
     void drawwindow(sf::RenderWindow& window) override;  //渲染敌人至屏幕
 };

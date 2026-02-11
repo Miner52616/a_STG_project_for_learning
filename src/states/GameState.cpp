@@ -45,12 +45,53 @@ GameState::GameState(application &app):
     player_=std::make_shared<Player>(app,app.playerTexture_,outline1,bulletmanager_);
     player_->setPosition({640,480});
 
+    resourse_=std::make_shared<Resourse>(app,bulletmanager_,collisionsystem_,player_);
+
+    enemy1_move_=std::make_shared<MoveToRandom1>();
+    enemy1_shoot_=std::make_shared<AimShoot1>(); 
+    enemy2_move_=std::make_shared<MoveToRandom1>();
+    enemy2_shoot_=std::make_shared<AimShoot1>(); 
+    spell1_move_=std::make_shared<MoveToRandom1>();
+    spell1_shoot_=std::make_shared<AimShoot1>(); 
+    
+    enemy1_=std::make_shared<Enemy>(app,app.enemyTexture_,bulletmanager_);
+    enemy1_->setPosition({460,100});
+    enemy1_->setHP(200);
+    enemy1_->set_start_end(240,216000);
+    enemy2_=std::make_shared<Enemy>(app,app.enemyTexture_,bulletmanager_);
+    enemy2_->setPosition({460,100});
+    enemy2_->setHP(200);
+    enemy2_->set_start_end(240,216000);
     boss1_=std::make_shared<Boss>(app,app.playerTexture_,bulletmanager_);
     spell1_=std::make_shared<SpellPhase>(app_,bulletmanager_,collisionsystem_,360,player_);
+    
+    enemy1_move_->set_resourse(resourse_);
+    enemy1_shoot_->set_resourse(resourse_);
+    enemy2_move_->set_resourse(resourse_);
+    enemy2_shoot_->set_resourse(resourse_);
+    spell1_move_->set_resourse(resourse_);
+    spell1_shoot_->set_resourse(resourse_);
+
+    enemy1_move_->set_entity(enemy1_);
+    enemy1_->addBehavior(enemy1_move_);
+    enemy1_shoot_->set_entity(enemy1_);
+    enemy1_->addBehavior(enemy1_shoot_);
+    enemy2_move_->set_entity(enemy2_);
+    enemy2_->addBehavior(enemy2_move_);
+    enemy2_shoot_->set_entity(enemy2_);
+    enemy2_->addBehavior(enemy2_shoot_);
+    spell1_move_->set_entity(boss1_);
+    spell1_->addBehavior(spell1_move_);
+    spell1_shoot_->set_entity(boss1_);
+    spell1_->addBehavior(spell1_shoot_);
     spell1_->setBoss(boss1_);
     boss1_->add_phase(spell1_);
     
-    phasecontroller_.add_process(std::make_shared<MidPhase>(app_,bulletmanager_,collisionsystem_,600,player_));
+    std::shared_ptr<MidPhase> a1=std::make_shared<MidPhase>(app_,bulletmanager_,collisionsystem_,600,player_);
+    a1->add_enemy(enemy1_);
+    a1->add_enemy(enemy2_);
+    phasecontroller_.add_process(a1);
+//    phasecontroller_.add_process(std::make_shared<MidPhase>(app_,bulletmanager_,collisionsystem_,600,player_));
     phasecontroller_.add_process(std::make_shared<VoidPhase>(app_,bulletmanager_,collisionsystem_,180,player_));
     std::shared_ptr<BossPhase> a=std::make_shared<BossPhase>(app_,bulletmanager_,collisionsystem_,boss1_,player_);
     phasecontroller_.add_process(std::move(a));
@@ -77,7 +118,7 @@ void GameState::Update()
 
 //    enemymanager_.update(frame_);
 
-//    bulletmanager_.update();//后续需要把清理子弹放到帧末统一处理，以不影响碰撞检测
+    bulletmanager_.update();//后续需要把清理子弹放到帧末统一处理，以不影响碰撞检测
 
     handlecollision();
 
@@ -100,6 +141,8 @@ void GameState::Render(sf::RenderWindow& window)
         std::cout<<"Game Over"<<std::endl;
         app_.stack_.pushRequest(std::make_unique<PauseState>(app_));
     }
+
+    bulletmanager_.render(window);
 
     window.draw(top_cover1);
     window.draw(top_cover2);

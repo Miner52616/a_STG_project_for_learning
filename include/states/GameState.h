@@ -2,12 +2,15 @@
 #include "core/state.h"
 #include "core/Clock.h"
 #include "ui/Frame.h"
+#include "packages/Resource.h"
 #include "entities/Player.h"
 #include "entities/Enemy.h"
 #include "entities/Boss.h"
 #include "entities/Bullet.h"
 #include "phases/phases/SpellPhase.h"
 #include "enemies/Enemy1.h"
+#include "behaviors/behaviors/AimShoot.h"
+#include "behaviors/behaviors/MoveToRandom1.h"
 #include "manager/EnemyManager.h"
 #include "manager/BulletManager.h"
 #include "manager/PhaseController.h"
@@ -35,9 +38,19 @@ private:
     PhaseController phasecontroller_;
 
     std::shared_ptr<Player> player_;
-//    Boss boss1_;
+    std::shared_ptr<Enemy> enemy1_;
+    std::shared_ptr<Enemy> enemy2_;
     std::shared_ptr<Boss> boss1_;
     std::shared_ptr<SpellPhase> spell1_;
+
+    std::shared_ptr<AimShoot1> enemy1_shoot_;
+    std::shared_ptr<MoveToRandom1> enemy1_move_;
+    std::shared_ptr<AimShoot1> enemy2_shoot_;
+    std::shared_ptr<MoveToRandom1> enemy2_move_;
+    std::shared_ptr<AimShoot1> spell1_shoot_;
+    std::shared_ptr<MoveToRandom1> spell1_move_;
+
+    std::shared_ptr<Resourse> resourse_;
 
 public:
     void ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理被分发到的事件
