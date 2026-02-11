@@ -14,7 +14,7 @@
         "src/manager/BulletManager.cpp",
         "src/manager/PhaseController.cpp",
         "src/manager/CollisionSystem.cpp",
-        "src/packages/Resourse.cpp",
+        "src/packages/Resource.cpp",
         "src/behaviors/Behavior.cpp",
         "src/behaviors/behaviors/MoveToRandom1.cpp",
         "src/behaviors/behaviors/AimShoot1.cpp",

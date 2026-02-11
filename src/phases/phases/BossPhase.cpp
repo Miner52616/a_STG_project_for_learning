@@ -1,14 +1,14 @@
 #include "phases/phases/BossPhase.h"
 #include "entities/Player.h"
 
-BossPhase::BossPhase(std::shared_ptr<Resourse> resourse,std::shared_ptr<Boss> boss):
-    EventPhase(resourse),boss_(boss)
+BossPhase::BossPhase(std::shared_ptr<Resource> resource,std::shared_ptr<Boss> boss):
+    EventPhase(resource),boss_(boss)
 {
     ;
 }
 
-BossPhase::BossPhase(std::shared_ptr<Resourse> resourse):
-    EventPhase(resourse)
+BossPhase::BossPhase(std::shared_ptr<Resource> resource):
+    EventPhase(resource)
 {
     ;
 }

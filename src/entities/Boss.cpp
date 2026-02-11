@@ -1,7 +1,7 @@
 #include "entities/Boss.h"
 
-Boss::Boss(const sf::Texture &texture,std::shared_ptr<Resourse> resourse):
-    Entity(texture),resourse_(resourse),phasecontroller_(resourse->app_,resourse->bulletmanager_,phaselist_),beaten_(false)
+Boss::Boss(const sf::Texture &texture,std::shared_ptr<Resource> resource):
+    Entity(texture),resource_(resource),phasecontroller_(resource->app_,resource->bulletmanager_,phaselist_),beaten_(false)
 {
     ;
 }

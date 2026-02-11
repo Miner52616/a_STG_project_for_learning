@@ -4,8 +4,8 @@
 #include "manager/BulletManager.h"
 #include "manager/CollisionSystem.h"
 
-Phase::Phase(std::shared_ptr<Resourse> resourse):
-    resourse_(resourse),change_(false)
+Phase::Phase(std::shared_ptr<Resource> resource):
+    resource_(resource),change_(false)
 {
     ;
 }

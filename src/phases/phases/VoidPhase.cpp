@@ -6,8 +6,8 @@
 #include "manager/CollisionSystem.h"
 #include "entities/Player.h"
 
-VoidPhase::VoidPhase(std::shared_ptr<Resourse> resourse,int target_frame):
-    TimePhase(resourse,target_frame)
+VoidPhase::VoidPhase(std::shared_ptr<Resource> resource,int target_frame):
+    TimePhase(resource,target_frame)
 {
     ;
 }
@@ -34,5 +34,5 @@ void VoidPhase::be_damage(float damage)
 
 void VoidPhase::ProcessCollision()
 {
-    resourse_->collisionsystem_.ProcessCollision(resourse_->player_);
+    resource_->collisionsystem_.ProcessCollision(resource_->player_);
 }

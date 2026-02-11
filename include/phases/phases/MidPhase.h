@@ -13,7 +13,7 @@ protected:
 //    std::shared_ptr<Enemy1> enemy1_;
 
 public:
-    MidPhase(std::shared_ptr<Resourse> resourse,int target_frame);
+    MidPhase(std::shared_ptr<Resource> resource,int target_frame);
     void update() override;
     void render(sf::RenderWindow& window) override;
     void add_enemy(std::shared_ptr<Enemy> enemy);

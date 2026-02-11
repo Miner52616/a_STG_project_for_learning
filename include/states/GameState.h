@@ -50,7 +50,7 @@ private:
     std::shared_ptr<AimShoot1> spell1_shoot_;
     std::shared_ptr<MoveToRandom1> spell1_move_;
 
-    std::shared_ptr<Resourse> resourse_;
+    std::shared_ptr<Resource> resource_;
 
 public:
     void ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理被分发到的事件

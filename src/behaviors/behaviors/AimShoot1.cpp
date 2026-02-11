@@ -16,14 +16,14 @@ AimShoot1::AimShoot1()
 
 void AimShoot1::update()
 {
-    if(resourse_==NULL)
+    if(resource_==NULL)
     {
-        std::cout<<"No Resourse!"<<std::endl;
+        std::cout<<"No Resource!"<<std::endl;
         return;
     }
     if(clock_.get_condition())
     {
-        resourse_->bulletmanager_.add_process(std::make_unique<LinearBullet>(resourse_->app_.bulletTexture_,entity_->getPosition(),resourse_->player_->getPosition(),0.06,6));
+        resource_->bulletmanager_.add_process(std::make_unique<LinearBullet>(resource_->app_.bulletTexture_,entity_->getPosition(),resource_->player_->getPosition(),0.06,6));
         clock_.reset();
     }
     clock_.count();

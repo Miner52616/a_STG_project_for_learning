@@ -13,12 +13,12 @@ protected:
     //application &app_;
     //BulletManager &bulletmanager_;
     //CollisionSystem &collisionsystem_;
-    std::shared_ptr<Resourse> resourse_;
+    std::shared_ptr<Resource> resource_;
 
     bool change_;
 
 public:
-    Phase(std::shared_ptr<Resourse> resourse);
+    Phase(std::shared_ptr<Resource> resource);
     virtual void update()=0;
     virtual void render(sf::RenderWindow& window)=0;
     bool isFinish();

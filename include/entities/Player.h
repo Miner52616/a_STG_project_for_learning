@@ -17,7 +17,7 @@ private:
     Clock clock_;
     Frame &outline_;
     //BulletManager &bulletmanager_;
-    std::shared_ptr<Resourse> resourse_;
+    std::shared_ptr<Resource> resource_;
 
     sf::CircleShape point_;
 
@@ -29,9 +29,9 @@ public:
     void clock_count();
 
 public:
-    Player(const sf::Texture &texture,Frame &outline,std::shared_ptr<Resourse> resourse);  //初始化资源引用，默认玩家设置
+    Player(const sf::Texture &texture,Frame &outline,std::shared_ptr<Resource> resource);  //初始化资源引用，默认玩家设置
 
-    void setResourse(std::shared_ptr<Resourse> resourse);
+    void setResource(std::shared_ptr<Resource> resource);
     void setPosition() override;
     void setPosition(sf::Vector2f position) override;
     void Player_update();  //更新玩家属性

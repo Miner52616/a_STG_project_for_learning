@@ -1,8 +1,8 @@
 #include "phases/basicphases/StartPhase.h"
 #include "manager/PhaseController.h"
 
-StartPhase::StartPhase(std::shared_ptr<Resourse> resourse):
-    Phase(resourse)
+StartPhase::StartPhase(std::shared_ptr<Resource> resource):
+    Phase(resource)
 
 {
     ;

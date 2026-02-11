@@ -6,10 +6,10 @@ class BulletManager;
 class CollisionSystem;
 class Player;
 
-class Resourse
+class Resource
 {
 public:
-    Resourse(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,std::shared_ptr<Player> player);
+    Resource(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,std::shared_ptr<Player> player);
     application &app_;
     BulletManager &bulletmanager_;
     CollisionSystem &collisionsystem_;
