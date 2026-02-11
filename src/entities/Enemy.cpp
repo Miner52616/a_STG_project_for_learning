@@ -1,8 +1,8 @@
 #include "entities/Enemy.h"
 #include "manager/BulletManager.h"
 
-Enemy::Enemy(application &app,const sf::Texture &texture,BulletManager &bulletmanager):
-    Entity(app,texture),exist_(false),startframe_(0),endframe_(216000),HP_(500),dead_(false),bulletmanager_(bulletmanager)
+Enemy::Enemy(const sf::Texture &texture):
+    Entity(texture),exist_(false),startframe_(0),endframe_(216000),HP_(500),dead_(false)
 {
     hitbox_r_=15;
 }

@@ -11,7 +11,7 @@ class Enemy1:public Enemy
     Clock moveclock_;
     Clock shootclock_;
 public:
-    Enemy1(application &app,const sf::Texture &texture,BulletManager &bulletmanager,std::shared_ptr<Player> player);
+    Enemy1(const sf::Texture &texture,std::shared_ptr<Player> player);
 public:
     void update(long long int frame) override;
     void clock_count();

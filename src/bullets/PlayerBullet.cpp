@@ -2,8 +2,8 @@
 #include "core/application.h"
 #include "ui/Frame.h"
 
-PlayerBullet::PlayerBullet(application &app,const sf::Texture &texture,sf::Vector2f position,Frame &outline):
-    Bullet(app,texture,position),outline_(outline)
+PlayerBullet::PlayerBullet(const sf::Texture &texture,sf::Vector2f position,Frame &outline):
+    Bullet(texture,position),outline_(outline)
 {
     hitbox_r_=10;
 }

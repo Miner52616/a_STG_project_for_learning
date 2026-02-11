@@ -1,8 +1,8 @@
 #include "phases/basicphases/StartPhase.h"
 #include "manager/PhaseController.h"
 
-StartPhase::StartPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem):
-    Phase(app,bulletmanager,collisionsystem)
+StartPhase::StartPhase(std::shared_ptr<Resourse> resourse):
+    Phase(resourse)
 
 {
     ;

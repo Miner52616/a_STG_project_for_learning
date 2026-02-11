@@ -1,8 +1,8 @@
 #include "entities/Bullet.h"
 #include <iostream>
 
-Bullet::Bullet(application &app,const sf::Texture &texture,sf::Vector2f position):
-    Entity(app,texture),exist_(true),dead_(false),ofplayer_(true),damage_(100)
+Bullet::Bullet(const sf::Texture &texture,sf::Vector2f position):
+    Entity(texture),exist_(true),dead_(false),ofplayer_(true),damage_(100)
 {
     position_=position;
 }

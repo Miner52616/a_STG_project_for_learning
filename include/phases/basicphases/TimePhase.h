@@ -10,7 +10,7 @@ protected:
     int target_frame_;
     
 public:
-    TimePhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame);
+    TimePhase(std::shared_ptr<Resourse> resourse,int target_frame);
 
 protected:
     void frame_forward();

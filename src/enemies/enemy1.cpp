@@ -4,8 +4,8 @@
 #include "bullets/LinearBullet.h"
 #include "mathematics/mathematics.h"
 
-Enemy1::Enemy1(application &app,const sf::Texture &texture,BulletManager &bulletmanager,std::shared_ptr<Player> player):
-    Enemy(app,texture,bulletmanager),player_(player),moveclock_(180),shootclock_(20),nextposition_({460,200})
+Enemy1::Enemy1(const sf::Texture &texture,std::shared_ptr<Player> player):
+    Enemy(texture),player_(player),moveclock_(180),shootclock_(20),nextposition_({460,200})
 {
     ;
 }
@@ -34,6 +34,7 @@ void Enemy1::update(long long int frame)
             moveclock_.reset();
         }
 
+        /*
         if(shootclock_.get_condition())
         {
             bulletmanager_.add_process(std::make_unique<LinearBullet>(app_,app_.bulletTexture_,getPosition(),player_->getPosition()+(player_->getPosition()-getPosition()),0.06,6));
@@ -42,7 +43,7 @@ void Enemy1::update(long long int frame)
             shootclock_.reset();
         }
 
-        clock_count();
+        clock_count();*/
     }
 }
 

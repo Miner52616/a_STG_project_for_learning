@@ -2,8 +2,8 @@
 #include "core/application.h"
 #include <iostream>
 
-Entity::Entity(application &app,const sf::Texture &texture):
-    app_(app),texture_(texture),hitbox_r_(5),picture_(texture_),position_({0,0}),prev_position_({0,0})
+Entity::Entity(/*application &app,*/const sf::Texture &texture):
+    /*app_(app),*/texture_(texture),hitbox_r_(5),picture_(texture_),position_({0,0}),prev_position_({0,0})
     {
         hitbox_.setRadius(hitbox_r_);
 

@@ -5,8 +5,8 @@
 #include "bullets/LinearBullet.h"
 #include "entities/Boss.h"
 
-SpellPhase::SpellPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame,std::shared_ptr<Player> player):
-    TimePhase(app,bulletmanager,collisionsystem,target_frame),player_(player),boss_(NULL),moveclock_(240),shootclock_(60),nextposition_(460,200),fullHP_(1000),HP_(1000)
+SpellPhase::SpellPhase(std::shared_ptr<Resourse> resourse,int target_frame):
+    TimePhase(resourse,target_frame),boss_(NULL),moveclock_(240),shootclock_(60),nextposition_(460,200),fullHP_(1000),HP_(1000)
 {
     setHP(600);
     HPline_.setFillColor(sf::Color::White);
@@ -71,8 +71,8 @@ void SpellPhase::be_damage(float damage)
 
 void SpellPhase::ProcessCollision()
 {
-    collisionsystem_.ProcessCollision(boss_);
-    collisionsystem_.ProcessCollision(player_);
+    resourse_->collisionsystem_.ProcessCollision(boss_);
+    resourse_->collisionsystem_.ProcessCollision(resourse_->player_);
 }
 
 void SpellPhase::setBoss(std::shared_ptr<Boss> boss)

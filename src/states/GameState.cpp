@@ -42,10 +42,11 @@ GameState::GameState(application &app):
     bottom_cover2.setSize({780,5});
     bottom_cover2.setFillColor(sf::Color(128,128,128));
 
-    player_=std::make_shared<Player>(app,app.playerTexture_,outline1,bulletmanager_);
+    player_=std::make_shared<Player>(app.playerTexture_,outline1,resourse_);
     player_->setPosition({640,480});
 
     resourse_=std::make_shared<Resourse>(app,bulletmanager_,collisionsystem_,player_);
+    player_->setResourse(resourse_);
 
     enemy1_move_=std::make_shared<MoveToRandom1>();
     enemy1_shoot_=std::make_shared<AimShoot1>(); 
@@ -54,16 +55,16 @@ GameState::GameState(application &app):
     spell1_move_=std::make_shared<MoveToRandom1>();
     spell1_shoot_=std::make_shared<AimShoot1>(); 
     
-    enemy1_=std::make_shared<Enemy>(app,app.enemyTexture_,bulletmanager_);
+    enemy1_=std::make_shared<Enemy>(app.enemyTexture_);
     enemy1_->setPosition({460,100});
     enemy1_->setHP(200);
     enemy1_->set_start_end(240,216000);
-    enemy2_=std::make_shared<Enemy>(app,app.enemyTexture_,bulletmanager_);
+    enemy2_=std::make_shared<Enemy>(app.enemyTexture_);
     enemy2_->setPosition({460,100});
     enemy2_->setHP(200);
     enemy2_->set_start_end(240,216000);
-    boss1_=std::make_shared<Boss>(app,app.playerTexture_,bulletmanager_);
-    spell1_=std::make_shared<SpellPhase>(app_,bulletmanager_,collisionsystem_,360,player_);
+    boss1_=std::make_shared<Boss>(app.playerTexture_,resourse_);
+    spell1_=std::make_shared<SpellPhase>(resourse_,360);
     
     enemy1_move_->set_resourse(resourse_);
     enemy1_shoot_->set_resourse(resourse_);
@@ -87,15 +88,15 @@ GameState::GameState(application &app):
     spell1_->setBoss(boss1_);
     boss1_->add_phase(spell1_);
     
-    std::shared_ptr<MidPhase> a1=std::make_shared<MidPhase>(app_,bulletmanager_,collisionsystem_,600,player_);
+    std::shared_ptr<MidPhase> a1=std::make_shared<MidPhase>(resourse_,600);
     a1->add_enemy(enemy1_);
     a1->add_enemy(enemy2_);
     phasecontroller_.add_process(a1);
 //    phasecontroller_.add_process(std::make_shared<MidPhase>(app_,bulletmanager_,collisionsystem_,600,player_));
-    phasecontroller_.add_process(std::make_shared<VoidPhase>(app_,bulletmanager_,collisionsystem_,180,player_));
-    std::shared_ptr<BossPhase> a=std::make_shared<BossPhase>(app_,bulletmanager_,collisionsystem_,boss1_,player_);
+    phasecontroller_.add_process(std::make_shared<VoidPhase>(resourse_,180));
+    std::shared_ptr<BossPhase> a=std::make_shared<BossPhase>(resourse_,boss1_);
     phasecontroller_.add_process(std::move(a));
-    phasecontroller_.add_process(std::make_shared<VoidPhase>(app_,bulletmanager_,collisionsystem_,180,player_));
+    phasecontroller_.add_process(std::make_shared<VoidPhase>(resourse_,180));
 
 }
 

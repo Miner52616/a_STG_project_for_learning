@@ -9,7 +9,6 @@ class Boss;
 class SpellPhase:public TimePhase
 {
 protected:
-    std::shared_ptr<Player> player_;
     std::shared_ptr<Boss> boss_;
     Clock moveclock_;
     Clock shootclock_;
@@ -20,7 +19,7 @@ protected:
     float HP_;
 
 public:
-    SpellPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame,std::shared_ptr<Player> player);
+    SpellPhase(std::shared_ptr<Resourse> resourse,int target_frame);
     void update() override;
     void render(sf::RenderWindow& window) override;
     void addBehavior(std::shared_ptr<Behavior> behavior);

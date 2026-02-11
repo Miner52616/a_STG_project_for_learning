@@ -23,7 +23,7 @@ void AimShoot1::update()
     }
     if(clock_.get_condition())
     {
-        resourse_->bulletmanager_.add_process(std::make_unique<LinearBullet>(resourse_->app_,resourse_->app_.bulletTexture_,entity_->getPosition(),resourse_->player_->getPosition(),0.06,6));
+        resourse_->bulletmanager_.add_process(std::make_unique<LinearBullet>(resourse_->app_.bulletTexture_,entity_->getPosition(),resourse_->player_->getPosition(),0.06,6));
         clock_.reset();
     }
     clock_.count();

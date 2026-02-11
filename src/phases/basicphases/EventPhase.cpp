@@ -1,7 +1,7 @@
 #include "phases/basicphases/EventPhase.h"
 
-EventPhase::EventPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem):
-    Phase(app,bulletmanager,collisionsystem)
+EventPhase::EventPhase(std::shared_ptr<Resourse> resourse):
+    Phase(resourse)
 {
     ;
 }

@@ -6,8 +6,8 @@
 #include "manager/CollisionSystem.h"
 #include "entities/Player.h"
 
-MidPhase::MidPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,int target_frame,std::shared_ptr<Player> player):
-    TimePhase(app,bulletmanager,collisionsystem,target_frame),enemymanager_(enemylist_),player_(player)//,enemy1_(app_,app_.enemyTexture_,bulletmanager_,player_)
+MidPhase::MidPhase(std::shared_ptr<Resourse> resourse,int target_frame):
+    TimePhase(resourse,target_frame),enemymanager_(enemylist_)//,enemy1_(app_,app_.enemyTexture_,bulletmanager_,player_)
 {
 //    enemy1_=std::make_shared<Enemy1>(app_,app_.enemyTexture_,bulletmanager_,player_);
 //    enemy1_->setHP(200);
@@ -50,7 +50,7 @@ void MidPhase::ProcessCollision()
 {
     for(auto it=enemylist_.begin();it!=enemylist_.end();++it)
     {
-        collisionsystem_.ProcessCollision(*it);
+        resourse_->collisionsystem_.ProcessCollision(*it);
     }
-    collisionsystem_.ProcessCollision(player_);
+    resourse_->collisionsystem_.ProcessCollision(resourse_->player_);
 }

@@ -16,10 +16,10 @@ protected:
     float HP_;
     bool dead_;
 
-    BulletManager &bulletmanager_;
+    //BulletManager &bulletmanager_;
 
 public:
-    Enemy(application &app,const sf::Texture &texture,BulletManager &bulletmanager);  //初始化资源引用，默认敌人设置
+    Enemy(const sf::Texture &texture);  //初始化资源引用，默认敌人设置
 
 public:
     void set_exist(bool set);  //直接设置敌人是否出现

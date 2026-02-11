@@ -7,7 +7,7 @@ class application;
 class Entity
 {
 protected:
-    application &app_;
+    //application &app_;
     const sf::Texture &texture_;
     sf::Vector2f position_;
     sf::Vector2f prev_position_;
@@ -28,5 +28,5 @@ public:
     virtual void drawwindow(sf::RenderWindow& window);  //渲染实体至屏幕
 
 public:
-    Entity(application &app,const sf::Texture &texture);  //初始化资源引用，默认实体设置
+    Entity(/*application &app,*/const sf::Texture &texture);  //初始化资源引用，默认实体设置
 };

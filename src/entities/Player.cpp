@@ -4,14 +4,14 @@
 #include "bullets/PlayerBullet.h"
 #include "manager/BulletManager.h"
 
-Player::Player(application &app,const sf::Texture &texture,Frame &outline,BulletManager& bulletmanager):
-    Entity(app,texture),
+Player::Player(const sf::Texture &texture,Frame &outline,std::shared_ptr<Resourse> resourse):
+    Entity(texture),
     hitbox_exist_(false),
     speed_(10),
     request_shoot_(false),
     clock_((long long int)15),
     outline_(outline),
-    bulletmanager_(bulletmanager)
+    resourse_(resourse)
 {
     point_.setRadius(6);
     point_.setOrigin(point_.getGlobalBounds().getCenter());
@@ -57,6 +57,11 @@ bool Player::Handle_shoot_request()
 void Player::clock_count()
 {
     clock_.count();
+}
+
+void Player::setResourse(std::shared_ptr<Resourse> resourse)
+{
+    resourse_=std::move(resourse);
 }
 
 void Player::setPosition()
@@ -149,7 +154,7 @@ void Player::Player_update()
         {
             request_shoot_=true;
             std::cout<<"shoot"<<std::endl;
-            bulletmanager_.add_process(std::make_unique<PlayerBullet>(app_,app_.bulletTexture_,getPosition(),outline_));
+            resourse_->bulletmanager_.add_process(std::make_unique<PlayerBullet>(resourse_->app_.bulletTexture_,getPosition(),outline_));
             clock_.reset();
         }
     }

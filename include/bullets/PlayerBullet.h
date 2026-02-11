@@ -10,6 +10,6 @@ private:
     Frame &outline_;
 
 public:
-    PlayerBullet(application &app,const sf::Texture &texture,sf::Vector2f position,Frame &outline);
+    PlayerBullet(const sf::Texture &texture,sf::Vector2f position,Frame &outline);
     void update() override;
 };

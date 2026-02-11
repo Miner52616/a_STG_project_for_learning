@@ -11,6 +11,7 @@ PhaseController::PhaseController(application &app,BulletManager &bulletmanager,s
 
 void PhaseController::add_process(std::shared_ptr<Phase> phase)
 {
+    std::cout<<"add a phase"<<std::endl;
     phaselist_.emplace_back(std::move(phase));
 }
 
@@ -67,6 +68,7 @@ bool PhaseController::apply_change()
 {
     if(change_)
     {
+        std::cout<<"apply changing phase"<<std::endl;
         change_=false;
         if(current_+1<=phaselist_.size())
         {

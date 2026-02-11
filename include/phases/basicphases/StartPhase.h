@@ -4,6 +4,6 @@
 class StartPhase:public Phase
 {
 public:
-    StartPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem);
+    StartPhase(std::shared_ptr<Resourse> resourse);
     void render(sf::RenderWindow& window) override;
 };

@@ -1,10 +1,16 @@
 #include "phases/phases/BossPhase.h"
 #include "entities/Player.h"
 
-BossPhase::BossPhase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,std::shared_ptr<Boss> boss,std::shared_ptr<Player> player):
-    EventPhase(app,bulletmanager,collisionsystem),boss_(boss),player_(player)
+BossPhase::BossPhase(std::shared_ptr<Resourse> resourse,std::shared_ptr<Boss> boss):
+    EventPhase(resourse),boss_(boss)
 {
-    boss_->setPosition({460,100});
+    ;
+}
+
+BossPhase::BossPhase(std::shared_ptr<Resourse> resourse):
+    EventPhase(resourse)
+{
+    ;
 }
 
 void BossPhase::update()
@@ -21,6 +27,11 @@ void BossPhase::update()
 void BossPhase::render(sf::RenderWindow& window)
 {
     boss_->render(window);
+}
+
+void BossPhase::setBoss(std::shared_ptr<Boss> boss)
+{
+    boss_=std::move(boss);
 }
 
 void BossPhase::be_damage(float damage)

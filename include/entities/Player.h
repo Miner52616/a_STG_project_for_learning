@@ -1,6 +1,7 @@
 #pragma once
 #include "Entity.h"
 #include "core/Clock.h"
+#include "packages/Resource.h"
 
 class application;
 class Frame;
@@ -15,7 +16,8 @@ private:
     bool request_shoot_;
     Clock clock_;
     Frame &outline_;
-    BulletManager &bulletmanager_;
+    //BulletManager &bulletmanager_;
+    std::shared_ptr<Resourse> resourse_;
 
     sf::CircleShape point_;
 
@@ -27,8 +29,9 @@ public:
     void clock_count();
 
 public:
-    Player(application &app,const sf::Texture &texture,Frame &outline,BulletManager& bulletmanager);  //初始化资源引用，默认玩家设置
+    Player(const sf::Texture &texture,Frame &outline,std::shared_ptr<Resourse> resourse);  //初始化资源引用，默认玩家设置
 
+    void setResourse(std::shared_ptr<Resourse> resourse);
     void setPosition() override;
     void setPosition(sf::Vector2f position) override;
     void Player_update();  //更新玩家属性

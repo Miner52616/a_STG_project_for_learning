@@ -7,6 +7,6 @@ private:
     sf::Vector2f targetposition_;
     float v_;
 public:
-    LinearBullet(application &app,const sf::Texture &texture,sf::Vector2f position,sf::Vector2f targetposition,float v,int r);
+    LinearBullet(const sf::Texture &texture,sf::Vector2f position,sf::Vector2f targetposition,float v,int r);
     void update() override;
 };

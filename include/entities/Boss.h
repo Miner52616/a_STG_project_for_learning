@@ -8,7 +8,8 @@ class BulletManager;
 class Boss:public Entity
 {
 protected:
-    BulletManager &bulletmanager_;//只是用于申请发射子弹
+    //BulletManager &bulletmanager_;//只是用于申请发射子弹
+    std::shared_ptr<Resourse> resourse_;
 
     std::vector<std::shared_ptr<Phase>> phaselist_;//只管怎么更新boss（移动与发弹），无需维护子弹
     PhaseController phasecontroller_;
@@ -16,7 +17,7 @@ protected:
     bool beaten_;
 
 public:
-    Boss(application &app,const sf::Texture &texture,BulletManager &bulletmanager);
+    Boss(const sf::Texture &texture,std::shared_ptr<Resourse> resourse);
     virtual void update();
     virtual void render(sf::RenderWindow& window);
     void add_phase(std::shared_ptr<Phase> spellphase);

@@ -4,8 +4,8 @@
 #include "manager/BulletManager.h"
 #include "manager/CollisionSystem.h"
 
-Phase::Phase(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem):
-    app_(app),bulletmanager_(bulletmanager),collisionsystem_(collisionsystem),change_(false)
+Phase::Phase(std::shared_ptr<Resourse> resourse):
+    resourse_(resourse),change_(false)
 {
     ;
 }
