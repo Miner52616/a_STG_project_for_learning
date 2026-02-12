@@ -2,8 +2,8 @@
 #include "ui/Frame.h"
 #include "core/Clock.h"
 
-BulletManager::BulletManager(application &app,std::vector<std::unique_ptr<Bullet>> &bulletlist):
-    app_(app),bulletlist_(bulletlist)//,outline_(outline),player_(player)
+BulletManager::BulletManager(application &app,std::vector<std::unique_ptr<Bullet>> &bulletlist,BulletFactory &bulletfactory):
+    app_(app),bulletlist_(bulletlist),bulletfactory_(bulletfactory)//,outline_(outline),player_(player)
 {
     ;
 }
@@ -15,6 +15,8 @@ void BulletManager::add_process(std::unique_ptr<Bullet> bullet)
 
 void BulletManager::add_process(std::shared_ptr<BulletConfig> bulletconfig)
 {
+    bulletlist_.emplace_back(std::move(bulletfactory_.create(bulletconfig)));
+    /*
     if(bulletconfig->bulletclass_==BulletClasses::LinearBullet)
     {
         bulletlist_.emplace_back(std::make_unique<LinearBullet>(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->target_point_,bulletconfig->v_,bulletconfig->r_));
@@ -22,7 +24,7 @@ void BulletManager::add_process(std::shared_ptr<BulletConfig> bulletconfig)
     if(bulletconfig->bulletclass_==BulletClasses::PlayerBullet)
     {
         bulletlist_.emplace_back(std::make_unique<PlayerBullet>(bulletconfig->texture_,bulletconfig->spawn_point_));
-    }
+    }*/
 }
 
 void BulletManager::update()

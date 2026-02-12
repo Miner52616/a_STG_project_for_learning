@@ -12,6 +12,7 @@
         "src/core/Clock.cpp",
         "src/manager/EnemyManager.cpp",
         "src/manager/BulletManager.cpp",
+        "src/manager/BulletFactory.cpp",
         "src/manager/PhaseController.cpp",
         "src/manager/CollisionSystem.cpp",
         "src/packages/Resource.cpp",

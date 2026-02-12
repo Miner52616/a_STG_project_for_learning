@@ -11,7 +11,7 @@ GameState::GameState(application &app):
     State(app),
     frame_(0),
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
-    bulletmanager_(app,bulletlist_),
+    bulletmanager_(app,bulletlist_,bulletfactory_),
     collisionsystem_(bulletlist_),
     phasecontroller_(app,bulletmanager_,phaselist_)
 {

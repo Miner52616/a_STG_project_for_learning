@@ -16,6 +16,7 @@
 #include "behaviors/behaviors/MoveToRandom1.h"
 #include "manager/EnemyManager.h"
 #include "manager/BulletManager.h"
+#include "manager/BulletFactory.h"
 #include "manager/PhaseController.h"
 #include "manager/CollisionSystem.h"
 
@@ -36,6 +37,7 @@ private:
     std::vector<std::unique_ptr<Bullet>> bulletlist_;
     std::vector<std::shared_ptr<Phase>> phaselist_;
 
+    BulletFactory bulletfactory_;
     BulletManager bulletmanager_;
     CollisionSystem collisionsystem_;
     PhaseController phasecontroller_;

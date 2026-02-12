@@ -5,15 +5,17 @@
 #include "bullets/LinearBullet.h"
 #include "bullets/PlayerBullet.h"
 #include "packages/BulletConfig.h"
+#include "manager/BulletFactory.h"
 
 class BulletManager
 {
 private:
     application &app_;
     std::vector<std::unique_ptr<Bullet>> &bulletlist_;
+    BulletFactory &bulletfactory_;
 
 public:
-    BulletManager(application &app,std::vector<std::unique_ptr<Bullet>> &bulletlist);
+    BulletManager(application &app,std::vector<std::unique_ptr<Bullet>> &bulletlist,BulletFactory &bulletfactory);
     void add_process(std::unique_ptr<Bullet> bullet);
     void add_process(std::shared_ptr<BulletConfig> bulletconfig);
     void update();

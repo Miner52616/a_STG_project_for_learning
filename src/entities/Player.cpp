@@ -172,7 +172,7 @@ void Player::Player_update()
     {
         if(clock_.get_condition())
         {
-            request_shoot_=true;
+            //request_shoot_=true;
             std::cout<<"shoot"<<std::endl;
             //resource_->bulletmanager_.add_process(std::make_unique<PlayerBullet>(resource_->app_.bulletTexture_,getPosition()));
             bulletconfig_->spawn_point_=getPosition();
