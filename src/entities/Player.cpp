@@ -12,13 +12,33 @@ Player::Player(const sf::Texture &texture,Frame &outline,std::shared_ptr<Resourc
     clock_((long long int)15),
     outline_(outline),
     resource_(resource)
+    //bulletconfig_(resource_->app_.bulletTexture_)
 {
+    std::cout<<"0"<<std::endl;
     point_.setRadius(6);
     point_.setOrigin(point_.getGlobalBounds().getCenter());
     point_.setFillColor(sf::Color::White);
 
     hitbox_r_=3;
     hitbox_.setRadius(hitbox_r_);
+    std::cout<<"1"<<std::endl;
+    /*
+    bulletconfig_.damage_=100;
+    bulletconfig_.bulletclass_=BulletClasses::PlayerBullet;
+    bulletconfig_.r_=10;
+    bulletconfig_.v_=10;
+    bulletconfig_.spawn_point_=getPosition();*/
+    std::cout<<"2"<<std::endl;
+}
+
+void Player::setBulletConfig()
+{
+    bulletconfig_=std::make_shared<BulletConfig>(resource_->app_.bulletTexture_);
+    bulletconfig_->damage_=100;
+    bulletconfig_->bulletclass_=BulletClasses::PlayerBullet;
+    bulletconfig_->r_=10;
+    bulletconfig_->v_=10;
+    bulletconfig_->spawn_point_=getPosition();
 }
 
 void Player::check_position()
@@ -154,7 +174,10 @@ void Player::Player_update()
         {
             request_shoot_=true;
             std::cout<<"shoot"<<std::endl;
-            resource_->bulletmanager_.add_process(std::make_unique<PlayerBullet>(resource_->app_.bulletTexture_,getPosition(),outline_));
+            //resource_->bulletmanager_.add_process(std::make_unique<PlayerBullet>(resource_->app_.bulletTexture_,getPosition()));
+            bulletconfig_->spawn_point_=getPosition();
+            resource_->bulletmanager_.add_process(bulletconfig_);
+
             clock_.reset();
         }
     }

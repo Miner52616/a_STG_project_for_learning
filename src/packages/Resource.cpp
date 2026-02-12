@@ -5,3 +5,8 @@ Resource::Resource(application &app,BulletManager &bulletmanager,CollisionSystem
 {
     ;
 }
+
+void Resource::setPlayer(std::shared_ptr<Player> player)
+{
+    player_=std::move(player);
+}

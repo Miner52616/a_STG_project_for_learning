@@ -2,8 +2,8 @@
 #include "core/application.h"
 #include "ui/Frame.h"
 
-PlayerBullet::PlayerBullet(const sf::Texture &texture,sf::Vector2f position,Frame &outline):
-    Bullet(texture,position),outline_(outline)
+PlayerBullet::PlayerBullet(const sf::Texture &texture,sf::Vector2f position):
+    Bullet(texture,position)
 {
     hitbox_r_=10;
 }
@@ -14,7 +14,7 @@ void PlayerBullet::update()
 
     setPosition({getPosition().x,getPosition().y-12});
 
-    if((getPosition().x<outline_.getBounds_left())||(getPosition().y<-50)||(getPosition().x>outline_.getBounds_right())||(getPosition().y>outline_.getBounds_bottom()))
+    if((getPosition().x<75)||(getPosition().y<-50)||(getPosition().x>845)||(getPosition().y>930))
     {
         dead_=true;
     }

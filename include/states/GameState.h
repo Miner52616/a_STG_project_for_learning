@@ -7,6 +7,9 @@
 #include "entities/Enemy.h"
 #include "entities/Boss.h"
 #include "entities/Bullet.h"
+#include "phases/phases/MidPhase.h"
+#include "phases/phases/VoidPhase.h"
+#include "phases/phases/BossPhase.h"
 #include "phases/phases/SpellPhase.h"
 #include "enemies/Enemy1.h"
 #include "behaviors/behaviors/AimShoot.h"
@@ -49,6 +52,11 @@ private:
     std::shared_ptr<MoveToRandom1> enemy2_move_;
     std::shared_ptr<AimShoot1> spell1_shoot_;
     std::shared_ptr<MoveToRandom1> spell1_move_;
+
+    std::shared_ptr<MidPhase> midphase1_;
+    std::shared_ptr<VoidPhase> voidphase1_;
+    std::shared_ptr<BossPhase> bossphase1_;
+    std::shared_ptr<VoidPhase> voidphase2_;
 
     std::shared_ptr<Resource> resource_;
 

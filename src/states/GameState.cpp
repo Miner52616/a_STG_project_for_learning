@@ -14,9 +14,11 @@ GameState::GameState(application &app):
     bulletmanager_(app,bulletlist_),
     collisionsystem_(bulletlist_),
     phasecontroller_(app,bulletmanager_,phaselist_)
-//    player_(app,app.playerTexture_,outline1,bulletmanager_)
-//    boss1_(app,app.playerTexture_,bulletmanager_)
 {
+    std::cout<<"Game Loading..."<<std::endl;
+
+    //****第一步————以下为创建对象，与资源无关设置初始化部分
+    //初始化设置固定ui
     top_cover1.setPosition({0,0});
     top_cover1.setSize({1280,25});
     top_cover1.setFillColor(sf::Color::Black);
@@ -41,14 +43,23 @@ GameState::GameState(application &app):
     bottom_cover2.setPosition({70,930});
     bottom_cover2.setSize({780,5});
     bottom_cover2.setFillColor(sf::Color(128,128,128));
+    std::cout<<"UI Set"<<std::endl;
 
-    player_=std::make_shared<Player>(app.playerTexture_,outline1,resource_);
-    player_->setPosition({640,480});
+    //创建并“半"初始化资源。此时是弱资源，player指针为随机，访问会导致错误
+    resource_=std::make_shared<Resource>(app,bulletmanager_,collisionsystem_,player_);
+    std::cout<<"Resource Set"<<std::endl;
 
     //resource和player互相持有对方指针。先创建的需要在后创建的创建后重新获取指针
-    resource_=std::make_shared<Resource>(app,bulletmanager_,collisionsystem_,player_);
+    //创建并初始化玩家对象
+    player_=std::make_shared<Player>(app.playerTexture_,outline1,resource_);
+    player_->setBulletConfig();
+    player_->setPosition({640,480});
     player_->setResource(resource_);
+    //完全初始化资源
+    resource_->setPlayer(player_);//此时resource获取player指针
+    std::cout<<"Player Set"<<std::endl;
 
+    //创建行为对象
     enemy1_move_=std::make_shared<MoveToRandom1>();
     enemy1_shoot_=std::make_shared<AimShoot1>(); 
     enemy2_move_=std::make_shared<MoveToRandom1>();
@@ -56,6 +67,7 @@ GameState::GameState(application &app):
     spell1_move_=std::make_shared<MoveToRandom1>();
     spell1_shoot_=std::make_shared<AimShoot1>(); 
     
+    //创建并初始化敌人/Boss对象
     enemy1_=std::make_shared<Enemy>(app.enemyTexture_);
     enemy1_->setPosition({460,100});
     enemy1_->setHP(200);
@@ -68,6 +80,8 @@ GameState::GameState(application &app):
     boss1_->setPosition({460,150});
     spell1_=std::make_shared<SpellPhase>(resource_,360);
     
+    //****第二步————资源绑定部分
+    //行为对象资源绑定
     enemy1_move_->set_resource(resource_);
     enemy1_shoot_->set_resource(resource_);
     enemy2_move_->set_resource(resource_);
@@ -75,6 +89,20 @@ GameState::GameState(application &app):
     spell1_move_->set_resource(resource_);
     spell1_shoot_->set_resource(resource_);
 
+    //****第三步————与资源相关的对象创建/设置初始化部分
+    //行为对象资源相关初始化
+    enemy1_shoot_->setBulletConfig();
+    enemy2_shoot_->setBulletConfig();
+    spell1_shoot_->setBulletConfig();
+
+    //游戏阶段对象创建并初始化
+    midphase1_=std::make_shared<MidPhase>(resource_,600);
+    voidphase1_=std::make_shared<VoidPhase>(resource_,180);
+    bossphase1_=std::make_shared<BossPhase>(resource_);
+    voidphase2_=std::make_shared<VoidPhase>(resource_,180);
+
+    //****第四步————对象间运行信息流上下级绑定部分
+    //敌人/Boss对象与其下级行为/符卡相互绑定
     enemy1_move_->set_entity(enemy1_);
     enemy1_->addBehavior(enemy1_move_);
     enemy1_shoot_->set_entity(enemy1_);
@@ -90,16 +118,18 @@ GameState::GameState(application &app):
     spell1_->setBoss(boss1_);
     boss1_->add_phase(spell1_);
     
-    std::shared_ptr<MidPhase> a1=std::make_shared<MidPhase>(resource_,600);
-    a1->add_enemy(enemy1_);
-    a1->add_enemy(enemy2_);
-    phasecontroller_.add_process(a1);
-//    phasecontroller_.add_process(std::make_shared<MidPhase>(app_,bulletmanager_,collisionsystem_,600,player_));
-    phasecontroller_.add_process(std::make_shared<VoidPhase>(resource_,180));
-    std::shared_ptr<BossPhase> a=std::make_shared<BossPhase>(resource_,boss1_);
-    phasecontroller_.add_process(std::move(a));
-    phasecontroller_.add_process(std::make_shared<VoidPhase>(resource_,180));
+    //游戏阶段对象与敌人/Boss对象相互绑定
+    midphase1_->add_enemy(enemy1_);
+    midphase1_->add_enemy(enemy2_);
+    bossphase1_->setBoss(boss1_);
 
+    //游戏阶段对象与游戏阶段控制器相互绑定
+    phasecontroller_.add_process(midphase1_);
+    phasecontroller_.add_process(voidphase1_);
+    phasecontroller_.add_process(bossphase1_);
+    phasecontroller_.add_process(voidphase2_);
+
+    std::cout<<"Game Prepared"<<std::endl;
 }
 
 void GameState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)

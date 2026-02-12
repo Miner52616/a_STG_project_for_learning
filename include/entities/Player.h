@@ -2,6 +2,7 @@
 #include "Entity.h"
 #include "core/Clock.h"
 #include "packages/Resource.h"
+#include "packages/BulletConfig.h"
 
 class application;
 class Frame;
@@ -18,6 +19,7 @@ private:
     Frame &outline_;
     //BulletManager &bulletmanager_;
     std::shared_ptr<Resource> resource_;
+    std::shared_ptr<BulletConfig> bulletconfig_;
 
     sf::CircleShape point_;
 
@@ -31,6 +33,7 @@ public:
 public:
     Player(const sf::Texture &texture,Frame &outline,std::shared_ptr<Resource> resource);  //初始化资源引用，默认玩家设置
 
+    void setBulletConfig();
     void setResource(std::shared_ptr<Resource> resource);
     void setPosition() override;
     void setPosition(sf::Vector2f position) override;

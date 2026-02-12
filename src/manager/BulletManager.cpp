@@ -13,15 +13,15 @@ void BulletManager::add_process(std::unique_ptr<Bullet> bullet)
     bulletlist_.emplace_back(std::move(bullet));
 }
 
-void BulletManager::add_process(BulletConfig& bulletconfig)
+void BulletManager::add_process(std::shared_ptr<BulletConfig> bulletconfig)
 {
-    if(bulletconfig.bulletclass_==BulletClasses::LinearBullet)
+    if(bulletconfig->bulletclass_==BulletClasses::LinearBullet)
     {
-        bulletlist_.emplace_back(std::make_unique<LinearBullet>(bulletconfig.texture_,bulletconfig.spawn_point_,bulletconfig.target_point_,bulletconfig.v_,bulletconfig.r_));
+        bulletlist_.emplace_back(std::make_unique<LinearBullet>(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->target_point_,bulletconfig->v_,bulletconfig->r_));
     }
-    if(bulletconfig.bulletclass_==BulletClasses::PlayerBullet)
+    if(bulletconfig->bulletclass_==BulletClasses::PlayerBullet)
     {
-        bulletlist_.emplace_back(std::make_unique<PlayerBullet>(bulletconfig.texture_,bulletconfig.spawn_point_,bulletconfig.frame_));
+        bulletlist_.emplace_back(std::make_unique<PlayerBullet>(bulletconfig->texture_,bulletconfig->spawn_point_));
     }
 }
 

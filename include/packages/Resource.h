@@ -14,4 +14,7 @@ public:
     BulletManager &bulletmanager_;
     CollisionSystem &collisionsystem_;
     std::shared_ptr<Player> player_;
+
+public:
+    void setPlayer(std::shared_ptr<Player> player);
 };

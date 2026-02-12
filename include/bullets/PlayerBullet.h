@@ -7,9 +7,9 @@ class Frame;
 class PlayerBullet:public Bullet
 {
 private:
-    Frame &outline_;
+    //Frame &outline_;
 
 public:
-    PlayerBullet(const sf::Texture &texture,sf::Vector2f position,Frame &outline);
+    PlayerBullet(const sf::Texture &texture,sf::Vector2f position);
     void update() override;
 };
