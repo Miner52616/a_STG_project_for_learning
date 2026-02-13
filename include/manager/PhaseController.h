@@ -11,14 +11,14 @@ class PhaseController
 {
 private:
     application &app_;
-    BulletManager &bulletmanager_;
+    //BulletManager &bulletmanager_;
     std::vector<std::shared_ptr<Phase>> &phaselist_; 
 
     int current_;
     bool change_;
 
 public:
-    PhaseController(application &app,BulletManager &bulletmanager,std::vector<std::shared_ptr<Phase>> &phaselist);
+    PhaseController(application &app,std::vector<std::shared_ptr<Phase>> &phaselist);
 
     void add_process(std::shared_ptr<Phase> phase);
     void update();

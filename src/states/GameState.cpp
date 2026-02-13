@@ -13,7 +13,7 @@ GameState::GameState(application &app):
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
     bulletmanager_(app,bulletlist_,bulletfactory_),
     collisionsystem_(bulletlist_),
-    phasecontroller_(app,bulletmanager_,phaselist_)
+    phasecontroller_(app,phaselist_)
 {
     std::cout<<"Game Loading..."<<std::endl;
 
