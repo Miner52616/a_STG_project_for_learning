@@ -11,7 +11,6 @@ class PhaseController
 {
 private:
     application &app_;
-    //BulletManager &bulletmanager_;
     std::vector<std::shared_ptr<Phase>> &phaselist_; 
 
     int current_;

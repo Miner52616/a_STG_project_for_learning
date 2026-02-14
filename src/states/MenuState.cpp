@@ -5,7 +5,7 @@
 #include <iostream>
 
 MenuState::MenuState(application &app):
-    ButtonState(app,MenuButtonNum)
+    ButtonState(app,MenuButtonNum),current_phase_(1),clock_(30)
 {
     buttonlist_[0].setButtonText("Start");
     buttonlist_[0].setButtonPosition({100,100});
@@ -19,6 +19,63 @@ MenuState::MenuState(application &app):
 
     buttonlist_[3].setButtonText("Quit");
     buttonlist_[3].setButtonPosition({100,400});
+
+    rec_.setspeed(0.1);
+    rec_.setSize({500,80});
+
+    clock_.reset();
+}
+
+void MenuState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
+{
+    if(current_phase_==1)
+    {
+        ButtonState<MenuState>::ProcessEvent(window,event);
+    }
+}
+
+void MenuState::Update()
+{
+    rec_.setTargetPosition({50,buttonlist_[focus_-1].getButtonPosition().y});
+
+    if(current_phase_==2)
+    {
+        if(clock_.get_condition())
+        {
+            clock_.reset();
+            current_phase_=1;
+            buttonlist_[focus_-1].setButtonShining(not_shining);
+            switch (focus_)
+            {
+                case 1:
+                {
+                    std::cout<<"choose difficulty\n";
+                    app_.stack_.pushRequest(std::make_unique<DifficultyState>(app_));
+                    break;
+                }
+
+                case 3:
+                {
+                    std::cout<<"manual for playing\n";
+                    app_.stack_.pushRequest(std::make_unique<ManualState>(app_));
+                    break;
+                }   
+                
+            default:
+                break;
+            }
+        }
+        clock_.count();
+    }
+
+    rec_.update();
+    ButtonState<MenuState>::Update();
+}
+
+void MenuState::Render(sf::RenderWindow& window)
+{
+    rec_.render(window);
+    ButtonState<MenuState>::Render(window);
 }
 
 void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed& key)
@@ -50,6 +107,9 @@ void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed
 
     if(key.code==sf::Keyboard::Key::Z)
     {
+        buttonlist_[focus_-1].setButtonShining(shining);
+        current_phase_=2;
+        
         switch (focus_)
         {
             case 4:
@@ -58,7 +118,7 @@ void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed
                 std::cout<<"window closed\n";
                 break;
             }
-        
+            /*
             case 1:
             {
                 std::cout<<"choose difficulty\n";
@@ -72,10 +132,11 @@ void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed
                 app_.stack_.pushRequest(std::make_unique<ManualState>(app_));
                 break;
             }
-        
+            */
         default:
             break;
         }
+            
     }
 }
 

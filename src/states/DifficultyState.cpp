@@ -4,7 +4,7 @@
 #include <iostream>
 
 DifficultyState::DifficultyState(application &app):
-    ButtonState(app,DifButtonNum)
+    ButtonState(app,DifButtonNum),current_phase_(1)
 {
     buttonlist_[0].setButtonText("Easy");
     buttonlist_[0].setButtonPosition({150,250});
@@ -17,6 +17,64 @@ DifficultyState::DifficultyState(application &app):
 
     buttonlist_[3].setButtonText("Lunatic");
     buttonlist_[3].setButtonPosition({450,550});
+}
+
+void DifficultyState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
+{
+    if(current_phase_==1)
+    {
+        ButtonState<DifficultyState>::ProcessEvent(window,event);
+    }
+}
+
+void DifficultyState::Update()
+{
+    if(current_phase_==2)
+    {
+        if(curtain_.getPosition().x>=0)
+        {
+            current_phase_=1;
+            switch (focus_)
+            {
+                case 1:
+                {
+                    std::cout<<"Easy mode\n";
+                    app_.stack_.pushRequest(std::make_unique<GameState>(app_));
+                    break;
+                }
+                
+                case 2:
+                {
+                    std::cout<<"Normal mode\n";
+                    break;
+                }
+
+                case 3:
+                {
+                    std::cout<<"Hard mode\n";
+                    break;
+                }
+
+                case 4:
+                {
+                    std::cout<<"Lunatic mode\n";
+                    break;
+                }
+        
+            default:
+                break;
+            }
+        }
+        curtain_.update();
+    }
+
+    ButtonState<DifficultyState>::Update();
+}
+
+void DifficultyState::Render(sf::RenderWindow& window)
+{
+    ButtonState<DifficultyState>::Render(window);
+    curtain_.render(window);
 }
 
 void DifficultyState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed& key)
@@ -48,6 +106,8 @@ void DifficultyState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyP
 
     if(key.code==sf::Keyboard::Key::Z)
     {
+        current_phase_=2;
+        /*
         switch (focus_)
         {
             case 1:
@@ -78,5 +138,6 @@ void DifficultyState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyP
         default:
             break;
         }
+            */
     }
 }

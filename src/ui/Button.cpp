@@ -2,17 +2,22 @@
 #include <iostream>
 
 Button::Button(const sf::Font &font):
-    font_(font),text_(font_),focused_(not_befocused),locked_(unlocked)
+    font_(font),text_(font_),focused_(not_befocused),locked_(unlocked),shining_(not_shining),shine_clock_(3)
 {
     text_.setString("input");
     text_.setCharacterSize(50);
     text_.setFillColor(sf::Color::White);
-    text_.setOrigin(text_.getGlobalBounds().getCenter());//存在问题！！button的原点实际仍在左上角
+    //text_.setOrigin(text_.getGlobalBounds().getCenter());//存在问题！！button的原点实际仍在左上角
 }
 
 sf::Text Button::getButtonText_()
 {
     return text_;
+}
+
+sf::Vector2f Button::getButtonPosition()
+{
+    return text_.getPosition();
 }
 
 void Button::setButtonText(const std::string text)
@@ -28,6 +33,11 @@ void Button::setButtonPosition(sf::Vector2f position)
 void Button::setButtonFocused(int focus)
 {
     focused_=focus;
+}
+
+void Button::setButtonShining(int shining)
+{
+    shining_=shining;
 }
 
 void Button::setButtonLock(int lock)
@@ -47,7 +57,26 @@ void Button::updateButton()
         text_.setStyle(sf::Text::Bold);
         if(focused_==befocused)
         {
-            text_.setFillColor(sf::Color::Yellow);
+            if(shining_==not_shining)
+            {
+                text_.setFillColor(sf::Color::Yellow);
+            }
+            else
+            {
+                if(shine_clock_.get_condition())
+                {
+                    shine_clock_.reset();
+                    if(text_.getFillColor()==sf::Color::Yellow)
+                    {
+                        text_.setFillColor(sf::Color(128,128,102));
+                    }
+                    else
+                    {
+                        text_.setFillColor(sf::Color::Yellow);
+                    }
+                }
+                shine_clock_.count();
+            }
         }
         else
         {

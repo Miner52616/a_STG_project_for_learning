@@ -18,6 +18,8 @@ GameState::GameState(application &app):
     std::cout<<"Game Loading..."<<std::endl;
 
     //****第一步————以下为创建对象，与资源无关设置初始化部分
+    curtain_.setPosition({0,0});
+    
     //初始化设置固定ui
     top_cover1.setPosition({0,0});
     top_cover1.setSize({1280,25});
@@ -145,6 +147,8 @@ void GameState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Ev
 
 void GameState::Update()
 {
+    curtain_.update();
+
     player_->Player_update();
 
     phasecontroller_.update();
@@ -185,6 +189,8 @@ void GameState::Render(sf::RenderWindow& window)
     window.draw(right_cover2);
     window.draw(bottom_cover1);
     window.draw(bottom_cover2);
+
+    curtain_.render(window);
 }
 
 void GameState::clock_update()

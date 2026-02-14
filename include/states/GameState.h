@@ -2,6 +2,7 @@
 #include "core/state.h"
 #include "core/Clock.h"
 #include "ui/Frame.h"
+#include "overlays/overlays/Curtain1.h"
 #include "packages/Resource.h"
 #include "entities/Player.h"
 #include "entities/Enemy.h"
@@ -25,6 +26,9 @@ class GameState:public State
 private:
     long long int frame_;
     Frame outline1;
+
+    Curtain1 curtain_;
+
     sf::RectangleShape top_cover1;
     sf::RectangleShape top_cover2;
     sf::RectangleShape left_cover1;
