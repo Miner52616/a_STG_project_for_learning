@@ -48,5 +48,11 @@ int Entity::getHitbox_r()
 void Entity::drawwindow(sf::RenderWindow& window)
 {
     window.draw(picture_);
-    window.draw(hitbox_);
+    //window.draw(hitbox_);
+}
+
+void Entity::drawtexture(sf::RenderTexture& texture)
+{
+    texture.draw(picture_);
+    //texture.draw(hitbox_);
 }

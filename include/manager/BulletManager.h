@@ -21,6 +21,7 @@ public:
     void update();
     void clear();
     void render(sf::RenderWindow& window);
+    void render(sf::RenderTexture& texture);
 
 private:
     void bulletlist_update();

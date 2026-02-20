@@ -22,6 +22,7 @@ public:
     void add_process(std::shared_ptr<Phase> phase);
     void update();
     void render(sf::RenderWindow& window);
+    void render(sf::RenderTexture& texture);
     void be_damage(float damage);
     void ProcessCollision();
     bool check_phase();

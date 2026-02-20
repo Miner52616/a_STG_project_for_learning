@@ -11,6 +11,7 @@ GameState::GameState(application &app):
     State(app),
     frame_(0),
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
+    window_sprite_(game_window_.getTexture()),
     bulletmanager_(app,bulletlist_,bulletfactory_),
     collisionsystem_(bulletlist_),
     phasecontroller_(app,phaselist_)
@@ -21,6 +22,7 @@ GameState::GameState(application &app):
     curtain_.setPosition({0,0});
     
     //初始化设置固定ui
+
     top_cover1.setPosition({0,0});
     top_cover1.setSize({1280,25});
     top_cover1.setFillColor(sf::Color::Black);
@@ -45,6 +47,11 @@ GameState::GameState(application &app):
     bottom_cover2.setPosition({70,930});
     bottom_cover2.setSize({780,5});
     bottom_cover2.setFillColor(sf::Color(128,128,128));
+
+    window_sprite_.setTexture(game_window_.getTexture());
+    window_sprite_.setScale({1.f,-1.f});
+    window_sprite_.setPosition({75,30+900});
+
     std::cout<<"UI Set"<<std::endl;
 
     //创建并“半"初始化资源。此时是弱资源，player指针为随机，访问会导致错误
@@ -168,11 +175,16 @@ void GameState::Update()
 
 void GameState::Render(sf::RenderWindow& window)
 {
+    game_window_.clear();
+
     outline1.drawwindow(window);
 
     player_->drawwindow(window);
+    player_->drawtexture(game_window_);
 
     phasecontroller_.render(window);
+    phasecontroller_.render(game_window_);
+
     if(!phasecontroller_.apply_change())
     {
         std::cout<<"Game Over"<<std::endl;
@@ -180,6 +192,7 @@ void GameState::Render(sf::RenderWindow& window)
     }
 
     bulletmanager_.render(window);
+    bulletmanager_.render(game_window_);
 
     window.draw(top_cover1);
     window.draw(top_cover2);
@@ -189,6 +202,9 @@ void GameState::Render(sf::RenderWindow& window)
     window.draw(right_cover2);
     window.draw(bottom_cover1);
     window.draw(bottom_cover2);
+
+    window_sprite_.setTexture(game_window_.getTexture());
+    window.draw(window_sprite_);
 
     curtain_.render(window);
 }

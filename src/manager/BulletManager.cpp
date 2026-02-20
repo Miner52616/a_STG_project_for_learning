@@ -59,6 +59,14 @@ void BulletManager::render(sf::RenderWindow& window)
 {
     bulletlist_render(window);
 }
+
+void BulletManager::render(sf::RenderTexture& texture)
+{
+    for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
+    {
+        (*it)->drawtexture(texture);
+    }
+}
 /*
 void BulletManager::playerbulletlist_add()
 {

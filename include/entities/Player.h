@@ -39,4 +39,5 @@ public:
     void setPosition(sf::Vector2f position) override;
     void Player_update();  //更新玩家属性
     void drawwindow(sf::RenderWindow& window) override;  //渲染玩家至屏幕
+    void drawtexture(sf::RenderTexture& texture) override;
 };

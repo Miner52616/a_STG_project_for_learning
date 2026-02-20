@@ -26,6 +26,7 @@ public:
     int getHitbox_r();  //获得实体碰撞半径
 
     virtual void drawwindow(sf::RenderWindow& window);  //渲染实体至屏幕
+    virtual void drawtexture(sf::RenderTexture& texture);
 
 public:
     Entity(/*application &app,*/const sf::Texture &texture);  //初始化资源引用，默认实体设置

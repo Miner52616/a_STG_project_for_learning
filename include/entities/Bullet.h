@@ -20,5 +20,6 @@ public:
     bool isOut();
     void markDead();
     float getDamage();
-    void drawwindow(sf::RenderWindow& window) override;  //渲染子弹至屏幕
+    //void drawwindow(sf::RenderWindow& window) override;  //渲染子弹至屏幕
+    //void drawtexture(sf::RenderTexture& texture) override;
 };

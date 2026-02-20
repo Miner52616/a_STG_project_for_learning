@@ -20,6 +20,7 @@ public:
     Boss(const sf::Texture &texture,std::shared_ptr<Resource> resource);
     virtual void update();
     virtual void render(sf::RenderWindow& window);
+    virtual void render(sf::RenderTexture& texture);
     void add_phase(std::shared_ptr<Phase> spellphase);
     PhaseController* getPhaseController();
     void be_damage(float damage);

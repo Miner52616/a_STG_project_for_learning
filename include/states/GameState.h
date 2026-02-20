@@ -27,6 +27,9 @@ private:
     long long int frame_;
     Frame outline1;
 
+    sf::RenderTexture game_window_{{770u,900u}};
+    sf::Sprite window_sprite_;
+
     Curtain1 curtain_;
 
     sf::RectangleShape top_cover1;

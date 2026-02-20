@@ -53,6 +53,12 @@ void SpellPhase::render(sf::RenderWindow& window)
     window.draw(HPline_);
 }
 
+void SpellPhase::render(sf::RenderTexture& texture)
+{
+    boss_->drawtexture(texture);
+    texture.draw(HPline_);
+}
+
 void SpellPhase::addBehavior(std::shared_ptr<Behavior> behavior)
 {
     behaviorlist_.emplace_back(std::move(behavior));

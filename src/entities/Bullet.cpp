@@ -39,7 +39,9 @@ float Bullet::getDamage()
     return damage_;
 }
 
+/*
 void Bullet::drawwindow(sf::RenderWindow& window)
 {
     window.draw(picture_);
 }
+    */

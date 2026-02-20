@@ -22,6 +22,14 @@ void EnemyManager::render(sf::RenderWindow& window)
     enemylist_render(window);
 }
 
+void EnemyManager::render(sf::RenderTexture& texture)
+{
+    for(auto it=enemylist_.begin();it!=enemylist_.end();++it)
+    {
+        (*it)->drawtexture(texture);
+    }
+}
+
 void EnemyManager::clear_dead()
 {
     enemylist_.erase

@@ -20,6 +20,11 @@ void Boss::render(sf::RenderWindow& window)
     phasecontroller_.render(window);
 }
 
+void Boss::render(sf::RenderTexture& texture)
+{
+    phasecontroller_.render(texture);
+}
+
 void Boss::add_phase(std::shared_ptr<Phase> spellphase)
 {
     phasecontroller_.add_process(std::move(spellphase));

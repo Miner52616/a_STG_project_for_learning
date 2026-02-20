@@ -36,6 +36,11 @@ void MidPhase::render(sf::RenderWindow& window)
     enemymanager_.render(window);
 }
 
+void MidPhase::render(sf::RenderTexture& texture)
+{
+    enemymanager_.render(texture);
+}
+
 void MidPhase::add_enemy(std::shared_ptr<Enemy> enemy)
 {
     enemymanager_.add_process(enemy);

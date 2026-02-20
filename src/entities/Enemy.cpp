@@ -94,6 +94,14 @@ void Enemy::drawwindow(sf::RenderWindow& window)
     }
 }
 
+void Enemy::drawtexture(sf::RenderTexture& texture)
+{
+    if(exist_)
+    {
+        texture.draw(picture_);
+    }
+}
+
 void Enemy::clock_count()
 {
     ;

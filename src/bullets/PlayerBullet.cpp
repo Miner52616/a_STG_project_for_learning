@@ -14,7 +14,7 @@ void PlayerBullet::update()
 
     setPosition({getPosition().x,getPosition().y-12});
 
-    if((getPosition().x<75)||(getPosition().y<-50)||(getPosition().x>845)||(getPosition().y>930))
+    if((getPosition().x<0)||(getPosition().y<-50)||(getPosition().x>770)||(getPosition().y>900))
     {
         dead_=true;
     }

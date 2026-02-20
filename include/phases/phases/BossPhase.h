@@ -14,6 +14,7 @@ public:
     BossPhase(std::shared_ptr<Resource> resource);
     void update() override;
     void render(sf::RenderWindow& window) override;
+    void render(sf::RenderTexture& texture) override;
     void setBoss(std::shared_ptr<Boss> boss);
     void be_damage(float damage) override;
     void ProcessCollision() override;

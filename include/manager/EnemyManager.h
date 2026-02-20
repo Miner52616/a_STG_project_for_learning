@@ -11,6 +11,7 @@ public:
     void add_process(std::shared_ptr<Enemy> enemy);
     void update(long long int frame);
     void render(sf::RenderWindow& window);
+    void render(sf::RenderTexture& texture);
     void clear_dead();
     void clear();
     void clock_count();

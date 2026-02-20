@@ -37,4 +37,5 @@ public:
     virtual void update(long long int frame);
     virtual void clock_count();
     void drawwindow(sf::RenderWindow& window) override;  //渲染敌人至屏幕
+    void drawtexture(sf::RenderTexture& texture) override;
 };

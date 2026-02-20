@@ -29,6 +29,11 @@ void BossPhase::render(sf::RenderWindow& window)
     boss_->render(window);
 }
 
+void BossPhase::render(sf::RenderTexture& texture)
+{
+    boss_->render(texture);
+}
+
 void BossPhase::setBoss(std::shared_ptr<Boss> boss)
 {
     boss_=std::move(boss);

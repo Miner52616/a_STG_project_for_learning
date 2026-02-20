@@ -36,6 +36,14 @@ void PhaseController::render(sf::RenderWindow& window)
     phaselist_[current_-1]->render(window);
 }
 
+void PhaseController::render(sf::RenderTexture& texture)
+{
+    if(phaselist_.empty()) return;
+    if (current_ > phaselist_.size()) return;
+
+    phaselist_[current_-1]->render(texture);
+}
+
 void PhaseController::be_damage(float damage)
 {
     phaselist_[current_-1]->be_damage(damage);

@@ -43,6 +43,7 @@ void Player::setBulletConfig()
 
 void Player::check_position()
 {
+    /*
     if(getPosition().x<outline_.getGlobalBounds().position.x+20)
     {
         setPosition({outline_.getGlobalBounds().position.x+20,getPosition().y});
@@ -58,6 +59,22 @@ void Player::check_position()
     if(getPosition().y>outline_.getGlobalBounds().position.y+outline_.getGlobalBounds().size.y-35)
     {
         setPosition({getPosition().x,outline_.getGlobalBounds().position.y+outline_.getGlobalBounds().size.y-35});
+    }*/
+    if(getPosition().x<20)
+    {
+        setPosition({20,getPosition().y});
+    }
+    if(getPosition().y<35)
+    {
+        setPosition({getPosition().x,35});
+    }
+    if(getPosition().x>770-20)
+    {
+        setPosition({770-20,getPosition().y});
+    }
+    if(getPosition().y>900-35)
+    {
+        setPosition({getPosition().x,900-35});
     }
 }
 
@@ -103,6 +120,15 @@ void Player::drawwindow(sf::RenderWindow& window)
     if(hitbox_exist_)
     {
         window.draw(point_);
+    }
+}
+
+void Player::drawtexture(sf::RenderTexture& texture)
+{
+    texture.draw(picture_);
+    if(hitbox_exist_)
+    {
+        texture.draw(point_);
     }
 }
 
