@@ -12,6 +12,7 @@ protected:
 
 public:
     Bullet(const sf::Texture &texture,sf::Vector2f position);  //初始化子弹位置，初始化资源引用，默认子弹设置
+    Bullet(const sf::Texture &texture,sf::Vector2f position,float damage);
 
 public:
     virtual void update()=0;

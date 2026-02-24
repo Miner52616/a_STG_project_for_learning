@@ -16,6 +16,8 @@ private:
     int speed_;
     bool request_shoot_;
     Clock clock_;
+    Clock life_clock_;
+    Clock bomb_clock_;
     Frame &outline_;
     //BulletManager &bulletmanager_;
     std::shared_ptr<Resource> resource_;
@@ -23,11 +25,15 @@ private:
 
     sf::CircleShape point_;
 
+    int life_;
+    int bomb_;
+
 private:
     void check_position();
 
 public:
     bool Handle_shoot_request();  //是否有发弹申请，使用后处理发弹申请
+    void useBomb();
     void clock_count();
 
 public:
@@ -37,6 +43,9 @@ public:
     void setResource(std::shared_ptr<Resource> resource);
     void setPosition() override;
     void setPosition(sf::Vector2f position) override;
+    int getLifeNum();
+    int getBombNum();
+    void be_damage();
     void Player_update();  //更新玩家属性
     void drawwindow(sf::RenderWindow& window) override;  //渲染玩家至屏幕
     void drawtexture(sf::RenderTexture& texture) override;

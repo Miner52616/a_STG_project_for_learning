@@ -7,6 +7,12 @@ Bullet::Bullet(const sf::Texture &texture,sf::Vector2f position):
     position_=position;
 }
 
+Bullet::Bullet(const sf::Texture &texture,sf::Vector2f position,float damage):
+    Entity(texture),exist_(true),dead_(false),ofplayer_(true),damage_(damage)
+{
+    position_=position;
+}
+
 bool Bullet::isDead()
 {
     return dead_;
@@ -19,7 +25,7 @@ bool Bullet::isPlayer()
 
 bool Bullet::isOut()
 {
-    if(getPosition().x<=0||getPosition().y<=0||getPosition().x>=1280||getPosition().y>=960)
+    if(getPosition().x<=0||getPosition().y<=0||getPosition().x>=770||getPosition().y>=900)
     {
         return true;
     }

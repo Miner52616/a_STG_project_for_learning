@@ -17,6 +17,8 @@ public:
     sf::Texture playerTexture_;
     sf::Texture enemyTexture_;
     sf::Texture bulletTexture_;
+    sf::Texture lifeUI_;
+    sf::Texture bombUI_;
 
 public:
     StateStack stack_;

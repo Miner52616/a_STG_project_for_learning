@@ -2,6 +2,9 @@
 #include "core/state.h"
 #include "core/Clock.h"
 #include "ui/Frame.h"
+#include "ui/NumLine1_1.h"
+#include "ui/NumLine1.h"
+#include "ui/Text.h"
 #include "overlays/overlays/Curtain1.h"
 #include "packages/Resource.h"
 #include "entities/Player.h"
@@ -25,13 +28,22 @@ class GameState:public State
 {
 private:
     long long int frame_;
+    long long int high_score_;
+    long long int score_;
+
     Frame outline1;
+    Text difficulty_;
+    NumLine1 high_score_line_;
+    NumLine1 score_line_;
+    NumLine1_1 life_line_;
+    NumLine1_1 bomb_line_;
 
     sf::RenderTexture game_window_{{770u,900u}};
     sf::Sprite window_sprite_;
 
     Curtain1 curtain_;
 
+    /*
     sf::RectangleShape top_cover1;
     sf::RectangleShape top_cover2;
     sf::RectangleShape left_cover1;
@@ -40,6 +52,7 @@ private:
     sf::RectangleShape right_cover2;
     sf::RectangleShape bottom_cover1;
     sf::RectangleShape bottom_cover2;
+    */
 
     std::vector<std::unique_ptr<Bullet>> bulletlist_;
     std::vector<std::shared_ptr<Phase>> phaselist_;

@@ -43,6 +43,7 @@ void CollisionSystem::HandleCollision(std::shared_ptr<Player> player,Bullet *bul
         if(isCollision(*player,*bullet))
         {
             bullet->markDead();
+            player->be_damage();
         }
     }
 }

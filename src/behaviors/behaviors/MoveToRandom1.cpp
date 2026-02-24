@@ -3,13 +3,13 @@
 #include "entities/Entity.h"
 
 MoveToRandom1::MoveToRandom1(std::shared_ptr<Entity> entity):
-    entity_(entity),nextposition_({460,100})
+    entity_(entity),nextposition_({385,100})
 {
     ;
 }
 
 MoveToRandom1::MoveToRandom1():
-    nextposition_({460,100})
+    nextposition_({385,100})
 {
     ;   
 }
@@ -20,7 +20,7 @@ void MoveToRandom1::update()
     entity_->setPosition((nextposition_-entity_->getPosition())*0.01f+entity_->getPosition());
     if(clock_.get_condition())
     {
-        nextposition_={getRandomNum(125,795),getRandomNum(20,300)};
+        nextposition_={getRandomNum(50,720),getRandomNum(20,300)};
         clock_.reset();
     }
     clock_.count();

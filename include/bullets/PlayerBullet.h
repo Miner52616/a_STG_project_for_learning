@@ -11,5 +11,6 @@ private:
 
 public:
     PlayerBullet(const sf::Texture &texture,sf::Vector2f position);
+    PlayerBullet(const sf::Texture &texture,sf::Vector2f position,float damage);
     void update() override;
 };

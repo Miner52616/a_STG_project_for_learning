@@ -10,7 +10,7 @@ SpellPhase::SpellPhase(std::shared_ptr<Resource> resource,int target_frame):
 {
     setHP(600);
     HPline_.setFillColor(sf::Color::White);
-    HPline_.setPosition({80,35});
+    HPline_.setPosition({5,5});
     HPline_.setSize({760,8});
 }
 

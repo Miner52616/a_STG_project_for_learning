@@ -9,7 +9,9 @@ application::application():
     mainFont_("assets/fonts/abc.ttf"),
     playerTexture_("assets/textures/player.png"),
     enemyTexture_("assets/textures/enemy.png"),
-    bulletTexture_("assets/textures/bullet.png")
+    bulletTexture_("assets/textures/bullet.png"),
+    lifeUI_("assets/textures/life.png"),
+    bombUI_("assets/textures/bomb.png")
 {
     window_.setFramerateLimit(60);
     gameview_.setSize({1280,960});

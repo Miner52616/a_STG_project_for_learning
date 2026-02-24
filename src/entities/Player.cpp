@@ -9,10 +9,14 @@ Player::Player(const sf::Texture &texture,Frame &outline,std::shared_ptr<Resourc
     hitbox_exist_(false),
     speed_(10),
     request_shoot_(false),
-    clock_((long long int)15),
+    clock_((long long int)2),
+    life_clock_((long long int)240),
+    bomb_clock_((long long int)180),
     outline_(outline),
-    resource_(resource)
+    resource_(resource),
     //bulletconfig_(resource_->app_.bulletTexture_)
+    life_(2),
+    bomb_(3)
 {
     std::cout<<"0"<<std::endl;
     point_.setRadius(6);
@@ -34,7 +38,7 @@ Player::Player(const sf::Texture &texture,Frame &outline,std::shared_ptr<Resourc
 void Player::setBulletConfig()
 {
     bulletconfig_=std::make_shared<BulletConfig>(resource_->app_.bulletTexture_);
-    bulletconfig_->damage_=100;
+    bulletconfig_->damage_=8;
     bulletconfig_->bulletclass_=BulletClasses::PlayerBullet;
     bulletconfig_->r_=10;
     bulletconfig_->v_=10;
@@ -91,9 +95,20 @@ bool Player::Handle_shoot_request()
     }
 }
 
+void Player::useBomb()
+{
+
+    if(bomb_>=1)
+    {
+        bomb_--;
+    }
+}
+
 void Player::clock_count()
 {
     clock_.count();
+    bomb_clock_.count();
+    life_clock_.count();
 }
 
 void Player::setResource(std::shared_ptr<Resource> resource)
@@ -112,6 +127,26 @@ void Player::setPosition(sf::Vector2f position)
 {
     position_=position;
     setPosition();
+}
+
+int Player::getLifeNum()
+{
+    return life_;
+}
+
+int Player::getBombNum()
+{
+    return bomb_;
+}
+
+void Player::be_damage()
+{
+    if((life_>=1)&&(life_clock_.get_condition()))
+    {
+        life_--;
+        setPosition({385,700});
+        life_clock_.reset();
+    }
 }
 
 void Player::drawwindow(sf::RenderWindow& window)
@@ -205,6 +240,15 @@ void Player::Player_update()
             resource_->bulletmanager_.add_process(bulletconfig_);
 
             clock_.reset();
+        }
+    }
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X))
+    {
+        if(bomb_clock_.get_condition())
+        {
+            useBomb();
+            bomb_clock_.reset();
         }
     }
 }

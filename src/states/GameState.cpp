@@ -10,6 +10,13 @@
 GameState::GameState(application &app):
     State(app),
     frame_(0),
+    high_score_(0),
+    score_(0),
+    difficulty_(app_.mainFont_),
+    high_score_line_(app_.mainFont_),
+    score_line_(app_.mainFont_),
+    life_line_(app_.mainFont_,app_.lifeUI_),
+    bomb_line_(app_.mainFont_,app_.bombUI_),
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
     window_sprite_(game_window_.getTexture()),
     bulletmanager_(app,bulletlist_,bulletfactory_),
@@ -22,7 +29,7 @@ GameState::GameState(application &app):
     curtain_.setPosition({0,0});
     
     //初始化设置固定ui
-
+    /*
     top_cover1.setPosition({0,0});
     top_cover1.setSize({1280,25});
     top_cover1.setFillColor(sf::Color::Black);
@@ -47,6 +54,26 @@ GameState::GameState(application &app):
     bottom_cover2.setPosition({70,930});
     bottom_cover2.setSize({780,5});
     bottom_cover2.setFillColor(sf::Color(128,128,128));
+    */
+
+    difficulty_.setTextPosition({980,20});
+    difficulty_.setTextText("Easy");
+    difficulty_.setTextSize(50);
+
+    high_score_line_.setLinePosition({865,130});
+    high_score_line_.setLineText("High Score");
+    high_score_line_.setMaxNum(999999999);
+    score_line_.setLinePosition({865,180});
+    score_line_.setLineText("         Score");
+    score_line_.setMaxNum(999999999);
+    life_line_.setLinePosition({865,250});
+    life_line_.setLineText("Life");
+    life_line_.setMaxNum(8);
+    life_line_.setCurrentNum(2);
+    bomb_line_.setLinePosition({865,300});
+    bomb_line_.setLineText("Bomb");
+    bomb_line_.setMaxNum(8);
+    bomb_line_.setCurrentNum(3);
 
     window_sprite_.setTexture(game_window_.getTexture());
     window_sprite_.setScale({1.f,-1.f});
@@ -62,7 +89,7 @@ GameState::GameState(application &app):
     //创建并初始化玩家对象
     player_=std::make_shared<Player>(app.playerTexture_,outline1,resource_);
     player_->setBulletConfig();
-    player_->setPosition({640,480});
+    player_->setPosition({385,450});
     player_->setResource(resource_);
     //完全初始化资源
     resource_->setPlayer(player_);//此时resource获取player指针
@@ -168,6 +195,11 @@ void GameState::Update()
 
     bulletmanager_.clear();
 
+    high_score_line_.setCurrentNum(high_score_);
+    score_line_.setCurrentNum(score_);
+    life_line_.setCurrentNum(player_->getLifeNum());
+    bomb_line_.setCurrentNum(player_->getBombNum());
+
     clock_update();
 
     frame_++;
@@ -179,10 +211,10 @@ void GameState::Render(sf::RenderWindow& window)
 
     outline1.drawwindow(window);
 
-    player_->drawwindow(window);
+    //player_->drawwindow(window);
     player_->drawtexture(game_window_);
 
-    phasecontroller_.render(window);
+    //phasecontroller_.render(window);
     phasecontroller_.render(game_window_);
 
     if(!phasecontroller_.apply_change())
@@ -191,9 +223,10 @@ void GameState::Render(sf::RenderWindow& window)
         app_.stack_.pushRequest(std::make_unique<PauseState>(app_));
     }
 
-    bulletmanager_.render(window);
+    //bulletmanager_.render(window);
     bulletmanager_.render(game_window_);
 
+    /*
     window.draw(top_cover1);
     window.draw(top_cover2);
     window.draw(left_cover1);
@@ -202,9 +235,17 @@ void GameState::Render(sf::RenderWindow& window)
     window.draw(right_cover2);
     window.draw(bottom_cover1);
     window.draw(bottom_cover2);
+    */
 
     window_sprite_.setTexture(game_window_.getTexture());
     window.draw(window_sprite_);
+
+    difficulty_.DrawText(window);
+
+    high_score_line_.render(window);
+    score_line_.render(window);
+    life_line_.render(window);
+    bomb_line_.render(window);
 
     curtain_.render(window);
 }

@@ -11,7 +11,10 @@ std::unique_ptr<Bullet> BulletFactory::create(std::shared_ptr<BulletConfig> bull
         }
         case BulletClasses::PlayerBullet:
         {
-            return std::make_unique<PlayerBullet>(bulletconfig->texture_,bulletconfig->spawn_point_);
+            if(bulletconfig->damage_==0)
+                return std::make_unique<PlayerBullet>(bulletconfig->texture_,bulletconfig->spawn_point_);
+            else
+                return std::make_unique<PlayerBullet>(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->damage_);
         }
         default:
         {
