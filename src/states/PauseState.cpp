@@ -6,16 +6,16 @@
 PauseState::PauseState(application &app):
     ButtonState(app,PauButtonNum)
 {
-    buttonlist_[0].setButtonText("Return to the game");
+    buttonlist_[0].setButtonText("Return to Game");
     buttonlist_[0].setButtonPosition({100,600});
 
-    buttonlist_[1].setButtonText("Return to title with replay");
+    buttonlist_[1].setButtonText("Save Replay and Return to Title");
     buttonlist_[1].setButtonPosition({100,700});
 
     buttonlist_[2].setButtonText("Manual");
     buttonlist_[2].setButtonPosition({100,800});
 
-    buttonlist_[3].setButtonText("Return");
+    buttonlist_[3].setButtonText("Return to Title");
     buttonlist_[3].setButtonPosition({100,900});
 }
 
