@@ -11,6 +11,7 @@
 #include "entities/Enemy.h"
 #include "entities/Boss.h"
 #include "entities/Bullet.h"
+#include "entities/Drop.h"
 #include "phases/phases/MidPhase.h"
 #include "phases/phases/VoidPhase.h"
 #include "phases/phases/BossPhase.h"
@@ -18,9 +19,12 @@
 #include "enemies/Enemy1.h"
 #include "behaviors/behaviors/AimShoot.h"
 #include "behaviors/behaviors/MoveToRandom1.h"
+#include "behaviors/behaviors/ScoreDrop1.h"
 #include "manager/EnemyManager.h"
 #include "manager/BulletManager.h"
 #include "manager/BulletFactory.h"
+#include "manager/DropManager.h"
+#include "manager/DropFactory.h"
 #include "manager/PhaseController.h"
 #include "manager/CollisionSystem.h"
 
@@ -55,10 +59,14 @@ private:
     */
 
     std::vector<std::unique_ptr<Bullet>> bulletlist_;
+    std::vector<std::unique_ptr<Drop>> droplist_;
     std::vector<std::shared_ptr<Phase>> phaselist_;
 
     BulletFactory bulletfactory_;
+    DropFactory dropfactory_;
+
     BulletManager bulletmanager_;
+    DropManager dropmanager_;
     CollisionSystem collisionsystem_;
     PhaseController phasecontroller_;
 
@@ -68,6 +76,7 @@ private:
     std::shared_ptr<Boss> boss1_;
     std::shared_ptr<SpellPhase> spell1_;
 
+    std::shared_ptr<ScoreDrop1> enemy1_drop_;
     std::shared_ptr<AimShoot1> enemy1_shoot_;
     std::shared_ptr<MoveToRandom1> enemy1_move_;
     std::shared_ptr<AimShoot1> enemy2_shoot_;

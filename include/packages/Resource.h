@@ -3,15 +3,17 @@
 
 class application;
 class BulletManager;
+class DropManager;
 class CollisionSystem;
 class Player;
 
 class Resource
 {
 public:
-    Resource(application &app,BulletManager &bulletmanager,CollisionSystem &collisionsystem,std::shared_ptr<Player> player);
+    Resource(application &app,BulletManager &bulletmanager,DropManager &dropmanager,CollisionSystem &collisionsystem,std::shared_ptr<Player> player);
     application &app_;
     BulletManager &bulletmanager_;
+    DropManager &dropmanager_;
     CollisionSystem &collisionsystem_;
     std::shared_ptr<Player> player_;
 

@@ -1,4 +1,5 @@
 #include "entities/Enemy.h"
+#include "packages/DropConfig.h"
 #include "manager/BulletManager.h"
 
 Enemy::Enemy(const sf::Texture &texture):
@@ -85,6 +86,13 @@ void Enemy::update(long long int frame)
         }
     }
 }
+
+/*
+void Enemy::addDrop(std::shared_ptr<DropConfig> dropconfig)
+{
+    droplist_.emplace_back(std::move(dropconfig));
+}
+*/
 
 void Enemy::drawwindow(sf::RenderWindow& window)
 {

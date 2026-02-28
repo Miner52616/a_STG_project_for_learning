@@ -9,5 +9,6 @@ std::unique_ptr<Drop> DropFactory::create(std::shared_ptr<DropConfig> dropconfig
     drop->setPosition(dropconfig->spawn_point_);
     drop->setType(dropconfig->droptype_);
 
+    //std::cout<<"create success"<<std::endl;
     return std::move(drop);
 }

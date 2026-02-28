@@ -20,6 +20,7 @@ GameState::GameState(application &app):
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
     window_sprite_(game_window_.getTexture()),
     bulletmanager_(app,bulletlist_,bulletfactory_),
+    dropmanager_(droplist_,dropfactory_),
     collisionsystem_(bulletlist_),
     phasecontroller_(app,phaselist_)
 {
@@ -82,7 +83,7 @@ GameState::GameState(application &app):
     std::cout<<"UI Set"<<std::endl;
 
     //创建并“半"初始化资源。此时是弱资源，player指针为随机，访问会导致错误
-    resource_=std::make_shared<Resource>(app,bulletmanager_,collisionsystem_,player_);
+    resource_=std::make_shared<Resource>(app,bulletmanager_,dropmanager_,collisionsystem_,player_);
     std::cout<<"Resource Set"<<std::endl;
 
     //resource和player互相持有对方指针。先创建的需要在后创建的创建后重新获取指针
@@ -96,6 +97,7 @@ GameState::GameState(application &app):
     std::cout<<"Player Set"<<std::endl;
 
     //创建行为对象
+    enemy1_drop_=std::make_shared<ScoreDrop1>();
     enemy1_move_=std::make_shared<MoveToRandom1>();
     enemy1_shoot_=std::make_shared<AimShoot1>(); 
     enemy2_move_=std::make_shared<MoveToRandom1>();
@@ -118,6 +120,7 @@ GameState::GameState(application &app):
     
     //****第二步————资源绑定部分
     //行为对象资源绑定
+    enemy1_drop_->set_resource(resource_);
     enemy1_move_->set_resource(resource_);
     enemy1_shoot_->set_resource(resource_);
     enemy2_move_->set_resource(resource_);
@@ -127,6 +130,7 @@ GameState::GameState(application &app):
 
     //****第三步————与资源相关的对象创建/设置初始化部分
     //行为对象资源相关初始化
+    enemy1_drop_->setDropConfig();
     enemy1_shoot_->setBulletConfig();
     enemy2_shoot_->setBulletConfig();
     spell1_shoot_->setBulletConfig();
@@ -139,6 +143,8 @@ GameState::GameState(application &app):
 
     //****第四步————对象间运行信息流上下级绑定部分
     //敌人/Boss对象与其下级行为/符卡相互绑定
+    enemy1_drop_->set_entity(enemy1_);
+    enemy1_->addBehavior(enemy1_drop_);
     enemy1_move_->set_entity(enemy1_);
     enemy1_->addBehavior(enemy1_move_);
     enemy1_shoot_->set_entity(enemy1_);
@@ -190,10 +196,12 @@ void GameState::Update()
 //    enemymanager_.update(frame_);
 
     bulletmanager_.update();//后续需要把清理子弹放到帧末统一处理，以不影响碰撞检测
-
+    dropmanager_.update();
+    
     handlecollision();
 
     bulletmanager_.clear();
+    dropmanager_.clear_dead();
 
     high_score_line_.setCurrentNum(high_score_);
     score_line_.setCurrentNum(score_);
@@ -224,6 +232,7 @@ void GameState::Render(sf::RenderWindow& window)
     }
 
     //bulletmanager_.render(window);
+    dropmanager_.render(game_window_);
     bulletmanager_.render(game_window_);
 
     /*

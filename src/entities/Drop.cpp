@@ -4,7 +4,7 @@
 #include "behaviors/behaviors/AimMove1.h"
 
 Drop::Drop(const sf::Texture &texture):
-    Entity(texture),getbox_r_(80)
+    Entity(texture),getbox_r_(80),phase_(1),v1_(-20),v2_(30),a_(0.5)
 {
     ;
 }
@@ -42,6 +42,7 @@ bool Drop::isDead()
 
 void Drop::update()
 {
+    //std::cout<<phase_<<std::endl;
     switch(phase_)
     {
         case 1:
@@ -49,15 +50,24 @@ void Drop::update()
             //move1_->update();//后续如果需要再加入可组合行为
             store_position();
             setPosition({getPosition().x,getPosition().y+v1_});
-            v1_=v1_+a_;                
+            v1_=v1_+a_;
+            //std::cout<<"drop move success"<<std::endl;
+            break;      
         }
         case 2:
         {
             //move2_->update();
             store_position();
             setPosition(getPosition()+v2_*((resource_->player_->getPosition()-getPosition())/((resource_->player_->getPosition()-getPosition()).length())));
+            //std::cout<<"aim move success"<<std::endl;
+            break;
         }
     }
+    if(getPosition().y>=950)
+    {
+        markDead();
+    }
+    //std::cout<<"update success"<<std::endl;
 }
 
 void Drop::drawtexture(sf::RenderTexture& texture)

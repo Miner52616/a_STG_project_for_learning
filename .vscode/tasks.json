@@ -29,6 +29,7 @@
         "src/behaviors/behaviors/AimShoot1.cpp",
         "src/behaviors/behaviors/AimMove1.cpp",
         "src/behaviors/behaviors/DropMove1.cpp",
+        "src/behaviors/behaviors/ScoreDrop1.cpp",
         "src/phases/Phase.cpp",
         "src/phases/basicphases/StartPhase.cpp",
         "src/phases/basicphases/TimePhase.cpp",

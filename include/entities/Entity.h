@@ -24,6 +24,7 @@ public:
     sf::Vector2f getPosition();  //获得实体位置
     sf::Vector2f getprevPosition();
     int getHitbox_r();  //获得实体碰撞半径
+    virtual bool isDead(){return false;}
 
     virtual void drawwindow(sf::RenderWindow& window);  //渲染实体至屏幕
     virtual void drawtexture(sf::RenderTexture& texture);

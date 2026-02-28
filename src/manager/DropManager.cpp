@@ -1,4 +1,5 @@
 #include "manager/DropManager.h"
+#include <iostream>
 
 DropManager::DropManager(std::vector<std::unique_ptr<Drop>> &droplist,DropFactory &dropfactory):
     droplist_(droplist),dropfactory_(dropfactory)
@@ -9,6 +10,7 @@ DropManager::DropManager(std::vector<std::unique_ptr<Drop>> &droplist,DropFactor
 void DropManager::add_process(std::shared_ptr<DropConfig> dropconfig)
 {
     droplist_.emplace_back(std::move(dropfactory_.create(dropconfig)));
+    //std::cout<<"add success"<<std::endl;
 }
 
 void DropManager::update()
@@ -40,6 +42,7 @@ void DropManager::clear_dead()
         ),
         droplist_.end()
     );
+    //std::cout<<"clear success"<<std::endl;
 }
 
 void DropManager::render(sf::RenderTexture& texture)
@@ -48,4 +51,5 @@ void DropManager::render(sf::RenderTexture& texture)
     {
         (*it)->drawtexture(texture);
     }
+    //std::cout<<"render success"<<std::endl;
 }

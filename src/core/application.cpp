@@ -10,6 +10,7 @@ application::application():
     playerTexture_("assets/textures/player.png"),
     enemyTexture_("assets/textures/enemy.png"),
     bulletTexture_("assets/textures/bullet.png"),
+    score_dropTexture_("assets/textures/score_drop.png"),
     lifeUI_("assets/textures/life.png"),
     bombUI_("assets/textures/bomb.png")
 {
