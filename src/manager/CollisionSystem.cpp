@@ -5,9 +5,10 @@
 #include "entities/Enemy.h"
 #include "entities/Player.h"
 #include "entities/Bullet.h"
+#include "entities/Drop.h"
 
-CollisionSystem::CollisionSystem(std::vector<std::unique_ptr<Bullet>> &bulletlist):
-    bulletlist_(bulletlist)
+CollisionSystem::CollisionSystem(std::vector<std::unique_ptr<Bullet>> &bulletlist,std::vector<std::unique_ptr<Drop>> &droplist):
+    bulletlist_(bulletlist),droplist_(droplist)
 {
     ;
 }
@@ -48,6 +49,22 @@ void CollisionSystem::HandleCollision(std::shared_ptr<Player> player,Bullet *bul
     }
 }
 
+void CollisionSystem::HandleCollision(std::shared_ptr<Player> player,Drop *drop)
+{
+    if(isCollision(*player,*drop))
+    {
+        drop->markDead();
+    }
+}
+
+void CollisionSystem::HandleBeGet(std::shared_ptr<Player> player,Drop *drop)
+{
+    if(isGet(*player,*drop))
+    {
+        drop->setPhase(2);
+    }
+}
+
 void CollisionSystem::ProcessCollision(std::shared_ptr<Boss> boss)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
@@ -69,5 +86,10 @@ void CollisionSystem::ProcessCollision(std::shared_ptr<Player> player)
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {
         HandleCollision(player,it->get());
+    }
+    for(auto it=droplist_.begin();it!=droplist_.end();++it)
+    {
+        HandleCollision(player,it->get());
+        HandleBeGet(player,it->get());
     }
 }

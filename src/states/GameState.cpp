@@ -21,7 +21,7 @@ GameState::GameState(application &app):
     window_sprite_(game_window_.getTexture()),
     bulletmanager_(app,bulletlist_,bulletfactory_),
     dropmanager_(droplist_,dropfactory_),
-    collisionsystem_(bulletlist_),
+    collisionsystem_(bulletlist_,droplist_),
     phasecontroller_(app,phaselist_)
 {
     std::cout<<"Game Loading..."<<std::endl;
@@ -120,6 +120,7 @@ GameState::GameState(application &app):
     
     //****第二步————资源绑定部分
     //行为对象资源绑定
+    dropfactory_.set_Resourse(resource_);
     enemy1_drop_->set_resource(resource_);
     enemy1_move_->set_resource(resource_);
     enemy1_shoot_->set_resource(resource_);

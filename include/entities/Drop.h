@@ -34,6 +34,7 @@ public:
     void setPhase(int phase);
     void setMove(std::shared_ptr<Behavior> move1,std::shared_ptr<Behavior> move2);
     void markDead();
+    int getGetbox_r();
     bool isDead();
 
     void update();

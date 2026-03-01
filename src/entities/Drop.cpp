@@ -22,6 +22,7 @@ void Drop::setType(DropType type)
 void Drop::setPhase(int phase)
 {
     phase_=phase;
+    //std::cout<<"set phase success"<<std::endl;
 }
 
 void Drop::setMove(std::shared_ptr<Behavior> move1,std::shared_ptr<Behavior> move2)
@@ -33,6 +34,11 @@ void Drop::setMove(std::shared_ptr<Behavior> move1,std::shared_ptr<Behavior> mov
 void Drop::markDead()
 {
     dead_=true;
+}
+
+int Drop::getGetbox_r()
+{
+    return getbox_r_;
 }
 
 bool Drop::isDead()
@@ -58,6 +64,8 @@ void Drop::update()
         {
             //move2_->update();
             store_position();
+            //resource_->player_->getPosition();
+            //sf::Vector2f p=getPosition()+v2_*((resource_->player_->getPosition()-getPosition())/((resource_->player_->getPosition()-getPosition()).length()));
             setPosition(getPosition()+v2_*((resource_->player_->getPosition()-getPosition())/((resource_->player_->getPosition()-getPosition()).length())));
             //std::cout<<"aim move success"<<std::endl;
             break;
