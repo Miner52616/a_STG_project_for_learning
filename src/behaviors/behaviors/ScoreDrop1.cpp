@@ -1,6 +1,7 @@
 #include "core/application.h"
 #include "behaviors/behaviors/ScoreDrop1.h"
 #include "packages/DropConfig.h"
+#include "mathematics/mathematics.h"
 #include "manager/DropManager.h"
 #include "entities/Drop.h"
 #include "entities/Enemy.h"
@@ -27,8 +28,13 @@ void ScoreDrop1::update()
 {
     if(entity_->isDead())
     {
-        dropconfig_->spawn_point_=entity_->getPosition();
-        resource_->dropmanager_.add_process(dropconfig_);
+        sf::Vector2f point=entity_->getPosition();       
+        //dropconfig_->spawn_point_=entity_->getPosition()+sf::Vector2f{getRandomNum(-80,80),getRandomNum(-80,80)};
+        for(int i=1;i<=10;i++)
+        {
+            dropconfig_->spawn_point_=point+sf::Vector2f{getRandomNum(-80,80),getRandomNum(-80,80)};
+            resource_->dropmanager_.add_process(dropconfig_);
+        }
     }
 }
 

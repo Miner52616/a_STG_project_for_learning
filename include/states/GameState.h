@@ -79,6 +79,7 @@ private:
     std::shared_ptr<ScoreDrop1> enemy1_drop_;
     std::shared_ptr<AimShoot1> enemy1_shoot_;
     std::shared_ptr<MoveToRandom1> enemy1_move_;
+    std::shared_ptr<ScoreDrop1> enemy2_drop_;
     std::shared_ptr<AimShoot1> enemy2_shoot_;
     std::shared_ptr<MoveToRandom1> enemy2_move_;
     std::shared_ptr<AimShoot1> spell1_shoot_;

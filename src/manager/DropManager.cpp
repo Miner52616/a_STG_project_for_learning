@@ -1,4 +1,5 @@
 #include "manager/DropManager.h"
+#include "entities/Player.h"
 #include <iostream>
 
 DropManager::DropManager(std::vector<std::unique_ptr<Drop>> &droplist,DropFactory &dropfactory):
@@ -13,8 +14,20 @@ void DropManager::add_process(std::shared_ptr<DropConfig> dropconfig)
     //std::cout<<"add success"<<std::endl;
 }
 
+void DropManager::set_resource(std::shared_ptr<Resource> resource)
+{
+    resource_=std::move(resource);
+}
+
 void DropManager::update()
 {
+    if(resource_->player_->getPosition().y<=300)
+    {
+        for(auto it=droplist_.begin();it!=droplist_.end();++it)
+        {
+            (*it)->setPhase(2);
+        }
+    }
     for(auto it=droplist_.begin();it!=droplist_.end();++it)
     {
         (*it)->update();

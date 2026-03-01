@@ -4,7 +4,7 @@
 #include "behaviors/behaviors/AimMove1.h"
 
 Drop::Drop(const sf::Texture &texture):
-    Entity(texture),getbox_r_(80),phase_(1),v1_(-20),v2_(30),a_(0.5)
+    Entity(texture),getbox_r_(80),phase_(1),v1_(-5),v2_(10),v2final_(30),a_(0.1)
 {
     ;
 }
@@ -57,6 +57,15 @@ void Drop::update()
             store_position();
             setPosition({getPosition().x,getPosition().y+v1_});
             v1_=v1_+a_;
+            if(v1_>=6)
+            {
+                v1_=6;
+            }
+            v2final_=((resource_->player_->getPosition()-getPosition()).length())/(getbox_r_/v2_);
+            if(v2final_>=20)
+            {
+                v2final_=20;
+            }
             //std::cout<<"drop move success"<<std::endl;
             break;      
         }
@@ -66,7 +75,7 @@ void Drop::update()
             store_position();
             //resource_->player_->getPosition();
             //sf::Vector2f p=getPosition()+v2_*((resource_->player_->getPosition()-getPosition())/((resource_->player_->getPosition()-getPosition()).length()));
-            setPosition(getPosition()+v2_*((resource_->player_->getPosition()-getPosition())/((resource_->player_->getPosition()-getPosition()).length())));
+            setPosition(getPosition()+v2final_*((resource_->player_->getPosition()-getPosition())/((resource_->player_->getPosition()-getPosition()).length())));
             //std::cout<<"aim move success"<<std::endl;
             break;
         }

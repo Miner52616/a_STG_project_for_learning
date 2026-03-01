@@ -25,6 +25,7 @@ protected:
 
     float v1_=-20;
     float v2_=30;
+    float v2final_=30;
     float a_=0.5;
 
 public:

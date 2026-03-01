@@ -100,10 +100,12 @@ GameState::GameState(application &app):
     enemy1_drop_=std::make_shared<ScoreDrop1>();
     enemy1_move_=std::make_shared<MoveToRandom1>();
     enemy1_shoot_=std::make_shared<AimShoot1>(); 
+    enemy2_drop_=std::make_shared<ScoreDrop1>();
     enemy2_move_=std::make_shared<MoveToRandom1>();
     enemy2_shoot_=std::make_shared<AimShoot1>(); 
     spell1_move_=std::make_shared<MoveToRandom1>();
     spell1_shoot_=std::make_shared<AimShoot1>(); 
+    std::cout<<"Behavior Create"<<std::endl;
     
     //创建并初始化敌人/Boss对象
     enemy1_=std::make_shared<Enemy>(app.enemyTexture_);
@@ -117,22 +119,28 @@ GameState::GameState(application &app):
     boss1_=std::make_shared<Boss>(app.playerTexture_,resource_);
     boss1_->setPosition({460,150});
     spell1_=std::make_shared<SpellPhase>(resource_,360);
-    
+    std::cout<<"Entity Create"<<std::endl;
+
     //****第二步————资源绑定部分
     //行为对象资源绑定
     dropfactory_.set_Resourse(resource_);
+    dropmanager_.set_resource(resource_);
+
     enemy1_drop_->set_resource(resource_);
     enemy1_move_->set_resource(resource_);
     enemy1_shoot_->set_resource(resource_);
+    enemy2_drop_->set_resource(resource_);
     enemy2_move_->set_resource(resource_);
     enemy2_shoot_->set_resource(resource_);
     spell1_move_->set_resource(resource_);
     spell1_shoot_->set_resource(resource_);
-
+    std::cout<<"Resource Bundle"<<std::endl;
+    
     //****第三步————与资源相关的对象创建/设置初始化部分
     //行为对象资源相关初始化
     enemy1_drop_->setDropConfig();
     enemy1_shoot_->setBulletConfig();
+    enemy2_drop_->setDropConfig();
     enemy2_shoot_->setBulletConfig();
     spell1_shoot_->setBulletConfig();
 
@@ -150,6 +158,8 @@ GameState::GameState(application &app):
     enemy1_->addBehavior(enemy1_move_);
     enemy1_shoot_->set_entity(enemy1_);
     enemy1_->addBehavior(enemy1_shoot_);
+    enemy2_drop_->set_entity(enemy2_);
+    enemy2_->addBehavior(enemy2_drop_);
     enemy2_move_->set_entity(enemy2_);
     enemy2_->addBehavior(enemy2_move_);
     enemy2_shoot_->set_entity(enemy2_);
