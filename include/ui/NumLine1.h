@@ -13,6 +13,7 @@ protected:
 
 public:
     NumLine1(const sf::Font &font);
+    int getCurrentNum();
     void setLineText(const std::string text);
     void setLinePosition(sf::Vector2f position);
     void setLineSize(float size);

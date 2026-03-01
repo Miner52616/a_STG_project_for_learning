@@ -6,11 +6,18 @@
 #include "entities/Player.h"
 #include "entities/Bullet.h"
 #include "entities/Drop.h"
+#include "ui/NumLine1.h"
+#include "mathematics/mathematics.h"
 
 CollisionSystem::CollisionSystem(std::vector<std::unique_ptr<Bullet>> &bulletlist,std::vector<std::unique_ptr<Drop>> &droplist):
     bulletlist_(bulletlist),droplist_(droplist)
 {
     ;
+}
+
+void CollisionSystem::set_resource(std::shared_ptr<Resource> resource)
+{
+    resource_=std::move(resource);
 }
 
 void CollisionSystem::HandleCollision(std::shared_ptr<Boss> boss,Bullet *bullet)
@@ -54,6 +61,7 @@ void CollisionSystem::HandleCollision(std::shared_ptr<Player> player,Drop *drop)
     if(isCollision(*player,*drop))
     {
         drop->markDead();
+        resource_->score_line_.setCurrentNum(resource_->score_line_.getCurrentNum()+the_min(500,750*((900-drop->getPosition().y)/900))+500);
     }
 }
 

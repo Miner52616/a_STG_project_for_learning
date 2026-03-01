@@ -63,9 +63,11 @@ GameState::GameState(application &app):
 
     high_score_line_.setLinePosition({865,130});
     high_score_line_.setLineText("High Score");
+    high_score_line_.setCurrentNum(0);
     high_score_line_.setMaxNum(999999999);
     score_line_.setLinePosition({865,180});
     score_line_.setLineText("         Score");
+    score_line_.setCurrentNum(0);
     score_line_.setMaxNum(999999999);
     life_line_.setLinePosition({865,250});
     life_line_.setLineText("Life");
@@ -83,7 +85,7 @@ GameState::GameState(application &app):
     std::cout<<"UI Set"<<std::endl;
 
     //创建并“半"初始化资源。此时是弱资源，player指针为随机，访问会导致错误
-    resource_=std::make_shared<Resource>(app,bulletmanager_,dropmanager_,collisionsystem_,player_);
+    resource_=std::make_shared<Resource>(app,bulletmanager_,dropmanager_,collisionsystem_,player_,high_score_line_,score_line_);
     std::cout<<"Resource Set"<<std::endl;
 
     //resource和player互相持有对方指针。先创建的需要在后创建的创建后重新获取指针
@@ -125,6 +127,7 @@ GameState::GameState(application &app):
     //行为对象资源绑定
     dropfactory_.set_Resourse(resource_);
     dropmanager_.set_resource(resource_);
+    collisionsystem_.set_resource(resource_);
 
     enemy1_drop_->set_resource(resource_);
     enemy1_move_->set_resource(resource_);
@@ -214,8 +217,8 @@ void GameState::Update()
     bulletmanager_.clear();
     dropmanager_.clear_dead();
 
-    high_score_line_.setCurrentNum(high_score_);
-    score_line_.setCurrentNum(score_);
+    //high_score_line_.setCurrentNum(high_score_);
+    //score_line_.setCurrentNum(score_);
     life_line_.setCurrentNum(player_->getLifeNum());
     bomb_line_.setCurrentNum(player_->getBombNum());
 

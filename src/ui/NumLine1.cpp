@@ -7,6 +7,11 @@ NumLine1::NumLine1(const sf::Font &font):
     text_.setCharacterSize(35);
 }
 
+int NumLine1::getCurrentNum()
+{
+    return current_num_;
+}
+
 void NumLine1::setLineText(const std::string text)
 {
     text_.setString(text);

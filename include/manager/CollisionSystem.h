@@ -7,12 +7,14 @@ class Drop;
 class Boss;
 class Enemy;
 class Player;
+class Resource;
 
 class CollisionSystem
 {
 protected:
     std::vector<std::unique_ptr<Bullet>> &bulletlist_;
     std::vector<std::unique_ptr<Drop>> &droplist_;
+    std::shared_ptr<Resource> resource_;
 
     void HandleCollision(std::shared_ptr<Boss> A,Bullet *B);
     void HandleCollision(std::shared_ptr<Enemy> A,Bullet *B);
@@ -22,6 +24,8 @@ protected:
 
 public:
     CollisionSystem(std::vector<std::unique_ptr<Bullet>> &bulletlist,std::vector<std::unique_ptr<Drop>> &droplist);
+    void set_resource(std::shared_ptr<Resource> resource);
+    
     void ProcessCollision(std::shared_ptr<Boss> A);
     void ProcessCollision(std::shared_ptr<Enemy> A);
     void ProcessCollision(std::shared_ptr<Player> A);
