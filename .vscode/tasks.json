@@ -20,6 +20,7 @@
         "src/packages/Resource.cpp",
         "src/packages/BulletConfig.cpp",
         "src/packages/DropConfig.cpp",
+        "src/packages/YellowPage.cpp",
         "src/overlays/Overlay.cpp",
         "src/overlays/overlays/RecShape1.cpp",
         "src/overlays/overlays/RecShape.cpp",

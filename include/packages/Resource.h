@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include "packages/YellowPage.h"
 
 class application;
 class BulletManager;
@@ -17,8 +18,9 @@ public:
     DropManager &dropmanager_;
     CollisionSystem &collisionsystem_;
     std::shared_ptr<Player> player_;
-    NumLine1 &high_score_line_;
-    NumLine1 &score_line_;
+    YellowPage yellowpage_;
+    //NumLine1 &high_score_line_;
+    //NumLine1 &score_line_;
 
 public:
     void setPlayer(std::shared_ptr<Player> player);

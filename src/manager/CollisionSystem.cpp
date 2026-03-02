@@ -61,7 +61,7 @@ void CollisionSystem::HandleCollision(std::shared_ptr<Player> player,Drop *drop)
     if(isCollision(*player,*drop))
     {
         drop->markDead();
-        resource_->score_line_.setCurrentNum(resource_->score_line_.getCurrentNum()+the_min(500,750*((900-drop->getPosition().y)/900))+500);
+        resource_->yellowpage_.score_line_.setCurrentNum(resource_->yellowpage_.score_line_.getCurrentNum()+the_min(500,750*((900-drop->getPosition().y)/900))+500);
     }
 }
 
