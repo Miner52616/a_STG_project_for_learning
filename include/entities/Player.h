@@ -7,6 +7,7 @@
 class application;
 class Frame;
 class BulletManager;
+class Child_Plane;
 
 //玩家，作为游戏中的自机
 class Player:public Entity
@@ -22,6 +23,7 @@ private:
     //BulletManager &bulletmanager_;
     std::shared_ptr<Resource> resource_;
     std::shared_ptr<BulletConfig> bulletconfig_;
+    std::vector<std::unique_ptr<Child_Plane>> child_planes_;
 
     sf::CircleShape point_;
 
@@ -49,4 +51,23 @@ public:
     void Player_update();  //更新玩家属性
     void drawwindow(sf::RenderWindow& window) override;  //渲染玩家至屏幕
     void drawtexture(sf::RenderTexture& texture) override;
+};
+
+class Child_Plane:public Entity
+{
+private:
+    Clock clock_;
+    sf::Vector2f target_position_;
+    std::shared_ptr<Resource> resource_;
+    std::shared_ptr<BulletConfig> bulletconfig_;
+
+public:
+    Child_Plane(const sf::Texture &texture);
+    void update();
+    //void drawtexture(sf::RenderTexture& texture);
+
+    void setTargetPosition(sf::Vector2f target_position);
+    void setBulletConfig();
+    void setResource(std::shared_ptr<Resource> resource);
+    void clock_count();
 };

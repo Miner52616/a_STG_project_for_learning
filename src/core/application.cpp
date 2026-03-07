@@ -11,6 +11,7 @@ application::application():
     enemyTexture_("assets/textures/enemy.png"),
     bulletTexture_("assets/textures/bullet.png"),
     score_dropTexture_("assets/textures/score_drop.png"),
+    child_planeTexture_("assets/textures/child_plane.png"),
     lifeUI_("assets/textures/life.png"),
     bombUI_("assets/textures/bomb.png")
 {

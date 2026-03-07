@@ -18,6 +18,7 @@ public:
     sf::Texture enemyTexture_;
     sf::Texture bulletTexture_;
     sf::Texture score_dropTexture_;
+    sf::Texture child_planeTexture_;
     sf::Texture lifeUI_;
     sf::Texture bombUI_;
 
