@@ -11,7 +11,12 @@ void Behavior::set_target(long long int target_frame)
     clock_.set_target(target_frame);
 }
 
-void Behavior::set_resource(std::shared_ptr<Resource> resource)
+void Behavior::set_resource(Resource* resource)
 {
     resource_=resource;
+}
+
+void Behavior::set_YellowPage(YellowPage* yellowpage)
+{
+    yellowpage_=yellowpage;
 }

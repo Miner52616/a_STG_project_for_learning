@@ -1,5 +1,6 @@
 #pragma once
 #include "packages/Resource.h"
+#include "packages/YellowPage.h"
 #include <SFML/Graphics.hpp>
 
 class application;
@@ -13,12 +14,13 @@ protected:
     //application &app_;
     //BulletManager &bulletmanager_;
     //CollisionSystem &collisionsystem_;
-    std::shared_ptr<Resource> resource_;
+    Resource* resource_;
+    YellowPage* yellowpage_;
 
     bool change_;
 
 public:
-    Phase(std::shared_ptr<Resource> resource);
+    Phase(Resource* resource,YellowPage* yellowpage);
     virtual void update()=0;
     virtual void render(sf::RenderWindow& window)=0;
     virtual void render(sf::RenderTexture& texture)=0;

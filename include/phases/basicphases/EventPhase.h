@@ -4,5 +4,5 @@
 class EventPhase:public Phase
 {
 public:
-    EventPhase(std::shared_ptr<Resource> resource);
+    EventPhase(Resource* resource,YellowPage* yellowpage);
 };

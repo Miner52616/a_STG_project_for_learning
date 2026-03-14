@@ -15,12 +15,17 @@ CollisionSystem::CollisionSystem(std::vector<std::unique_ptr<Bullet>> &bulletlis
     ;
 }
 
-void CollisionSystem::set_resource(std::shared_ptr<Resource> resource)
+void CollisionSystem::set_resource(Resource* resource)
 {
-    resource_=std::move(resource);
+    resource_=resource;
 }
 
-void CollisionSystem::HandleCollision(std::shared_ptr<Boss> boss,Bullet *bullet)
+void CollisionSystem::set_yellowpage(YellowPage* yellowpage)
+{
+    yellowpage_=yellowpage;
+}
+
+void CollisionSystem::HandleCollision(Boss* boss,Bullet *bullet)
 {
     if(bullet->isPlayer())
     {
@@ -32,7 +37,7 @@ void CollisionSystem::HandleCollision(std::shared_ptr<Boss> boss,Bullet *bullet)
     }
 }
 
-void CollisionSystem::HandleCollision(std::shared_ptr<Enemy> enemy,Bullet *bullet)
+void CollisionSystem::HandleCollision(Enemy* enemy,Bullet *bullet)
 {
     if((bullet->isPlayer())&&(enemy->isExist()))
     {
@@ -44,7 +49,7 @@ void CollisionSystem::HandleCollision(std::shared_ptr<Enemy> enemy,Bullet *bulle
     }
 }
 
-void CollisionSystem::HandleCollision(std::shared_ptr<Player> player,Bullet *bullet)
+void CollisionSystem::HandleCollision(Player* player,Bullet *bullet)
 {
     if(!bullet->isPlayer())
     {
@@ -56,16 +61,16 @@ void CollisionSystem::HandleCollision(std::shared_ptr<Player> player,Bullet *bul
     }
 }
 
-void CollisionSystem::HandleCollision(std::shared_ptr<Player> player,Drop *drop)
+void CollisionSystem::HandleCollision(Player* player,Drop *drop)
 {
     if(isCollision(*player,*drop))
     {
         drop->markDead();
-        resource_->yellowpage_.score_line_.setCurrentNum(resource_->yellowpage_.score_line_.getCurrentNum()+the_min(500,750*((900-drop->getPosition().y)/900))+500);
+        yellowpage_->score_line_.setCurrentNum(yellowpage_->score_line_.getCurrentNum()+the_min(500,750*((900-drop->getPosition().y)/900))+500);
     }
 }
 
-void CollisionSystem::HandleBeGet(std::shared_ptr<Player> player,Drop *drop)
+void CollisionSystem::HandleBeGet(Player* player,Drop *drop)
 {
     if(isGet(*player,*drop))
     {
@@ -73,7 +78,7 @@ void CollisionSystem::HandleBeGet(std::shared_ptr<Player> player,Drop *drop)
     }
 }
 
-void CollisionSystem::ProcessCollision(std::shared_ptr<Boss> boss)
+void CollisionSystem::ProcessCollision(Boss* boss)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {
@@ -81,7 +86,7 @@ void CollisionSystem::ProcessCollision(std::shared_ptr<Boss> boss)
     }
 }
 
-void CollisionSystem::ProcessCollision(std::shared_ptr<Enemy> enemy)
+void CollisionSystem::ProcessCollision(Enemy* enemy)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {
@@ -89,7 +94,7 @@ void CollisionSystem::ProcessCollision(std::shared_ptr<Enemy> enemy)
     }
 }
 
-void CollisionSystem::ProcessCollision(std::shared_ptr<Player> player)
+void CollisionSystem::ProcessCollision(Player* player)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {

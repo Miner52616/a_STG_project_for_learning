@@ -1,6 +1,6 @@
 #include "entities/Boss.h"
 
-Boss::Boss(const sf::Texture &texture,std::shared_ptr<Resource> resource):
+Boss::Boss(const sf::Texture &texture,Resource* resource):
     Entity(texture),resource_(resource),phasecontroller_(resource->app_,phaselist_),beaten_(false)
 {
     ;
@@ -25,9 +25,9 @@ void Boss::render(sf::RenderTexture& texture)
     phasecontroller_.render(texture);
 }
 
-void Boss::add_phase(std::shared_ptr<Phase> spellphase)
+void Boss::add_phase(Phase* spellphase)
 {
-    phasecontroller_.add_process(std::move(spellphase));
+    phasecontroller_.add_process(spellphase);
 }
 
 PhaseController* Boss::getPhaseController()

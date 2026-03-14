@@ -66,7 +66,7 @@ bool Enemy::isDead()
     return dead_;
 }
 
-void Enemy::addBehavior(std::shared_ptr<Behavior> behavior)
+void Enemy::addBehavior(Behavior* behavior)
 {
     behaviorlist_.emplace_back(std::move(behavior));
 }

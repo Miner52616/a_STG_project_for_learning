@@ -14,14 +14,19 @@ void DropManager::add_process(std::shared_ptr<DropConfig> dropconfig)
     //std::cout<<"add success"<<std::endl;
 }
 
-void DropManager::set_resource(std::shared_ptr<Resource> resource)
+void DropManager::set_resource(Resource* resource)
 {
-    resource_=std::move(resource);
+    resource_=resource;
+}
+
+void DropManager::set_yellowpage(YellowPage* yellowpage)
+{
+    yellowpage_=yellowpage;
 }
 
 void DropManager::update()
 {
-    if(resource_->player_->getPosition().y<=300)
+    if(yellowpage_->player_->getPosition().y<=300)
     {
         for(auto it=droplist_.begin();it!=droplist_.end();++it)
         {
@@ -30,6 +35,7 @@ void DropManager::update()
     }
     for(auto it=droplist_.begin();it!=droplist_.end();++it)
     {
+        std::cout<<"drop update start"<<std::endl;
         (*it)->update();
     }
 }
@@ -43,6 +49,7 @@ void DropManager::clear_dead()
             droplist_.begin(),droplist_.end(),
             [this](const std::unique_ptr<Drop>& drop)
             {
+                std::cout<<"drop clear update"<<std::endl;
                 if(drop->isDead())
                 {
                     return true;

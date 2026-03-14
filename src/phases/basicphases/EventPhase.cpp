@@ -1,7 +1,7 @@
 #include "phases/basicphases/EventPhase.h"
 
-EventPhase::EventPhase(std::shared_ptr<Resource> resource):
-    Phase(resource)
+EventPhase::EventPhase(Resource* resource,YellowPage* yellowpage):
+    Phase(resource,yellowpage)
 {
     ;
 }

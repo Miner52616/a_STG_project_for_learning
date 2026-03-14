@@ -8,13 +8,13 @@ class BulletManager;
 class AimShoot1:public Behavior
 {
 private:
-    std::shared_ptr<Entity> entity_;
+    Entity* entity_;
     std::shared_ptr<BulletConfig> bulletconfig_;
 
 public:
-    AimShoot1(std::shared_ptr<Entity> entity);
+    AimShoot1(Entity* entity);
     AimShoot1();
     void update() override;
-    void set_entity(std::shared_ptr<Entity> entity);
+    void set_entity(Entity* entity);
     void setBulletConfig();
 };

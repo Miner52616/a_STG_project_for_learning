@@ -4,6 +4,6 @@
 class StartPhase:public Phase
 {
 public:
-    StartPhase(std::shared_ptr<Resource> resource);
+    StartPhase(Resource* resource,YellowPage* yellowpage);
     void render(sf::RenderWindow& window) override;
 };

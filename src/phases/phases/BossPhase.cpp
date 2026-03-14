@@ -1,14 +1,14 @@
 #include "phases/phases/BossPhase.h"
 #include "entities/Player.h"
 
-BossPhase::BossPhase(std::shared_ptr<Resource> resource,std::shared_ptr<Boss> boss):
-    EventPhase(resource),boss_(boss)
+BossPhase::BossPhase(Resource* resource,YellowPage* yellowpage,Boss* boss):
+    EventPhase(resource,yellowpage),boss_(boss)
 {
     ;
 }
 
-BossPhase::BossPhase(std::shared_ptr<Resource> resource):
-    EventPhase(resource)
+BossPhase::BossPhase(Resource* resource,YellowPage* yellowpage):
+    EventPhase(resource,yellowpage)
 {
     ;
 }
@@ -34,9 +34,9 @@ void BossPhase::render(sf::RenderTexture& texture)
     boss_->render(texture);
 }
 
-void BossPhase::setBoss(std::shared_ptr<Boss> boss)
+void BossPhase::setBoss(Boss* boss)
 {
-    boss_=std::move(boss);
+    boss_=boss;
 }
 
 void BossPhase::be_damage(float damage)

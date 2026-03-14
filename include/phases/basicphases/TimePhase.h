@@ -10,7 +10,7 @@ protected:
     int target_frame_;
     
 public:
-    TimePhase(std::shared_ptr<Resource> resource,int target_frame);
+    TimePhase(Resource* resource,YellowPage* yellowpage,int target_frame);
 
 protected:
     void frame_forward();

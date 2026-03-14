@@ -9,9 +9,14 @@ Drop::Drop(const sf::Texture &texture):
     ;
 }
 
-void Drop::setResource(std::shared_ptr<Resource> resource)
+void Drop::setResource(Resource* resource)
 {
-    resource_=std::move(resource);
+    resource_=resource;
+}
+
+void Drop::setYellowPage(YellowPage* yellowpage)
+{
+    yellowpage_=yellowpage;
 }
 
 void Drop::setType(DropType type)
@@ -61,7 +66,7 @@ void Drop::update()
             {
                 v1_=6;
             }
-            v2final_=((resource_->player_->getPosition()-getPosition()).length())/(getbox_r_/v2_);
+            v2final_=((yellowpage_->player_->getPosition()-getPosition()).length())/(getbox_r_/v2_);
             if(v2final_>=20)
             {
                 v2final_=20;
@@ -75,7 +80,7 @@ void Drop::update()
             store_position();
             //resource_->player_->getPosition();
             //sf::Vector2f p=getPosition()+v2_*((resource_->player_->getPosition()-getPosition())/((resource_->player_->getPosition()-getPosition()).length()));
-            setPosition(getPosition()+v2final_*((resource_->player_->getPosition()-getPosition())/((resource_->player_->getPosition()-getPosition()).length())));
+            setPosition(getPosition()+v2final_*((yellowpage_->player_->getPosition()-getPosition())/((yellowpage_->player_->getPosition()-getPosition()).length())));
             //std::cout<<"aim move success"<<std::endl;
             break;
         }

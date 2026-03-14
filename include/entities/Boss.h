@@ -9,19 +9,19 @@ class Boss:public Entity
 {
 protected:
     //BulletManager &bulletmanager_;//只是用于申请发射子弹
-    std::shared_ptr<Resource> resource_;
+    Resource* resource_;
 
-    std::vector<std::shared_ptr<Phase>> phaselist_;//只管怎么更新boss（移动与发弹），无需维护子弹
+    std::vector<Phase*> phaselist_;//只管怎么更新boss（移动与发弹），无需维护子弹
     PhaseController phasecontroller_;
 
     bool beaten_;
 
 public:
-    Boss(const sf::Texture &texture,std::shared_ptr<Resource> resource);
+    Boss(const sf::Texture &texture,Resource* resource);
     virtual void update();
     virtual void render(sf::RenderWindow& window);
     virtual void render(sf::RenderTexture& texture);
-    void add_phase(std::shared_ptr<Phase> spellphase);
+    void add_phase(Phase* spellphase);
     PhaseController* getPhaseController();
     void be_damage(float damage);
     void ProcessCollision();

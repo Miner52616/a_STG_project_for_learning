@@ -7,7 +7,7 @@
 #include "entities/Enemy.h"
 #include <iostream>
 
-ScoreDrop1::ScoreDrop1(std::shared_ptr<Entity> entity):
+ScoreDrop1::ScoreDrop1(Entity* entity):
     entity_(entity)
 {
     ;
@@ -28,6 +28,7 @@ void ScoreDrop1::update()
 {
     if(entity_->isDead())
     {
+        std::cout<<"score"<<std::endl;
         sf::Vector2f point=entity_->getPosition();       
         //dropconfig_->spawn_point_=entity_->getPosition()+sf::Vector2f{getRandomNum(-80,80),getRandomNum(-80,80)};
         for(int i=1;i<=10;i++)
@@ -35,10 +36,11 @@ void ScoreDrop1::update()
             dropconfig_->spawn_point_=point+sf::Vector2f{getRandomNum(-80,80),getRandomNum(-80,80)};
             resource_->dropmanager_.add_process(dropconfig_);
         }
+        std::cout<<"score ok"<<std::endl;
     }
 }
 
-void ScoreDrop1::set_entity(std::shared_ptr<Entity> entity)
+void ScoreDrop1::set_entity(Entity* entity)
 {
-    entity_=std::move(entity);
+    entity_=entity;
 }

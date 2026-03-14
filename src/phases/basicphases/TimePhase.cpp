@@ -3,8 +3,8 @@
 #include "manager/EnemyManager.h"
 #include "manager/BulletManager.h"
 
-TimePhase::TimePhase(std::shared_ptr<Resource> resource,int target_frame):
-    Phase(resource),frame_(0),target_frame_(target_frame)
+TimePhase::TimePhase(Resource* resource,YellowPage* yellowpage,int target_frame):
+    Phase(resource,yellowpage),frame_(0),target_frame_(target_frame)
 {
     ;
 }

@@ -85,7 +85,8 @@ GameState::GameState(application &app):
     std::cout<<"UI Set"<<std::endl;
 
     //创建并“半"初始化资源。此时是弱资源，player指针为随机，访问会导致错误
-    resource_=std::make_shared<Resource>(app,bulletmanager_,dropmanager_,collisionsystem_,player_,high_score_line_,score_line_);
+    resource_=std::make_shared<Resource>(app,bulletmanager_,dropmanager_,collisionsystem_,(Player*)NULL,high_score_line_,score_line_);
+    yellowpage_=std::make_unique<YellowPage>((Player*)NULL,high_score_line_,score_line_);
     std::cout<<"Resource Set"<<std::endl;
 
     //resource和player互相持有对方指针。先创建的需要在后创建的创建后重新获取指针
@@ -95,7 +96,8 @@ GameState::GameState(application &app):
     player_->setPosition({385,450});
     player_->setResource(resource_);
     //完全初始化资源
-    resource_->setPlayer(player_);//此时resource获取player指针
+    yellowpage_->setPlayer(player_.get());//此时yellowpage获取player指针
+    //resource_->setPlayer(player_);//此时resource获取player指针
     std::cout<<"Player Set"<<std::endl;
 
     //创建行为对象
@@ -118,25 +120,36 @@ GameState::GameState(application &app):
     enemy2_->setPosition({460,100});
     enemy2_->setHP(200);
     enemy2_->set_start_end(240,216000);
-    boss1_=std::make_shared<Boss>(app.playerTexture_,resource_);
+    boss1_=std::make_shared<Boss>(app.playerTexture_,resource_.get());
     boss1_->setPosition({460,150});
-    spell1_=std::make_shared<SpellPhase>(resource_,360);
+    spell1_=std::make_shared<SpellPhase>(resource_.get(),yellowpage_.get(),360);
     std::cout<<"Entity Create"<<std::endl;
 
     //****第二步————资源绑定部分
     //行为对象资源绑定
-    dropfactory_.set_Resourse(resource_);
-    dropmanager_.set_resource(resource_);
-    collisionsystem_.set_resource(resource_);
+    dropfactory_.set_Resourse(resource_.get());
+    dropfactory_.set_YellowPage(yellowpage_.get());
+    dropmanager_.set_resource(resource_.get());
+    dropmanager_.set_yellowpage(yellowpage_.get());
+    collisionsystem_.set_resource(resource_.get());
+    collisionsystem_.set_yellowpage(yellowpage_.get());
 
-    enemy1_drop_->set_resource(resource_);
-    enemy1_move_->set_resource(resource_);
-    enemy1_shoot_->set_resource(resource_);
-    enemy2_drop_->set_resource(resource_);
-    enemy2_move_->set_resource(resource_);
-    enemy2_shoot_->set_resource(resource_);
-    spell1_move_->set_resource(resource_);
-    spell1_shoot_->set_resource(resource_);
+    enemy1_drop_->set_resource(resource_.get());
+    enemy1_drop_->set_YellowPage(yellowpage_.get());
+    enemy1_move_->set_resource(resource_.get());
+    enemy1_move_->set_YellowPage(yellowpage_.get());
+    enemy1_shoot_->set_resource(resource_.get());
+    enemy1_shoot_->set_YellowPage(yellowpage_.get());
+    enemy2_drop_->set_resource(resource_.get());
+    enemy2_drop_->set_YellowPage(yellowpage_.get());
+    enemy2_move_->set_resource(resource_.get());
+    enemy2_move_->set_YellowPage(yellowpage_.get());
+    enemy2_shoot_->set_resource(resource_.get());
+    enemy2_shoot_->set_YellowPage(yellowpage_.get());
+    spell1_move_->set_resource(resource_.get());
+    spell1_move_->set_YellowPage(yellowpage_.get());
+    spell1_shoot_->set_resource(resource_.get());
+    spell1_shoot_->set_YellowPage(yellowpage_.get());
     std::cout<<"Resource Bundle"<<std::endl;
     
     //****第三步————与资源相关的对象创建/设置初始化部分
@@ -148,42 +161,42 @@ GameState::GameState(application &app):
     spell1_shoot_->setBulletConfig();
 
     //游戏阶段对象创建并初始化
-    midphase1_=std::make_shared<MidPhase>(resource_,600);
-    voidphase1_=std::make_shared<VoidPhase>(resource_,180);
-    bossphase1_=std::make_shared<BossPhase>(resource_);
-    voidphase2_=std::make_shared<VoidPhase>(resource_,180);
+    midphase1_=std::make_shared<MidPhase>(resource_.get(),yellowpage_.get(),600);
+    voidphase1_=std::make_shared<VoidPhase>(resource_.get(),yellowpage_.get(),180);
+    bossphase1_=std::make_shared<BossPhase>(resource_.get(),yellowpage_.get());
+    voidphase2_=std::make_shared<VoidPhase>(resource_.get(),yellowpage_.get(),180);
 
     //****第四步————对象间运行信息流上下级绑定部分
     //敌人/Boss对象与其下级行为/符卡相互绑定
-    enemy1_drop_->set_entity(enemy1_);
-    enemy1_->addBehavior(enemy1_drop_);
-    enemy1_move_->set_entity(enemy1_);
-    enemy1_->addBehavior(enemy1_move_);
-    enemy1_shoot_->set_entity(enemy1_);
-    enemy1_->addBehavior(enemy1_shoot_);
-    enemy2_drop_->set_entity(enemy2_);
-    enemy2_->addBehavior(enemy2_drop_);
-    enemy2_move_->set_entity(enemy2_);
-    enemy2_->addBehavior(enemy2_move_);
-    enemy2_shoot_->set_entity(enemy2_);
-    enemy2_->addBehavior(enemy2_shoot_);
-    spell1_move_->set_entity(boss1_);
-    spell1_->addBehavior(spell1_move_);
-    spell1_shoot_->set_entity(boss1_);
-    spell1_->addBehavior(spell1_shoot_);
-    spell1_->setBoss(boss1_);
-    boss1_->add_phase(spell1_);
+    enemy1_drop_->set_entity(enemy1_.get());
+    enemy1_->addBehavior(enemy1_drop_.get());
+    enemy1_move_->set_entity(enemy1_.get());
+    enemy1_->addBehavior(enemy1_move_.get());
+    enemy1_shoot_->set_entity(enemy1_.get());
+    enemy1_->addBehavior(enemy1_shoot_.get());
+    enemy2_drop_->set_entity(enemy2_.get());
+    enemy2_->addBehavior(enemy2_drop_.get());
+    enemy2_move_->set_entity(enemy2_.get());
+    enemy2_->addBehavior(enemy2_move_.get());
+    enemy2_shoot_->set_entity(enemy2_.get());
+    enemy2_->addBehavior(enemy2_shoot_.get());
+    spell1_move_->set_entity(boss1_.get());
+    spell1_->addBehavior(spell1_move_.get());
+    spell1_shoot_->set_entity(boss1_.get());
+    spell1_->addBehavior(spell1_shoot_.get());
+    spell1_->setBoss(boss1_.get());
+    boss1_->add_phase(spell1_.get());
     
     //游戏阶段对象与敌人/Boss对象相互绑定
-    midphase1_->add_enemy(enemy1_);
-    midphase1_->add_enemy(enemy2_);
-    bossphase1_->setBoss(boss1_);
+    midphase1_->add_enemy(enemy1_.get());
+    midphase1_->add_enemy(enemy2_.get());
+    bossphase1_->setBoss(boss1_.get());
 
     //游戏阶段对象与游戏阶段控制器相互绑定
-    phasecontroller_.add_process(midphase1_);
-    phasecontroller_.add_process(voidphase1_);
-    phasecontroller_.add_process(bossphase1_);
-    phasecontroller_.add_process(voidphase2_);
+    phasecontroller_.add_process(midphase1_.get());
+    phasecontroller_.add_process(voidphase1_.get());
+    phasecontroller_.add_process(bossphase1_.get());
+    phasecontroller_.add_process(voidphase2_.get());
 
     std::cout<<"Game Prepared"<<std::endl;
 }
@@ -206,16 +219,21 @@ void GameState::Update()
     player_->Player_update();
 
     phasecontroller_.update();
-
+    std::cout<<"phase update"<<std::endl;
 //    enemymanager_.update(frame_);
 
     bulletmanager_.update();//后续需要把清理子弹放到帧末统一处理，以不影响碰撞检测
+    std::cout<<"enemy update"<<std::endl;
     dropmanager_.update();
+    std::cout<<"drop update"<<std::endl;
     
     handlecollision();
+    std::cout<<"collision update"<<std::endl;
 
     bulletmanager_.clear();
+    std::cout<<"bullet clear"<<std::endl;
     dropmanager_.clear_dead();
+    std::cout<<"enemy clear"<<std::endl;
 
     //high_score_line_.setCurrentNum(high_score_);
     //score_line_.setCurrentNum(score_);

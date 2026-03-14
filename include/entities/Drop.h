@@ -2,6 +2,7 @@
 #include "entities/Entity.h"
 #include "behaviors/Behavior.h"
 #include "packages/Resource.h"
+#include "packages/YellowPage.h"
 #include "packages/DropConfig.h"
 /*
 enum class DropType
@@ -14,7 +15,8 @@ enum class DropType
 class Drop:public Entity
 {
 protected:
-    std::shared_ptr<Resource> resource_;
+    Resource* resource_;
+    YellowPage* yellowpage_;
 
     bool dead_=false;
     int getbox_r_;
@@ -30,7 +32,8 @@ protected:
 
 public:
     Drop(const sf::Texture &texture);
-    void setResource(std::shared_ptr<Resource> resource);
+    void setResource(Resource* resource);
+    void setYellowPage(YellowPage* yellowpage);
     void setType(DropType type);
     void setPhase(int phase);
     void setMove(std::shared_ptr<Behavior> move1,std::shared_ptr<Behavior> move2);

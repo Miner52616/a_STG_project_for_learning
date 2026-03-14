@@ -5,8 +5,8 @@
 #include "bullets/LinearBullet.h"
 #include "entities/Boss.h"
 
-SpellPhase::SpellPhase(std::shared_ptr<Resource> resource,int target_frame):
-    TimePhase(resource,target_frame),boss_(NULL),moveclock_(240),shootclock_(60),nextposition_(460,200),fullHP_(1000),HP_(1000)
+SpellPhase::SpellPhase(Resource* resource,YellowPage* yellowpage,int target_frame):
+    TimePhase(resource,yellowpage,target_frame),boss_(NULL),moveclock_(240),shootclock_(60),nextposition_(460,200),fullHP_(1000),HP_(1000)
 {
     setHP(600);
     HPline_.setFillColor(sf::Color::White);
@@ -59,9 +59,9 @@ void SpellPhase::render(sf::RenderTexture& texture)
     texture.draw(HPline_);
 }
 
-void SpellPhase::addBehavior(std::shared_ptr<Behavior> behavior)
+void SpellPhase::addBehavior(Behavior* behavior)
 {
-    behaviorlist_.emplace_back(std::move(behavior));
+    behaviorlist_.emplace_back(behavior);
 }
 
 void SpellPhase::setHP(float HP)
@@ -78,10 +78,10 @@ void SpellPhase::be_damage(float damage)
 void SpellPhase::ProcessCollision()
 {
     resource_->collisionsystem_.ProcessCollision(boss_);
-    resource_->collisionsystem_.ProcessCollision(resource_->player_);
+    resource_->collisionsystem_.ProcessCollision(yellowpage_->player_);
 }
 
-void SpellPhase::setBoss(std::shared_ptr<Boss> boss)
+void SpellPhase::setBoss(Boss* boss)
 {
     boss_=boss;
 }

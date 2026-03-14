@@ -17,7 +17,7 @@ AimMove1::AimMove1():
 void AimMove1::update()
 {
     entity_->store_position();
-    entity_->setPosition(entity_->getPosition()+v_*((resource_->player_->getPosition()-entity_->getPosition())/((resource_->player_->getPosition()-entity_->getPosition()).length())));
+    entity_->setPosition(entity_->getPosition()+v_*((yellowpage_->player_->getPosition()-entity_->getPosition())/((yellowpage_->player_->getPosition()-entity_->getPosition()).length())));
 }
 
 void AimMove1::set_entity(std::shared_ptr<Entity> entity)

@@ -7,6 +7,7 @@
 #include "ui/Text.h"
 #include "overlays/overlays/Curtain1.h"
 #include "packages/Resource.h"
+#include "packages/YellowPage.h"
 #include "entities/Player.h"
 #include "entities/Enemy.h"
 #include "entities/Boss.h"
@@ -60,7 +61,7 @@ private:
 
     std::vector<std::unique_ptr<Bullet>> bulletlist_;
     std::vector<std::unique_ptr<Drop>> droplist_;
-    std::vector<std::shared_ptr<Phase>> phaselist_;
+    std::vector<Phase*> phaselist_;
 
     BulletFactory bulletfactory_;
     DropFactory dropfactory_;
@@ -91,6 +92,7 @@ private:
     std::shared_ptr<VoidPhase> voidphase2_;
 
     std::shared_ptr<Resource> resource_;
+    std::unique_ptr<YellowPage> yellowpage_;
 
 public:
     void ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理被分发到的事件

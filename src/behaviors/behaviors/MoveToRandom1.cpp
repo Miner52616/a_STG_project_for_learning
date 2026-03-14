@@ -2,7 +2,7 @@
 #include "mathematics/mathematics.h"
 #include "entities/Entity.h"
 
-MoveToRandom1::MoveToRandom1(std::shared_ptr<Entity> entity):
+MoveToRandom1::MoveToRandom1(Entity* entity):
     entity_(entity),nextposition_({385,100})
 {
     ;
@@ -26,7 +26,7 @@ void MoveToRandom1::update()
     clock_.count();
 }   
 
-void MoveToRandom1::set_entity(std::shared_ptr<Entity> entity)
+void MoveToRandom1::set_entity(Entity* entity)
 {
-    entity_=std::move(entity);
+    entity_=entity;
 }

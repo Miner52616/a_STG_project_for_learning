@@ -4,8 +4,8 @@
 #include "manager/BulletManager.h"
 #include "manager/CollisionSystem.h"
 
-Phase::Phase(std::shared_ptr<Resource> resource):
-    resource_(resource),change_(false)
+Phase::Phase(Resource* resource,YellowPage* yellowpage):
+    resource_(resource),yellowpage_(yellowpage),change_(false)
 {
     ;
 }

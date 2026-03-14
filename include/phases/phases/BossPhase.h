@@ -7,15 +7,15 @@ class Player;
 class BossPhase:public EventPhase
 {
 protected:
-    std::shared_ptr<Boss> boss_;
+    Boss* boss_;
 
 public:
-    BossPhase(std::shared_ptr<Resource> resource,std::shared_ptr<Boss> boss);
-    BossPhase(std::shared_ptr<Resource> resource);
+    BossPhase(Resource* resource,YellowPage* yellowpage,Boss* boss);
+    BossPhase(Resource* resource,YellowPage* yellowpage);
     void update() override;
     void render(sf::RenderWindow& window) override;
     void render(sf::RenderTexture& texture) override;
-    void setBoss(std::shared_ptr<Boss> boss);
+    void setBoss(Boss* boss);
     void be_damage(float damage) override;
     void ProcessCollision() override;
 };
