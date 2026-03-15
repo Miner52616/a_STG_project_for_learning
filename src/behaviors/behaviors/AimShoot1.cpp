@@ -14,6 +14,12 @@ AimShoot1::AimShoot1()
     ;
 }
 
+AimShoot1::AimShoot1(Resource* resource,YellowPage* yellowpage):
+    Behavior(resource,yellowpage)
+{
+    setBulletConfig();
+}
+
 void AimShoot1::setBulletConfig()
 {
     bulletconfig_=std::make_shared<BulletConfig>(resource_->app_.bulletTexture_);

@@ -14,6 +14,12 @@ AimMove1::AimMove1():
     ;
 }
 
+AimMove1::AimMove1(Resource* resource,YellowPage* yellowpage):
+    Behavior(resource,yellowpage),v_(20)
+{
+    ;
+}
+
 void AimMove1::update()
 {
     entity_->store_position();

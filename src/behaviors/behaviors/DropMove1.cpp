@@ -13,6 +13,12 @@ DropMove1::DropMove1():
     ;
 }
 
+DropMove1::DropMove1(Resource* resource,YellowPage* yellowpage):
+    Behavior(resource,yellowpage),nextposition_({385,100}),v_(-20),a_(0.5)
+{
+    ;
+}
+
 void DropMove1::update()
 {
     entity_->store_position();

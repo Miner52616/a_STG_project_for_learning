@@ -6,6 +6,18 @@ Behavior::Behavior():
     ;
 }
 
+Behavior::Behavior(Resource* resource,YellowPage* yellowpage):
+    clock_(180),resource_(resource),yellowpage_(yellowpage)
+{
+    ;
+}
+
+Behavior::Behavior(Resource* resource,YellowPage* yellowpage,long long int target_frame):
+    clock_(target_frame),resource_(resource),yellowpage_(yellowpage)
+{
+    ;
+}
+
 void Behavior::set_target(long long int target_frame)
 {
     clock_.set_target(target_frame);

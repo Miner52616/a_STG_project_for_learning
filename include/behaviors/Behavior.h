@@ -13,6 +13,8 @@ protected:
 
 public:
     Behavior();
+    Behavior(Resource* resource,YellowPage* yellowpage);
+    Behavior(Resource* resource,YellowPage* yellowpage,long long int target_frame);
     virtual void update()=0;
     void set_target(long long int target_frame);
     void set_resource(Resource* resource);

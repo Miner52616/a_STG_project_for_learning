@@ -71,27 +71,27 @@ private:
     CollisionSystem collisionsystem_;
     PhaseController phasecontroller_;
 
-    std::shared_ptr<Player> player_;
-    std::shared_ptr<Enemy> enemy1_;
-    std::shared_ptr<Enemy> enemy2_;
-    std::shared_ptr<Boss> boss1_;
-    std::shared_ptr<SpellPhase> spell1_;
+    std::unique_ptr<Player> player_;
+    std::unique_ptr<Enemy> enemy1_;
+    std::unique_ptr<Enemy> enemy2_;
+    std::unique_ptr<Boss> boss1_;
+    std::unique_ptr<SpellPhase> spell1_;
 
-    std::shared_ptr<ScoreDrop1> enemy1_drop_;
-    std::shared_ptr<AimShoot1> enemy1_shoot_;
-    std::shared_ptr<MoveToRandom1> enemy1_move_;
-    std::shared_ptr<ScoreDrop1> enemy2_drop_;
-    std::shared_ptr<AimShoot1> enemy2_shoot_;
-    std::shared_ptr<MoveToRandom1> enemy2_move_;
-    std::shared_ptr<AimShoot1> spell1_shoot_;
-    std::shared_ptr<MoveToRandom1> spell1_move_;
+    std::unique_ptr<ScoreDrop1> enemy1_drop_;
+    std::unique_ptr<AimShoot1> enemy1_shoot_;
+    std::unique_ptr<MoveToRandom1> enemy1_move_;
+    std::unique_ptr<ScoreDrop1> enemy2_drop_;
+    std::unique_ptr<AimShoot1> enemy2_shoot_;
+    std::unique_ptr<MoveToRandom1> enemy2_move_;
+    std::unique_ptr<AimShoot1> spell1_shoot_;
+    std::unique_ptr<MoveToRandom1> spell1_move_;
 
-    std::shared_ptr<MidPhase> midphase1_;
-    std::shared_ptr<VoidPhase> voidphase1_;
-    std::shared_ptr<BossPhase> bossphase1_;
-    std::shared_ptr<VoidPhase> voidphase2_;
+    std::unique_ptr<MidPhase> midphase1_;
+    std::unique_ptr<VoidPhase> voidphase1_;
+    std::unique_ptr<BossPhase> bossphase1_;
+    std::unique_ptr<VoidPhase> voidphase2_;
 
-    std::shared_ptr<Resource> resource_;
+    std::unique_ptr<Resource> resource_;
     std::unique_ptr<YellowPage> yellowpage_;
 
 public:
@@ -103,6 +103,15 @@ public:
     GameState(application &app);  //初始化起始帧，初始化资源引用，初始化实体设置
 
 protected:
+    void set_ui();
+    void set_gamewindow();
+    void bundle_resource();
+    void set_player();
+    void set_behavior();
+    void set_entity();
+    void set_phase();
+    void bundle_leader_menber();
+
     void clock_update();
     void handlecollision();
     void HandleEvent(sf::RenderWindow& window,const sf::Event::Closed);  //处理“关闭窗口”事件

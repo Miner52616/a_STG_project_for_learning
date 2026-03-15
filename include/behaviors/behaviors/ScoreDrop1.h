@@ -14,6 +14,7 @@ private:
 public:
     ScoreDrop1(Entity* entity);
     ScoreDrop1();
+    ScoreDrop1(Resource* resource,YellowPage* yellowpage);
     void update() override;
     void set_entity(Entity* entity);
     void setDropConfig();

@@ -12,7 +12,7 @@ class NumLine1;
 class Resource
 {
 public:
-    Resource(application &app,BulletManager &bulletmanager,DropManager &dropmanager,CollisionSystem &collisionsystem,Player* player,NumLine1 &high_score_line,NumLine1 &score_line);
+    Resource(application &app,BulletManager &bulletmanager,DropManager &dropmanager,CollisionSystem &collisionsystem);
     application &app_;
     BulletManager &bulletmanager_;
     DropManager &dropmanager_;

@@ -20,8 +20,7 @@ private:
     Clock life_clock_;
     Clock bomb_clock_;
     Frame &outline_;
-    //BulletManager &bulletmanager_;
-    std::shared_ptr<Resource> resource_;
+    Resource* resource_;
     std::shared_ptr<BulletConfig> bulletconfig_;
     std::vector<std::unique_ptr<Child_Plane>> child_planes_;
 
@@ -39,10 +38,10 @@ public:
     void clock_count();
 
 public:
-    Player(const sf::Texture &texture,Frame &outline,std::shared_ptr<Resource> resource);  //初始化资源引用，默认玩家设置
+    Player(const sf::Texture &texture,Frame &outline,Resource* resource);  //初始化资源引用，默认玩家设置
 
     void setBulletConfig();
-    void setResource(std::shared_ptr<Resource> resource);
+    void setResource(Resource* resource);
     void setPosition() override;
     void setPosition(sf::Vector2f position) override;
     int getLifeNum();
@@ -58,16 +57,17 @@ class Child_Plane:public Entity
 private:
     Clock clock_;
     sf::Vector2f target_position_;
-    std::shared_ptr<Resource> resource_;
+    Resource* resource_;
     std::shared_ptr<BulletConfig> bulletconfig_;
 
 public:
     Child_Plane(const sf::Texture &texture);
+    Child_Plane(const sf::Texture &texture,Resource* resource);
     void update();
     //void drawtexture(sf::RenderTexture& texture);
 
     void setTargetPosition(sf::Vector2f target_position);
     void setBulletConfig();
-    void setResource(std::shared_ptr<Resource> resource);
+    void setResource(Resource* resource);
     void clock_count();
 };

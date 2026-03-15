@@ -1,15 +1,7 @@
 #include "packages/Resource.h"
 
-Resource::Resource(application &app,BulletManager &bulletmanager,DropManager &dropmanager,CollisionSystem &collisionsystem,Player* player,NumLine1 &high_score_line,NumLine1 &score_line):
-    app_(app),bulletmanager_(bulletmanager),dropmanager_(dropmanager),collisionsystem_(collisionsystem)//,player_(player),yellowpage_(player,high_score_line,score_line)//,high_score_line_(high_score_line),score_line_(score_line)
+Resource::Resource(application &app,BulletManager &bulletmanager,DropManager &dropmanager,CollisionSystem &collisionsystem):
+    app_(app),bulletmanager_(bulletmanager),dropmanager_(dropmanager),collisionsystem_(collisionsystem)
 {
     ;
 }
-
-/*
-void Resource::setPlayer(Player* player)
-{
-    yellowpage_.player_=player;
-    player_=player;
-}
-*/

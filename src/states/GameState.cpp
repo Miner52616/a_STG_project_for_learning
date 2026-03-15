@@ -26,37 +26,58 @@ GameState::GameState(application &app):
 {
     std::cout<<"Game Loading..."<<std::endl;
 
-    //****第一步————以下为创建对象，与资源无关设置初始化部分
+    //**** 1 ui界面和游戏小窗基础设置
+    //设置ui（ui完全不依赖资源）
+    set_ui();
+    set_gamewindow();
+    std::cout<<"UI and Gamewindow Set"<<std::endl;
+
+    //**** 2 各种资源包创建并初始化，同时创建好资源包需要的对象
+    //初始化资源，资源包含各大manager和system的引用
+    resource_=std::make_unique<Resource>(app,bulletmanager_,dropmanager_,collisionsystem_);
+    std::cout<<"Resource Set"<<std::endl;
+
+    //创建并初始化玩家对象
+    set_player();
+    std::cout<<"Player Set"<<std::endl;
+
+    //初始化黄页，黄页包含ui和玩家指针（此时所有需要被访问的对象已经创建并初始化）
+    yellowpage_=std::make_unique<YellowPage>(player_.get(),high_score_line_,score_line_);
+    std::cout<<"YellowPage Set"<<std::endl;
+
+    //至此广泛意义上的资源创建完成。后续直接创建对象
+
+    //**** 3 为GameState中本身存在底层对象资源绑定
+    //在资源创建前已经被创建对象的资源绑定
+    bundle_resource();
+    std::cout<<"Resource and YellowPage Bundle"<<std::endl;
+
+    //**** 4 创建游戏对象
+    //创建并初始化行为对象
+    set_behavior();
+    std::cout<<"Behavior Create and Initialize"<<std::endl;
+    
+    //创建并初始化敌人/Boss对象
+    set_entity();
+    std::cout<<"Entity Create and Initialize"<<std::endl;
+
+    //创建并初始化游戏阶段对象
+    set_phase();
+    std::cout<<"Phase Create and Initialize"<<std::endl;
+
+    //**** 5 根据对象间运行信息流上下级绑定   
+    bundle_leader_menber();
+    std::cout<<"Leader and Member Bundle"<<std::endl;
+
+    std::cout<<"Game Prepared"<<std::endl;
+}
+
+void GameState::set_ui()
+{
+    //初始化overlays
     curtain_.setPosition({0,0});
     
     //初始化设置固定ui
-    /*
-    top_cover1.setPosition({0,0});
-    top_cover1.setSize({1280,25});
-    top_cover1.setFillColor(sf::Color::Black);
-    top_cover2.setPosition({70,25});
-    top_cover2.setSize({780,5});
-    top_cover2.setFillColor(sf::Color(128,128,128));
-    left_cover1.setPosition({0,0});
-    left_cover1.setSize({70,960});
-    left_cover1.setFillColor(sf::Color::Black);
-    left_cover2.setPosition({70,25});
-    left_cover2.setSize({5,910});
-    left_cover2.setFillColor(sf::Color(128,128,128));
-    right_cover1.setPosition({850,0});
-    right_cover1.setSize({430,960});
-    right_cover1.setFillColor(sf::Color::Black);
-    right_cover2.setPosition({845,25});
-    right_cover2.setSize({5,910});
-    right_cover2.setFillColor(sf::Color(128,128,128));
-    bottom_cover1.setPosition({0,935});
-    bottom_cover1.setSize({1280,25});
-    bottom_cover1.setFillColor(sf::Color::Black);
-    bottom_cover2.setPosition({70,930});
-    bottom_cover2.setSize({780,5});
-    bottom_cover2.setFillColor(sf::Color(128,128,128));
-    */
-
     difficulty_.setTextPosition({980,20});
     difficulty_.setTextText("Easy");
     difficulty_.setTextSize(50);
@@ -77,55 +98,18 @@ GameState::GameState(application &app):
     bomb_line_.setLineText("Bomb");
     bomb_line_.setMaxNum(8);
     bomb_line_.setCurrentNum(3);
+}
 
+void GameState::set_gamewindow()
+{
+    //初始化设置游戏小窗
     window_sprite_.setTexture(game_window_.getTexture());
     window_sprite_.setScale({1.f,-1.f});
     window_sprite_.setPosition({75,30+900});
+}
 
-    std::cout<<"UI Set"<<std::endl;
-
-    //创建并“半"初始化资源。此时是弱资源，player指针为随机，访问会导致错误
-    resource_=std::make_shared<Resource>(app,bulletmanager_,dropmanager_,collisionsystem_,(Player*)NULL,high_score_line_,score_line_);
-    yellowpage_=std::make_unique<YellowPage>((Player*)NULL,high_score_line_,score_line_);
-    std::cout<<"Resource Set"<<std::endl;
-
-    //resource和player互相持有对方指针。先创建的需要在后创建的创建后重新获取指针
-    //创建并初始化玩家对象
-    player_=std::make_shared<Player>(app.playerTexture_,outline1,resource_);
-    player_->setBulletConfig();
-    player_->setPosition({385,450});
-    player_->setResource(resource_);
-    //完全初始化资源
-    yellowpage_->setPlayer(player_.get());//此时yellowpage获取player指针
-    //resource_->setPlayer(player_);//此时resource获取player指针
-    std::cout<<"Player Set"<<std::endl;
-
-    //创建行为对象
-    enemy1_drop_=std::make_shared<ScoreDrop1>();
-    enemy1_move_=std::make_shared<MoveToRandom1>();
-    enemy1_shoot_=std::make_shared<AimShoot1>(); 
-    enemy2_drop_=std::make_shared<ScoreDrop1>();
-    enemy2_move_=std::make_shared<MoveToRandom1>();
-    enemy2_shoot_=std::make_shared<AimShoot1>(); 
-    spell1_move_=std::make_shared<MoveToRandom1>();
-    spell1_shoot_=std::make_shared<AimShoot1>(); 
-    std::cout<<"Behavior Create"<<std::endl;
-    
-    //创建并初始化敌人/Boss对象
-    enemy1_=std::make_shared<Enemy>(app.enemyTexture_);
-    enemy1_->setPosition({460,100});
-    enemy1_->setHP(200);
-    enemy1_->set_start_end(240,216000);
-    enemy2_=std::make_shared<Enemy>(app.enemyTexture_);
-    enemy2_->setPosition({460,100});
-    enemy2_->setHP(200);
-    enemy2_->set_start_end(240,216000);
-    boss1_=std::make_shared<Boss>(app.playerTexture_,resource_.get());
-    boss1_->setPosition({460,150});
-    spell1_=std::make_shared<SpellPhase>(resource_.get(),yellowpage_.get(),360);
-    std::cout<<"Entity Create"<<std::endl;
-
-    //****第二步————资源绑定部分
+void GameState::bundle_resource()
+{
     //行为对象资源绑定
     dropfactory_.set_Resourse(resource_.get());
     dropfactory_.set_YellowPage(yellowpage_.get());
@@ -133,41 +117,65 @@ GameState::GameState(application &app):
     dropmanager_.set_yellowpage(yellowpage_.get());
     collisionsystem_.set_resource(resource_.get());
     collisionsystem_.set_yellowpage(yellowpage_.get());
+}
 
-    enemy1_drop_->set_resource(resource_.get());
-    enemy1_drop_->set_YellowPage(yellowpage_.get());
-    enemy1_move_->set_resource(resource_.get());
-    enemy1_move_->set_YellowPage(yellowpage_.get());
-    enemy1_shoot_->set_resource(resource_.get());
-    enemy1_shoot_->set_YellowPage(yellowpage_.get());
-    enemy2_drop_->set_resource(resource_.get());
-    enemy2_drop_->set_YellowPage(yellowpage_.get());
-    enemy2_move_->set_resource(resource_.get());
-    enemy2_move_->set_YellowPage(yellowpage_.get());
-    enemy2_shoot_->set_resource(resource_.get());
-    enemy2_shoot_->set_YellowPage(yellowpage_.get());
-    spell1_move_->set_resource(resource_.get());
-    spell1_move_->set_YellowPage(yellowpage_.get());
-    spell1_shoot_->set_resource(resource_.get());
-    spell1_shoot_->set_YellowPage(yellowpage_.get());
-    std::cout<<"Resource Bundle"<<std::endl;
+void GameState::set_player()
+{
+    //创建游戏对象并初始化
+    player_=std::make_unique<Player>(app_.playerTexture_,outline1,resource_.get());
+    player_->setPosition({385,450});
+    player_->setResource(resource_.get());
+}
+
+void GameState::set_behavior()
+{
+    enemy1_drop_=std::make_unique<ScoreDrop1>(resource_.get(),yellowpage_.get());
+    enemy1_move_=std::make_unique<MoveToRandom1>(resource_.get(),yellowpage_.get());
+    enemy1_shoot_=std::make_unique<AimShoot1>(resource_.get(),yellowpage_.get()); 
+    enemy2_drop_=std::make_unique<ScoreDrop1>(resource_.get(),yellowpage_.get());
+    enemy2_move_=std::make_unique<MoveToRandom1>(resource_.get(),yellowpage_.get());
+    enemy2_shoot_=std::make_unique<AimShoot1>(resource_.get(),yellowpage_.get()); 
+    spell1_move_=std::make_unique<MoveToRandom1>(resource_.get(),yellowpage_.get());
+    spell1_shoot_=std::make_unique<AimShoot1>(resource_.get(),yellowpage_.get()); 
+}
+
+void GameState::set_entity()
+{
+    enemy1_=std::make_unique<Enemy>(app_.enemyTexture_);
+    enemy1_->setPosition({460,100});
+    enemy1_->setHP(200);
+    enemy1_->set_start_end(240,216000);
+    enemy2_=std::make_unique<Enemy>(app_.enemyTexture_);
+    enemy2_->setPosition({460,100});
+    enemy2_->setHP(200);
+    enemy2_->set_start_end(240,216000);
+    boss1_=std::make_unique<Boss>(app_.playerTexture_,resource_.get());
+    boss1_->setPosition({460,150});
+    spell1_=std::make_unique<SpellPhase>(resource_.get(),yellowpage_.get(),360);
+}
+
+void GameState::set_phase()
+{
+    midphase1_=std::make_unique<MidPhase>(resource_.get(),yellowpage_.get(),600);
+    voidphase1_=std::make_unique<VoidPhase>(resource_.get(),yellowpage_.get(),180);
+    bossphase1_=std::make_unique<BossPhase>(resource_.get(),yellowpage_.get());
+    voidphase2_=std::make_unique<VoidPhase>(resource_.get(),yellowpage_.get(),180);
+}
+
+void GameState::bundle_leader_menber()
+{
+    //****上级绑定下级****
+    //敌人绑定行为
+    //符卡绑定行为
+    //Boss绑定符卡
+    //游戏阶段绑定敌人/Boss
+    //游戏阶段控制器绑定游戏阶段
+
+    //****下级绑定上级****
+    //行为绑定敌人/Boss
+    //符卡绑定Boss
     
-    //****第三步————与资源相关的对象创建/设置初始化部分
-    //行为对象资源相关初始化
-    enemy1_drop_->setDropConfig();
-    enemy1_shoot_->setBulletConfig();
-    enemy2_drop_->setDropConfig();
-    enemy2_shoot_->setBulletConfig();
-    spell1_shoot_->setBulletConfig();
-
-    //游戏阶段对象创建并初始化
-    midphase1_=std::make_shared<MidPhase>(resource_.get(),yellowpage_.get(),600);
-    voidphase1_=std::make_shared<VoidPhase>(resource_.get(),yellowpage_.get(),180);
-    bossphase1_=std::make_shared<BossPhase>(resource_.get(),yellowpage_.get());
-    voidphase2_=std::make_shared<VoidPhase>(resource_.get(),yellowpage_.get(),180);
-
-    //****第四步————对象间运行信息流上下级绑定部分
-    //敌人/Boss对象与其下级行为/符卡相互绑定
+    //敌人与行为相互绑定
     enemy1_drop_->set_entity(enemy1_.get());
     enemy1_->addBehavior(enemy1_drop_.get());
     enemy1_move_->set_entity(enemy1_.get());
@@ -180,6 +188,8 @@ GameState::GameState(application &app):
     enemy2_->addBehavior(enemy2_move_.get());
     enemy2_shoot_->set_entity(enemy2_.get());
     enemy2_->addBehavior(enemy2_shoot_.get());
+
+    //行为绑定Boss，符卡绑定行为，符卡绑定Boss，Boss绑定符卡
     spell1_move_->set_entity(boss1_.get());
     spell1_->addBehavior(spell1_move_.get());
     spell1_shoot_->set_entity(boss1_.get());
@@ -187,18 +197,16 @@ GameState::GameState(application &app):
     spell1_->setBoss(boss1_.get());
     boss1_->add_phase(spell1_.get());
     
-    //游戏阶段对象与敌人/Boss对象相互绑定
+    //游戏阶段绑定敌人/Boss
     midphase1_->add_enemy(enemy1_.get());
     midphase1_->add_enemy(enemy2_.get());
     bossphase1_->setBoss(boss1_.get());
 
-    //游戏阶段对象与游戏阶段控制器相互绑定
+    //游戏阶段控制器绑定游戏阶段
     phasecontroller_.add_process(midphase1_.get());
     phasecontroller_.add_process(voidphase1_.get());
     phasecontroller_.add_process(bossphase1_.get());
     phasecontroller_.add_process(voidphase2_.get());
-
-    std::cout<<"Game Prepared"<<std::endl;
 }
 
 void GameState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)

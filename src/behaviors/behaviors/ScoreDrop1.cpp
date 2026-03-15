@@ -18,6 +18,12 @@ ScoreDrop1::ScoreDrop1()
     ;
 }
 
+ScoreDrop1::ScoreDrop1(Resource* resource,YellowPage* yellowpage):
+    Behavior(resource,yellowpage)
+{
+    setDropConfig();
+}
+
 void ScoreDrop1::setDropConfig()
 {
     dropconfig_=std::make_shared<DropConfig>(resource_->app_.score_dropTexture_);

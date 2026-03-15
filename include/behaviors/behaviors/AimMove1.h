@@ -12,6 +12,7 @@ private:
 public:
     AimMove1(std::shared_ptr<Entity> entity);
     AimMove1();
+    AimMove1(Resource* resource,YellowPage* yellowpage);
     void update() override;
     void set_entity(std::shared_ptr<Entity> entity);
     void set_v(int v);

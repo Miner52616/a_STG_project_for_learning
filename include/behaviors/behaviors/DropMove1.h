@@ -14,6 +14,7 @@ private:
 public:
     DropMove1(std::shared_ptr<Entity> entity);
     DropMove1();
+    DropMove1(Resource* resource,YellowPage* yellowpage);
     void update() override;
     void set_entity(std::shared_ptr<Entity> entity);
     void set_va(int v,int a);

@@ -14,6 +14,12 @@ MoveToRandom1::MoveToRandom1():
     ;   
 }
 
+MoveToRandom1::MoveToRandom1(Resource* resource,YellowPage* yellowpage):
+    Behavior(resource,yellowpage),nextposition_({385,100})
+{
+    ;
+}
+
 void MoveToRandom1::update()
 {
     entity_->store_position();

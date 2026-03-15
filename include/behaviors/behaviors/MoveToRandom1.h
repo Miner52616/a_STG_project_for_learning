@@ -12,6 +12,7 @@ private:
 public:
     MoveToRandom1(Entity* entity);
     MoveToRandom1();
+    MoveToRandom1(Resource* resource,YellowPage* yellowpage);
     void update() override;
     void set_entity(Entity* entity);
 };

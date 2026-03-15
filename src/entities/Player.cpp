@@ -4,7 +4,7 @@
 #include "bullets/PlayerBullet.h"
 #include "manager/BulletManager.h"
 
-Player::Player(const sf::Texture &texture,Frame &outline,std::shared_ptr<Resource> resource):
+Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     Entity(texture),
     hitbox_exist_(false),
     speed_(10),
@@ -26,12 +26,7 @@ Player::Player(const sf::Texture &texture,Frame &outline,std::shared_ptr<Resourc
     hitbox_r_=3;
     hitbox_.setRadius(hitbox_r_);
     std::cout<<"1"<<std::endl;
-    /*
-    bulletconfig_.damage_=100;
-    bulletconfig_.bulletclass_=BulletClasses::PlayerBullet;
-    bulletconfig_.r_=10;
-    bulletconfig_.v_=10;
-    bulletconfig_.spawn_point_=getPosition();*/
+    setBulletConfig();
     std::cout<<"2"<<std::endl;
     std::unique_ptr<Child_Plane> child_plane1=std::make_unique<Child_Plane>(resource_->app_.child_planeTexture_);
     child_plane1->setResource(resource_);
@@ -123,9 +118,9 @@ void Player::clock_count()
     }
 }
 
-void Player::setResource(std::shared_ptr<Resource> resource)
+void Player::setResource(Resource* resource)
 {
-    resource_=std::move(resource);
+    resource_=resource;
 }
 
 void Player::setPosition()
@@ -297,6 +292,12 @@ Child_Plane::Child_Plane(const sf::Texture &texture):
     ;
 }
 
+Child_Plane::Child_Plane(const sf::Texture &texture,Resource* resource):
+    Entity(texture),clock_((long long int)4),target_position_({0,0}),resource_(resource)
+{
+    ;
+}
+
 void Child_Plane::update()
 {
     store_position();
@@ -331,9 +332,9 @@ void Child_Plane::setBulletConfig()
     bulletconfig_->spawn_point_=getPosition();
 }
 
-void Child_Plane::setResource(std::shared_ptr<Resource> resource)
+void Child_Plane::setResource(Resource* resource)
 {
-    resource_=std::move(resource);
+    resource_=resource;
 }
 
 void Child_Plane::clock_count()
