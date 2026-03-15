@@ -227,24 +227,21 @@ void GameState::Update()
     player_->Player_update();
 
     phasecontroller_.update();
-    std::cout<<"phase update"<<std::endl;
-//    enemymanager_.update(frame_);
+    //std::cout<<"phase update"<<std::endl;
 
     bulletmanager_.update();//后续需要把清理子弹放到帧末统一处理，以不影响碰撞检测
-    std::cout<<"enemy update"<<std::endl;
+    //std::cout<<"enemy update"<<std::endl;
     dropmanager_.update();
-    std::cout<<"drop update"<<std::endl;
+    //std::cout<<"drop update"<<std::endl;
     
     handlecollision();
-    std::cout<<"collision update"<<std::endl;
+    //std::cout<<"collision update"<<std::endl;
 
     bulletmanager_.clear();
-    std::cout<<"bullet clear"<<std::endl;
+    //std::cout<<"bullet clear"<<std::endl;
     dropmanager_.clear_dead();
-    std::cout<<"enemy clear"<<std::endl;
+    //std::cout<<"enemy clear"<<std::endl;
 
-    //high_score_line_.setCurrentNum(high_score_);
-    //score_line_.setCurrentNum(score_);
     life_line_.setCurrentNum(player_->getLifeNum());
     bomb_line_.setCurrentNum(player_->getBombNum());
 
@@ -271,20 +268,8 @@ void GameState::Render(sf::RenderWindow& window)
         app_.stack_.pushRequest(std::make_unique<PauseState>(app_));
     }
 
-    //bulletmanager_.render(window);
     dropmanager_.render(game_window_);
     bulletmanager_.render(game_window_);
-
-    /*
-    window.draw(top_cover1);
-    window.draw(top_cover2);
-    window.draw(left_cover1);
-    window.draw(left_cover2);
-    window.draw(right_cover1);
-    window.draw(right_cover2);
-    window.draw(bottom_cover1);
-    window.draw(bottom_cover2);
-    */
 
     window_sprite_.setTexture(game_window_.getTexture());
     window.draw(window_sprite_);

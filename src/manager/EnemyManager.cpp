@@ -38,7 +38,7 @@ void EnemyManager::clear_dead()
         std::remove_if
         (
             enemylist_.begin(),enemylist_.end(),
-            [this](Enemy*& enemy)
+            [this](Enemy* const& enemy)
             {
                 if(enemy->isDead())
                 {

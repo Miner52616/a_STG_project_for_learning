@@ -32,7 +32,7 @@ public:
     void setHP(float HP);
     void be_damage(float damage);
     void markDead();
-    bool isDead() override;
+    bool isDead() const override;
     void addBehavior(Behavior* behavior);
 //    void addDrop(std::shared_ptr<DropConfig> dropconfig);
 

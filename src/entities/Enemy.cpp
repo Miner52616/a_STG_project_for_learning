@@ -61,7 +61,7 @@ void Enemy::markDead()
     dead_=true;
 }
 
-bool Enemy::isDead()
+bool Enemy::isDead() const
 {
     return dead_;
 }
