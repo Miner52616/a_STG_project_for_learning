@@ -3,6 +3,7 @@
 #include "core/Clock.h"
 #include "packages/Resource.h"
 #include "packages/BulletConfig.h"
+#include "packages/BombConfig.h"
 
 class application;
 class Frame;
@@ -22,6 +23,7 @@ private:
     Frame &outline_;
     Resource* resource_;
     std::shared_ptr<BulletConfig> bulletconfig_;
+    std::unique_ptr<BombConfig> bombconfig_;
     std::vector<std::unique_ptr<Child_Plane>> child_planes_;
 
     sf::CircleShape point_;
@@ -41,6 +43,7 @@ public:
     Player(const sf::Texture &texture,Frame &outline,Resource* resource);  //初始化资源引用，默认玩家设置
 
     void setBulletConfig();
+    void setBombConfig();
     void setResource(Resource* resource);
     void setPosition() override;
     void setPosition(sf::Vector2f position) override;

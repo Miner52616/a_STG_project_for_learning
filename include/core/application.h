@@ -21,6 +21,7 @@ public:
     sf::Texture child_planeTexture_;
     sf::Texture lifeUI_;
     sf::Texture bombUI_;
+    sf::Texture LeiTanTexture_;
 
 public:
     StateStack stack_;

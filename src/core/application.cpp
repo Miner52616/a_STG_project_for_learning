@@ -13,7 +13,8 @@ application::application():
     score_dropTexture_("assets/textures/score_drop.png"),
     child_planeTexture_("assets/textures/child_plane.png"),
     lifeUI_("assets/textures/life.png"),
-    bombUI_("assets/textures/bomb.png")
+    bombUI_("assets/textures/bomb.png"),
+    LeiTanTexture_("assets/textures/LeiTan.png")
 {
     window_.setFramerateLimit(60);
     gameview_.setSize({1280,960});

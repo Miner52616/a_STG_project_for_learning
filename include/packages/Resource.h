@@ -5,6 +5,7 @@
 class application;
 class BulletManager;
 class DropManager;
+class BombManager;
 class CollisionSystem;
 class Player;
 class NumLine1;
@@ -12,10 +13,11 @@ class NumLine1;
 class Resource
 {
 public:
-    Resource(application &app,BulletManager &bulletmanager,DropManager &dropmanager,CollisionSystem &collisionsystem);
+    Resource(application &app,BulletManager &bulletmanager,DropManager &dropmanager,BombManager &bombmanager,CollisionSystem &collisionsystem);
     application &app_;
     BulletManager &bulletmanager_;
     DropManager &dropmanager_;
+    BombManager &bombmanager_;
     CollisionSystem &collisionsystem_;
     //Player* player_;
     //YellowPage yellowpage_;

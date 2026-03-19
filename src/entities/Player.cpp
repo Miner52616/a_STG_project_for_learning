@@ -3,6 +3,8 @@
 #include "ui/Frame.h"
 #include "bullets/PlayerBullet.h"
 #include "manager/BulletManager.h"
+#include "manager/BombManager.h"
+#include "mathematics/mathematics.h"
 
 Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     Entity(texture),
@@ -27,6 +29,7 @@ Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     hitbox_.setRadius(hitbox_r_);
     std::cout<<"1"<<std::endl;
     setBulletConfig();
+    setBombConfig();
     std::cout<<"2"<<std::endl;
     std::unique_ptr<Child_Plane> child_plane1=std::make_unique<Child_Plane>(resource_->app_.child_planeTexture_);
     child_plane1->setResource(resource_);
@@ -46,6 +49,16 @@ void Player::setBulletConfig()
     bulletconfig_->r_=10;
     bulletconfig_->v_=10;
     bulletconfig_->spawn_point_=getPosition();
+}
+
+void Player::setBombConfig()
+{
+    bombconfig_=std::make_unique<BombConfig>(resource_->app_.LeiTanTexture_);
+    bombconfig_->bombtype_=BombType::LeiTan;
+    bombconfig_->damage_=500;
+    bombconfig_->spawn_point_=getPosition();
+    bombconfig_->direction_={100,0};
+    bombconfig_->v_=6;
 }
 
 void Player::check_position()
@@ -100,9 +113,27 @@ bool Player::Handle_shoot_request()
 
 void Player::useBomb()
 {
-
     if(bomb_>=1)
     {
+        bombconfig_->spawn_point_=getPosition()+bombconfig_->direction_;
+
+        resource_->bombmanager_.add_process(bombconfig_.get());
+        bombconfig_->direction_=round(bombconfig_->direction_,60);
+        resource_->bombmanager_.add_process(bombconfig_.get());
+        bombconfig_->direction_=round(bombconfig_->direction_,60);
+        resource_->bombmanager_.add_process(bombconfig_.get());
+        bombconfig_->direction_=round(bombconfig_->direction_,60);
+        resource_->bombmanager_.add_process(bombconfig_.get());
+        bombconfig_->direction_=round(bombconfig_->direction_,60);
+        resource_->bombmanager_.add_process(bombconfig_.get());
+        bombconfig_->direction_=round(bombconfig_->direction_,60);
+        resource_->bombmanager_.add_process(bombconfig_.get());
+        
+
+        bombconfig_->direction_={100,0};
+        bombconfig_->v_=6;
+
+        std::cout<<"use bomb"<<std::endl;
         bomb_--;
     }
 }
@@ -151,6 +182,10 @@ void Player::be_damage()
     if((life_>=1)&&(life_clock_.get_condition()))
     {
         life_--;
+        if(bomb_<3)
+        {
+            bomb_=3;
+        }
         setPosition({385,700});
         life_clock_.reset();
     }

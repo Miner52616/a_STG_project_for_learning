@@ -6,6 +6,7 @@
 #include "entities/Player.h"
 #include "entities/Bullet.h"
 #include "entities/Drop.h"
+#include "entities/Bomb.h"
 #include "ui/NumLine1.h"
 #include "mathematics/mathematics.h"
 
@@ -78,6 +79,17 @@ void CollisionSystem::HandleBeGet(Player* player,Drop *drop)
     }
 }
 
+void CollisionSystem::HandleCollision(Bomb* bomb,Bullet *bullet)
+{
+    if(!bullet->isPlayer())
+    {
+        if(isCollision(*bomb,*bullet))
+        {
+            bullet->markDead();
+        }
+    }
+}
+
 void CollisionSystem::ProcessCollision(Boss* boss)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
@@ -104,5 +116,13 @@ void CollisionSystem::ProcessCollision(Player* player)
     {
         HandleCollision(player,it->get());
         HandleBeGet(player,it->get());
+    }
+}
+
+void CollisionSystem::ProcessCollision(Bomb* bomb)
+{
+    for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
+    {
+        HandleCollision(bomb,it->get());
     }
 }

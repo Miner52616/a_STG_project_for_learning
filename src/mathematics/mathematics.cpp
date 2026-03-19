@@ -34,3 +34,33 @@ int the_min(int a,int b)
         return a;
     }
 }
+
+sf::Vector2f roundwithCenter(sf::Vector2f center,sf::Vector2f point,float angle)
+{
+    float rad=angle*3.1415926/180;
+    float cos_value=std::cos(rad);
+    float sin_value=std::sin(rad);
+
+    sf::Vector2f translated_point=point-center;
+
+    float rotated_x=translated_point.x*cos_value-translated_point.y*sin_value;
+    float rotated_y=translated_point.x*sin_value+translated_point.y*cos_value;
+
+    sf::Vector2f rotated_point(rotated_x,rotated_y);
+
+    return rotated_point+center;
+}
+
+sf::Vector2f round(sf::Vector2f Vector,float angle)
+{
+    float rad=angle*3.1415926/180;
+    float cos_value=std::cos(rad);
+    float sin_value=std::sin(rad);
+
+    float rotated_x=Vector.x*cos_value-Vector.y*sin_value;
+    float rotated_y=Vector.x*sin_value+Vector.y*cos_value;
+
+    sf::Vector2f rotated_vector(rotated_x,rotated_y);
+
+    return rotated_vector;
+}

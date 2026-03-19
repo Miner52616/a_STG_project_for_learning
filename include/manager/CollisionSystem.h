@@ -7,6 +7,7 @@ class Drop;
 class Boss;
 class Enemy;
 class Player;
+class Bomb;
 class Resource;
 class YellowPage;
 
@@ -23,6 +24,7 @@ protected:
     void HandleCollision(Player* A,Bullet *B);
     void HandleCollision(Player* A,Drop *B);
     void HandleBeGet(Player* A,Drop *B);
+    void HandleCollision(Bomb* A,Bullet *B);
 
 public:
     CollisionSystem(std::vector<std::unique_ptr<Bullet>> &bulletlist,std::vector<std::unique_ptr<Drop>> &droplist);
@@ -32,4 +34,5 @@ public:
     void ProcessCollision(Boss* A);
     void ProcessCollision(Enemy* A);
     void ProcessCollision(Player* A);
+    void ProcessCollision(Bomb* A);
 };
