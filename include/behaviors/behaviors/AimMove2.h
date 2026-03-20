@@ -25,7 +25,8 @@ private:
 
     float low_v_=8;
     float noise_v_=1;
-
+    float limit_low_v=low_v_;
+    float limit_noise_v=noise_v_;
 
 public:
     AimMove2(sf::Vector2f v,float a,Entity* entity,long long int time,Resource* resource);

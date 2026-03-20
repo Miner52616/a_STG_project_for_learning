@@ -24,15 +24,18 @@ void AimMove2::update()
     v_=normalize(v_+a_*direction)*v_.length();
 
     sf::Vector2f limited_v_=v_;
-    //float low_v=8;
-    //float noise_v=1;
+    if((targetposition_-entity_->getPosition()).length()<18&&aimstate_==AimState::LOCKED)
+    {
+        limit_low_v=limit_low_v*0.85;
+        limit_noise_v=0;//noise_v_(targetposition_-entity_->getPosition()).length()/15;  
+    }
     float slowing_r=(targetposition_-startposition_).length();
     if((targetposition_-entity_->getPosition()).length()<slowing_r)
     {
         limited_v_=v_*(targetposition_-entity_->getPosition()).length()/slowing_r;
-        if(limited_v_.length()<low_v_)
+        if(limited_v_.length()<limit_low_v)
         {
-            limited_v_=normalize(v_)*(low_v_+noise_v_*getRandomNum(-1,1));
+            limited_v_=normalize(v_)*(limit_low_v+limit_noise_v*getRandomNum(-1,1));
         }
     }
 
@@ -52,11 +55,6 @@ void AimMove2::update()
         {
             done_=true;
         }
-    }
-    else if((targetposition_-entity_->getPosition()).length()<15&&aimstate_==AimState::LOCKED)
-    {
-        low_v_=0.5;
-        noise_v_=0.1;
     }
 }
 
