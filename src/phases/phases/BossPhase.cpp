@@ -48,3 +48,8 @@ void BossPhase::ProcessCollision()
 {
     boss_->ProcessCollision();
 }
+
+sf::Vector2f BossPhase::get_targetposition_for_LeiTan(AimMove2* move)
+{
+    return boss_->getPhaseController()->get_targetposition_for_LeiTan(move);
+}

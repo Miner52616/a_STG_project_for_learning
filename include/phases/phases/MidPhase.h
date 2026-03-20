@@ -20,4 +20,5 @@ public:
     void add_enemy(Enemy* enemy);
     void be_damage(float damage) override;
     void ProcessCollision() override;
+    sf::Vector2f get_targetposition_for_LeiTan(AimMove2* move) override;
 };

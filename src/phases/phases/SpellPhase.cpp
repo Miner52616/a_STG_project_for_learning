@@ -78,10 +78,14 @@ void SpellPhase::be_damage(float damage)
 void SpellPhase::ProcessCollision()
 {
     resource_->collisionsystem_.ProcessCollision(boss_);
-    resource_->collisionsystem_.ProcessCollision(yellowpage_->player_);
 }
 
 void SpellPhase::setBoss(Boss* boss)
 {
     boss_=boss;
+}
+
+sf::Vector2f SpellPhase::get_targetposition_for_LeiTan(AimMove2* move)
+{
+    return boss_->getPosition();
 }

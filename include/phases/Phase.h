@@ -7,6 +7,7 @@ class application;
 class PhaseController;
 class BulletManager;
 class CollisionSystem;
+class AimMove2;
 
 class Phase
 {
@@ -27,7 +28,7 @@ public:
     bool isFinish();
     virtual void be_damage(float damage)=0;
     virtual void ProcessCollision()=0;
-
+    virtual sf::Vector2f get_targetposition_for_LeiTan(AimMove2* move)=0;
 protected:
 //    virtual void phase_change();
 };

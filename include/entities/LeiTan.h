@@ -1,21 +1,28 @@
 #pragma once
 #include "entities/Bomb.h"
 #include "behaviors/behaviors/RoundMove1.h"
+#include "behaviors/behaviors/AimMove2.h"
 #include "packages/YellowPage.h"
 #include "core/Clock.h"
 
 class LeiTan:public Bomb
 {
 private:
+    Resource* resource_;
     YellowPage* yellowpage_;
 
-    Clock clock_;
+    int phase_=1;
+    
     std::unique_ptr<RoundMove1> roundmove1_;
+    std::unique_ptr<AimMove2> aimmove2_;
 
 public:
     LeiTan(const sf::Texture &texture,sf::Vector2f position,YellowPage* yellowpage);
     LeiTan(const sf::Texture &texture,sf::Vector2f position,float damage,YellowPage* yellowpage);
-    LeiTan(const sf::Texture &texture,sf::Vector2f position,sf::Vector2f direction,float damage,float v,YellowPage* yellowpage);
+    LeiTan(const sf::Texture &texture,sf::Vector2f position,sf::Vector2f direction,float damage,float v,YellowPage* yellowpage,Resource* resource);
+
+private:
+    void phase_change();
 
 public:
     void update() override;

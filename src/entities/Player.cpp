@@ -57,7 +57,16 @@ void Player::setBombConfig()
     bombconfig_->bombtype_=BombType::LeiTan;
     bombconfig_->damage_=500;
     bombconfig_->spawn_point_=getPosition();
-    bombconfig_->direction_={100,0};
+    bombconfig_->direction_={350,0};
+    bombconfig_->v_=6;
+}
+
+void Player::resetBombConfig()
+{
+    bombconfig_->bombtype_=BombType::LeiTan;
+    bombconfig_->damage_=500;
+    bombconfig_->spawn_point_=getPosition();
+    bombconfig_->direction_={350,0};
     bombconfig_->v_=6;
 }
 
@@ -118,20 +127,22 @@ void Player::useBomb()
         bombconfig_->spawn_point_=getPosition()+bombconfig_->direction_;
 
         resource_->bombmanager_.add_process(bombconfig_.get());
-        bombconfig_->direction_=round(bombconfig_->direction_,60);
+        bombconfig_->direction_=round(bombconfig_->direction_,45);
         resource_->bombmanager_.add_process(bombconfig_.get());
-        bombconfig_->direction_=round(bombconfig_->direction_,60);
+        bombconfig_->direction_=round(bombconfig_->direction_,45);
         resource_->bombmanager_.add_process(bombconfig_.get());
-        bombconfig_->direction_=round(bombconfig_->direction_,60);
+        bombconfig_->direction_=round(bombconfig_->direction_,45);
         resource_->bombmanager_.add_process(bombconfig_.get());
-        bombconfig_->direction_=round(bombconfig_->direction_,60);
+        bombconfig_->direction_=round(bombconfig_->direction_,45);
         resource_->bombmanager_.add_process(bombconfig_.get());
-        bombconfig_->direction_=round(bombconfig_->direction_,60);
+        bombconfig_->direction_=round(bombconfig_->direction_,45);
+        resource_->bombmanager_.add_process(bombconfig_.get());
+        bombconfig_->direction_=round(bombconfig_->direction_,45);
+        resource_->bombmanager_.add_process(bombconfig_.get());
+        bombconfig_->direction_=round(bombconfig_->direction_,45);
         resource_->bombmanager_.add_process(bombconfig_.get());
         
-
-        bombconfig_->direction_={100,0};
-        bombconfig_->v_=6;
+        resetBombConfig();
 
         std::cout<<"use bomb"<<std::endl;
         bomb_--;

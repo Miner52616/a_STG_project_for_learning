@@ -1,7 +1,7 @@
 #include "packages/Resource.h"
 
-Resource::Resource(application &app,BulletManager &bulletmanager,DropManager &dropmanager,BombManager &bombmanager,CollisionSystem &collisionsystem):
-    app_(app),bulletmanager_(bulletmanager),dropmanager_(dropmanager),bombmanager_(bombmanager),collisionsystem_(collisionsystem)
+Resource::Resource(application &app,BulletManager &bulletmanager,DropManager &dropmanager,BombManager &bombmanager,CollisionSystem &collisionsystem,PhaseController &phasecontroller):
+    app_(app),bulletmanager_(bulletmanager),dropmanager_(dropmanager),bombmanager_(bombmanager),collisionsystem_(collisionsystem),phasecontroller_(phasecontroller)
 {
     ;
 }

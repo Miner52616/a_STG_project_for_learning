@@ -35,7 +35,6 @@ void DropManager::update()
     }
     for(auto it=droplist_.begin();it!=droplist_.end();++it)
     {
-        std::cout<<"drop update start"<<std::endl;
         (*it)->update();
     }
 }
@@ -49,7 +48,6 @@ void DropManager::clear_dead()
             droplist_.begin(),droplist_.end(),
             [this](const std::unique_ptr<Drop>& drop)
             {
-                std::cout<<"drop clear update"<<std::endl;
                 if(drop->isDead())
                 {
                     return true;

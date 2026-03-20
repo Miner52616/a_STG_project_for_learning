@@ -22,7 +22,7 @@ std::unique_ptr<Bomb> BombFactory::create(BombConfig* bombconfig)
     switch(bombconfig->bombtype_)
     {
         case BombType::LeiTan:
-            bomb=std::make_unique<LeiTan>(bombconfig->texture_,bombconfig->spawn_point_,bombconfig->direction_,bombconfig->damage_,bombconfig->v_,yellowpage_);
+            bomb=std::make_unique<LeiTan>(bombconfig->texture_,bombconfig->spawn_point_,bombconfig->direction_,bombconfig->damage_,bombconfig->v_,yellowpage_,resource_);
             break;
         default:
             break;

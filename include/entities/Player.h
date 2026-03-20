@@ -44,6 +44,7 @@ public:
 
     void setBulletConfig();
     void setBombConfig();
+    void resetBombConfig();
     void setResource(Resource* resource);
     void setPosition() override;
     void setPosition(sf::Vector2f position) override;

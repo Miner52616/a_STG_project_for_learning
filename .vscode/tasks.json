@@ -32,6 +32,7 @@
         "src/behaviors/behaviors/MoveToRandom1.cpp",
         "src/behaviors/behaviors/AimShoot1.cpp",
         "src/behaviors/behaviors/AimMove1.cpp",
+        "src/behaviors/behaviors/AimMove2.cpp",
         "src/behaviors/behaviors/DropMove1.cpp",
         "src/behaviors/behaviors/ScoreDrop1.cpp",
         "src/behaviors/behaviors/RoundMove1.cpp",

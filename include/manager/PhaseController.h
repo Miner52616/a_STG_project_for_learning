@@ -6,6 +6,7 @@
 
 class application;
 class BulletManager;
+class AimMove2;
 
 class PhaseController
 {
@@ -28,4 +29,5 @@ public:
     bool check_phase();
     void phase_change();
     bool apply_change();
+    sf::Vector2f get_targetposition_for_LeiTan(AimMove2* move);
 };

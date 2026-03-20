@@ -93,3 +93,11 @@ bool PhaseController::apply_change()
         return true;
     }
 }
+
+sf::Vector2f PhaseController::get_targetposition_for_LeiTan(AimMove2* move)
+{
+    if(phaselist_.empty()) return {0,0};
+    if (current_ > phaselist_.size()) return {0,0};
+
+    return phaselist_[current_-1]->get_targetposition_for_LeiTan(move);
+}

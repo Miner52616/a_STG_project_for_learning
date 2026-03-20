@@ -5,6 +5,8 @@
 #include "manager/PhaseController.h"
 #include "manager/CollisionSystem.h"
 #include "entities/Player.h"
+#include "behaviors/behaviors/AimMove2.h"
+#include "mathematics/mathematics.h"
 
 MidPhase::MidPhase(Resource* resource,YellowPage* yellowpage,int target_frame):
     TimePhase(resource,yellowpage,target_frame),enemymanager_(enemylist_)//,enemy1_(app_,app_.enemyTexture_,bulletmanager_,player_)
@@ -57,5 +59,10 @@ void MidPhase::ProcessCollision()
     {
         resource_->collisionsystem_.ProcessCollision(*it);
     }
-    resource_->collisionsystem_.ProcessCollision(yellowpage_->player_);
+}
+
+sf::Vector2f MidPhase::get_targetposition_for_LeiTan(AimMove2* move)
+{
+    move->set_aimstate(AimState::LOCKED);
+    return get_randomposition_for_LeiTan(move->get_v());
 }

@@ -12,4 +12,5 @@ public:
     void render(sf::RenderTexture& texture) override;
     void be_damage(float damage);
     void ProcessCollision() override;
+    sf::Vector2f get_targetposition_for_LeiTan(AimMove2* move) override;
 };
