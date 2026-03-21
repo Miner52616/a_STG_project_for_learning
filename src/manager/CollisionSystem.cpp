@@ -10,8 +10,8 @@
 #include "ui/NumLine1.h"
 #include "mathematics/mathematics.h"
 
-CollisionSystem::CollisionSystem(std::vector<std::unique_ptr<Bullet>> &bulletlist,std::vector<std::unique_ptr<Drop>> &droplist):
-    bulletlist_(bulletlist),droplist_(droplist)
+CollisionSystem::CollisionSystem(std::vector<std::unique_ptr<Bullet>> &bulletlist,std::vector<std::unique_ptr<Drop>> &droplist,std::vector<std::unique_ptr<Bomb>> &bomblist):
+    bulletlist_(bulletlist),droplist_(droplist),bomblist_(bomblist)
 {
     ;
 }
@@ -90,9 +90,71 @@ void CollisionSystem::HandleCollision(Bomb* bomb,Bullet *bullet)
     }
 }
 
+void CollisionSystem::HandleCollision(Enemy* enemy,Bomb* bomb)
+{
+    if(enemy->isExist()&&isCollision(*enemy,*bomb))
+    {
+        switch (bomb->getPhase())
+        {
+        case 1:
+            enemy->be_damage(bomb->getDamage());
+            break;
+
+        case 2:
+            enemy->be_damage(bomb->getDamage());
+            bomb->phase_change();
+            break;
+
+        case 3:
+            enemy->be_damage(bomb->getDamage());
+            break;
+
+        case 4:
+            enemy->be_damage(bomb->getDamage());
+            bomb->phase_change();
+
+        default:
+            break;
+        }
+    }
+}
+
+void CollisionSystem::HandleCollision(Boss* boss,Bomb* bomb)
+{
+    if(isCollision(*boss,*bomb))
+    {
+        switch (bomb->getPhase())
+        {
+        case 1:
+            boss->be_damage(bomb->getDamage());
+            break;
+
+        case 2:
+            boss->be_damage(bomb->getDamage());
+            bomb->phase_change();
+            break;
+
+        case 3:
+            boss->be_damage(bomb->getDamage());
+            break;
+
+        case 4:
+            boss->be_damage(bomb->getDamage());
+            bomb->phase_change();
+
+        default:
+            break;
+        }
+    }
+}
+
 void CollisionSystem::ProcessCollision(Boss* boss)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
+    {
+        HandleCollision(boss,it->get());
+    }
+    for(auto it=bomblist_.begin();it!=bomblist_.end();++it)
     {
         HandleCollision(boss,it->get());
     }
@@ -101,6 +163,10 @@ void CollisionSystem::ProcessCollision(Boss* boss)
 void CollisionSystem::ProcessCollision(Enemy* enemy)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
+    {
+        HandleCollision(enemy,it->get());
+    }
+    for(auto it=bomblist_.begin();it!=bomblist_.end();++it)
     {
         HandleCollision(enemy,it->get());
     }

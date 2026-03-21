@@ -16,14 +16,20 @@ private:
     std::unique_ptr<RoundMove1> roundmove1_;
     std::unique_ptr<AimMove2> aimmove2_;
 
+    Clock clock_;
+    float damage1_=8;
+    float damage2_=500;
+
 public:
     LeiTan(const sf::Texture &texture,sf::Vector2f position,YellowPage* yellowpage);
     LeiTan(const sf::Texture &texture,sf::Vector2f position,float damage,YellowPage* yellowpage);
     LeiTan(const sf::Texture &texture,sf::Vector2f position,sf::Vector2f direction,float damage,float v,YellowPage* yellowpage,Resource* resource);
 
 private:
-    void phase_change();
 
 public:
     void update() override;
+    void phase_change();
+    int getPhase() override;
+    float getDamage() override;
 };

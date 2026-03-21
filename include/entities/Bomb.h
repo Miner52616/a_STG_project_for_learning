@@ -19,5 +19,7 @@ public:
     virtual void update()=0;
     bool isDead() const override;
     void markDead();
-    float getDamage();
+    virtual float getDamage();
+    virtual int getPhase()=0;
+    virtual void phase_change()=0;
 };

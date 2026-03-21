@@ -63,6 +63,29 @@ void MidPhase::ProcessCollision()
 
 sf::Vector2f MidPhase::get_targetposition_for_LeiTan(AimMove2* move)
 {
-    move->set_aimstate(AimState::LOCKED);
-    return get_randomposition_for_LeiTan(move->get_v());
+    sf::Vector2f position=move->get_position();
+    sf::Vector2f targetposition={2500,2500};
+    if(enemylist_.empty())
+    {
+        move->set_aimstate(AimState::LOCKED);
+        return get_randomposition_for_LeiTan(move->get_v());
+    }
+
+    for(auto it=enemylist_.begin();it!=enemylist_.end();++it)
+    {
+        if(((*it)->getPosition()-position).length()<(targetposition-position).length()&&(*it)->isExist())
+        {
+            targetposition=(*it)->getPosition();
+        }
+    }
+    if(targetposition!=sf::Vector2f{2500,2500})
+    {
+        return targetposition;
+    }
+    else
+    {
+        move->set_aimstate(AimState::LOCKED);
+        return get_randomposition_for_LeiTan(move->get_v());
+    }
+    //return get_randomposition_for_LeiTan(move->get_v());
 }

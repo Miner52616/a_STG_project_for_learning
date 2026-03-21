@@ -5,9 +5,10 @@
 #include <vector>
 
 LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,YellowPage* yellowpage):
-    Bomb(texture,position), yellowpage_(yellowpage)
+    Bomb(texture,position), yellowpage_(yellowpage),clock_(15)
 {
     hitbox_r_=80;
+    clock_.reset();
 
     roundmove1_=std::make_unique<RoundMove1>(sf::Vector2f{100,0},(float)3,120,this);
     roundmove1_->set_center(yellowpage_->player_);
@@ -17,9 +18,10 @@ LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,YellowPage* yell
 }
 
 LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,float damage,YellowPage* yellowpage):
-    Bomb(texture,position,damage), yellowpage_(yellowpage)
+    Bomb(texture,position,damage), yellowpage_(yellowpage),clock_(15)
 {
     hitbox_r_=80;
+    clock_.reset();
 
     roundmove1_=std::make_unique<RoundMove1>(sf::Vector2f{100,0},(float)3,120,this);
     roundmove1_->set_entity(this);
@@ -31,9 +33,10 @@ LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,float damage,Yel
 }
 
 LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,sf::Vector2f direction,float damage,float v,YellowPage* yellowpage,Resource* resource):
-    Bomb(texture,position,damage), yellowpage_(yellowpage),resource_(resource)
+    Bomb(texture,position,damage), yellowpage_(yellowpage),resource_(resource),clock_(15)
 {
     hitbox_r_=80;
+    clock_.reset();
 
     roundmove1_=std::make_unique<RoundMove1>(direction,(float)v,120,this);
     roundmove1_->set_entity(this);
@@ -63,6 +66,20 @@ void LeiTan::update()
             phase_change();
         }
         break;
+
+    case 3:
+        aimmove2_->update();
+        clock_.count();
+        if(clock_.get_condition())
+        {
+            phase_change();
+        }
+        break;
+    
+    case 4:
+        aimmove2_->update();
+        phase_change();
+        break;
     
     default:
         markDead();
@@ -82,11 +99,49 @@ void LeiTan::phase_change()
 
     case 2:
         phase_=3;
-        markDead();
+        break;
+
+    case 3:
+        phase_=4;
+        break;
+    
+    case 4:
+        phase_=5;
         break;
     
     default:
         markDead();
+        break;
+    }
+}
+
+int LeiTan::getPhase()
+{
+    return phase_;
+}
+
+float LeiTan::getDamage()
+{
+    switch (phase_)
+    {
+    case 1:
+        return damage1_;
+        break;
+    
+    case 2:
+        return damage1_;
+        break;
+
+    case 3:
+        return damage1_;
+        break;
+
+    case 4:
+        return damage2_;
+        break;
+
+    default:
+        return 0;
         break;
     }
 }

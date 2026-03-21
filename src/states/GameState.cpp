@@ -22,7 +22,7 @@ GameState::GameState(application &app):
     bulletmanager_(app,bulletlist_,bulletfactory_),
     dropmanager_(droplist_,dropfactory_),
     bombmanager_(bomblist_,bombfactory_),
-    collisionsystem_(bulletlist_,droplist_),
+    collisionsystem_(bulletlist_,droplist_,bomblist_),
     phasecontroller_(app,phaselist_)
 {
     std::cout<<"Game Loading..."<<std::endl;

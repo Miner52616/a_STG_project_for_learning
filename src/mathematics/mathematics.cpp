@@ -1,4 +1,5 @@
 #include "mathematics/mathematics.h"
+#include "entities/Enemy.h"
 #include <random>
 
 float distancePointToSegment(sf::Vector2f p, sf::Vector2f a, sf::Vector2f b)
@@ -132,6 +133,16 @@ sf::Vector2f get_randomposition_for_LeiTan(sf::Vector2f v)
 }
 
 long long int get_random_from(std::vector<long long int> vector)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    std::uniform_int_distribution<> dis_int(0,vector.size()-1);
+
+    return vector[dis_int(gen)];
+}
+
+Enemy* get_random_from(std::vector<Enemy*> vector)
 {
     std::random_device rd;
     std::mt19937 gen(rd());

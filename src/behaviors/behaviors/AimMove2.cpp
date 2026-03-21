@@ -21,13 +21,16 @@ void AimMove2::update()
     }
 
     sf::Vector2f direction=normalize(targetposition_-entity_->getPosition());
-    v_=normalize(v_+a_*direction)*v_.length();
+    v_=normalize(v_+limit_a_*direction)*v_.length();
 
     sf::Vector2f limited_v_=v_;
-    if((targetposition_-entity_->getPosition()).length()<18&&aimstate_==AimState::LOCKED)
+    if((targetposition_-entity_->getPosition()).length()<50&&aimstate_==AimState::LOCKED)
     {
-        limit_low_v=limit_low_v*0.85;
-        limit_noise_v=0;//noise_v_(targetposition_-entity_->getPosition()).length()/15;  
+        if(limit_low_v>0.01)
+        {
+            limit_low_v=limit_low_v*0.9;
+        }
+        limit_noise_v=0.01;//noise_v_(targetposition_-entity_->getPosition()).length()/15;  
     }
     float slowing_r=(targetposition_-startposition_).length();
     if((targetposition_-entity_->getPosition()).length()<slowing_r)
@@ -47,6 +50,7 @@ void AimMove2::update()
     {
         done_=true;
     }
+    /*
     if(aimstate_==AimState::DYNAMIC)
     {
         low_v_=8;
@@ -56,6 +60,7 @@ void AimMove2::update()
             done_=true;
         }
     }
+        */
 }
 
 void AimMove2::set_entity(Entity* entity)
@@ -91,4 +96,9 @@ void AimMove2::set_startposition(sf::Vector2f position)
 bool AimMove2::isDone()
 {
     return done_;
+}
+
+sf::Vector2f AimMove2::get_position()
+{
+    return entity_->getPosition();
 }

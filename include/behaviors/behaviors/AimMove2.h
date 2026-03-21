@@ -27,6 +27,7 @@ private:
     float noise_v_=1;
     float limit_low_v=low_v_;
     float limit_noise_v=noise_v_;
+    float limit_a_=a_;
 
 public:
     AimMove2(sf::Vector2f v,float a,Entity* entity,long long int time,Resource* resource);
@@ -38,4 +39,5 @@ public:
     void set_aimstate(AimState aimstate);
     void set_startposition(sf::Vector2f position);
     bool isDone();
+    sf::Vector2f get_position();
 };
