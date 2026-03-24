@@ -22,6 +22,7 @@ GameState::GameState(application &app):
     bulletmanager_(app,bulletlist_,bulletfactory_),
     dropmanager_(droplist_,dropfactory_),
     bombmanager_(bomblist_,bombfactory_),
+    effectmanager_(effectlist_,effectfactory_),
     collisionsystem_(bulletlist_,droplist_,bomblist_),
     phasecontroller_(app,phaselist_)
 {
@@ -35,7 +36,7 @@ GameState::GameState(application &app):
 
     //**** 2 各种资源包创建并初始化，同时创建好资源包需要的对象
     //初始化资源，资源包含各大manager和system的引用
-    resource_=std::make_unique<Resource>(app,bulletmanager_,dropmanager_,bombmanager_,collisionsystem_,phasecontroller_);
+    resource_=std::make_unique<Resource>(app,bulletmanager_,dropmanager_,bombmanager_,effectmanager_,collisionsystem_,phasecontroller_);
     std::cout<<"Resource Set"<<std::endl;
 
     //创建并初始化玩家对象
@@ -239,6 +240,8 @@ void GameState::Update()
     //std::cout<<"drop update"<<std::endl;
     bombmanager_.update();
     //std::cout<<"bomb update"<<std::endl;
+    effectmanager_.update();
+    //std::cout<<"effect update"<<std::endl;
     
     handlecollision();
     //std::cout<<"collision update"<<std::endl;
@@ -249,6 +252,8 @@ void GameState::Update()
     //std::cout<<"enemy clear"<<std::endl;
     bombmanager_.clear_dead();
     //std::cout<<"bomb clear"<<std::endl;
+    effectmanager_.clear_dead();
+    //std::cout<<"effect clear"<<std::endl;
 
     life_line_.setCurrentNum(player_->getLifeNum());
     bomb_line_.setCurrentNum(player_->getBombNum());
@@ -279,6 +284,7 @@ void GameState::Render(sf::RenderWindow& window)
     dropmanager_.render(game_window_);
     bulletmanager_.render(game_window_);
     bombmanager_.render(game_window_);
+    effectmanager_.render(game_window_);
 
     window_sprite_.setTexture(game_window_.getTexture());
     window.draw(window_sprite_);

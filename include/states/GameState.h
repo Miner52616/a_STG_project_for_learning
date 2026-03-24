@@ -14,6 +14,7 @@
 #include "entities/Bullet.h"
 #include "entities/Drop.h"
 #include "entities/Bomb.h"
+#include "effects/Effect.h"
 #include "phases/phases/MidPhase.h"
 #include "phases/phases/VoidPhase.h"
 #include "phases/phases/BossPhase.h"
@@ -29,6 +30,8 @@
 #include "manager/DropFactory.h"
 #include "manager/BombManager.h"
 #include "manager/BombFactory.h"
+#include "manager/EffectManager.h"
+#include "manager/EffectFactory.h"
 #include "manager/PhaseController.h"
 #include "manager/CollisionSystem.h"
 
@@ -65,15 +68,18 @@ private:
     std::vector<std::unique_ptr<Bullet>> bulletlist_;
     std::vector<std::unique_ptr<Drop>> droplist_;
     std::vector<std::unique_ptr<Bomb>> bomblist_;
+    std::vector<std::unique_ptr<Effect>> effectlist_;
     std::vector<Phase*> phaselist_;
 
     BulletFactory bulletfactory_;
     DropFactory dropfactory_;
     BombFactory bombfactory_;
+    EffectFactory effectfactory_;
 
     BulletManager bulletmanager_;
     DropManager dropmanager_;
     BombManager bombmanager_;
+    EffectManager effectmanager_;
     CollisionSystem collisionsystem_;
     PhaseController phasecontroller_;
 

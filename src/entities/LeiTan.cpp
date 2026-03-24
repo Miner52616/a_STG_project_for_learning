@@ -2,11 +2,14 @@
 #include "behaviors/behaviors/RoundMove1.h"
 #include "entities/Player.h"
 #include "mathematics/mathematics.h"
+#include "core/application.h"
+#include "manager/EffectManager.h"
 #include <vector>
 
-LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,YellowPage* yellowpage):
-    Bomb(texture,position), yellowpage_(yellowpage),clock_(15)
+LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,YellowPage* yellowpage,Resource* resource):
+    Bomb(texture,position), yellowpage_(yellowpage),resource_(resource),clock_(15)
 {
+    effectconfig_=std::make_unique<EffectConfig>(resource_->app_.LeiTan_AirTexture_);
     hitbox_r_=80;
     clock_.reset();
 
@@ -17,9 +20,10 @@ LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,YellowPage* yell
     behaviorlist_.emplace_back(roundmove1_.get());
 }
 
-LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,float damage,YellowPage* yellowpage):
-    Bomb(texture,position,damage), yellowpage_(yellowpage),clock_(15)
+LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,float damage,YellowPage* yellowpage,Resource* resource):
+    Bomb(texture,position,damage), yellowpage_(yellowpage),resource_(resource),clock_(15)
 {
+    effectconfig_=std::make_unique<EffectConfig>(resource_->app_.LeiTan_AirTexture_);
     hitbox_r_=80;
     clock_.reset();
 
@@ -32,9 +36,10 @@ LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,float damage,Yel
     behaviorlist_.emplace_back(roundmove1_.get());
 }
 
-LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,sf::Vector2f direction,float damage,float v,YellowPage* yellowpage,Resource* resource):
-    Bomb(texture,position,damage), yellowpage_(yellowpage),resource_(resource),clock_(15)
+LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,sf::Vector2f direction,float damage1,float damage2,float v,YellowPage* yellowpage,Resource* resource):
+    Bomb(texture,position,damage1), yellowpage_(yellowpage),resource_(resource),clock_(15),damage1_(damage1),damage2_(damage2)
 {
+    effectconfig_=std::make_unique<EffectConfig>(resource_->app_.LeiTan_AirTexture_);
     hitbox_r_=80;
     clock_.reset();
 
@@ -82,6 +87,17 @@ void LeiTan::update()
         break;
     
     default:
+        for(int i=1;i<=8;i++)
+        {
+            float x=getRandomNum(-1,1);
+            float y=getRandomNum(-1,1);
+            float length=getRandomNum(0,100);
+            sf::Vector2f direction={x,y};
+            direction=length*normalize(direction);
+            effectconfig_->direction_=direction;
+            effectconfig_->spawn_point_=getPosition();
+            resource_->effectmanager_.add_process(effectconfig_.get());
+        }
         markDead();
         break;
     }

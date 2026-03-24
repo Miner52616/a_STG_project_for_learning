@@ -55,7 +55,8 @@ void Player::setBombConfig()
 {
     bombconfig_=std::make_unique<BombConfig>(resource_->app_.LeiTanTexture_);
     bombconfig_->bombtype_=BombType::LeiTan;
-    bombconfig_->damage_=500;
+    bombconfig_->damage1_=2;
+    bombconfig_->damage2_=120;
     bombconfig_->spawn_point_=getPosition();
     bombconfig_->direction_={350,0};
     bombconfig_->v_=6;
@@ -64,7 +65,8 @@ void Player::setBombConfig()
 void Player::resetBombConfig()
 {
     bombconfig_->bombtype_=BombType::LeiTan;
-    bombconfig_->damage_=500;
+    bombconfig_->damage1_=2;
+    bombconfig_->damage2_=120;
     bombconfig_->spawn_point_=getPosition();
     bombconfig_->direction_={350,0};
     bombconfig_->v_=6;

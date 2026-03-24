@@ -14,7 +14,8 @@ application::application():
     child_planeTexture_("assets/textures/child_plane.png"),
     lifeUI_("assets/textures/life.png"),
     bombUI_("assets/textures/bomb.png"),
-    LeiTanTexture_("assets/textures/LeiTan.png")
+    LeiTanTexture_("assets/textures/LeiTan.png"),
+    LeiTan_AirTexture_("assets/textures/LeiTan_Air.png")
 {
     window_.setFramerateLimit(60);
     gameview_.setSize({1280,960});

@@ -3,6 +3,7 @@
 #include "behaviors/behaviors/RoundMove1.h"
 #include "behaviors/behaviors/AimMove2.h"
 #include "packages/YellowPage.h"
+#include "packages/EffectConfig.h"
 #include "core/Clock.h"
 
 class LeiTan:public Bomb
@@ -18,12 +19,14 @@ private:
 
     Clock clock_;
     float damage1_=8;
-    float damage2_=500;
+    float damage2_=1;
+
+    std::unique_ptr<EffectConfig> effectconfig_;
 
 public:
-    LeiTan(const sf::Texture &texture,sf::Vector2f position,YellowPage* yellowpage);
-    LeiTan(const sf::Texture &texture,sf::Vector2f position,float damage,YellowPage* yellowpage);
-    LeiTan(const sf::Texture &texture,sf::Vector2f position,sf::Vector2f direction,float damage,float v,YellowPage* yellowpage,Resource* resource);
+    LeiTan(const sf::Texture &texture,sf::Vector2f position,YellowPage* yellowpage,Resource* resource);
+    LeiTan(const sf::Texture &texture,sf::Vector2f position,float damage,YellowPage* yellowpage,Resource* resource);
+    LeiTan(const sf::Texture &texture,sf::Vector2f position,sf::Vector2f direction,float damage1,float damage2,float v,YellowPage* yellowpage,Resource* resource);
 
 private:
 

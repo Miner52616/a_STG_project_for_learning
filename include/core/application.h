@@ -22,6 +22,7 @@ public:
     sf::Texture lifeUI_;
     sf::Texture bombUI_;
     sf::Texture LeiTanTexture_;
+    sf::Texture LeiTan_AirTexture_;
 
 public:
     StateStack stack_;
