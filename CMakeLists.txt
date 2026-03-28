@@ -14,6 +14,12 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 add_executable(main ${SRC_FILES})
 
+target_precompile_headers(main PRIVATE
+    <SFML/Graphics.hpp>
+    <vector>
+    <memory>
+)
+
 # SFML 路径（你是 msys2）
 set(SFML_DIR "C:/msys64/mingw64/lib/cmake/SFML")
 

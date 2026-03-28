@@ -17,6 +17,11 @@ PauseState::PauseState(application &app):
 
     buttonlist_[3].setButtonText("Return to Title");
     buttonlist_[3].setButtonPosition({100,900});
+
+    for(int i=1;i<=4;i++)
+    {
+        buttonlist_[i-1].setButtonShake(5,15);
+    }
 }
 
 void PauseState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed& key)

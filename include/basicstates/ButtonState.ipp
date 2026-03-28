@@ -71,7 +71,7 @@ void ButtonState<Derived>::updatebuttonlist_()
 {
     for(int i=1;i<=buttonlist_.size();i++)
     {
-        buttonlist_[i-1].updateButton();
+        buttonlist_[i-1].update();
     }
 }
 

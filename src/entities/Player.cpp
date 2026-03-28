@@ -357,7 +357,7 @@ void Player::Player_update()
             break;
 
         case 4:
-            child_planes_[0]->setTargetPosition(sf::Vector2f{-80,61});
+            child_planes_[0]->setTargetPosition(sf::Vector2f{-80,60});
             child_planes_[1]->setTargetPosition(sf::Vector2f{80,60});
             child_planes_[2]->setTargetPosition(sf::Vector2f{-60,80});
             child_planes_[3]->setTargetPosition(sf::Vector2f{60,80});

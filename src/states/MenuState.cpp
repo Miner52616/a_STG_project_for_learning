@@ -20,6 +20,11 @@ MenuState::MenuState(application &app):
     buttonlist_[3].setButtonText("Quit");
     buttonlist_[3].setButtonPosition({100,400});
 
+    for(int i=1;i<=4;i++)
+    {
+        buttonlist_[i-1].setButtonShake(5,15);
+    }
+
     rec_.setspeed(0.1);
     rec_.setSize({500,80});
 
@@ -40,11 +45,10 @@ void MenuState::Update()
 
     if(current_phase_==2)
     {
-        if(clock_.get_condition())
+        if(buttonlist_[focus_-1].isDone())
         {
-            clock_.reset();
+            buttonlist_[focus_-1].setDone(false);
             current_phase_=1;
-            buttonlist_[focus_-1].setButtonShining(not_shining);
             switch (focus_)
             {
                 case 1:
@@ -65,7 +69,6 @@ void MenuState::Update()
                 break;
             }
         }
-        clock_.count();
     }
 
     rec_.update();
@@ -86,6 +89,7 @@ void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed
        {
             focus_=(focus_%MenuButtonNum)+1;
        }while(buttonlist_[focus_-1].getButtonLocked()==locked);
+       buttonlist_[focus_-1].shake();
     }
 
     if(key.code==sf::Keyboard::Key::Up)
@@ -98,6 +102,7 @@ void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed
                 focus_=focus_+MenuButtonNum;
             }
        }while(buttonlist_[focus_-1].getButtonLocked()==locked);
+       buttonlist_[focus_-1].shake();
     }
     
     if((key.code==sf::Keyboard::Key::X)||(key.code==sf::Keyboard::Key::Escape))
@@ -107,7 +112,7 @@ void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed
 
     if(key.code==sf::Keyboard::Key::Z)
     {
-        buttonlist_[focus_-1].setButtonShining(shining);
+        buttonlist_[focus_-1].setPhase(2);
         current_phase_=2;
         
         switch (focus_)
@@ -118,21 +123,6 @@ void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed
                 std::cout<<"window closed\n";
                 break;
             }
-            /*
-            case 1:
-            {
-                std::cout<<"choose difficulty\n";
-                app_.stack_.pushRequest(std::make_unique<DifficultyState>(app_));
-                break;
-            }
-
-            case 3:
-            {
-                std::cout<<"manual for playing\n";
-                app_.stack_.pushRequest(std::make_unique<ManualState>(app_));
-                break;
-            }
-            */
         default:
             break;
         }
@@ -199,7 +189,7 @@ void MenuState::updatebuttonlist()
 {
     for(int i=1;i<=ButtonNum;i++)
     {
-        buttonlist[i-1].updateButton();
+        buttonlist[i-1].update();
     }
 }
 

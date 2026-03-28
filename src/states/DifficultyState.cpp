@@ -17,6 +17,11 @@ DifficultyState::DifficultyState(application &app):
 
     buttonlist_[3].setButtonText("Lunatic");
     buttonlist_[3].setButtonPosition({450,550});
+
+    for(int i=1;i<=4;i++)
+    {
+        buttonlist_[i-1].setButtonShake(5,15);
+    }
 }
 
 void DifficultyState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
@@ -85,6 +90,7 @@ void DifficultyState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyP
        {
             focus_=(focus_%DifButtonNum)+1;
        }while(buttonlist_[focus_-1].getButtonLocked()==locked);
+       buttonlist_[focus_-1].shake();
     }
 
     if((key.code==sf::Keyboard::Key::Up)||(key.code==sf::Keyboard::Key::Left))
@@ -97,6 +103,7 @@ void DifficultyState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyP
                 focus_=focus_+DifButtonNum;
             }
        }while(buttonlist_[focus_-1].getButtonLocked()==locked);
+       buttonlist_[focus_-1].shake();
     }
 
     if((key.code==sf::Keyboard::Key::X)||(key.code==sf::Keyboard::Key::Escape))
