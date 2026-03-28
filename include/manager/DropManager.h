@@ -14,7 +14,7 @@ private:
 
 public:
     DropManager(std::vector<std::unique_ptr<Drop>> &droplist,DropFactory &dropfactory);
-    void add_process(std::shared_ptr<DropConfig> dropconfig);
+    void add_process(DropConfig* dropconfig);
     void set_resource(Resource* resource);
     void set_yellowpage(YellowPage* yellowpage);
     void update();

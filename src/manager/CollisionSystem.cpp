@@ -67,7 +67,19 @@ void CollisionSystem::HandleCollision(Player* player,Drop *drop)
     if(isCollision(*player,*drop))
     {
         drop->markDead();
-        yellowpage_->score_line_.setCurrentNum(yellowpage_->score_line_.getCurrentNum()+the_min(500,750*((900-drop->getPosition().y)/900))+500);
+        switch (drop->getType())
+        {
+        case DropType::Score:
+            yellowpage_->score_line_.setCurrentNum(yellowpage_->score_line_.getCurrentNum()+the_min(500,750*((900-drop->getPosition().y)/900))+500);
+            break;
+        
+        case DropType::Power:
+            yellowpage_->power_line_.setCurrentNum(yellowpage_->power_line_.getCurrentNum()+5);
+            break;
+
+        default:
+            break;
+        }
     }
 }
 

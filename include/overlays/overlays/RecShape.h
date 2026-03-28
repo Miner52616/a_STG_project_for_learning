@@ -10,9 +10,11 @@ protected:
 
 public:
     RecShape();
-    sf::Vector2f getPosition();
-    void setPosition(sf::Vector2f position);
+    sf::Vector2f getPosition() override;
+    void setPosition(sf::Vector2f position) override;
     void setTargetPosition(sf::Vector2f position);
     void setspeed(float v);
     void setSize(sf::Vector2f size);
+    void render(sf::RenderWindow& window)=0;
+    void render(sf::RenderTexture& texture)=0;
 };

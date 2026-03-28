@@ -1,9 +1,11 @@
 #include "entities/Player.h"
 #include "core/application.h"
 #include "ui/Frame.h"
+#include "ui/NumLine1.h"
 #include "bullets/PlayerBullet.h"
 #include "manager/BulletManager.h"
 #include "manager/BombManager.h"
+#include "manager/EffectManager.h"
 #include "mathematics/mathematics.h"
 
 Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
@@ -18,7 +20,8 @@ Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     resource_(resource),
     //bulletconfig_(resource_->app_.bulletTexture_)
     life_(2),
-    bomb_(3)
+    bomb_(3),
+    power_(0)
 {
     std::cout<<"0"<<std::endl;
     point_.setRadius(6);
@@ -30,15 +33,34 @@ Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     std::cout<<"1"<<std::endl;
     setBulletConfig();
     setBombConfig();
+    setOverlayConfig();
     std::cout<<"2"<<std::endl;
+    for(int i=1;i<=4;i++)
+    {
+        std::unique_ptr<Child_Plane> child_plane1=std::make_unique<Child_Plane>(resource_->app_.child_planeTexture_);
+        child_plane1->setResource(resource_,this);
+        child_plane1->setBulletConfig();
+        child_planes_.emplace_back(std::move(child_plane1));
+    }
+    /*
     std::unique_ptr<Child_Plane> child_plane1=std::make_unique<Child_Plane>(resource_->app_.child_planeTexture_);
-    child_plane1->setResource(resource_);
+    child_plane1->setResource(resource_,this);
     child_plane1->setBulletConfig();
     child_planes_.emplace_back(std::move(child_plane1));
     std::unique_ptr<Child_Plane> child_plane2=std::make_unique<Child_Plane>(resource_->app_.child_planeTexture_);
-    child_plane2->setResource(resource_);
+    child_plane2->setResource(resource_,this);
     child_plane2->setBulletConfig();
     child_planes_.emplace_back(std::move(child_plane2));
+    */
+}
+
+void Player::setOverlayConfig()
+{
+    overlayconfig_=std::make_unique<OverlayConfig>(resource_->app_.overlay1Texture_);
+    overlayconfig_->spawn_position_={970,650};
+    overlayconfig_->target_position_={-200,250};
+    overlayconfig_->v1_=12;
+    overlayconfig_->v2_=5;
 }
 
 void Player::setBulletConfig()
@@ -126,6 +148,7 @@ void Player::useBomb()
 {
     if(bomb_>=1)
     {
+        resource_->effectmanager_.add_process(overlayconfig_.get());
         bombconfig_->spawn_point_=getPosition()+bombconfig_->direction_;
 
         resource_->bombmanager_.add_process(bombconfig_.get());
@@ -165,6 +188,11 @@ void Player::clock_count()
 void Player::setResource(Resource* resource)
 {
     resource_=resource;
+}
+
+void Player::setYellowPage(YellowPage* yellowpage)
+{
+    yellowpage_=yellowpage;
 }
 
 void Player::setPosition()
@@ -216,10 +244,16 @@ void Player::drawwindow(sf::RenderWindow& window)
 void Player::drawtexture(sf::RenderTexture& texture)
 {
     texture.draw(picture_);
+    for(int i=1;i<=power_/100;i++)
+    {
+        child_planes_[i-1]->drawtexture(texture);
+    }
+    /*
     for(auto it=child_planes_.begin();it!=child_planes_.end();++it)
     {
         (*it)->drawtexture(texture);
     }
+    */
     if(hitbox_exist_)
     {
         texture.draw(point_);
@@ -229,6 +263,7 @@ void Player::drawtexture(sf::RenderTexture& texture)
 void Player::Player_update()
 {
     store_position();
+    power_=yellowpage_->power_line_.getCurrentNum();
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)))
     {
         setPosition({getPosition().x-(float)(speed_*0.707),getPosition().y-(float)(speed_*0.707)});
@@ -277,6 +312,7 @@ void Player::Player_update()
         check_position();
     }
 
+/*
     if(child_planes_[0]->getPosition()==sf::Vector2f{0,0})
     {
         child_planes_[0]->setPosition(prev_position_+sf::Vector2f{-80,0});
@@ -285,19 +321,108 @@ void Player::Player_update()
     
     child_planes_[0]->setPosition(child_planes_[0]->getPosition()+(getPosition()-prev_position_));
     child_planes_[1]->setPosition(child_planes_[1]->getPosition()+(getPosition()-prev_position_));
+  */
     
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
     {
         hitbox_exist_=true;
-        child_planes_[0]->setTargetPosition(getPosition()+sf::Vector2f{-80,80});
-        child_planes_[1]->setTargetPosition(getPosition()+sf::Vector2f{80,80});
+        switch (power_/100)
+        {
+        case 0:
+            child_planes_[0]->setTargetPosition(sf::Vector2f{0,0});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{0,0});
+            child_planes_[2]->setTargetPosition(sf::Vector2f{0,0});
+            child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
+            break;
+
+        case 1:
+            child_planes_[0]->setTargetPosition(sf::Vector2f{0,100});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{0,0});
+            child_planes_[2]->setTargetPosition(sf::Vector2f{0,0});
+            child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
+            break;
+
+        case 2:
+            child_planes_[0]->setTargetPosition(sf::Vector2f{-60,80});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{60,80});
+            child_planes_[2]->setTargetPosition(sf::Vector2f{0,0});
+            child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
+            break;
+
+        case 3:
+            child_planes_[0]->setTargetPosition(sf::Vector2f{-70,70});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{70,70});
+            child_planes_[2]->setTargetPosition(sf::Vector2f{0,100});
+            child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
+            break;
+
+        case 4:
+            child_planes_[0]->setTargetPosition(sf::Vector2f{-80,61});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{80,60});
+            child_planes_[2]->setTargetPosition(sf::Vector2f{-60,80});
+            child_planes_[3]->setTargetPosition(sf::Vector2f{60,80});
+            break;
+
+        default:
+            break;
+        }
+        /*
+        child_planes_[0]->setTargetPosition(sf::Vector2f{-80,80});
+        child_planes_[1]->setTargetPosition(sf::Vector2f{-30,100});
+        child_planes_[2]->setTargetPosition(sf::Vector2f{30,100});
+        child_planes_[3]->setTargetPosition(sf::Vector2f{80,80});
+        */
         speed_=5;
     }
     else
     {
         hitbox_exist_=false;
-        child_planes_[0]->setTargetPosition(getPosition()+sf::Vector2f{-20,-50});
-        child_planes_[1]->setTargetPosition(getPosition()+sf::Vector2f{20,-50});
+        switch (power_/100)
+        {
+        case 0:
+            child_planes_[0]->setTargetPosition(sf::Vector2f{0,0});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{0,0});
+            child_planes_[2]->setTargetPosition(sf::Vector2f{0,0});
+            child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
+            break;
+
+        case 1:
+            child_planes_[0]->setTargetPosition(sf::Vector2f{0,-50});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{0,0});
+            child_planes_[2]->setTargetPosition(sf::Vector2f{0,0});
+            child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
+            break;
+
+        case 2:
+            child_planes_[0]->setTargetPosition(sf::Vector2f{-20,-50});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{20,-50});
+            child_planes_[2]->setTargetPosition(sf::Vector2f{0,0});
+            child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
+            break;
+
+        case 3:
+            child_planes_[0]->setTargetPosition(sf::Vector2f{-25,-50});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{25,-50});
+            child_planes_[2]->setTargetPosition(sf::Vector2f{0,-50});
+            child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
+            break;
+
+        case 4:
+            child_planes_[0]->setTargetPosition(sf::Vector2f{-30,-50});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{30,-50});
+            child_planes_[2]->setTargetPosition(sf::Vector2f{-10,-50});
+            child_planes_[3]->setTargetPosition(sf::Vector2f{10,-50});
+            break;
+
+        default:
+            break;
+        }
+        /*
+        child_planes_[0]->setTargetPosition(sf::Vector2f{-20,-50});
+        child_planes_[1]->setTargetPosition(sf::Vector2f{-10,-50});
+        child_planes_[2]->setTargetPosition(sf::Vector2f{10,-50});
+        child_planes_[3]->setTargetPosition(sf::Vector2f{20,-50});
+        */
         speed_=10;
     }
 
@@ -324,10 +449,24 @@ void Player::Player_update()
         }
     }
 
+    int i=1;
+    for(;i<=power_/100;i++)
+    {
+        child_planes_[i-1]->update();
+    }
+    for(;i<=4;i++)
+    {
+        child_planes_[i-1]->setRelativePosition({0,0});
+    }
+    /*
+    //int i=1;
     for(auto it=child_planes_.begin();it!=child_planes_.end();++it)
     {
+        //if(power_/100>=i)
         (*it)->update();
+        //i++;
     }
+        */
 }
 
 //********************************************************************
@@ -340,8 +479,8 @@ Child_Plane::Child_Plane(const sf::Texture &texture):
     ;
 }
 
-Child_Plane::Child_Plane(const sf::Texture &texture,Resource* resource):
-    Entity(texture),clock_((long long int)4),target_position_({0,0}),resource_(resource)
+Child_Plane::Child_Plane(const sf::Texture &texture,Resource* resource,Player* player):
+    Entity(texture),clock_((long long int)4),target_position_({0,0}),resource_(resource),player_(player)
 {
     ;
 }
@@ -349,7 +488,8 @@ Child_Plane::Child_Plane(const sf::Texture &texture,Resource* resource):
 void Child_Plane::update()
 {
     store_position();
-    setPosition(getPosition()+(float)0.15*(target_position_-getPosition()));
+    //setPosition(getPosition()+(float)0.15*(target_position_-getPosition()));
+    setRelativePosition(getRelativePosition()+(float)0.15*(target_position_-getRelativePosition()));
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))
     {
         if(clock_.get_condition())
@@ -363,6 +503,25 @@ void Child_Plane::update()
             clock_.reset();
         }
     }
+}
+
+void Child_Plane::setPosition(sf::Vector2f position)
+{
+    position_=position;
+    relative_position_=position-player_->getPosition();
+    picture_.setPosition(position);
+}
+
+void Child_Plane::setRelativePosition(sf::Vector2f position)
+{
+    relative_position_=position;
+    position_=player_->getPosition()+position;
+    Entity::setPosition();
+}
+
+sf::Vector2f Child_Plane::getRelativePosition()
+{
+    return relative_position_;
 }
 
 void Child_Plane::setTargetPosition(sf::Vector2f target_position)
@@ -380,9 +539,10 @@ void Child_Plane::setBulletConfig()
     bulletconfig_->spawn_point_=getPosition();
 }
 
-void Child_Plane::setResource(Resource* resource)
+void Child_Plane::setResource(Resource* resource,Player* player)
 {
     resource_=resource;
+    player_=player;
 }
 
 void Child_Plane::clock_count()

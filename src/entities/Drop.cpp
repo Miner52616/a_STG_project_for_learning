@@ -24,6 +24,11 @@ void Drop::setType(DropType type)
     type_=type;
 }
 
+DropType Drop::getType()
+{
+    return type_;
+}
+
 void Drop::setPhase(int phase)
 {
     phase_=phase;

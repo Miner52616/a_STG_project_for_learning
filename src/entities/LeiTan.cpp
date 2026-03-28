@@ -96,6 +96,7 @@ void LeiTan::update()
             direction=length*normalize(direction);
             effectconfig_->direction_=direction;
             effectconfig_->spawn_point_=getPosition();
+            effectconfig_->time_=getRandomNum(30,60);
             resource_->effectmanager_.add_process(effectconfig_.get());
         }
         markDead();

@@ -18,11 +18,13 @@ public:
     sf::Texture enemyTexture_;
     sf::Texture bulletTexture_;
     sf::Texture score_dropTexture_;
+    sf::Texture power_dropTexture_;
     sf::Texture child_planeTexture_;
     sf::Texture lifeUI_;
     sf::Texture bombUI_;
     sf::Texture LeiTanTexture_;
     sf::Texture LeiTan_AirTexture_;
+    sf::Texture overlay1Texture_;
 
 public:
     StateStack stack_;

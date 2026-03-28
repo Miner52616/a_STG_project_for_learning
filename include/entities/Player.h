@@ -2,8 +2,10 @@
 #include "Entity.h"
 #include "core/Clock.h"
 #include "packages/Resource.h"
+#include "packages/YellowPage.h"
 #include "packages/BulletConfig.h"
 #include "packages/BombConfig.h"
+#include "packages/EffectConfig.h"
 
 class application;
 class Frame;
@@ -21,8 +23,10 @@ private:
     Clock life_clock_;
     Clock bomb_clock_;
     Frame &outline_;
+    YellowPage* yellowpage_;
     Resource* resource_;
     std::shared_ptr<BulletConfig> bulletconfig_;
+    std::unique_ptr<OverlayConfig> overlayconfig_;
     std::unique_ptr<BombConfig> bombconfig_;
     std::vector<std::unique_ptr<Child_Plane>> child_planes_;
 
@@ -30,6 +34,7 @@ private:
 
     int life_;
     int bomb_;
+    int power_;
 
 private:
     void check_position();
@@ -44,8 +49,10 @@ public:
 
     void setBulletConfig();
     void setBombConfig();
+    void setOverlayConfig();
     void resetBombConfig();
     void setResource(Resource* resource);
+    void setYellowPage(YellowPage* yellowpage);
     void setPosition() override;
     void setPosition(sf::Vector2f position) override;
     int getLifeNum();
@@ -59,19 +66,23 @@ public:
 class Child_Plane:public Entity
 {
 private:
+    Player* player_;
     Clock clock_;
+    sf::Vector2f relative_position_;
     sf::Vector2f target_position_;
     Resource* resource_;
     std::shared_ptr<BulletConfig> bulletconfig_;
 
 public:
     Child_Plane(const sf::Texture &texture);
-    Child_Plane(const sf::Texture &texture,Resource* resource);
+    Child_Plane(const sf::Texture &texture,Resource* resource,Player* player);
     void update();
     //void drawtexture(sf::RenderTexture& texture);
-
+    sf::Vector2f getRelativePosition();
+    void setRelativePosition(sf::Vector2f position);
+    void setPosition(sf::Vector2f position) override;
     void setTargetPosition(sf::Vector2f target_position);
     void setBulletConfig();
-    void setResource(Resource* resource);
+    void setResource(Resource* resource,Player* player);
     void clock_count();
 };

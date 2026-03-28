@@ -46,6 +46,7 @@ private:
     Text difficulty_;
     NumLine1 high_score_line_;
     NumLine1 score_line_;
+    NumLine1 power_line_;
     NumLine1_1 life_line_;
     NumLine1_1 bomb_line_;
 
@@ -69,6 +70,7 @@ private:
     std::vector<std::unique_ptr<Drop>> droplist_;
     std::vector<std::unique_ptr<Bomb>> bomblist_;
     std::vector<std::unique_ptr<Effect>> effectlist_;
+    std::vector<std::unique_ptr<Overlay>> overlaylist_;
     std::vector<Phase*> phaselist_;
 
     BulletFactory bulletfactory_;

@@ -8,7 +8,7 @@ DropManager::DropManager(std::vector<std::unique_ptr<Drop>> &droplist,DropFactor
     ;
 }
 
-void DropManager::add_process(std::shared_ptr<DropConfig> dropconfig)
+void DropManager::add_process(DropConfig* dropconfig)
 {
     droplist_.emplace_back(std::move(dropfactory_.create(dropconfig)));
     //std::cout<<"add success"<<std::endl;

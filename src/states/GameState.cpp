@@ -15,6 +15,7 @@ GameState::GameState(application &app):
     difficulty_(app_.mainFont_),
     high_score_line_(app_.mainFont_),
     score_line_(app_.mainFont_),
+    power_line_(app_.mainFont_),
     life_line_(app_.mainFont_,app_.lifeUI_),
     bomb_line_(app_.mainFont_,app_.bombUI_),
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
@@ -22,7 +23,7 @@ GameState::GameState(application &app):
     bulletmanager_(app,bulletlist_,bulletfactory_),
     dropmanager_(droplist_,dropfactory_),
     bombmanager_(bomblist_,bombfactory_),
-    effectmanager_(effectlist_,effectfactory_),
+    effectmanager_(effectlist_,overlaylist_,effectfactory_),
     collisionsystem_(bulletlist_,droplist_,bomblist_),
     phasecontroller_(app,phaselist_)
 {
@@ -44,7 +45,8 @@ GameState::GameState(application &app):
     std::cout<<"Player Set"<<std::endl;
 
     //初始化黄页，黄页包含ui和玩家指针（此时所有需要被访问的对象已经创建并初始化）
-    yellowpage_=std::make_unique<YellowPage>(player_.get(),high_score_line_,score_line_);
+    yellowpage_=std::make_unique<YellowPage>(player_.get(),high_score_line_,score_line_,power_line_);
+    player_->setYellowPage(yellowpage_.get());
     std::cout<<"YellowPage Set"<<std::endl;
 
     //至此广泛意义上的资源创建完成。后续直接创建对象
@@ -92,6 +94,10 @@ void GameState::set_ui()
     score_line_.setLineText("         Score");
     score_line_.setCurrentNum(0);
     score_line_.setMaxNum(999999999);
+    power_line_.setLinePosition({865,400});
+    power_line_.setLineText("         Power");
+    power_line_.setCurrentNum(0);
+    power_line_.setMaxNum(400);
     life_line_.setLinePosition({865,250});
     life_line_.setLineText("Life");
     life_line_.setMaxNum(8);
@@ -135,9 +141,11 @@ void GameState::set_player()
 void GameState::set_behavior()
 {
     enemy1_drop_=std::make_unique<ScoreDrop1>(resource_.get(),yellowpage_.get());
+    enemy1_drop_->setDropConfig(DropType::Power,20);
     enemy1_move_=std::make_unique<MoveToRandom1>(resource_.get(),yellowpage_.get());
     enemy1_shoot_=std::make_unique<AimShoot1>(resource_.get(),yellowpage_.get()); 
     enemy2_drop_=std::make_unique<ScoreDrop1>(resource_.get(),yellowpage_.get());
+    enemy2_drop_->setDropConfig(DropType::Power,20);
     enemy2_move_=std::make_unique<MoveToRandom1>(resource_.get(),yellowpage_.get());
     enemy2_shoot_=std::make_unique<AimShoot1>(resource_.get(),yellowpage_.get()); 
     spell1_move_=std::make_unique<MoveToRandom1>(resource_.get(),yellowpage_.get());
@@ -293,6 +301,7 @@ void GameState::Render(sf::RenderWindow& window)
 
     high_score_line_.render(window);
     score_line_.render(window);
+    power_line_.render(window);
     life_line_.render(window);
     bomb_line_.render(window);
 

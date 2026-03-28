@@ -35,6 +35,7 @@ public:
     void setResource(Resource* resource);
     void setYellowPage(YellowPage* yellowpage);
     void setType(DropType type);
+    DropType getType();
     void setPhase(int phase);
     void setMove(std::shared_ptr<Behavior> move1,std::shared_ptr<Behavior> move2);
     void markDead();

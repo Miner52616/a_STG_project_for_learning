@@ -11,11 +11,13 @@ application::application():
     enemyTexture_("assets/textures/enemy.png"),
     bulletTexture_("assets/textures/bullet.png"),
     score_dropTexture_("assets/textures/score_drop.png"),
+    power_dropTexture_("assets/textures/power_drop.png"),
     child_planeTexture_("assets/textures/child_plane.png"),
     lifeUI_("assets/textures/life.png"),
     bombUI_("assets/textures/bomb.png"),
     LeiTanTexture_("assets/textures/LeiTan.png"),
-    LeiTan_AirTexture_("assets/textures/LeiTan_Air.png")
+    LeiTan_AirTexture_("assets/textures/LeiTan_Air.png"),
+    overlay1Texture_("assets/textures/overlay1.png")
 {
     window_.setFramerateLimit(60);
     gameview_.setSize({1280,960});

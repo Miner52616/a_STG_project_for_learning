@@ -20,3 +20,8 @@ void Curtain1::render(sf::RenderWindow& window)
 {
     window.draw(overlay_);
 }
+
+void Curtain1::render(sf::RenderTexture& texture)
+{
+    texture.draw(overlay_);
+}

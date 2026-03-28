@@ -43,3 +43,8 @@ void RecShape1::render(sf::RenderWindow& window)
 {
     window.draw(overlay_);
 }
+
+void RecShape1::render(sf::RenderTexture& texture)
+{
+    texture.draw(overlay_);
+}

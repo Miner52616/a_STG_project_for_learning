@@ -7,4 +7,5 @@ public:
     Curtain1();
     void update() override;
     void render(sf::RenderWindow& window) override;
+    void render(sf::RenderTexture& texture) override;
 };

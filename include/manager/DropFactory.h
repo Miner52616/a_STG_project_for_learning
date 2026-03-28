@@ -16,5 +16,5 @@ private:
 public:
     void set_Resourse(Resource* resource);
     void set_YellowPage(YellowPage* yellowpage);
-    std::unique_ptr<Drop> create(std::shared_ptr<DropConfig> dropconfig);
+    std::unique_ptr<Drop> create(DropConfig* dropconfig);
 };
