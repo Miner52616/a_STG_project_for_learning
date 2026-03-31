@@ -1,5 +1,6 @@
 manual = {
     {
+        button="游戏的进行方式",
         title = "1、游戏的进行方式",
         texts = 
         {
@@ -12,6 +13,7 @@ manual = {
     },
 
     {
+        button="前情提要",
         title = "2、前情提要",
         texts = 
         {
@@ -20,6 +22,7 @@ manual = {
     },
 
     {
+        button="游戏的操作",
         title = "3、游戏的操作",
         texts = 
         {
@@ -31,6 +34,7 @@ manual = {
     },
 
     {
+        button="游戏界面",
         title = "4、游戏界面",
         texts = 
         {
@@ -43,6 +47,7 @@ manual = {
     },
 
     {
+        button="掉落道具",
         title = "5、掉落道具",
         texts = 
         {
@@ -54,6 +59,7 @@ manual = {
     },
 
     {
+        button="自机性能",
         title = "6、自机性能",
         texts = 
         {
@@ -64,4 +70,14 @@ manual = {
             "Shift ：低速移动"
         }
     }
+}
+
+button=
+{
+    "游戏的进行方式",
+    "前情提要",
+    "游戏的操作",
+    "游戏界面",
+    "掉落道具",
+    "自机性能"
 }
