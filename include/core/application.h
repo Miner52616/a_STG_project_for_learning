@@ -1,5 +1,5 @@
 #pragma once
-
+#include "core/LuaManager.h"
 #include <SFML/Graphics.hpp>
 #include "core/StateStack.h"
 
@@ -10,6 +10,7 @@ public:
     //窗口资源需要作为参数传入使用，以明确窗口
     sf::View gameview_;
     sf::RenderWindow window_;
+    LuaManager lua_;
 
 public:
     //其它资源通过application指针或者引用使用

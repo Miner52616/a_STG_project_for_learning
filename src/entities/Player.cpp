@@ -12,6 +12,7 @@ Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     Entity(texture),
     hitbox_exist_(false),
     speed_(10),
+    grazebox_r(50),
     request_shoot_(false),
     clock_((long long int)2),
     life_clock_((long long int)240),
@@ -216,6 +217,11 @@ int Player::getLifeNum()
 int Player::getBombNum()
 {
     return bomb_;
+}
+
+int Player::getGrazebox_r()
+{
+    return grazebox_r;
 }
 
 void Player::be_damage()

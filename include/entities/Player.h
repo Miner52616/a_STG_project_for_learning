@@ -19,6 +19,7 @@ private:
     bool hitbox_exist_;
     int speed_;
     bool request_shoot_;
+    int grazebox_r;
     Clock clock_;
     Clock life_clock_;
     Clock bomb_clock_;
@@ -57,6 +58,7 @@ public:
     void setPosition(sf::Vector2f position) override;
     int getLifeNum();
     int getBombNum();
+    int getGrazebox_r();
     void be_damage();
     void Player_update();  //更新玩家属性
     void drawwindow(sf::RenderWindow& window) override;  //渲染玩家至屏幕

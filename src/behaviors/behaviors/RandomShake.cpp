@@ -26,3 +26,8 @@ void RandomShake::reset()
 {
     clock_.reset();
 }
+
+void RandomShake::setPosition(sf::Vector2f position)
+{
+    centerposition_=position;
+}

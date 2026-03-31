@@ -34,6 +34,7 @@ public:
     void setButtonPosition(sf::Vector2f position);  //设置按钮位置
     void setButtonShake(float shake_range,int shake_time);
     void setButtonFocused(int focus);  //设置按钮选中状态
+    void setButtonSize(int size);
     void setButtonLock(int lock);  //设置按钮锁定状态
     void update();  //更新按钮属性
     void setPhase(int phase);

@@ -16,7 +16,8 @@ Text::Text(const sf::Font& font):
 
 void Text::setTextText(const std::string text)
 {
-    text_.setString(text);
+    
+    text_.setString(sf::String::fromUtf8(text.begin(),text.end()));
 }
 
 void Text::setTextPosition(sf::Vector2f position)

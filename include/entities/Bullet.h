@@ -7,6 +7,7 @@ class Bullet:public Entity
 protected:
     bool ofplayer_;
     bool exist_;
+    bool grazed_;
     bool dead_;
     float damage_;
 
@@ -17,9 +18,11 @@ public:
 public:
     virtual void update()=0;
     bool isDead();
+    bool isGrazed();
     bool isPlayer();
     bool isOut();
     void markDead();
+    void markGrazed();
     float getDamage();
     //void drawwindow(sf::RenderWindow& window) override;  //渲染子弹至屏幕
     //void drawtexture(sf::RenderTexture& texture) override;

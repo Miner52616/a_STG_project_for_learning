@@ -47,6 +47,7 @@ private:
     NumLine1 high_score_line_;
     NumLine1 score_line_;
     NumLine1 power_line_;
+    NumLine1 graze_line_;
     NumLine1_1 life_line_;
     NumLine1_1 bomb_line_;
 
@@ -55,16 +56,6 @@ private:
 
     Curtain1 curtain_;
 
-    /*
-    sf::RectangleShape top_cover1;
-    sf::RectangleShape top_cover2;
-    sf::RectangleShape left_cover1;
-    sf::RectangleShape left_cover2;
-    sf::RectangleShape right_cover1;
-    sf::RectangleShape right_cover2;
-    sf::RectangleShape bottom_cover1;
-    sf::RectangleShape bottom_cover2;
-    */
 
     std::vector<std::unique_ptr<Bullet>> bulletlist_;
     std::vector<std::unique_ptr<Drop>> droplist_;

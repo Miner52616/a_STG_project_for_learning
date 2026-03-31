@@ -2,6 +2,8 @@
 #include "mathematics/mathematics.h"
 #include "entities/Entity.h"
 #include "entities/Drop.h"
+#include "entities/Player.h"
+#include "entities/Bullet.h"
 #include <iostream>
 
 bool isCollision(Entity &a,Entity &b)
@@ -43,6 +45,21 @@ bool isGet(Entity &a,Drop &b)
     float closest=distancePointToSegment(a1,b1,b1+b1b2-a1a2);
     
     if(closest<ra+rb)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool isGraze(Player &a,Bullet &b)
+{
+    sf::Vector2f vec=a.getPosition()-b.getPosition();
+    float length=vec.x*vec.x+vec.y*vec.y;
+    float graze_length=a.getGrazebox_r()*a.getGrazebox_r()+b.getHitbox_r()*b.getHitbox_r();
+    if(length<=graze_length)
     {
         return true;
     }

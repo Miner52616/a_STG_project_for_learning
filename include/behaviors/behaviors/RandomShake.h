@@ -15,6 +15,7 @@ private:
 
 public:
     RandomShake(Button* button,sf::Vector2f centerposition,float shake_range,int shake_time);
+    void setPosition(sf::Vector2f position);
     void update() override;
     void reset();
 };

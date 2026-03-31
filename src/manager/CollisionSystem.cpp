@@ -59,6 +59,11 @@ void CollisionSystem::HandleCollision(Player* player,Bullet *bullet)
             bullet->markDead();
             player->be_damage();
         }
+        if(isGraze(*player,*bullet)&&(!bullet->isGrazed()))
+        {
+            bullet->markGrazed();
+            yellowpage_->graze_line_.setCurrentNum(yellowpage_->graze_line_.getCurrentNum()+1);
+        }
     }
 }
 

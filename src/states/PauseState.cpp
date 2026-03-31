@@ -32,6 +32,7 @@ void PauseState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPresse
        {
             focus_=(focus_%PauButtonNum)+1;
        }while(buttonlist_[focus_-1].getButtonLocked()==locked);
+       buttonlist_[focus_-1].shake();
     }
 
     if(key.code==sf::Keyboard::Key::Up)
@@ -44,11 +45,13 @@ void PauseState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPresse
                 focus_=focus_+PauButtonNum;
             }
        }while(buttonlist_[focus_-1].getButtonLocked()==locked);
+       buttonlist_[focus_-1].shake();
     }
     
     if((key.code==sf::Keyboard::Key::X)||(key.code==sf::Keyboard::Key::Escape))
     {
         focus_=PauButtonNum;
+        buttonlist_[focus_-1].shake();
     }
 
     if(key.code==sf::Keyboard::Key::Z)

@@ -16,6 +16,7 @@ GameState::GameState(application &app):
     high_score_line_(app_.mainFont_),
     score_line_(app_.mainFont_),
     power_line_(app_.mainFont_),
+    graze_line_(app_.mainFont_),
     life_line_(app_.mainFont_,app_.lifeUI_),
     bomb_line_(app_.mainFont_,app_.bombUI_),
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
@@ -45,7 +46,7 @@ GameState::GameState(application &app):
     std::cout<<"Player Set"<<std::endl;
 
     //初始化黄页，黄页包含ui和玩家指针（此时所有需要被访问的对象已经创建并初始化）
-    yellowpage_=std::make_unique<YellowPage>(player_.get(),high_score_line_,score_line_,power_line_);
+    yellowpage_=std::make_unique<YellowPage>(player_.get(),high_score_line_,score_line_,power_line_,graze_line_);
     player_->setYellowPage(yellowpage_.get());
     std::cout<<"YellowPage Set"<<std::endl;
 
@@ -98,6 +99,10 @@ void GameState::set_ui()
     power_line_.setLineText("         Power");
     power_line_.setCurrentNum(0);
     power_line_.setMaxNum(400);
+    graze_line_.setLinePosition({865,450});
+    graze_line_.setLineText("         Graze");
+    graze_line_.setCurrentNum(0);
+    graze_line_.setMaxNum(999999999);
     life_line_.setLinePosition({865,250});
     life_line_.setLineText("Life");
     life_line_.setMaxNum(8);
@@ -302,6 +307,7 @@ void GameState::Render(sf::RenderWindow& window)
     high_score_line_.render(window);
     score_line_.render(window);
     power_line_.render(window);
+    graze_line_.render(window);
     life_line_.render(window);
     bomb_line_.render(window);
 

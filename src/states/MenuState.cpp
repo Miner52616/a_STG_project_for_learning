@@ -108,6 +108,9 @@ void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed
     if((key.code==sf::Keyboard::Key::X)||(key.code==sf::Keyboard::Key::Escape))
     {
         focus_=MenuButtonNum;
+        
+        //std::cout<<a<<std::endl;
+        buttonlist_[focus_-1].shake();
     }
 
     if(key.code==sf::Keyboard::Key::Z)

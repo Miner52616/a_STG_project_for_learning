@@ -2,13 +2,13 @@
 #include <iostream>
 
 Bullet::Bullet(const sf::Texture &texture,sf::Vector2f position):
-    Entity(texture),exist_(true),dead_(false),ofplayer_(true),damage_(100)
+    Entity(texture),exist_(true),dead_(false),grazed_(false),ofplayer_(true),damage_(100)
 {
     position_=position;
 }
 
 Bullet::Bullet(const sf::Texture &texture,sf::Vector2f position,float damage):
-    Entity(texture),exist_(true),dead_(false),ofplayer_(true),damage_(damage)
+    Entity(texture),exist_(true),dead_(false),grazed_(false),ofplayer_(true),damage_(damage)
 {
     position_=position;
 }
@@ -16,6 +16,11 @@ Bullet::Bullet(const sf::Texture &texture,sf::Vector2f position,float damage):
 bool Bullet::isDead()
 {
     return dead_;
+}
+
+bool Bullet::isGrazed()
+{
+    return grazed_;
 }
 
 bool Bullet::isPlayer()
@@ -38,6 +43,11 @@ bool Bullet::isOut()
 void Bullet::markDead()
 {
     dead_=true;
+}
+
+void Bullet::markGrazed()
+{
+    grazed_=true;
 }
 
 float Bullet::getDamage()

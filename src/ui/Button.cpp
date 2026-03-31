@@ -25,7 +25,7 @@ sf::Vector2f Button::getButtonPosition()
 
 void Button::setButtonText(const std::string text)
 {
-    text_.setString(text);
+    text_.setString(sf::String::fromUtf8(text.begin(),text.end()));
 }
 
 void Button::setButtonPosition(sf::Vector2f position)
@@ -128,4 +128,9 @@ void Button::shake()
 {
     //std::cout<<"shake"<<std::endl;
     shake_->reset();
+}
+
+void Button::setButtonSize(int size)
+{
+    text_.setCharacterSize(size);
 }
