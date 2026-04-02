@@ -10,37 +10,39 @@ ManualState::ManualState(application &app):
     lua.loadScript("include/luas/manual.lua");
     
     sol::table manual=lua.lua_["manual"];
+    int manual_size=manual.size();
 
-    setPagelistLength(manual.size());
+    setPagelistLength(manual_size);
 
-    for(;buttonlist_.size()<manual.size();)
+    for(;buttonlist_.size()<manual_size;)
     {
         buttonlist_.emplace_back(font_);
     }
-    for(int i=1;i<=manual.size();i++)
+    for(int i=1;i<=manual_size;i++)
     {
         sol::table page=manual[i];
         buttonlist_[i-1].setButtonText(page["button"]);
     }
 
-    for(int i=1;i<=ManPageNum;i++)
+    for(int i=1;i<=manual_size;i++)
     {
         buttonlist_[i-1].setButtonPosition({30,150+i*50});
         buttonlist_[i-1].setButtonSize(30);
         buttonlist_[i-1].setButtonShake(5,15);
     }
 
-    for(int i=1;i<=manual.size();i++)
+    for(int i=1;i<=manual_size;i++)
     {
         sol::table page=manual[i];
         sol::table texts=page["texts"];
+        int texts_length=texts.size();
 
-        pagelist_[i-1].setTextlistLength(texts.size()+1);
+        pagelist_[i-1].setTextlistLength(texts_length+1);
         pagelist_[i-1].setTextText(1,page["title"]);
         pagelist_[i-1].setTextPosition(1,{400,120});
         pagelist_[i-1].setTextSize(1,50);
 
-        for(int j=1;j<=texts.size();j++)
+        for(int j=1;j<=texts_length;j++)
         {
             pagelist_[i-1].setTextText(j+1,texts[j]);
             pagelist_[i-1].setTextPosition(j+1,{400,220+float(j-1)*60});
