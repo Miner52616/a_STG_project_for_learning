@@ -34,6 +34,7 @@
 #include "manager/EffectFactory.h"
 #include "manager/PhaseController.h"
 #include "manager/CollisionSystem.h"
+#include "manager/ScriptLoader.h"
 
 class GameState:public State
 {
@@ -62,7 +63,7 @@ private:
     std::vector<std::unique_ptr<Bomb>> bomblist_;
     std::vector<std::unique_ptr<Effect>> effectlist_;
     std::vector<std::unique_ptr<Overlay>> overlaylist_;
-    std::vector<Phase*> phaselist_;
+    std::vector<std::unique_ptr<Phase>> phaselist_;
 
     BulletFactory bulletfactory_;
     DropFactory dropfactory_;
@@ -75,6 +76,7 @@ private:
     EffectManager effectmanager_;
     CollisionSystem collisionsystem_;
     PhaseController phasecontroller_;
+    ScriptLoader scriptloader_;
 
     std::unique_ptr<Player> player_;
     std::unique_ptr<Enemy> enemy1_;

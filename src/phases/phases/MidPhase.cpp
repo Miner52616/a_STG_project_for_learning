@@ -43,9 +43,9 @@ void MidPhase::render(sf::RenderTexture& texture)
     enemymanager_.render(texture);
 }
 
-void MidPhase::add_enemy(Enemy* enemy)
+void MidPhase::add_enemy(std::unique_ptr<Enemy> enemy)
 {
-    enemymanager_.add_process(enemy);
+    enemymanager_.add_process(std::move(enemy));
 }
 
 void MidPhase::be_damage(float damage)
@@ -57,7 +57,7 @@ void MidPhase::ProcessCollision()
 {
     for(auto it=enemylist_.begin();it!=enemylist_.end();++it)
     {
-        resource_->collisionsystem_.ProcessCollision(*it);
+        resource_->collisionsystem_.ProcessCollision((*it).get());
     }
 }
 

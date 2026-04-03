@@ -12,8 +12,7 @@ protected:
 
     long long int startframe_;
     long long int endframe_;
-    std::vector<Behavior*> behaviorlist_;
-//    std::vector<std::shared_ptr<DropConfig>> droplist_;
+    std::vector<std::unique_ptr<Behavior>> behaviorlist_;
     float HP_;
     bool dead_;
 
@@ -33,7 +32,7 @@ public:
     void be_damage(float damage);
     void markDead();
     bool isDead() const override;
-    void addBehavior(Behavior* behavior);
+    void addBehavior(std::unique_ptr<Behavior> behavior);
 //    void addDrop(std::shared_ptr<DropConfig> dropconfig);
 
     virtual void update(long long int frame);

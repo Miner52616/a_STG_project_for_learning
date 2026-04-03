@@ -1,0 +1,34 @@
+phasetable=
+{
+    {
+        type="MidPhase",
+        time=600,
+        enemytable=
+        {
+            {
+                x=460,
+                y=100,
+                HP=200,
+                start=240,
+                End=216000,
+                behaviortable=
+                {
+                    {
+                        type="MoveToRandom1"
+                    },
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Power",
+                            dropnum=20
+                        }
+                    },
+                    {
+                        type="AimShoot1"
+                    }
+                }
+            }
+        }
+    }
+}

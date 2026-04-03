@@ -26,7 +26,8 @@ GameState::GameState(application &app):
     bombmanager_(bomblist_,bombfactory_),
     effectmanager_(effectlist_,overlaylist_,effectfactory_),
     collisionsystem_(bulletlist_,droplist_,bomblist_),
-    phasecontroller_(app,phaselist_)
+    phasecontroller_(app,phaselist_),
+    scriptloader_(app_.lua_)
 {
     std::cout<<"Game Loading..."<<std::endl;
 
@@ -133,6 +134,8 @@ void GameState::bundle_resource()
     bombfactory_.set_YellowPage(yellowpage_.get());
     collisionsystem_.set_resource(resource_.get());
     collisionsystem_.set_yellowpage(yellowpage_.get());
+    scriptloader_.setResource(resource_.get());
+    scriptloader_.setYellowPage(yellowpage_.get());
 }
 
 void GameState::set_player()
@@ -182,6 +185,8 @@ void GameState::set_phase()
 
 void GameState::bundle_leader_menber()
 {
+
+    scriptloader_.loadPhase("include/luas/phases.lua");
     //****上级绑定下级****
     //敌人绑定行为
     //符卡绑定行为
@@ -195,17 +200,17 @@ void GameState::bundle_leader_menber()
     
     //敌人与行为相互绑定
     enemy1_drop_->set_entity(enemy1_.get());
-    enemy1_->addBehavior(enemy1_drop_.get());
+    enemy1_->addBehavior(std::move(enemy1_drop_));
     enemy1_move_->set_entity(enemy1_.get());
-    enemy1_->addBehavior(enemy1_move_.get());
+    enemy1_->addBehavior(std::move(enemy1_move_));
     enemy1_shoot_->set_entity(enemy1_.get());
-    enemy1_->addBehavior(enemy1_shoot_.get());
+    enemy1_->addBehavior(std::move(enemy1_shoot_));
     enemy2_drop_->set_entity(enemy2_.get());
-    enemy2_->addBehavior(enemy2_drop_.get());
+    enemy2_->addBehavior(std::move(enemy2_drop_));
     enemy2_move_->set_entity(enemy2_.get());
-    enemy2_->addBehavior(enemy2_move_.get());
+    enemy2_->addBehavior(std::move(enemy2_move_));
     enemy2_shoot_->set_entity(enemy2_.get());
-    enemy2_->addBehavior(enemy2_shoot_.get());
+    enemy2_->addBehavior(std::move(enemy2_shoot_));
 
     //行为绑定Boss，符卡绑定行为，符卡绑定Boss，Boss绑定符卡
     spell1_move_->set_entity(boss1_.get());
@@ -213,18 +218,18 @@ void GameState::bundle_leader_menber()
     spell1_shoot_->set_entity(boss1_.get());
     spell1_->addBehavior(spell1_shoot_.get());
     spell1_->setBoss(boss1_.get());
-    boss1_->add_phase(spell1_.get());
+    boss1_->add_phase(std::move(spell1_));
     
     //游戏阶段绑定敌人/Boss
-    midphase1_->add_enemy(enemy1_.get());
-    midphase1_->add_enemy(enemy2_.get());
+    midphase1_->add_enemy(std::move(enemy1_));
+    midphase1_->add_enemy(std::move(enemy2_));
     bossphase1_->setBoss(boss1_.get());
 
     //游戏阶段控制器绑定游戏阶段
-    phasecontroller_.add_process(midphase1_.get());
-    phasecontroller_.add_process(voidphase1_.get());
-    phasecontroller_.add_process(bossphase1_.get());
-    phasecontroller_.add_process(voidphase2_.get());
+    phasecontroller_.add_process(std::move(midphase1_));
+    phasecontroller_.add_process(std::move(voidphase1_));
+    phasecontroller_.add_process(std::move(bossphase1_));
+    phasecontroller_.add_process(std::move(voidphase2_));
 }
 
 void GameState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)

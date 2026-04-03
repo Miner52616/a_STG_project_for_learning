@@ -66,7 +66,7 @@ bool Enemy::isDead() const
     return dead_;
 }
 
-void Enemy::addBehavior(Behavior* behavior)
+void Enemy::addBehavior(std::unique_ptr<Behavior> behavior)
 {
     behaviorlist_.emplace_back(std::move(behavior));
 }
