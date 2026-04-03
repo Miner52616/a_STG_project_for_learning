@@ -25,9 +25,9 @@ void Boss::render(sf::RenderTexture& texture)
     phasecontroller_.render(texture);
 }
 
-void Boss::add_phase(Phase* spellphase)
+void Boss::add_phase(std::unique_ptr<Phase> spellphase)
 {
-    phasecontroller_.add_process(spellphase);
+    phasecontroller_.add_process(std::move(spellphase));
 }
 
 PhaseController* Boss::getPhaseController()
