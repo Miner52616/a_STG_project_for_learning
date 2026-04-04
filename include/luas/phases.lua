@@ -21,7 +21,7 @@ phasetable=
                         dropconfig=
                         {
                             droptype="Power",
-                            dropnum=20
+                            dropnum=40
                         }
                     },
                     {
