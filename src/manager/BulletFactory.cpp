@@ -14,7 +14,14 @@ std::unique_ptr<Bullet> BulletFactory::create(std::shared_ptr<BulletConfig> bull
             if(bulletconfig->damage_==0)
                 return std::make_unique<PlayerBullet>(bulletconfig->texture_,bulletconfig->spawn_point_);
             else
-                return std::make_unique<PlayerBullet>(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->damage_);
+            {
+                std::unique_ptr<PlayerBullet> bullet=std::make_unique<PlayerBullet>(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->damage_);
+                if(bulletconfig->v_!=0)
+                {
+                    bullet->setv(bulletconfig->v_);
+                }
+                return std::move(bullet);
+            }
         }
         default:
         {

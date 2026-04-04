@@ -30,10 +30,13 @@ void CollisionSystem::HandleCollision(Boss* boss,Bullet *bullet)
 {
     if(bullet->isPlayer())
     {
-        if(isCollision(*boss,*bullet))
+        if(isCollisionSimple(*boss,*bullet))
         {
-            bullet->markDead();
-            boss->be_damage(bullet->getDamage());
+            if(isCollision(*boss,*bullet))
+            {
+                bullet->markDead();
+                boss->be_damage(bullet->getDamage());
+            }
         }
     }
 }
@@ -42,10 +45,13 @@ void CollisionSystem::HandleCollision(Enemy* enemy,Bullet *bullet)
 {
     if((bullet->isPlayer())&&(enemy->isExist()))
     {
-        if(isCollision(*enemy,*bullet))
+        if(isCollisionSimple(*enemy,*bullet))
         {
-            bullet->markDead();
-            enemy->be_damage(bullet->getDamage());
+            if(isCollision(*enemy,*bullet))
+            {
+                bullet->markDead();
+                enemy->be_damage(bullet->getDamage());
+            }
         }
     }
 }
@@ -54,45 +60,57 @@ void CollisionSystem::HandleCollision(Player* player,Bullet *bullet)
 {
     if(!bullet->isPlayer())
     {
-        if(isCollision(*player,*bullet))
+        if(isCollisionSimple(*player,*bullet))
         {
-            bullet->markDead();
-            player->be_damage();
-        }
-        if(isGraze(*player,*bullet)&&(!bullet->isGrazed()))
-        {
-            bullet->markGrazed();
-            yellowpage_->graze_line_.setCurrentNum(yellowpage_->graze_line_.getCurrentNum()+1);
+            if(isCollision(*player,*bullet))
+            {
+                bullet->markDead();
+                player->be_damage();
+            }
+            if(isGraze(*player,*bullet)&&(!bullet->isGrazed()))
+            {
+                bullet->markGrazed();
+                yellowpage_->graze_line_.setCurrentNum(yellowpage_->graze_line_.getCurrentNum()+1);
+            }
         }
     }
 }
 
 void CollisionSystem::HandleCollision(Player* player,Drop *drop)
 {
-    if(isCollision(*player,*drop))
+    if(isCollisionSimple(*player,*drop))
     {
-        drop->markDead();
-        switch (drop->getType())
+        if(isCollision(*player,*drop))
         {
-        case DropType::Score:
-            yellowpage_->score_line_.setCurrentNum(yellowpage_->score_line_.getCurrentNum()+the_min(500,750*((900-drop->getPosition().y)/900))+500);
-            break;
+            drop->markDead();
+            switch (drop->getType())
+            {
+            case DropType::Score:
+                yellowpage_->score_line_.setCurrentNum(yellowpage_->score_line_.getCurrentNum()+the_min(500,750*((900-drop->getPosition().y)/900))+500);
+                break;
         
-        case DropType::Power:
-            yellowpage_->power_line_.setCurrentNum(yellowpage_->power_line_.getCurrentNum()+5);
-            break;
+            case DropType::Power:
+                yellowpage_->power_line_.setCurrentNum(yellowpage_->power_line_.getCurrentNum()+5);
+                break;
 
-        default:
-            break;
+            default:
+                break;
+            }
         }
     }
 }
 
 void CollisionSystem::HandleBeGet(Player* player,Drop *drop)
 {
-    if(isGet(*player,*drop))
+    if(!drop->isGot())
     {
-        drop->setPhase(2);
+        if(isGetSimple(*player,*drop))
+        {
+            if(isGet(*player,*drop))
+            {
+                drop->setPhase(2);
+            }
+        }
     }
 }
 
@@ -100,67 +118,84 @@ void CollisionSystem::HandleCollision(Bomb* bomb,Bullet *bullet)
 {
     if(!bullet->isPlayer())
     {
-        if(isCollision(*bomb,*bullet))
+        if(isCollisionSimple(*bomb,*bullet))
         {
-            bullet->markDead();
+            if(isCollision(*bomb,*bullet))
+            {
+                bullet->markDead();
+            }
         }
     }
 }
 
 void CollisionSystem::HandleCollision(Enemy* enemy,Bomb* bomb)
 {
-    if(enemy->isExist()&&isCollision(*enemy,*bomb))
+    if(enemy->isExist())
     {
-        switch (bomb->getPhase())
+        if(isCollisionSimple(*enemy,*bomb))
         {
-        case 1:
-            enemy->be_damage(bomb->getDamage());
-            break;
+            if(isCollision(*enemy,*bomb))
+            {
+                    switch (bomb->getPhase())
+                {
+                case 1:
+                    enemy->be_damage(bomb->getDamage());
+                    break;
 
-        case 2:
-            enemy->be_damage(bomb->getDamage());
+                case 2:
+                    enemy->be_damage(bomb->getDamage());
+                    bomb->phase_change();
+                    break;
+
+                case 3:
+                    enemy->be_damage(bomb->getDamage());
+                    break;
+
+                default:
+                    break;
+                }
+            }
+        }
+        
+        if(bomb->getPhase()==4)
+        {
+            if(isBomb(*enemy,*bomb))
+            {
+                enemy->be_damage(bomb->getDamage());
+            }
             bomb->phase_change();
-            break;
-
-        case 3:
-            enemy->be_damage(bomb->getDamage());
-            break;
-
-        case 4:
-            enemy->be_damage(bomb->getDamage());
-            bomb->phase_change();
-
-        default:
-            break;
         }
     }
 }
 
 void CollisionSystem::HandleCollision(Boss* boss,Bomb* bomb)
 {
-    if(isCollision(*boss,*bomb))
+    if(isCollisionSimple(*boss,*bomb))
     {
-        switch (bomb->getPhase())
+        if(isCollision(*boss,*bomb))
         {
-        case 1:
-            boss->be_damage(bomb->getDamage());
-            break;
+            switch (bomb->getPhase())
+            {
+            case 1:
+                boss->be_damage(bomb->getDamage());
+                break;
 
-        case 2:
-            boss->be_damage(bomb->getDamage());
-            bomb->phase_change();
-            break;
+            case 2:
+                boss->be_damage(bomb->getDamage());
+                bomb->phase_change();
+                break;
 
-        case 3:
-            boss->be_damage(bomb->getDamage());
-            break;
+            case 3:
+                boss->be_damage(bomb->getDamage());
+                break;
 
-        case 4:
-            boss->be_damage(bomb->getDamage());
-            bomb->phase_change();
+            case 4:
+                boss->be_damage(bomb->getDamage());
+                bomb->phase_change();
 
-        default:
-            break;
+            default:
+                break;
+            }
         }
     }
 }

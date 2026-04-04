@@ -14,6 +14,21 @@ float distancePointToSegment(sf::Vector2f p, sf::Vector2f a, sf::Vector2f b)
     return (p-closest).length();
 }
 
+float distancePointToSegment2(sf::Vector2f p, sf::Vector2f a, sf::Vector2f b)
+{
+    sf::Vector2f ab=b-a;
+    sf::Vector2f ap=p-a;
+
+    float t=ap.dot(ab)/ab.dot(ab);
+    t=std::clamp(t,0.f,1.f);
+
+    sf::Vector2f closest=a+(ab*t);
+
+    sf::Vector2f vec=p-closest;
+
+    return (vec.x)*(vec.x)+(vec.y)*(vec.y);
+}
+
 float getRandomNum(float a,float b)
 {
     std::random_device rd;

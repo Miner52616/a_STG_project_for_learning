@@ -11,6 +11,7 @@ LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,YellowPage* yell
 {
     effectconfig_=std::make_unique<EffectConfig>(resource_->app_.LeiTan_AirTexture_);
     hitbox_r_=80;
+    bombbox_r_=120;
     clock_.reset();
 
     roundmove1_=std::make_unique<RoundMove1>(sf::Vector2f{100,0},(float)3,120,this);
@@ -25,6 +26,7 @@ LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,float damage,Yel
 {
     effectconfig_=std::make_unique<EffectConfig>(resource_->app_.LeiTan_AirTexture_);
     hitbox_r_=80;
+    bombbox_r_=120;
     clock_.reset();
 
     roundmove1_=std::make_unique<RoundMove1>(sf::Vector2f{100,0},(float)3,120,this);
@@ -41,6 +43,7 @@ LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,sf::Vector2f dir
 {
     effectconfig_=std::make_unique<EffectConfig>(resource_->app_.LeiTan_AirTexture_);
     hitbox_r_=80;
+    bombbox_r_=120;
     clock_.reset();
 
     roundmove1_=std::make_unique<RoundMove1>(direction,(float)v,120,this);

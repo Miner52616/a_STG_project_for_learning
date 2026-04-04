@@ -56,6 +56,18 @@ bool Drop::isDead()
     return dead_;
 }
 
+bool Drop::isGot()
+{
+    if(phase_==1)
+    {
+        return false;
+    }
+    else
+    {
+        return true;
+    }
+}
+
 void Drop::update()
 {
     //std::cout<<phase_<<std::endl;

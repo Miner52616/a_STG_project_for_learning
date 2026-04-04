@@ -14,11 +14,16 @@ PlayerBullet::PlayerBullet(const sf::Texture &texture,sf::Vector2f position,floa
     hitbox_r_=10;
 }
 
+void PlayerBullet::setv(float v)
+{
+    v_=v;
+}
+
 void PlayerBullet::update()
 {
     prev_position_=position_;
 
-    setPosition({getPosition().x,getPosition().y-50});
+    setPosition({getPosition().x,getPosition().y-v_});
 
     if((getPosition().x<0)||(getPosition().y<-50)||(getPosition().x>770)||(getPosition().y>900))
     {

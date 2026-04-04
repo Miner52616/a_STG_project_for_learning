@@ -8,6 +8,7 @@ class Bomb:public Entity
 protected:
     bool dead_;
     float damage_;
+    int bombbox_r_;
     
     std::vector<Behavior*> behaviorlist_;
 
@@ -21,5 +22,6 @@ public:
     void markDead();
     virtual float getDamage();
     virtual int getPhase()=0;
+    int getBombbox_r();
     virtual void phase_change()=0;
 };

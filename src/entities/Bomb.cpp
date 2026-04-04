@@ -26,3 +26,8 @@ float Bomb::getDamage()
 {
     return damage_;
 }
+
+int Bomb::getBombbox_r()
+{
+    return bombbox_r_;
+}

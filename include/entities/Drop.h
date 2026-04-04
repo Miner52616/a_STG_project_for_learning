@@ -41,6 +41,7 @@ public:
     void markDead();
     int getGetbox_r();
     bool isDead();
+    bool isGot();
 
     void update();
     void drawtexture(sf::RenderTexture& texture) override;

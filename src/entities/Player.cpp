@@ -70,7 +70,7 @@ void Player::setBulletConfig()
     bulletconfig_->damage_=8;
     bulletconfig_->bulletclass_=BulletClasses::PlayerBullet;
     bulletconfig_->r_=10;
-    bulletconfig_->v_=10;
+    bulletconfig_->v_=80;
     bulletconfig_->spawn_point_=getPosition();
 }
 
