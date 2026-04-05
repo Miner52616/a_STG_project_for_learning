@@ -4,6 +4,7 @@
 
 class Entity;
 
+//这是专门给LeiTan使用的AimMove
 enum class AimState
 {
     DYNAMIC,

@@ -3,6 +3,9 @@
 
 class Entity;
 
+//越靠近目标实体，速度越慢
+//这是直接速度追踪目标实体的AimMove
+
 class AimMove1:public Behavior
 {
 private:

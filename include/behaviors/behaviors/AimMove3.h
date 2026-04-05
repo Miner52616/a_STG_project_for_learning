@@ -5,6 +5,9 @@
 class Entity;
 class Effect;
 
+//这是直接速度追踪某个目标坐标点的AimMove
+//越靠近目标点，速度越慢
+
 class AimMove3:public Behavior
 {
 private:

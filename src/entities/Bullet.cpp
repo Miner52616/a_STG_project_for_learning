@@ -1,21 +1,42 @@
 #include "entities/Bullet.h"
+#include "behaviors/Behavior.h"
 #include <iostream>
 
 Bullet::Bullet(const sf::Texture &texture,sf::Vector2f position):
-    Entity(texture),exist_(true),dead_(false),grazed_(false),ofplayer_(true),damage_(100)
+    Entity(texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(100)
 {
     position_=position;
+    hitbox_r_=10;
 }
 
 Bullet::Bullet(const sf::Texture &texture,sf::Vector2f position,float damage):
-    Entity(texture),exist_(true),dead_(false),grazed_(false),ofplayer_(true),damage_(damage)
+    Entity(texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(damage)
 {
     position_=position;
+    hitbox_r_=10;
+}
+
+void Bullet::update()
+{
+    store_position();
+    for(auto it=behaviorlist_.begin();it!=behaviorlist_.end();++it)
+    {
+        (*it)->update();
+    }
+    if(isOut())
+    {
+        markDead();
+    }
 }
 
 bool Bullet::isDead()
 {
     return dead_;
+}
+
+bool Bullet::isAcitve()
+{
+    return active_;
 }
 
 bool Bullet::isGrazed()
@@ -40,9 +61,24 @@ bool Bullet::isOut()
     }
 }
 
+void Bullet::setbelong(bool ofplayer)
+{
+    ofplayer_=ofplayer;
+}
+
+void Bullet::addBehavior(std::unique_ptr<Behavior> behavior)
+{
+    behaviorlist_.emplace_back(std::move(behavior));
+}
+
 void Bullet::markDead()
 {
     dead_=true;
+}
+
+void Bullet::setActive(bool active)
+{
+    active_=active;
 }
 
 void Bullet::markGrazed()
