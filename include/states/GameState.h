@@ -58,7 +58,7 @@ private:
     Curtain1 curtain_;
 
 
-    std::vector<std::unique_ptr<Bullet>> bulletlist_;
+    std::vector<Bullet*> bulletlist_;
     std::vector<std::unique_ptr<Drop>> droplist_;
     std::vector<std::unique_ptr<Bomb>> bomblist_;
     std::vector<std::unique_ptr<Effect>> effectlist_;

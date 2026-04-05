@@ -10,10 +10,10 @@
 #include "ui/NumLine1.h"
 #include "mathematics/mathematics.h"
 
-CollisionSystem::CollisionSystem(std::vector<std::unique_ptr<Bullet>> &bulletlist,std::vector<std::unique_ptr<Drop>> &droplist,std::vector<std::unique_ptr<Bomb>> &bomblist):
+CollisionSystem::CollisionSystem(std::vector<Bullet*> &bulletlist,std::vector<std::unique_ptr<Drop>> &droplist,std::vector<std::unique_ptr<Bomb>> &bomblist):
     bulletlist_(bulletlist),droplist_(droplist),bomblist_(bomblist)
 {
-    ;
+    std::cout<<"build CollisionSystem"<<std::endl;
 }
 
 void CollisionSystem::set_resource(Resource* resource)
@@ -204,7 +204,7 @@ void CollisionSystem::ProcessCollision(Boss* boss)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {
-        HandleCollision(boss,it->get());
+        HandleCollision(boss,*it);
     }
     for(auto it=bomblist_.begin();it!=bomblist_.end();++it)
     {
@@ -216,7 +216,7 @@ void CollisionSystem::ProcessCollision(Enemy* enemy)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {
-        HandleCollision(enemy,it->get());
+        HandleCollision(enemy,*it);
     }
     for(auto it=bomblist_.begin();it!=bomblist_.end();++it)
     {
@@ -228,7 +228,7 @@ void CollisionSystem::ProcessCollision(Player* player)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {
-        HandleCollision(player,it->get());
+        HandleCollision(player,*it);
     }
     for(auto it=droplist_.begin();it!=droplist_.end();++it)
     {
@@ -241,6 +241,6 @@ void CollisionSystem::ProcessCollision(Bomb* bomb)
 {
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {
-        HandleCollision(bomb,it->get());
+        HandleCollision(bomb,*it);
     }
 }

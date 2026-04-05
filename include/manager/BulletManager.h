@@ -11,12 +11,12 @@ class BulletManager
 {
 private:
     application &app_;
-    std::vector<std::unique_ptr<Bullet>> &bulletlist_;
+    std::vector<Bullet*> &bulletlist_;
     BulletFactory &bulletfactory_;
 
 public:
-    BulletManager(application &app,std::vector<std::unique_ptr<Bullet>> &bulletlist,BulletFactory &bulletfactory);
-    void add_process(std::unique_ptr<Bullet> bullet);
+    BulletManager(application &app,std::vector<Bullet*> &bulletlist,BulletFactory &bulletfactory);
+    //void add_process(std::unique_ptr<Bullet> bullet);
     void add_process(std::shared_ptr<BulletConfig> bulletconfig);
     void update();
     void clear();

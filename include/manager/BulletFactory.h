@@ -10,19 +10,25 @@
 
 class BulletFactory
 {
-    /*
+    
 private:
+    application& app_;
+    Resource* resource_;
+
+    int poolsize_=3000;
     std::vector<Bullet> bulletlist_;
     std::queue<int> free_list_;
 
     void initialize(int size);
-*/
+
 
 public:
-    BulletFactory();
-    std::unique_ptr<Bullet> create(std::shared_ptr<BulletConfig> bulletconfig);
-    /*
+    BulletFactory(application& app);
+    void setResource(Resource* resource);
+    int getPoolSize();
+
+    Bullet* create(std::shared_ptr<BulletConfig> bulletconfig);
+
     void destory(Bullet* bullet);
     Bullet* getBullet();
-    */
 };

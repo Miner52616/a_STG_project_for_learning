@@ -2,16 +2,18 @@
 #include "ui/Frame.h"
 #include "core/Clock.h"
 
-BulletManager::BulletManager(application &app,std::vector<std::unique_ptr<Bullet>> &bulletlist,BulletFactory &bulletfactory):
+BulletManager::BulletManager(application &app,std::vector<Bullet*> &bulletlist,BulletFactory &bulletfactory):
     app_(app),bulletlist_(bulletlist),bulletfactory_(bulletfactory)//,outline_(outline),player_(player)
 {
-    ;
+    std::cout<<"build BulletManager"<<std::endl;
 }
 
+/*
 void BulletManager::add_process(std::unique_ptr<Bullet> bullet)
 {
     bulletlist_.emplace_back(std::move(bullet));
 }
+    */
 
 void BulletManager::add_process(std::shared_ptr<BulletConfig> bulletconfig)
 {
@@ -34,15 +36,22 @@ void BulletManager::update()
 
 void BulletManager::clear()
 {
+    for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
+    {
+        if((*it)->isDead())
+        bulletfactory_.destory(*it);
+    }
+
     bulletlist_.erase
     (
         std::remove_if
         (
             bulletlist_.begin(),bulletlist_.end(),
-            [this](const std::unique_ptr<Bullet>& bullet)
+            [this](Bullet*& bullet)
             {
                 if(bullet->isDead())
                 {
+                    std::cout<<"dead"<<std::endl;
                     return true;
                 }
                 else

@@ -21,6 +21,7 @@ GameState::GameState(application &app):
     bomb_line_(app_.mainFont_,app_.bombUI_),
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
     window_sprite_(game_window_.getTexture()),
+    bulletfactory_(app),
     bulletmanager_(app,bulletlist_,bulletfactory_),
     dropmanager_(droplist_,dropfactory_),
     bombmanager_(bomblist_,bombfactory_),
@@ -125,6 +126,7 @@ void GameState::set_gamewindow()
 void GameState::bundle_resource()
 {
     //行为对象资源绑定
+    bulletfactory_.setResource(resource_.get());
     dropfactory_.set_Resourse(resource_.get());
     dropfactory_.set_YellowPage(yellowpage_.get());
     dropmanager_.set_resource(resource_.get());

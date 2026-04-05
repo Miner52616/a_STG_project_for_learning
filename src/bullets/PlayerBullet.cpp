@@ -2,13 +2,13 @@
 #include "core/application.h"
 #include "ui/Frame.h"
 
-PlayerBullet::PlayerBullet(const sf::Texture &texture,sf::Vector2f position):
+PlayerBullet::PlayerBullet(sf::Texture &texture,sf::Vector2f position):
     Bullet(texture,position)
 {
     hitbox_r_=10;
 }
 
-PlayerBullet::PlayerBullet(const sf::Texture &texture,sf::Vector2f position,float damage):
+PlayerBullet::PlayerBullet(sf::Texture &texture,sf::Vector2f position,float damage):
     Bullet(texture,position,damage)
 {
     hitbox_r_=10;

@@ -1,25 +1,44 @@
 #include "manager/BulletFactory.h"
+#include "core/application.h"
 #include "behaviors/behaviors/DirectMove1.h"
 #include "behaviors/behaviors/AimMove3.h"
 #include <iostream>
 
-BulletFactory::BulletFactory()
+BulletFactory::BulletFactory(application& app):
+    app_(app)
 {
-    //initialize(1500);
+    std::cout<<"build BulletFactory"<<std::endl;
+    initialize(poolsize_);
+    std::cout<<"success"<<std::endl;
 }
 
-/*
+
+void BulletFactory::setResource(Resource* resource)
+{
+    resource_=resource;
+}
+
+int BulletFactory::getPoolSize()
+{
+    return poolsize_;
+}
+
 void BulletFactory::initialize(int size)
 {
-    bulletlist_.resize(size);
-    for (int i = 0; i < size; ++i)
-        free_list_.push(i);
+    bulletlist_.reserve(size);
+    std::cout<<"bullet storage "<<size<<std::endl;
+    for (int i=1;i<=size;i++)
+    {
+        bulletlist_.emplace_back(app_.bulletTexture_,sf::Vector2f{0,0});
+        free_list_.push(i-1);
+    }
 }
 
 Bullet* BulletFactory::getBullet()
 {
     if(free_list_.empty())
     {
+        std::cout<<"FULL!!!"<<std::endl;
         return nullptr;
     }
 
@@ -28,40 +47,45 @@ Bullet* BulletFactory::getBullet()
 
     Bullet* bullet=&bulletlist_[id];
     bullet->setActive(true);
+    bullet->initialize();
+    bullet->setDead(false);
     return bullet;
 }
 
 void BulletFactory::destory(Bullet* bullet)
 {
     bullet->setActive(false);
+    //bullet->initialize();
     int id=bullet-&bulletlist_[0];
+    std::cout<<"release "<<id<<std::endl;
     free_list_.push(id);
 }
-*/
 
-std::unique_ptr<Bullet> BulletFactory::create(std::shared_ptr<BulletConfig> bulletconfig)
+
+Bullet* BulletFactory::create(std::shared_ptr<BulletConfig> bulletconfig)
 {
-    std::unique_ptr<Bullet> bullet=std::make_unique<Bullet>(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->damage_);
+    Bullet* bullet=getBullet();
+    bullet->rebuild(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->damage_);
+    //std::unique_ptr<Bullet> bullet=std::make_unique<Bullet>(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->damage_);
     switch(bulletconfig->bulletclass_)
     {
         case BulletClasses::LinearBullet:
         {
             bullet->setbelong(false);
-            std::unique_ptr<Behavior> aimbulletbehavior=std::make_unique<AimMove3>(bullet.get(),bulletconfig->v_,bulletconfig->target_point_);
+            std::unique_ptr<Behavior> aimbulletbehavior=std::make_unique<AimMove3>(bullet,bulletconfig->v_,bulletconfig->target_point_);
             bullet->addBehavior(std::move(aimbulletbehavior));
-            //return std::make_unique<LinearBullet>(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->target_point_,bulletconfig->v_,bulletconfig->r_);
             return std::move(bullet);
         }
         case BulletClasses::PlayerBullet:
         {
-            std::unique_ptr<Behavior> playerbulletbehavior=std::make_unique<DirectMove1>(bullet.get(),bulletconfig->v_,sf::Vector2f{0,-1});
+            std::unique_ptr<Behavior> playerbulletbehavior=std::make_unique<DirectMove1>(bullet,bulletconfig->v_,sf::Vector2f{0,-1});
             bullet->addBehavior(std::move(playerbulletbehavior));
             return std::move(bullet);
         }
         default:
         {
             std::cout<<"Bullet Create Type ERROR"<<std::endl;
-            return std::make_unique<PlayerBullet>(bulletconfig->texture_,bulletconfig->spawn_point_);
+            return NULL;
         }
     }
 }

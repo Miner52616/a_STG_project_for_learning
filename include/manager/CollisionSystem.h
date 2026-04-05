@@ -21,7 +21,7 @@ class YellowPage;
 class CollisionSystem
 {
 protected:
-    std::vector<std::unique_ptr<Bullet>> &bulletlist_;
+    std::vector<Bullet*> &bulletlist_;
     std::vector<std::unique_ptr<Drop>> &droplist_;
     std::vector<std::unique_ptr<Bomb>> &bomblist_;
     Resource* resource_;
@@ -37,7 +37,7 @@ protected:
     void HandleCollision(Boss* A,Bomb* B);
 
 public:
-    CollisionSystem(std::vector<std::unique_ptr<Bullet>> &bulletlist,std::vector<std::unique_ptr<Drop>> &droplist,std::vector<std::unique_ptr<Bomb>> &bomblist);
+    CollisionSystem(std::vector<Bullet*> &bulletlist,std::vector<std::unique_ptr<Drop>> &droplist,std::vector<std::unique_ptr<Bomb>> &bomblist);
     void set_resource(Resource* resource);
     void set_yellowpage(YellowPage *yellowpage);
     

@@ -2,15 +2,15 @@
 #include "behaviors/Behavior.h"
 #include <iostream>
 
-Bullet::Bullet(const sf::Texture &texture,sf::Vector2f position):
-    Entity(texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(100)
+Bullet::Bullet(sf::Texture &texture,sf::Vector2f position):
+    Entity(texture),bullet_texture_(texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(100)
 {
     position_=position;
     hitbox_r_=10;
 }
 
-Bullet::Bullet(const sf::Texture &texture,sf::Vector2f position,float damage):
-    Entity(texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(damage)
+Bullet::Bullet(sf::Texture &texture,sf::Vector2f position,float damage):
+    Entity(texture),bullet_texture_(texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(damage)
 {
     position_=position;
     hitbox_r_=10;
@@ -29,7 +29,7 @@ void Bullet::update()
     }
 }
 
-bool Bullet::isDead()
+bool Bullet::isDead() const
 {
     return dead_;
 }
@@ -59,6 +59,37 @@ bool Bullet::isOut()
     {
         return false;
     }
+}
+
+void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position)
+{
+    bullet_texture_=texture;
+    picture_.setTexture(bullet_texture_);
+    position_=position;
+    hitbox_r_=10;
+}
+
+void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position,float damage)
+{
+    bullet_texture_=texture;
+    picture_.setTexture(bullet_texture_);
+    damage_=damage;
+    position_=position;
+    hitbox_r_=10;
+}
+
+void Bullet::initialize()
+{
+    behaviorlist_.clear();
+    //dead_=false;
+    exist_=true;
+    grazed_=false;
+    ofplayer_=true;
+}
+
+void Bullet::setDead(bool dead)
+{
+    dead_=dead;
 }
 
 void Bullet::setbelong(bool ofplayer)
