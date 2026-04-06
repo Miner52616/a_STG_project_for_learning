@@ -127,6 +127,7 @@ void GameState::bundle_resource()
 {
     //行为对象资源绑定
     bulletfactory_.setResource(resource_.get());
+    bulletfactory_.setYellowPage(yellowpage_.get());
     dropfactory_.set_Resourse(resource_.get());
     dropfactory_.set_YellowPage(yellowpage_.get());
     dropmanager_.set_resource(resource_.get());

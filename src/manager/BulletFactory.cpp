@@ -18,6 +18,15 @@ void BulletFactory::setResource(Resource* resource)
     resource_=resource;
 }
 
+void BulletFactory::setYellowPage(YellowPage* yellowpage)
+{
+    yellowpage_=yellowpage;
+    for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
+    {
+        it->setYellowPage(yellowpage);
+    }
+}
+
 int BulletFactory::getPoolSize()
 {
     return poolsize_;
@@ -52,7 +61,7 @@ Bullet* BulletFactory::getBullet()
     return bullet;
 }
 
-void BulletFactory::destory(Bullet* bullet)
+void BulletFactory::destroy(Bullet* bullet)
 {
     bullet->setActive(false);
     //bullet->initialize();
@@ -66,20 +75,22 @@ Bullet* BulletFactory::create(std::shared_ptr<BulletConfig> bulletconfig)
 {
     Bullet* bullet=getBullet();
     bullet->rebuild(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->damage_);
-    //std::unique_ptr<Bullet> bullet=std::make_unique<Bullet>(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->damage_);
+    bullet->setBulletConfig(bulletconfig);
+    
+    if(bulletconfig->bulletclass_!=BulletClasses::PlayerBullet)
+    {
+        bullet->setbelong(false);
+    }
+    /*
     switch(bulletconfig->bulletclass_)
     {
         case BulletClasses::LinearBullet:
         {
             bullet->setbelong(false);
-            std::unique_ptr<Behavior> aimbulletbehavior=std::make_unique<AimMove3>(bullet,bulletconfig->v_,bulletconfig->target_point_);
-            bullet->addBehavior(std::move(aimbulletbehavior));
             return std::move(bullet);
         }
         case BulletClasses::PlayerBullet:
         {
-            std::unique_ptr<Behavior> playerbulletbehavior=std::make_unique<DirectMove1>(bullet,bulletconfig->v_,sf::Vector2f{0,-1});
-            bullet->addBehavior(std::move(playerbulletbehavior));
             return std::move(bullet);
         }
         default:
@@ -87,5 +98,10 @@ Bullet* BulletFactory::create(std::shared_ptr<BulletConfig> bulletconfig)
             std::cout<<"Bullet Create Type ERROR"<<std::endl;
             return NULL;
         }
+    
     }
+        */
+
+    return bullet;
+            
 }

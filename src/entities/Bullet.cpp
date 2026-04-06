@@ -1,5 +1,6 @@
 #include "entities/Bullet.h"
 #include "behaviors/Behavior.h"
+#include "mathematics/mathematics.h"
 #include <iostream>
 
 Bullet::Bullet(sf::Texture &texture,sf::Vector2f position):
@@ -19,10 +20,14 @@ Bullet::Bullet(sf::Texture &texture,sf::Vector2f position,float damage):
 void Bullet::update()
 {
     store_position();
+    /*
     for(auto it=behaviorlist_.begin();it!=behaviorlist_.end();++it)
     {
         (*it)->update();
     }
+        */
+    update_table[bulletconfig_->bulletclass_](*this,yellowpage_);
+
     if(isOut())
     {
         markDead();
@@ -87,6 +92,16 @@ void Bullet::initialize()
     ofplayer_=true;
 }
 
+void Bullet::setBulletConfig(std::shared_ptr<BulletConfig> bulletconfig)
+{
+    bulletconfig_=bulletconfig;
+}
+
+void Bullet::setYellowPage(YellowPage* yellowpage)
+{
+    yellowpage_=yellowpage;
+}
+
 void Bullet::setDead(bool dead)
 {
     dead_=dead;
@@ -128,3 +143,20 @@ void Bullet::drawwindow(sf::RenderWindow& window)
     window.draw(picture_);
 }
     */
+
+//************************************************************** */
+void aim_move1(Bullet& bullet,YellowPage* yellowpage)
+{
+    bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*(bullet.bulletconfig_->target_point_-bullet.getPosition()));
+}
+
+void direct_move1(Bullet& bullet,YellowPage* yellowpage)
+{
+    bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*normalize(bullet.bulletconfig_->direction_));
+}
+
+UpdateFunc update_table[]=
+{
+    aim_move1,
+    direct_move1
+};
