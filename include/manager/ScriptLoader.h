@@ -6,7 +6,10 @@ class LuaManager;
 class Resource;
 class YellowPage;
 class MidPhase;
+class SpellPhase;
 class Enemy;
+class Boss;
+class Entity;
 class Behavior;
 
 class BFactory
@@ -16,7 +19,7 @@ private:
     YellowPage* yellowpage_;
 
 public:
-    using BehaviorCreator=std::function<std::unique_ptr<Behavior>(Enemy*,const sol::table&)>;
+    using BehaviorCreator=std::function<std::unique_ptr<Behavior>(Entity*,const sol::table&)>;
 private:
     std::unordered_map<std::string,BehaviorCreator> behaviorregistry_;
 public:
@@ -24,8 +27,21 @@ public:
     void registerBehavior(const std::string& name,BehaviorCreator creator);
     void setResource(Resource* resource);
     void setYellowPage(YellowPage* yellowpage);
-    std::unique_ptr<Behavior> buildBehavior(Enemy* enemy,const sol::table& behaviorscript);
+    std::unique_ptr<Behavior> buildBehavior(Entity* enemy,const sol::table& behaviorscript);
 }; 
+
+class SFactory
+{
+private:
+    Resource* resource_;
+    YellowPage* yellowpage_;
+    BFactory Bfactory_;
+
+public:
+    void setResource(Resource* resource);
+    void setYellowPage(YellowPage* yellowpage);
+    std::unique_ptr<SpellPhase> buildSpell(Boss* boss,const sol::table& enemyscript);
+};
 
 class EFactory
 {
@@ -37,7 +53,7 @@ private:
 public:
     void setResource(Resource* resource);
     void setYellowPage(YellowPage* yellowpage);
-    std::unique_ptr<Enemy> buildEnemy(const sol::table& enemyscript);
+    std::unique_ptr<Enemy> buildEnemy(const sol::table& spellscript);
 };
 
 class PFactory
@@ -46,6 +62,7 @@ private:
     Resource* resource_;
     YellowPage* yellowpage_;
     EFactory Efactory_;
+    SFactory Sfactory_;
 
 public:
     using PhaseCreator=std::function<std::unique_ptr<Phase>(const sol::table& phasescript)>;

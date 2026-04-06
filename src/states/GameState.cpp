@@ -217,16 +217,16 @@ void GameState::bundle_leader_menber()
 
     //行为绑定Boss，符卡绑定行为，符卡绑定Boss，Boss绑定符卡
     spell1_move_->set_entity(boss1_.get());
-    spell1_->addBehavior(spell1_move_.get());
+    spell1_->addBehavior(std::move(spell1_move_));
     spell1_shoot_->set_entity(boss1_.get());
-    spell1_->addBehavior(spell1_shoot_.get());
+    spell1_->addBehavior(std::move(spell1_shoot_));
     spell1_->setBoss(boss1_.get());
     boss1_->add_phase(std::move(spell1_));
     
     //游戏阶段绑定敌人/Boss
     midphase1_->add_enemy(std::move(enemy1_));
     midphase1_->add_enemy(std::move(enemy2_));
-    bossphase1_->setBoss(boss1_.get());
+    bossphase1_->setBoss(std::move(boss1_));
 
     //游戏阶段控制器绑定游戏阶段
     phasecontroller_.add_process(std::move(midphase1_));

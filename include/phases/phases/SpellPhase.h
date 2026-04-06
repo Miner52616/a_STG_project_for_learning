@@ -13,7 +13,7 @@ protected:
     Clock moveclock_;
     Clock shootclock_;
     sf::Vector2f nextposition_;
-    std::vector<Behavior*> behaviorlist_;
+    std::vector<std::unique_ptr<Behavior>> behaviorlist_;
     sf::RectangleShape HPline_;
     float fullHP_;
     float HP_;
@@ -23,7 +23,7 @@ public:
     void update() override;
     void render(sf::RenderWindow& window) override;
     void render(sf::RenderTexture& texture) override;
-    void addBehavior(Behavior* behavior);
+    void addBehavior(std::unique_ptr<Behavior> behavior);
     void setHP(float HP);
     void be_damage(float damage) override;
     void ProcessCollision() override;

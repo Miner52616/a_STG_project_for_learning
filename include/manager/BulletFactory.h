@@ -17,7 +17,7 @@ private:
     Resource* resource_;
     YellowPage* yellowpage_;
 
-    int poolsize_=3000;
+    int poolsize_=150;
     std::vector<Bullet> bulletlist_;
     std::queue<int> free_list_;
 

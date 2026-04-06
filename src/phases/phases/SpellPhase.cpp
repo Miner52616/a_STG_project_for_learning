@@ -59,9 +59,9 @@ void SpellPhase::render(sf::RenderTexture& texture)
     texture.draw(HPline_);
 }
 
-void SpellPhase::addBehavior(Behavior* behavior)
+void SpellPhase::addBehavior(std::unique_ptr<Behavior> behavior)
 {
-    behaviorlist_.emplace_back(behavior);
+    behaviorlist_.emplace_back(std::move(behavior));
 }
 
 void SpellPhase::setHP(float HP)

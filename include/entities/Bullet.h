@@ -20,9 +20,7 @@ protected:
     bool dead_;
     bool active_;
     float damage_;
-    std::shared_ptr<BulletConfig> bulletconfig_;
-
-    std::vector<std::unique_ptr<Behavior>> behaviorlist_;
+    std::unique_ptr<BulletConfig> bulletconfig_;
 
 public:
     Bullet(sf::Texture &texture,sf::Vector2f position);  //初始化子弹位置，初始化资源引用，默认子弹设置
@@ -38,11 +36,10 @@ public:
     void rebuild(sf::Texture &texture,sf::Vector2f position);
     void rebuild(sf::Texture &texture,sf::Vector2f position,float damage);
     void initialize();
-    void setBulletConfig(std::shared_ptr<BulletConfig> bulletconfig);
+    void setBulletConfig(std::unique_ptr<BulletConfig> bulletconfig);
     void setYellowPage(YellowPage* yellowpage);
     void setDead(bool dead);
     void setbelong(bool ofplayer);
-    void addBehavior(std::unique_ptr<Behavior> behavior);
     void markDead();
     void setActive(bool active);
     void markGrazed();

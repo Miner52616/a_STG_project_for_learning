@@ -30,5 +30,26 @@ phasetable=
                 }
             }
         }
+    },
+
+    {
+        type="BossPhase",
+        spelltable=
+        {
+            {
+                time=360,
+                HP=600,
+                behaviortable=
+                {
+                    {
+                        type="MoveToRandom1"
+                    },
+
+                    {
+                        type="AimShoot1"
+                    }
+                }
+            }
+        }
     }
 }

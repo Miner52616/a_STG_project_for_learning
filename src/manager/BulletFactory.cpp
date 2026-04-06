@@ -57,14 +57,12 @@ Bullet* BulletFactory::getBullet()
     Bullet* bullet=&bulletlist_[id];
     bullet->setActive(true);
     bullet->initialize();
-    bullet->setDead(false);
     return bullet;
 }
 
 void BulletFactory::destroy(Bullet* bullet)
 {
     bullet->setActive(false);
-    //bullet->initialize();
     int id=bullet-&bulletlist_[0];
     std::cout<<"release "<<id<<std::endl;
     free_list_.push(id);
@@ -75,33 +73,21 @@ Bullet* BulletFactory::create(std::shared_ptr<BulletConfig> bulletconfig)
 {
     Bullet* bullet=getBullet();
     bullet->rebuild(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->damage_);
-    bullet->setBulletConfig(bulletconfig);
+    std::unique_ptr config=std::make_unique<BulletConfig>(bulletconfig->texture_);
+    config->bulletclass_=bulletconfig->bulletclass_;
+    config->damage_=bulletconfig->damage_;
+    config->direction_=bulletconfig->direction_;
+    config->r_=bulletconfig->r_;
+    config->spawn_point_=bulletconfig->spawn_point_;
+    config->target_point_=bulletconfig->target_point_;
+    config->v_=bulletconfig->v_;
+    
+    bullet->setBulletConfig(std::move(config));
     
     if(bulletconfig->bulletclass_!=BulletClasses::PlayerBullet)
     {
         bullet->setbelong(false);
     }
-    /*
-    switch(bulletconfig->bulletclass_)
-    {
-        case BulletClasses::LinearBullet:
-        {
-            bullet->setbelong(false);
-            return std::move(bullet);
-        }
-        case BulletClasses::PlayerBullet:
-        {
-            return std::move(bullet);
-        }
-        default:
-        {
-            std::cout<<"Bullet Create Type ERROR"<<std::endl;
-            return NULL;
-        }
-    
-    }
-        */
 
     return bullet;
-            
 }

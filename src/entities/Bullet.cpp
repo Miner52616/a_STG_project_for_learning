@@ -20,12 +20,7 @@ Bullet::Bullet(sf::Texture &texture,sf::Vector2f position,float damage):
 void Bullet::update()
 {
     store_position();
-    /*
-    for(auto it=behaviorlist_.begin();it!=behaviorlist_.end();++it)
-    {
-        (*it)->update();
-    }
-        */
+    
     update_table[bulletconfig_->bulletclass_](*this,yellowpage_);
 
     if(isOut())
@@ -85,16 +80,15 @@ void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position,float damage)
 
 void Bullet::initialize()
 {
-    behaviorlist_.clear();
-    //dead_=false;
+    dead_=false;
     exist_=true;
     grazed_=false;
     ofplayer_=true;
 }
 
-void Bullet::setBulletConfig(std::shared_ptr<BulletConfig> bulletconfig)
+void Bullet::setBulletConfig(std::unique_ptr<BulletConfig> bulletconfig)
 {
-    bulletconfig_=bulletconfig;
+    bulletconfig_=std::move(bulletconfig);
 }
 
 void Bullet::setYellowPage(YellowPage* yellowpage)
@@ -110,11 +104,6 @@ void Bullet::setDead(bool dead)
 void Bullet::setbelong(bool ofplayer)
 {
     ofplayer_=ofplayer;
-}
-
-void Bullet::addBehavior(std::unique_ptr<Behavior> behavior)
-{
-    behaviorlist_.emplace_back(std::move(behavior));
 }
 
 void Bullet::markDead()

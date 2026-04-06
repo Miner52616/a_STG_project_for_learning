@@ -5,6 +5,8 @@
 #include "packages/YellowPage.h"
 #include "manager/PhaseController.h"
 #include "phases/phases/MidPhase.h"
+#include "phases/phases/BossPhase.h"
+#include "phases/phases/SpellPhase.h"
 #include "entities/Enemy.h"
 #include "behaviors/behaviors/MoveToRandom1.h"
 #include "behaviors/behaviors/ScoreDrop1.h"
@@ -74,6 +76,37 @@ PFactory::PFactory()
             return std::move(phase);
         }
     );
+
+    
+    registerPhase("BossPhase",
+        [this](const sol::table& phasescript)
+        {
+            std::cout<<"BossPhase"<<std::endl;
+            std::unique_ptr<BossPhase> phase=std::make_unique<BossPhase>(resource_,yellowpage_);
+            std::unique_ptr<Boss> new_boss=std::make_unique<Boss>(resource_->app_.playerTexture_,resource_);
+            new_boss->setPosition({460,-50});
+            phase->setBoss(std::move(new_boss));
+
+            Boss* boss=phase->getBoss();
+
+            sol::table spelltable=phasescript["spelltable"];
+            int spelltablesize=spelltable.size();
+            std::cout<<spelltablesize<<std::endl;
+            for(int i=1;i<=spelltablesize;i++)
+            {
+                std::cout<<"Load Spell "<<i<<std::endl;
+                sol::table spellscript=spelltable[i];
+                std::unique_ptr<SpellPhase> spell=Sfactory_.buildSpell(boss,spellscript);
+                std::cout<<"1"<<std::endl;
+                spell->setBoss(boss);
+                std::cout<<"1"<<std::endl;
+                boss->add_phase(std::move(spell));
+            }
+
+            return std::move(phase);
+        }
+    );
+        
 }
 
 void PFactory::registerPhase(const std::string& name,PhaseCreator creator)
@@ -85,12 +118,14 @@ void PFactory::setResource(Resource* resource)
 {
     resource_=resource;
     Efactory_.setResource(resource_);
+    Sfactory_.setResource(resource_);
 }
 
 void PFactory::setYellowPage(YellowPage* yellowpage)
 {
     yellowpage_=yellowpage;
     Efactory_.setYellowPage(yellowpage_);
+    Sfactory_.setYellowPage(yellowpage_);
 }
 
 std::unique_ptr<Phase> PFactory::buildPhase(const sol::table& phasescript)
@@ -149,10 +184,42 @@ std::unique_ptr<Enemy> EFactory::buildEnemy(const sol::table& enemyscript)
 
 /************************************************* */
 
+void SFactory::setResource(Resource* resource)
+{
+    resource_=resource;
+    Bfactory_.setResource(resource_);
+}
+
+void SFactory::setYellowPage(YellowPage* yellowpage)
+{
+    yellowpage_=yellowpage;
+    Bfactory_.setYellowPage(yellowpage_);
+}
+
+std::unique_ptr<SpellPhase> SFactory::buildSpell(Boss* boss,const sol::table& spellscript)
+{
+    std::unique_ptr<SpellPhase> spell=std::make_unique<SpellPhase>(resource_,yellowpage_,spellscript["time"]);
+    spell->setHP(spellscript["HP"]);
+
+    sol::table behaviortable=spellscript["behaviortable"];
+    int behaviortablesize=behaviortable.size();
+    for(int i=1;i<=behaviortablesize;i++)
+    {
+        std::cout<<"Load Behavior "<<i<<std::endl;
+        sol::table behaviorscript=behaviortable[i];
+        std::unique_ptr<Behavior> behavior=Bfactory_.buildBehavior(boss,behaviorscript);
+        spell->addBehavior(std::move(behavior));
+    }
+
+    return std::move(spell);
+}
+
+/************************************************* */
+
 BFactory::BFactory()
 {
     registerBehavior("MoveToRandom1",
-        [this](Enemy* enemy,const sol::table& behaviorscript)
+        [this](Entity* enemy,const sol::table& behaviorscript)
         {
             std::cout<<"MoveToRandom1"<<std::endl;
             std::unique_ptr<MoveToRandom1> movetorandom1=std::make_unique<MoveToRandom1>(resource_,yellowpage_);
@@ -163,7 +230,7 @@ BFactory::BFactory()
     );
 
     registerBehavior("ScoreDrop1",
-        [this](Enemy* enemy,const sol::table& behaviorscript)
+        [this](Entity* enemy,const sol::table& behaviorscript)
         {
             std::cout<<"ScoreDrop1"<<std::endl;
             std::unique_ptr<ScoreDrop1> scoredrop1=std::make_unique<ScoreDrop1>(resource_,yellowpage_);
@@ -186,7 +253,7 @@ BFactory::BFactory()
     );
 
     registerBehavior("AimShoot1",
-        [this](Enemy* enemy,const sol::table& behaviorscript)
+        [this](Entity* enemy,const sol::table& behaviorscript)
         {
             std::cout<<"AimShoot1"<<std::endl;
             std::unique_ptr<AimShoot1> aimshoot1=std::make_unique<AimShoot1>(resource_,yellowpage_);
@@ -212,7 +279,7 @@ void BFactory::setYellowPage(YellowPage* yellowpage)
     yellowpage_=yellowpage;
 }
 
-std::unique_ptr<Behavior> BFactory::buildBehavior(Enemy* enemy,const sol::table& behaviorscript)
+std::unique_ptr<Behavior> BFactory::buildBehavior(Entity* enemy,const sol::table& behaviorscript)
 {
     std::string type=behaviorscript["type"];
 
