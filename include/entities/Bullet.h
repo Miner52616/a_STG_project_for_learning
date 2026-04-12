@@ -14,7 +14,7 @@ friend void direct_move2(Bullet& bullet,YellowPage* yellowpage);
 
 protected:
     YellowPage* yellowpage_;
-    sf::Texture &bullet_texture_;
+    sf::Texture* bullet_texture_;
     bool ofplayer_;
     bool exist_;
     bool grazed_;

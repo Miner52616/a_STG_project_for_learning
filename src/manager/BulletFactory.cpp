@@ -73,22 +73,10 @@ void BulletFactory::destroy(Bullet* bullet)
 Bullet* BulletFactory::create(BulletConfig* bulletconfig)
 {
     Bullet* bullet=getBullet();
+
+    //重新初始化和设置子弹核心属性，特别单独处理texture的更换
     bullet->rebuild(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->damage_);
     bullet->setHitbox_r(bulletconfig->r_);
-    //std::unique_ptr config=std::make_unique<BulletConfig>(bulletconfig->texture_);
-    /*
-    config->bulletclass_=bulletconfig->bulletclass_;
-    config->damage_=bulletconfig->damage_;
-    config->direction_=bulletconfig->direction_;
-    config->r_=bulletconfig->r_;
-    config->spawn_point_=bulletconfig->spawn_point_;
-    config->target_point_=bulletconfig->target_point_;
-    config->v_=bulletconfig->v_;
-    */
-    copyconfig(bullet->getBulletConfig(),bulletconfig);
-    
-    //bullet->setBulletConfig(std::move(config));
-    
     if(bulletconfig->bulletclass_==BulletClasses::PlayerBullet)
     {
         bullet->setbelong(true);
@@ -97,15 +85,18 @@ Bullet* BulletFactory::create(BulletConfig* bulletconfig)
     {
         bullet->setbelong(false);
     }
+    //子弹其它可选用属性，通过bulletconfig传递
+    copyconfig(bullet->getBulletConfig(),bulletconfig);
 
     return bullet;
 }
 
 void copyconfig(BulletConfig* copy,BulletConfig* origin)
 {
+    //提供的时钟默认先reset
     copy->clock1_.reset();
 
-    //copy->texture_=origin->texture_;
+    //除了图片之外的所有子弹信息全部拷贝（引用对象无法改引用，图片设置非子弹信息，单独处理）
     copy->bulletclass_=origin->bulletclass_;
     copy->damage_=origin->damage_;
     copy->direction_=origin->direction_;

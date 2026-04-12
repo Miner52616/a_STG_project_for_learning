@@ -4,7 +4,7 @@
 #include <iostream>
 
 Bullet::Bullet(sf::Texture &texture,sf::Vector2f position):
-    Entity(texture),bullet_texture_(texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(100)
+    Entity(texture),bullet_texture_(&texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(100)
 {
     bulletconfig_=std::make_unique<BulletConfig>(texture);
     position_=position;
@@ -12,7 +12,7 @@ Bullet::Bullet(sf::Texture &texture,sf::Vector2f position):
 }
 
 Bullet::Bullet(sf::Texture &texture,sf::Vector2f position,float damage):
-    Entity(texture),bullet_texture_(texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(damage)
+    Entity(texture),bullet_texture_(&texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(damage)
 {
     bulletconfig_=std::make_unique<BulletConfig>(texture);
     position_=position;
@@ -54,7 +54,7 @@ bool Bullet::isPlayer()
 
 bool Bullet::isOut()
 {
-    if(getPosition().x<=0||getPosition().y<=0||getPosition().x>=770||getPosition().y>=900)
+    if(getPosition().x<=-100||getPosition().y<=-100||getPosition().x>=870||getPosition().y>=1000)
     {
         return true;
     }
@@ -66,16 +66,16 @@ bool Bullet::isOut()
 
 void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position)
 {
-    //bullet_texture_=texture;
-    //picture_.setTexture(bullet_texture_);
+    bullet_texture_=&texture;
+    picture_.setTexture(*bullet_texture_);
     position_=position;
     hitbox_r_=10;
 }
 
 void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position,float damage)
 {
-    //bullet_texture_=texture;
-    //picture_.setTexture(bullet_texture_);
+    bullet_texture_=&texture;
+    picture_.setTexture(*bullet_texture_);
     damage_=damage;
     position_=position;
     hitbox_r_=10;

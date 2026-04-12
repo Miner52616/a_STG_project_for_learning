@@ -46,7 +46,7 @@ phasetable=
             },
 
             {
-                time=3600,
+                time=1200,
                 HP=1000,
                 voidspell=false,
                 behaviortable=
@@ -62,7 +62,7 @@ phasetable=
             },
 
             {
-                time=3600,
+                time=1200,
                 HP=1000,
                 voidspell=false,
                 behaviortable=
@@ -82,7 +82,7 @@ phasetable=
             },
 
             {
-                time=3600,
+                time=1200,
                 HP=1000,
                 voidspell=false,
                 behaviortable=
@@ -106,7 +106,7 @@ phasetable=
             },
 
             {
-                time=3600,
+                time=1200,
                 HP=1000,
                 voidspell=false,
                 behaviortable=
