@@ -17,6 +17,7 @@ protected:
     sf::RectangleShape HPline_;
     float fullHP_;
     float HP_;
+    bool voidspell_;
 
 public:
     SpellPhase(Resource* resource,YellowPage* yellowpage,int target_frame);
@@ -28,5 +29,6 @@ public:
     void be_damage(float damage) override;
     void ProcessCollision() override;
     void setBoss(Boss* boss);
+    void setVoidSpell(bool isvoid);
     sf::Vector2f get_targetposition_for_LeiTan(AimMove2* move) override;
 };

@@ -10,6 +10,7 @@ class Bullet:public Entity
 {
 friend void aim_move1(Bullet& bullet,YellowPage* yellowpage);
 friend void direct_move1(Bullet& bullet,YellowPage* yellowpage);
+friend void direct_move2(Bullet& bullet,YellowPage* yellowpage);
 
 protected:
     YellowPage* yellowpage_;
@@ -37,8 +38,10 @@ public:
     void rebuild(sf::Texture &texture,sf::Vector2f position,float damage);
     void initialize();
     void setBulletConfig(std::unique_ptr<BulletConfig> bulletconfig);
+    BulletConfig* getBulletConfig();
     void setYellowPage(YellowPage* yellowpage);
     void setDead(bool dead);
+    void setHitbox_r(int r);
     void setbelong(bool ofplayer);
     void markDead();
     void setActive(bool active);
@@ -60,5 +63,6 @@ using UpdateFunc = void(*)(Bullet&,YellowPage* yellowpage);
 
 void aim_move1(Bullet& bullet,YellowPage* yellowpage);
 void direct_move1(Bullet& bullet,YellowPage* yellowpage);
+void direct_move2(Bullet& bullet,YellowPage* yellowpage);
 
 extern UpdateFunc update_table[];

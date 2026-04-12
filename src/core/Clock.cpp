@@ -16,6 +16,11 @@ void Clock::reset()
     current_frame_=0;
 }
 
+long long int Clock::get_target()
+{
+    return target_frame_;
+}
+
 bool Clock::get_condition()
 {
     if(current_frame_>=target_frame_)

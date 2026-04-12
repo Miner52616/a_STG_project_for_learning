@@ -34,6 +34,7 @@ void CollisionSystem::HandleCollision(Boss* boss,Bullet *bullet)
         {
             if(isCollision(*boss,*bullet))
             {
+                //std::cout<<"boss collision"<<std::endl;
                 bullet->markDead();
                 boss->be_damage(bullet->getDamage());
             }
@@ -49,6 +50,7 @@ void CollisionSystem::HandleCollision(Enemy* enemy,Bullet *bullet)
         {
             if(isCollision(*enemy,*bullet))
             {
+                //std::cout<<"enemy collision"<<std::endl;
                 bullet->markDead();
                 enemy->be_damage(bullet->getDamage());
             }
@@ -64,6 +66,7 @@ void CollisionSystem::HandleCollision(Player* player,Bullet *bullet)
         {
             if(isCollision(*player,*bullet))
             {
+                //std::cout<<"player collision"<<std::endl;
                 bullet->markDead();
                 player->be_damage();
             }
@@ -122,6 +125,7 @@ void CollisionSystem::HandleCollision(Bomb* bomb,Bullet *bullet)
         {
             if(isCollision(*bomb,*bullet))
             {
+                //std::cout<<"bomb collision"<<std::endl;
                 bullet->markDead();
             }
         }

@@ -17,7 +17,8 @@ application::application():
     bombUI_("assets/textures/bomb.png"),
     LeiTanTexture_("assets/textures/LeiTan.png"),
     LeiTan_AirTexture_("assets/textures/LeiTan_Air.png"),
-    overlay1Texture_("assets/textures/overlay1.png")
+    overlay1Texture_("assets/textures/overlay1.png"),
+    blossom_small_bulletTexture("assets/textures/blossom_small.png")
 {
     window_.setFramerateLimit(60);
     gameview_.setSize({1280,960});

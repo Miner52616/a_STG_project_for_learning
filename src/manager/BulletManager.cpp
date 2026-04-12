@@ -15,7 +15,7 @@ void BulletManager::add_process(std::unique_ptr<Bullet> bullet)
 }
     */
 
-void BulletManager::add_process(std::shared_ptr<BulletConfig> bulletconfig)
+void BulletManager::add_process(BulletConfig* bulletconfig)
 {
     bulletlist_.emplace_back(std::move(bulletfactory_.create(bulletconfig)));
     /*
@@ -51,7 +51,8 @@ void BulletManager::clear()
             {
                 if(bullet->isDead())
                 {
-                    std::cout<<"dead"<<std::endl;
+                    //std::cout<<"dead"<<std::endl;
+                    //std::cout<<bullet->getPosition().x<<" "<<bullet->getPosition().y<<std::endl;
                     return true;
                 }
                 else

@@ -11,6 +11,10 @@
 #include "behaviors/behaviors/MoveToRandom1.h"
 #include "behaviors/behaviors/ScoreDrop1.h"
 #include "behaviors/behaviors/AimShoot.h"
+#include "behaviors/behaviors/BreezyBlossom1.h"
+#include "behaviors/behaviors/BreezyBlossom2.h"
+#include "behaviors/behaviors/BreezyBlossom3.h"
+#include "behaviors/behaviors/BreezyBlossom4.h"
 #include <iostream>
 #include <sol/sol.hpp>
 
@@ -97,9 +101,7 @@ PFactory::PFactory()
                 std::cout<<"Load Spell "<<i<<std::endl;
                 sol::table spellscript=spelltable[i];
                 std::unique_ptr<SpellPhase> spell=Sfactory_.buildSpell(boss,spellscript);
-                std::cout<<"1"<<std::endl;
                 spell->setBoss(boss);
-                std::cout<<"1"<<std::endl;
                 boss->add_phase(std::move(spell));
             }
 
@@ -200,6 +202,7 @@ std::unique_ptr<SpellPhase> SFactory::buildSpell(Boss* boss,const sol::table& sp
 {
     std::unique_ptr<SpellPhase> spell=std::make_unique<SpellPhase>(resource_,yellowpage_,spellscript["time"]);
     spell->setHP(spellscript["HP"]);
+    spell->setVoidSpell(spellscript["voidspell"]);
 
     sol::table behaviortable=spellscript["behaviortable"];
     int behaviortablesize=behaviortable.size();
@@ -260,6 +263,46 @@ BFactory::BFactory()
             aimshoot1->set_entity(enemy);
 
             return std::move(aimshoot1);
+        }
+    );
+
+    registerBehavior("BreezyBlossom1",
+        [this](Entity* enemy,const sol::table& behaviorscript)
+        {
+            std::cout<<"BreezyBlossom1"<<std::endl;
+            std::unique_ptr<BreezyBlossom1> breezyblossom1=std::make_unique<BreezyBlossom1>(enemy,resource_,yellowpage_);
+
+            return std::move(breezyblossom1);
+        }
+    );
+
+    registerBehavior("BreezyBlossom2",
+        [this](Entity* enemy,const sol::table& behaviorscript)
+        {
+            std::cout<<"BreezyBlossom2"<<std::endl;
+            std::unique_ptr<BreezyBlossom2> breezyblossom2=std::make_unique<BreezyBlossom2>(enemy,resource_,yellowpage_);
+
+            return std::move(breezyblossom2);
+        }
+    );
+
+    registerBehavior("BreezyBlossom3",
+        [this](Entity* enemy,const sol::table& behaviorscript)
+        {
+            std::cout<<"BreezyBlossom3"<<std::endl;
+            std::unique_ptr<BreezyBlossom3> breezyblossom3=std::make_unique<BreezyBlossom3>(enemy,resource_,yellowpage_);
+
+            return std::move(breezyblossom3);
+        }
+    );
+
+    registerBehavior("BreezyBlossom4",
+        [this](Entity* enemy,const sol::table& behaviorscript)
+        {
+            std::cout<<"BreezyBlossom4"<<std::endl;
+            std::unique_ptr<BreezyBlossom4> breezyblossom4=std::make_unique<BreezyBlossom4>(enemy,resource_,yellowpage_);
+
+            return std::move(breezyblossom4);
         }
     );
 }

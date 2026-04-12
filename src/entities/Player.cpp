@@ -29,7 +29,7 @@ Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     point_.setOrigin(point_.getGlobalBounds().getCenter());
     point_.setFillColor(sf::Color::White);
 
-    hitbox_r_=3;
+    hitbox_r_=1;
     hitbox_.setRadius(hitbox_r_);
     std::cout<<"1"<<std::endl;
     setBulletConfig();
@@ -440,7 +440,7 @@ void Player::Player_update()
             //std::cout<<"shoot"<<std::endl;
             //resource_->bulletmanager_.add_process(std::make_unique<PlayerBullet>(resource_->app_.bulletTexture_,getPosition()));
             bulletconfig_->spawn_point_=getPosition();
-            resource_->bulletmanager_.add_process(bulletconfig_);
+            resource_->bulletmanager_.add_process(bulletconfig_.get());
 
             clock_.reset();
         }
@@ -504,7 +504,7 @@ void Child_Plane::update()
             //std::cout<<"shoot"<<std::endl;
             //resource_->bulletmanager_.add_process(std::make_unique<PlayerBullet>(resource_->app_.bulletTexture_,getPosition()));
             bulletconfig_->spawn_point_=getPosition();
-            resource_->bulletmanager_.add_process(bulletconfig_);
+            resource_->bulletmanager_.add_process(bulletconfig_.get());
 
             clock_.reset();
         }

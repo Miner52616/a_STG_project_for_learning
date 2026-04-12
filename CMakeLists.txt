@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.21)
 project(SFMLGame)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -48,3 +48,11 @@ set(LUA_LIBRARY "C:/msys64/mingw64/lib/liblua.dll.a")
 target_include_directories(main PRIVATE ${LUA_INCLUDE_DIR})
 
 target_link_libraries(main PRIVATE ${LUA_LIBRARY})
+
+add_custom_command(TARGET main POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        $<TARGET_RUNTIME_DLLS:main>
+        $<TARGET_FILE_DIR:main>
+    COMMAND_EXPAND_LISTS
+)
+

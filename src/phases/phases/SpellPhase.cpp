@@ -6,7 +6,7 @@
 #include "entities/Boss.h"
 
 SpellPhase::SpellPhase(Resource* resource,YellowPage* yellowpage,int target_frame):
-    TimePhase(resource,yellowpage,target_frame),boss_(NULL),moveclock_(240),shootclock_(60),nextposition_(460,200),fullHP_(1000),HP_(1000)
+    TimePhase(resource,yellowpage,target_frame),boss_(NULL),moveclock_(240),shootclock_(60),nextposition_(460,200),fullHP_(1000),HP_(1000),voidspell_(false)
 {
     setHP(600);
     HPline_.setFillColor(sf::Color::White);
@@ -16,6 +16,7 @@ SpellPhase::SpellPhase(Resource* resource,YellowPage* yellowpage,int target_fram
 
 void SpellPhase::update()
 {
+    if(!voidspell_)
     HPline_.setSize({(760*HP_)/fullHP_,8});
 
     for(auto it=behaviorlist_.begin();it!=behaviorlist_.end();++it)
@@ -50,12 +51,14 @@ void SpellPhase::update()
 void SpellPhase::render(sf::RenderWindow& window)
 {
     boss_->drawwindow(window);
+    if(!voidspell_)
     window.draw(HPline_);
 }
 
 void SpellPhase::render(sf::RenderTexture& texture)
 {
     boss_->drawtexture(texture);
+    if(!voidspell_)
     texture.draw(HPline_);
 }
 
@@ -72,6 +75,7 @@ void SpellPhase::setHP(float HP)
 
 void SpellPhase::be_damage(float damage)
 {
+    if(!voidspell_)
     HP_=HP_-damage;
 }
 
@@ -88,4 +92,9 @@ void SpellPhase::setBoss(Boss* boss)
 sf::Vector2f SpellPhase::get_targetposition_for_LeiTan(AimMove2* move)
 {
     return boss_->getPosition();
+}
+
+void SpellPhase::setVoidSpell(bool isvoid)
+{
+    voidspell_=isvoid;
 }

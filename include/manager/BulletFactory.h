@@ -17,9 +17,9 @@ private:
     Resource* resource_;
     YellowPage* yellowpage_;
 
-    int poolsize_=150;
+    int poolsize_=1000;
     std::vector<Bullet> bulletlist_;
-    std::queue<int> free_list_;
+    std::vector<int> free_list_;
 
     void initialize(int size);
 
@@ -30,8 +30,10 @@ public:
     void setYellowPage(YellowPage* yellowpage);
     int getPoolSize();
 
-    Bullet* create(std::shared_ptr<BulletConfig> bulletconfig);
+    Bullet* create(BulletConfig* bulletconfig);
 
     void destroy(Bullet* bullet);
     Bullet* getBullet();
 };
+
+void copyconfig(BulletConfig* copy,BulletConfig* origin);

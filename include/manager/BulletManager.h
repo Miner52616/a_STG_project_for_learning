@@ -17,7 +17,7 @@ private:
 public:
     BulletManager(application &app,std::vector<Bullet*> &bulletlist,BulletFactory &bulletfactory);
     //void add_process(std::unique_ptr<Bullet> bullet);
-    void add_process(std::shared_ptr<BulletConfig> bulletconfig);
+    void add_process(BulletConfig* bulletconfig);
     void update();
     void clear();
     void render(sf::RenderWindow& window);

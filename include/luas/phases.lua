@@ -2,14 +2,14 @@ phasetable=
 {
     {
         type="MidPhase",
-        time=600,
+        time=360,
         enemytable=
         {
             {
                 x=460,
                 y=100,
                 HP=200,
-                start=240,
+                start=60,
                 End=216000,
                 behaviortable=
                 {
@@ -21,12 +21,9 @@ phasetable=
                         dropconfig=
                         {
                             droptype="Power",
-                            dropnum=40
+                            dropnum=80
                         }
                     },
-                    {
-                        type="AimShoot1"
-                    }
                 }
             }
         }
@@ -37,8 +34,21 @@ phasetable=
         spelltable=
         {
             {
-                time=360,
+                time=120,
                 HP=600,
+                voidspell=true,
+                behaviortable=
+                {
+                    {
+                        type="MoveToRandom1"
+                    }
+                }
+            },
+
+            {
+                time=3600,
+                HP=1000,
+                voidspell=false,
                 behaviortable=
                 {
                     {
@@ -46,7 +56,79 @@ phasetable=
                     },
 
                     {
-                        type="AimShoot1"
+                        type="BreezyBlossom1"
+                    }
+                }
+            },
+
+            {
+                time=3600,
+                HP=1000,
+                voidspell=false,
+                behaviortable=
+                {
+                    {
+                        type="MoveToRandom1"
+                    },
+
+                    {
+                        type="BreezyBlossom1"
+                    },
+
+                    {
+                        type="BreezyBlossom2"
+                    }
+                }
+            },
+
+            {
+                time=3600,
+                HP=1000,
+                voidspell=false,
+                behaviortable=
+                {
+                    {
+                        type="MoveToRandom1"
+                    },
+
+                    {
+                        type="BreezyBlossom1"
+                    },
+
+                    {
+                        type="BreezyBlossom2"
+                    },
+
+                    {
+                        type="BreezyBlossom3"
+                    }
+                }
+            },
+
+            {
+                time=3600,
+                HP=1000,
+                voidspell=false,
+                behaviortable=
+                {
+                    {
+                        type="MoveToRandom1"
+                    },
+
+                    {
+                        type="BreezyBlossom1"
+                    },
+
+                    {
+                        type="BreezyBlossom2"
+                    },
+
+                    {
+                        type="BreezyBlossom3"
+                    },
+
+                    {
+                        type="BreezyBlossom4"
                     }
                 }
             }
