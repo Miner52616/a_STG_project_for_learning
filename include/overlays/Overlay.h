@@ -9,13 +9,13 @@ class Overlay
 {
 protected:
     std::shared_ptr<Behavior> behavior_;
-    std::vector<Behavior*> behaviorlist_;
+    std::vector<std::unique_ptr<Behavior>> behaviorlist_;
     bool dead_;
 
 public:
     Overlay();
     void setBehavior(std::shared_ptr<Behavior> behavior);
-    void addBehavior(Behavior* behavior);
+    void addBehavior(std::unique_ptr<Behavior> behavior);
     virtual void update();
     virtual void render(sf::RenderWindow& window)=0;//{;};
     virtual void render(sf::RenderTexture& texture)=0;//{;};

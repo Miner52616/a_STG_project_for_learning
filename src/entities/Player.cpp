@@ -67,10 +67,10 @@ void Player::setOverlayConfig()
 void Player::setBulletConfig()
 {
     bulletconfig_=std::make_shared<BulletConfig>(resource_->app_.bulletTexture_);
-    bulletconfig_->damage_=8;
+    bulletconfig_->damage_=10;
     bulletconfig_->bulletclass_=BulletClasses::PlayerBullet;
     bulletconfig_->r_=10;
-    bulletconfig_->v_=80;
+    bulletconfig_->v_=50;
     bulletconfig_->spawn_point_=getPosition();
 }
 
@@ -342,31 +342,31 @@ void Player::Player_update()
             break;
 
         case 1:
-            child_planes_[0]->setTargetPosition(sf::Vector2f{0,100});
+            child_planes_[0]->setTargetPosition(sf::Vector2f{0,50});
             child_planes_[1]->setTargetPosition(sf::Vector2f{0,0});
             child_planes_[2]->setTargetPosition(sf::Vector2f{0,0});
             child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
             break;
 
         case 2:
-            child_planes_[0]->setTargetPosition(sf::Vector2f{-60,80});
-            child_planes_[1]->setTargetPosition(sf::Vector2f{60,80});
+            child_planes_[0]->setTargetPosition(sf::Vector2f{-30,40});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{30,40});
             child_planes_[2]->setTargetPosition(sf::Vector2f{0,0});
             child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
             break;
 
         case 3:
-            child_planes_[0]->setTargetPosition(sf::Vector2f{-70,70});
-            child_planes_[1]->setTargetPosition(sf::Vector2f{70,70});
-            child_planes_[2]->setTargetPosition(sf::Vector2f{0,100});
+            child_planes_[0]->setTargetPosition(sf::Vector2f{-40,30});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{40,30});
+            child_planes_[2]->setTargetPosition(sf::Vector2f{0,50});
             child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
             break;
 
         case 4:
-            child_planes_[0]->setTargetPosition(sf::Vector2f{-80,60});
-            child_planes_[1]->setTargetPosition(sf::Vector2f{80,60});
-            child_planes_[2]->setTargetPosition(sf::Vector2f{-60,80});
-            child_planes_[3]->setTargetPosition(sf::Vector2f{60,80});
+            child_planes_[0]->setTargetPosition(sf::Vector2f{-40,30});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{40,30});
+            child_planes_[2]->setTargetPosition(sf::Vector2f{-15.12,47.65});
+            child_planes_[3]->setTargetPosition(sf::Vector2f{15.12,47.65});
             break;
 
         default:
@@ -407,15 +407,15 @@ void Player::Player_update()
             break;
 
         case 3:
-            child_planes_[0]->setTargetPosition(sf::Vector2f{-25,-50});
-            child_planes_[1]->setTargetPosition(sf::Vector2f{25,-50});
+            child_planes_[0]->setTargetPosition(sf::Vector2f{-25,0});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{25,0});
             child_planes_[2]->setTargetPosition(sf::Vector2f{0,-50});
             child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
             break;
 
         case 4:
-            child_planes_[0]->setTargetPosition(sf::Vector2f{-30,-50});
-            child_planes_[1]->setTargetPosition(sf::Vector2f{30,-50});
+            child_planes_[0]->setTargetPosition(sf::Vector2f{-30,0});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{30,0});
             child_planes_[2]->setTargetPosition(sf::Vector2f{-10,-50});
             child_planes_[3]->setTargetPosition(sf::Vector2f{10,-50});
             break;
@@ -439,8 +439,11 @@ void Player::Player_update()
             //request_shoot_=true;
             //std::cout<<"shoot"<<std::endl;
             //resource_->bulletmanager_.add_process(std::make_unique<PlayerBullet>(resource_->app_.bulletTexture_,getPosition()));
-            bulletconfig_->spawn_point_=getPosition();
+            bulletconfig_->spawn_point_=getPosition()+sf::Vector2f{10,0};
             resource_->bulletmanager_.add_process(bulletconfig_.get());
+            bulletconfig_->spawn_point_=getPosition()+sf::Vector2f{-10,0};
+            resource_->bulletmanager_.add_process(bulletconfig_.get());
+
 
             clock_.reset();
         }
@@ -496,6 +499,24 @@ void Child_Plane::update()
     store_position();
     //setPosition(getPosition()+(float)0.15*(target_position_-getPosition()));
     setRelativePosition(getRelativePosition()+(float)0.15*(target_position_-getRelativePosition()));
+    
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
+    {
+        bulletconfig_->damage_=5;
+        bulletconfig_->bulletclass_=BulletClasses::PlayerAimBullet;
+        bulletconfig_->r_=10;
+        bulletconfig_->v_=10;
+        bulletconfig_->spawn_point_=getPosition();
+    }
+    else
+    {
+        bulletconfig_->damage_=8;
+        bulletconfig_->bulletclass_=BulletClasses::PlayerBullet;
+        bulletconfig_->r_=10;
+        bulletconfig_->v_=70;
+        bulletconfig_->spawn_point_=getPosition();
+    }
+    
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))
     {
         if(clock_.get_condition())
@@ -539,9 +560,10 @@ void Child_Plane::setBulletConfig()
 {
     bulletconfig_=std::make_shared<BulletConfig>(resource_->app_.bulletTexture_);
     bulletconfig_->damage_=8;
-    bulletconfig_->bulletclass_=BulletClasses::PlayerBullet;
+    bulletconfig_->bulletclass_=BulletClasses::PlayerAimBullet;
     bulletconfig_->r_=10;
     bulletconfig_->v_=10;
+    bulletconfig_->a_=8;
     bulletconfig_->spawn_point_=getPosition();
 }
 

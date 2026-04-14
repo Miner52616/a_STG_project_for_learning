@@ -8,11 +8,13 @@ class Behavior;
 //子弹
 class Bullet:public Entity
 {
-friend void aim_move1(Bullet& bullet,YellowPage* yellowpage);
-friend void direct_move1(Bullet& bullet,YellowPage* yellowpage);
-friend void direct_move2(Bullet& bullet,YellowPage* yellowpage);
+friend void aim_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+friend void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+friend void direct_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+friend void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 
 protected:
+    Resource* resource_;
     YellowPage* yellowpage_;
     sf::Texture* bullet_texture_;
     bool ofplayer_;
@@ -40,6 +42,7 @@ public:
     void setBulletConfig(std::unique_ptr<BulletConfig> bulletconfig);
     BulletConfig* getBulletConfig();
     void setYellowPage(YellowPage* yellowpage);
+    void setResource(Resource* resource);
     void setDead(bool dead);
     void setHitbox_r(int r);
     void setbelong(bool ofplayer);
@@ -59,10 +62,11 @@ public:
     //void drawtexture(sf::RenderTexture& texture) override;
 };
 
-using UpdateFunc = void(*)(Bullet&,YellowPage* yellowpage);
+using UpdateFunc = void(*)(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 
-void aim_move1(Bullet& bullet,YellowPage* yellowpage);
-void direct_move1(Bullet& bullet,YellowPage* yellowpage);
-void direct_move2(Bullet& bullet,YellowPage* yellowpage);
+void aim_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+void direct_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 
 extern UpdateFunc update_table[];

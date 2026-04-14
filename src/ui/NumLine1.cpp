@@ -2,9 +2,10 @@
 #include <iostream>
 
 NumLine1::NumLine1(const sf::Font &font):
-    current_num_(0),max_num_(8),font_(font),text_(font_)
+    current_num_(0),max_num_(8),font_(font),text_(font_),finaltext_(font_)
 {
     text_.setCharacterSize(35);
+    finaltext_.setCharacterSize(35);
 }
 
 int NumLine1::getCurrentNum()
@@ -20,12 +21,14 @@ void NumLine1::setLineText(const std::string text)
 void NumLine1::setLinePosition(sf::Vector2f position)
 {
     text_.setPosition(position);
+    finaltext_.setPosition(position);
     position_=position;
 }
 
 void NumLine1::setLineSize(float size)
 {
     text_.setCharacterSize(size);
+    finaltext_.setCharacterSize(size);
 }
 
 void NumLine1::setMaxNum(int num)
@@ -45,8 +48,15 @@ void NumLine1::setCurrentNum(int num)
 
 void NumLine1::render(sf::RenderWindow& window)
 {
-    sf::Text finaltext=text_;
-    finaltext.setString(text_.getString()+"  "+std::to_string(current_num_));
-    window.draw(finaltext);
+    //sf::Text finaltext=text_;
+    //std::string final=text_.getString()+"  "+std::to_string(current_num_);
+    finaltext_.setString(text_.getString()+"  "+std::to_string(current_num_));
+    window.draw(finaltext_);
 }
 
+void NumLine1::render(sf::RenderTexture& texture)
+{
+    //std::string final=text_.getString()+"  "+std::to_string(current_num_);
+    finaltext_.setString(text_.getString()+"  "+std::to_string(current_num_));
+    texture.draw(finaltext_);
+}

@@ -20,9 +20,9 @@ void Overlay::update()
     }
 }
 
-void Overlay::addBehavior(Behavior* behavior)
+void Overlay::addBehavior(std::unique_ptr<Behavior> behavior)
 {
-    behaviorlist_.emplace_back(behavior);
+    behaviorlist_.emplace_back(std::move(behavior));
 }
 
 void Overlay::markDead()

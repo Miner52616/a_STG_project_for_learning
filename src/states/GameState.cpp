@@ -72,6 +72,9 @@ GameState::GameState(application &app):
     set_phase();
     std::cout<<"Phase Create and Initialize"<<std::endl;
 
+    read_script();
+    std::cout<<"Script Loaded"<<std::endl;
+
     //**** 5 根据对象间运行信息流上下级绑定   
     bundle_leader_menber();
     std::cout<<"Leader and Member Bundle"<<std::endl;
@@ -186,10 +189,13 @@ void GameState::set_phase()
     voidphase2_=std::make_unique<VoidPhase>(resource_.get(),yellowpage_.get(),180);
 }
 
+void GameState::read_script()
+{
+    scriptloader_.loadPhase("include/luas/phases.lua");
+}
+
 void GameState::bundle_leader_menber()
 {
-
-    scriptloader_.loadPhase("include/luas/phases.lua");
     //****上级绑定下级****
     //敌人绑定行为
     //符卡绑定行为

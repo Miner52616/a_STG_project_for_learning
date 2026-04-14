@@ -8,7 +8,8 @@ enum BulletClasses
     LinearBullet=0,
     PlayerBullet=1,
     DirectBullet1=2,
-    DirectBullet2=3
+    DirectBullet2=3,
+    PlayerAimBullet=4
 };
 
 class BulletConfig

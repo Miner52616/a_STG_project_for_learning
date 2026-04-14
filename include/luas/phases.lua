@@ -35,7 +35,10 @@ phasetable=
         {
             {
                 time=120,
-                HP=600,
+                HP=2000,
+                spellname=" ",
+                name_x=-100,
+                name_y=-100,
                 voidspell=true,
                 behaviortable=
                 {
@@ -46,8 +49,11 @@ phasetable=
             },
 
             {
-                time=1200,
-                HP=1000,
+                time=1800,
+                HP=2500,
+                spellname="「终忆」吹拂樱花",
+                name_x=50,
+                name_y=25,
                 voidspell=false,
                 behaviortable=
                 {
@@ -62,8 +68,11 @@ phasetable=
             },
 
             {
-                time=1200,
-                HP=1000,
+                time=1800,
+                HP=2500,
+                spellname="「终忆」吹拂樱花",
+                name_x=50,
+                name_y=25,
                 voidspell=false,
                 behaviortable=
                 {
@@ -82,8 +91,11 @@ phasetable=
             },
 
             {
-                time=1200,
-                HP=1000,
+                time=1800,
+                HP=2500,
+                spellname="「终忆」吹拂樱花",
+                name_x=50,
+                name_y=25,
                 voidspell=false,
                 behaviortable=
                 {
@@ -106,8 +118,11 @@ phasetable=
             },
 
             {
-                time=1200,
-                HP=1000,
+                time=1800,
+                HP=2000,
+                spellname="「终忆」吹拂樱花",
+                name_x=50,
+                name_y=25,
                 voidspell=false,
                 behaviortable=
                 {

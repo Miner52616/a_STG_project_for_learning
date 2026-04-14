@@ -117,6 +117,7 @@ protected:
     void set_behavior();
     void set_entity();
     void set_phase();
+    void read_script();
     void bundle_leader_menber();
 
     void clock_update();

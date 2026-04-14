@@ -1,6 +1,7 @@
 #include "entities/Bullet.h"
 #include "behaviors/Behavior.h"
 #include "mathematics/mathematics.h"
+#include "manager/PhaseController.h"
 #include <iostream>
 
 Bullet::Bullet(sf::Texture &texture,sf::Vector2f position):
@@ -23,7 +24,7 @@ void Bullet::update()
 {
     store_position();
     
-    update_table[bulletconfig_->bulletclass_](*this,yellowpage_);
+    update_table[bulletconfig_->bulletclass_](*this,yellowpage_,resource_);
 
     if(isOut())
     {
@@ -105,6 +106,11 @@ void Bullet::setYellowPage(YellowPage* yellowpage)
     yellowpage_=yellowpage;
 }
 
+void Bullet::setResource(Resource* resource)
+{
+    resource_=resource;
+}
+
 void Bullet::setDead(bool dead)
 {
     dead_=dead;
@@ -148,17 +154,32 @@ void Bullet::drawwindow(sf::RenderWindow& window)
     */
 
 //************************************************************** */
-void aim_move1(Bullet& bullet,YellowPage* yellowpage)
+void aim_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*(bullet.bulletconfig_->target_point_-bullet.getPosition()));
 }
 
-void direct_move1(Bullet& bullet,YellowPage* yellowpage)
+void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+{
+    sf::Vector2f target=resource->phasecontroller_.get_closest_target(bullet.getPosition());
+    if(target!=(sf::Vector2f{2500,2500}))
+    {
+        sf::Vector2f a_direction=target-bullet.getPosition();
+        a_direction=bullet.bulletconfig_->a_*normalize(a_direction);
+        sf::Vector2f direction=bullet.bulletconfig_->v_*bullet.bulletconfig_->direction_+a_direction;
+        direction=normalize(direction);
+        bullet.bulletconfig_->direction_=direction;
+    }
+    
+    bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*bullet.bulletconfig_->direction_);
+}
+
+void direct_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*normalize(bullet.bulletconfig_->direction_));
 }
 
-void direct_move2(Bullet& bullet,YellowPage* yellowpage)
+void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     if(!bullet.bulletconfig_->clock1_.get_condition())
     {
@@ -181,5 +202,6 @@ UpdateFunc update_table[]=
     aim_move1,
     direct_move1,
     direct_move1,
-    direct_move2
+    direct_move2,
+    aim_move2
 };

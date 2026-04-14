@@ -58,3 +58,8 @@ sf::Vector2f BossPhase::get_targetposition_for_LeiTan(AimMove2* move)
 {
     return boss_->getPhaseController()->get_targetposition_for_LeiTan(move);
 }
+
+sf::Vector2f BossPhase::get_closest_target(sf::Vector2f position)
+{
+    return boss_->getPhaseController()->get_closest_target(position);
+}

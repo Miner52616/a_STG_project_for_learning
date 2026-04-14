@@ -73,7 +73,14 @@ sf::Vector2f MidPhase::get_targetposition_for_LeiTan(AimMove2* move)
 
     for(auto it=enemylist_.begin();it!=enemylist_.end();++it)
     {
-        if(((*it)->getPosition()-position).length()<(targetposition-position).length()&&(*it)->isExist())
+        float x1=((*it)->getPosition()-position).x;
+        float y1=((*it)->getPosition()-position).y;
+        float x2=(targetposition-position).x;
+        float y2=(targetposition-position).y;
+        float length1=x1*x1+y1*y1;
+        float length2=x2*x2+y2*y2;
+
+        if((length1<length2)&&(*it)->isExist())
         {
             targetposition=(*it)->getPosition();
         }
@@ -88,4 +95,28 @@ sf::Vector2f MidPhase::get_targetposition_for_LeiTan(AimMove2* move)
         return get_randomposition_for_LeiTan(move->get_v());
     }
     //return get_randomposition_for_LeiTan(move->get_v());
+}
+
+sf::Vector2f MidPhase::get_closest_target(sf::Vector2f position)
+{
+    //{2500,2500}是默认值，接收到这个时按无索敌对象处理
+    //而且{2500,2500}足够大，可以保证最近索敌求min
+    sf::Vector2f targetposition={2500,2500};
+    
+    for(auto it=enemylist_.begin();it!=enemylist_.end();++it)
+    {
+        float x1=((*it)->getPosition()-position).x;
+        float y1=((*it)->getPosition()-position).y;
+        float x2=(targetposition-position).x;
+        float y2=(targetposition-position).y;
+        float length1=x1*x1+y1*y1;
+        float length2=x2*x2+y2*y2;
+
+        if((length1<length2)&&(*it)->isExist())
+        {
+            targetposition=(*it)->getPosition();
+        }
+    }
+
+    return targetposition;
 }

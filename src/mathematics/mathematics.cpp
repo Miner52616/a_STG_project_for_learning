@@ -83,6 +83,7 @@ sf::Vector2f round(sf::Vector2f Vector,float angle)
 
 sf::Vector2f normalize(sf::Vector2f Vector)
 {
+    //这里用到了.length()，有开方。谨慎使用
     float length=Vector.length();
     if(length!=0)
     {

@@ -15,6 +15,8 @@ public:
     void setTextPosition(sf::Vector2f position);  //设置文字位置
     void setTextSize(int size);  //设置文字大小
     void setTextColor(sf::Color color);  //设置文字颜色
+    sf::Vector2f getPosition();
 
     void DrawText(sf::RenderWindow& window);  //渲染文字至窗口
+    void DrawText(sf::RenderTexture& texture);
 };

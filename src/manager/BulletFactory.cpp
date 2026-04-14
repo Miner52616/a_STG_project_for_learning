@@ -16,6 +16,10 @@ BulletFactory::BulletFactory(application& app):
 void BulletFactory::setResource(Resource* resource)
 {
     resource_=resource;
+    for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
+    {
+        it->setResource(resource);
+    }
 }
 
 void BulletFactory::setYellowPage(YellowPage* yellowpage)
@@ -77,7 +81,11 @@ Bullet* BulletFactory::create(BulletConfig* bulletconfig)
     //重新初始化和设置子弹核心属性，特别单独处理texture的更换
     bullet->rebuild(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->damage_);
     bullet->setHitbox_r(bulletconfig->r_);
-    if(bulletconfig->bulletclass_==BulletClasses::PlayerBullet)
+    if
+    (
+        (bulletconfig->bulletclass_==BulletClasses::PlayerBullet)
+        ||((bulletconfig->bulletclass_==BulletClasses::PlayerAimBullet))
+    )
     {
         bullet->setbelong(true);
     }

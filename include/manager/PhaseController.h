@@ -30,4 +30,5 @@ public:
     void phase_change();
     bool apply_change();
     sf::Vector2f get_targetposition_for_LeiTan(AimMove2* move);
+    sf::Vector2f get_closest_target(sf::Vector2f position);
 };

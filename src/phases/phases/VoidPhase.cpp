@@ -49,3 +49,9 @@ sf::Vector2f VoidPhase::get_targetposition_for_LeiTan(AimMove2* move)
     move->set_aimstate(AimState::LOCKED);
     return get_randomposition_for_LeiTan(move->get_v());
 }
+
+sf::Vector2f VoidPhase::get_closest_target(sf::Vector2f position)
+{
+    //{2500,2500}是默认值，接收到这个时按无索敌对象处理
+    return {2500,2500};
+}

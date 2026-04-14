@@ -35,7 +35,18 @@ void Text::setTextSize(int size)
     text_.setCharacterSize(size);
 }
 
+
+sf::Vector2f Text::getPosition()
+{
+    return text_.getPosition();
+}
+
 void Text::DrawText(sf::RenderWindow& window)
 {
     window.draw(text_);
+}
+
+void Text::DrawText(sf::RenderTexture& texture)
+{
+    texture.draw(text_);
 }
