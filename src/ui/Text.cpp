@@ -30,6 +30,18 @@ void Text::setTextColor(sf::Color color)
     text_.setFillColor(color);
 }
 
+void Text::changeOrigin(bool change)
+{
+    if(change)
+    {
+        text_.setOrigin({text_.getLocalBounds().position.x+text_.getLocalBounds().size.x,text_.getLocalBounds().position.y});
+    }
+    else
+    {
+        text_.setOrigin({text_.getLocalBounds().position.x,text_.getLocalBounds().position.y});
+    }
+}
+
 void Text::setTextSize(int size)
 {
     text_.setCharacterSize(size);

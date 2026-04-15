@@ -21,6 +21,11 @@ void TextOverlay::setTextColor(sf::Color color)
     text_.setTextColor(color);
 }
 
+void TextOverlay::changeOrigin(bool change)
+{
+    text_.changeOrigin(change);
+}
+
 void TextOverlay::render(sf::RenderWindow& window)
 {
     text_.DrawText(window);

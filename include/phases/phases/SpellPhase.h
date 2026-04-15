@@ -4,6 +4,7 @@
 #include "behaviors/Behavior.h"
 #include "overlays/overlays/TextOverlay.h"
 #include "ui/NumLine1.h"
+#include "ui/NumLine1_1.h"
 
 class Player;
 class Boss;
@@ -22,6 +23,7 @@ protected:
     bool voidspell_;
     TextOverlay spellname_;
     NumLine1 timer_;
+    NumLine1_1 spellnum_;
 
 public:
     SpellPhase(Resource* resource,YellowPage* yellowpage,int target_frame);
@@ -36,7 +38,7 @@ public:
     void setVoidSpell(bool isvoid);
     void setTextName(const std::string text);
     void setTextPosition(sf::Vector2f position);
-    void setTargetFrame(int frame);
+    void setBossName_SpellNum(const std::string text,int num);
     sf::Vector2f get_targetposition_for_LeiTan(AimMove2* move) override;
     sf::Vector2f get_closest_target(sf::Vector2f position);
 };

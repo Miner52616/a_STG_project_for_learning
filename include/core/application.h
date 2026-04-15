@@ -23,6 +23,7 @@ public:
     sf::Texture child_planeTexture_;
     sf::Texture lifeUI_;
     sf::Texture bombUI_;
+    sf::Texture spellnumUI_;
     sf::Texture LeiTanTexture_;
     sf::Texture LeiTan_AirTexture_;
     sf::Texture overlay1Texture_;

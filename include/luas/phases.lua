@@ -36,7 +36,9 @@ phasetable=
             {
                 time=120,
                 HP=2000,
+                bossname="Matara Okina",
                 spellname=" ",
+                spellnum=0,
                 name_x=-100,
                 name_y=-100,
                 voidspell=true,
@@ -51,8 +53,10 @@ phasetable=
             {
                 time=1800,
                 HP=2500,
+                bossname="Matara Okina",
                 spellname="「终忆」吹拂樱花",
-                name_x=50,
+                spellnum=3,
+                name_x=750,
                 name_y=25,
                 voidspell=false,
                 behaviortable=
@@ -70,8 +74,10 @@ phasetable=
             {
                 time=1800,
                 HP=2500,
+                bossname="Matara Okina",
                 spellname="「终忆」吹拂樱花",
-                name_x=50,
+                spellnum=2,
+                name_x=750,
                 name_y=25,
                 voidspell=false,
                 behaviortable=
@@ -93,8 +99,10 @@ phasetable=
             {
                 time=1800,
                 HP=2500,
+                bossname="Matara Okina",
                 spellname="「终忆」吹拂樱花",
-                name_x=50,
+                spellnum=1,
+                name_x=750,
                 name_y=25,
                 voidspell=false,
                 behaviortable=
@@ -120,8 +128,10 @@ phasetable=
             {
                 time=1800,
                 HP=2000,
+                bossname="Matara Okina",
                 spellname="「终忆」吹拂樱花",
-                name_x=50,
+                spellnum=0,
+                name_x=750,
                 name_y=25,
                 voidspell=false,
                 behaviortable=

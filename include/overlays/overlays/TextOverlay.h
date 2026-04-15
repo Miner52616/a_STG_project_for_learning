@@ -14,6 +14,7 @@ public:
     void setTextText(const std::string text);
     void setTextSize(int size);  //设置文字大小
     void setTextColor(sf::Color color);  //设置文字颜色
+    void changeOrigin(bool change);
 
     void render(sf::RenderWindow& window) override;
     void render(sf::RenderTexture& texture) override;

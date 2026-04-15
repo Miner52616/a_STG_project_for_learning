@@ -299,6 +299,11 @@ void GameState::Render(sf::RenderWindow& window)
     //player_->drawwindow(window);
     player_->drawtexture(game_window_);
 
+    dropmanager_.render(game_window_);
+    bulletmanager_.render(game_window_);
+    bombmanager_.render(game_window_);
+    effectmanager_.render(game_window_);
+
     //phasecontroller_.render(window);
     phasecontroller_.render(game_window_);
 
@@ -308,10 +313,7 @@ void GameState::Render(sf::RenderWindow& window)
         app_.stack_.pushRequest(std::make_unique<PauseState>(app_));
     }
 
-    dropmanager_.render(game_window_);
-    bulletmanager_.render(game_window_);
-    bombmanager_.render(game_window_);
-    effectmanager_.render(game_window_);
+    
 
     window_sprite_.setTexture(game_window_.getTexture());
     window.draw(window_sprite_);

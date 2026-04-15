@@ -15,6 +15,7 @@ application::application():
     child_planeTexture_("assets/textures/child_plane.png"),
     lifeUI_("assets/textures/life.png"),
     bombUI_("assets/textures/bomb.png"),
+    spellnumUI_("assets/textures/spell_num.png"),
     LeiTanTexture_("assets/textures/LeiTan.png"),
     LeiTan_AirTexture_("assets/textures/LeiTan_Air.png"),
     overlay1Texture_("assets/textures/overlay1.png"),

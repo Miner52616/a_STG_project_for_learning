@@ -6,9 +6,14 @@
 #include "entities/Boss.h"
 
 SpellPhase::SpellPhase(Resource* resource,YellowPage* yellowpage,int target_frame):
-    TimePhase(resource,yellowpage,target_frame),boss_(NULL),moveclock_(240),shootclock_(60),nextposition_(460,200),fullHP_(1000),HP_(1000),voidspell_(false),spellname_(resource->app_.mainFont_),timer_(resource->app_.mainFont_)
+    TimePhase(resource,yellowpage,target_frame),boss_(NULL),moveclock_(240),shootclock_(60),nextposition_(460,200),fullHP_(1000),HP_(1000),voidspell_(false),spellname_(resource->app_.mainFont_),timer_(resource->app_.mainFont_),spellnum_(resource->app_.mainFont_,resource->app_.spellnumUI_)
 {
     setHP(600);
+    spellnum_.setLinePosition({10,25});
+    spellnum_.setLineSize(20);
+    spellnum_.setInitialGap(0);
+    spellnum_.setY_Gap(25);
+    spellnum_.setGap(25);
     HPline_.setFillColor(sf::Color::White);
     HPline_.setPosition({5,5});
     HPline_.setSize({760,8});
@@ -73,6 +78,7 @@ void SpellPhase::render(sf::RenderTexture& texture)
         timer_.render(texture);
     }
     spellname_.render(texture);
+    spellnum_.render(texture);
 }
 
 void SpellPhase::addBehavior(std::unique_ptr<Behavior> behavior)
@@ -120,9 +126,16 @@ void SpellPhase::setVoidSpell(bool isvoid)
 void SpellPhase::setTextName(const std::string text)
 {
     spellname_.setTextText(text);
+    spellname_.changeOrigin(true);
 }
 
 void SpellPhase::setTextPosition(sf::Vector2f position)
 {
     spellname_.setPosition(position);
+}
+
+void SpellPhase::setBossName_SpellNum(const std::string text,int num)
+{
+    spellnum_.setLineText(text);
+    spellnum_.setCurrentNum(num);
 }

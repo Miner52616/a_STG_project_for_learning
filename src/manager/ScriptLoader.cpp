@@ -201,6 +201,7 @@ void SFactory::setYellowPage(YellowPage* yellowpage)
 std::unique_ptr<SpellPhase> SFactory::buildSpell(Boss* boss,const sol::table& spellscript)
 {
     std::unique_ptr<SpellPhase> spell=std::make_unique<SpellPhase>(resource_,yellowpage_,spellscript["time"]);
+    spell->setBossName_SpellNum(spellscript["bossname"],spellscript["spellnum"]);
     spell->setTextName(spellscript["spellname"]);
     float x=spellscript["name_x"];
     float y=spellscript["name_y"];
