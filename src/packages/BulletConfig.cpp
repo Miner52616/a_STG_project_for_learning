@@ -1,7 +1,7 @@
 #include "packages/BulletConfig.h"
 
 BulletConfig::BulletConfig(sf::Texture& texture):
-    texture_(texture),clock1_(10)
+    texture_(texture),clock1_(10),clock2_(0),clock3_(0)
 {
     ;
 }

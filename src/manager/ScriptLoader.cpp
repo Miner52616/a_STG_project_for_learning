@@ -9,8 +9,11 @@
 #include "phases/phases/SpellPhase.h"
 #include "entities/Enemy.h"
 #include "behaviors/behaviors/MoveToRandom1.h"
+#include "behaviors/behaviors/Move.h"
 #include "behaviors/behaviors/ScoreDrop1.h"
 #include "behaviors/behaviors/AimShoot.h"
+#include "behaviors/behaviors/NonSpell1.h"
+#include "behaviors/behaviors/NonSpell2.h"
 #include "behaviors/behaviors/BreezyBlossom1.h"
 #include "behaviors/behaviors/BreezyBlossom2.h"
 #include "behaviors/behaviors/BreezyBlossom3.h"
@@ -232,8 +235,26 @@ BFactory::BFactory()
             std::cout<<"MoveToRandom1"<<std::endl;
             std::unique_ptr<MoveToRandom1> movetorandom1=std::make_unique<MoveToRandom1>(resource_,yellowpage_);
             movetorandom1->set_entity(enemy);
+            int start=behaviorscript["start_time"];
+            movetorandom1->set_start(start);
         
             return std::move(movetorandom1);
+        }
+    );
+
+    registerBehavior("MoveTo",
+        [this](Entity* enemy,const sol::table& behaviorscript)
+        {
+            std::cout<<"MoveTo"<<std::endl;
+            std::unique_ptr<MoveTo> moveto=std::make_unique<MoveTo>(enemy,resource_,yellowpage_);
+            float v=behaviorscript["v"];
+            moveto->setV(v);
+            float x=behaviorscript["x"];
+            float y=behaviorscript["y"];
+            sf::Vector2f position={x,y};
+            moveto->setTargetPosition(position);
+
+            return std::move(moveto);
         }
     );
 
@@ -308,6 +329,26 @@ BFactory::BFactory()
             std::unique_ptr<BreezyBlossom4> breezyblossom4=std::make_unique<BreezyBlossom4>(enemy,resource_,yellowpage_);
 
             return std::move(breezyblossom4);
+        }
+    );
+
+    registerBehavior("NonSpell1",
+        [this](Entity* enemy,const sol::table& behaviorscript)
+        {
+            std::cout<<"NonSpell1"<<std::endl;
+            std::unique_ptr<NonSpell1> nonspell1=std::make_unique<NonSpell1>(enemy,resource_,yellowpage_);
+
+            return std::move(nonspell1);
+        }
+    );
+
+    registerBehavior("NonSpell2",
+        [this](Entity* enemy,const sol::table& behaviorscript)
+        {
+            std::cout<<"NonSpell2"<<std::endl;
+            std::unique_ptr<NonSpell2> nonspell2=std::make_unique<NonSpell2>(enemy,resource_,yellowpage_);
+
+            return std::move(nonspell2);
         }
     );
 }

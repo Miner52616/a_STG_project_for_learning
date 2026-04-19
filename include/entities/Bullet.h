@@ -12,6 +12,7 @@ friend void aim_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 friend void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 friend void direct_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 friend void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+friend void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 
 protected:
     Resource* resource_;
@@ -68,5 +69,6 @@ void aim_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 void direct_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 
 extern UpdateFunc update_table[];

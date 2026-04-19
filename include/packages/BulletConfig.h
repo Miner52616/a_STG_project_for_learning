@@ -9,7 +9,8 @@ enum BulletClasses
     PlayerBullet=1,
     DirectBullet1=2,
     DirectBullet2=3,
-    PlayerAimBullet=4
+    PlayerAimBullet=4,
+    DirectBullet3=5
 };
 
 class BulletConfig
@@ -17,11 +18,16 @@ class BulletConfig
 public:
     float v_=0;
     float a_=0;
+    float a2_=0;
     float v2_=0;
+    float v3_=0;
     float r_=2;
     float damage_=0;
     Clock clock1_;
+    Clock clock2_;
+    Clock clock3_;
     sf::Vector2f direction_={0,-1};
+    sf::Vector2f direction2_={0,-1};
     sf::Vector2f spawn_point_={0,0};
     sf::Vector2f target_point_={0,0};
     BulletClasses bulletclass_=BulletClasses::PlayerBullet;

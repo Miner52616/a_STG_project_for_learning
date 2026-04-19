@@ -197,11 +197,48 @@ void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
     bullet.bulletconfig_->clock1_.count();
 }
 
+void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+{
+    if(!bullet.bulletconfig_->clock3_.get_condition())
+    {
+        bullet.setPosition(bullet.getPosition());
+        bullet.bulletconfig_->clock3_.count();
+    }
+    else
+    {
+        if(!bullet.bulletconfig_->clock2_.get_condition())
+        {
+            bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v3_*bullet.bulletconfig_->direction2_);
+            //std::cout<<bullet.bulletconfig_->direction2_.x<<" "<<bullet.bulletconfig_->direction2_.y<<std::endl;
+            bullet.bulletconfig_->v3_=bullet.bulletconfig_->v3_+bullet.bulletconfig_->a2_;
+            bullet.bulletconfig_->clock2_.count();
+        }
+        else
+        {
+            if(!bullet.bulletconfig_->clock1_.get_condition())
+            {
+                bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*normalize(bullet.bulletconfig_->direction_));
+                bullet.bulletconfig_->clock1_.count();
+            }
+            else
+            {
+                bullet.bulletconfig_->v_=bullet.bulletconfig_->v_+bullet.bulletconfig_->a_;
+                if(bullet.bulletconfig_->v_>bullet.bulletconfig_->v2_)
+                {
+                    bullet.bulletconfig_->v_=bullet.bulletconfig_->v2_;
+                }
+                bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*normalize(bullet.bulletconfig_->direction_));
+            }
+        }
+    }
+}
+
 UpdateFunc update_table[]=
 {
     aim_move1,
     direct_move1,
     direct_move1,
     direct_move2,
-    aim_move2
+    aim_move2,
+    direct_move3
 };

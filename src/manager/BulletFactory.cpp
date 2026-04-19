@@ -103,6 +103,8 @@ void copyconfig(BulletConfig* copy,BulletConfig* origin)
 {
     //提供的时钟默认先reset
     copy->clock1_.reset();
+    copy->clock2_.reset();
+    copy->clock3_.reset();
 
     //除了图片之外的所有子弹信息全部拷贝（引用对象无法改引用，图片设置非子弹信息，单独处理）
     copy->bulletclass_=origin->bulletclass_;
@@ -115,4 +117,9 @@ void copyconfig(BulletConfig* copy,BulletConfig* origin)
     copy->a_=origin->a_;
     copy->clock1_.set_target(origin->clock1_.get_target());
     copy->v2_=origin->v2_;
+    copy->a2_=origin->a2_;
+    copy->v3_=origin->v3_;
+    copy->direction2_=origin->direction2_;
+    copy->clock2_.set_target(origin->clock2_.get_target());
+    copy->clock3_.set_target(origin->clock3_.get_target());
 }

@@ -28,6 +28,9 @@ public:
     sf::Texture LeiTan_AirTexture_;
     sf::Texture overlay1Texture_;
     sf::Texture blossom_small_bulletTexture;
+    sf::Texture red_light_bulletTexture_;
+    sf::Texture blue_light_bulletTexture_;
+    sf::Texture deep_blue_light_bulletTexture_;
 
 public:
     StateStack stack_;

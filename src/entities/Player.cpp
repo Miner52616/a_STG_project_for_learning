@@ -378,7 +378,7 @@ void Player::Player_update()
         child_planes_[2]->setTargetPosition(sf::Vector2f{30,100});
         child_planes_[3]->setTargetPosition(sf::Vector2f{80,80});
         */
-        speed_=5;
+        speed_=4;
     }
     else
     {
@@ -429,7 +429,7 @@ void Player::Player_update()
         child_planes_[2]->setTargetPosition(sf::Vector2f{10,-50});
         child_planes_[3]->setTargetPosition(sf::Vector2f{20,-50});
         */
-        speed_=10;
+        speed_=8;
     }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))

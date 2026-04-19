@@ -19,7 +19,10 @@ application::application():
     LeiTanTexture_("assets/textures/LeiTan.png"),
     LeiTan_AirTexture_("assets/textures/LeiTan_Air.png"),
     overlay1Texture_("assets/textures/overlay1.png"),
-    blossom_small_bulletTexture("assets/textures/blossom_small.png")
+    blossom_small_bulletTexture("assets/textures/blossom_small.png"),
+    red_light_bulletTexture_("assets/textures/red_light_bullet.png"),
+    blue_light_bulletTexture_("assets/textures/blue_light_bullet.png"),
+    deep_blue_light_bulletTexture_("assets/textures/deep_blue_light_bullet.png")
 {
     window_.setFramerateLimit(60);
     gameview_.setSize({1280,960});
