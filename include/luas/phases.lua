@@ -8,7 +8,7 @@ phasetable=
             {
                 time=120,
                 HP=2000,
-                bossname="Matara Okina",
+                bossname="Kochiya Sanae",
                 spellname=" ",
                 spellnum=0,
                 name_x=-100,
@@ -26,9 +26,9 @@ phasetable=
             },
 
             {
-                time=9000,
+                time=4200,
                 HP=1800,
-                bossname="Matara Okina",
+                bossname="Kochiya Sanae",
                 spellname=" ",
                 spellnum=3,
                 name_x=-100,
@@ -46,11 +46,11 @@ phasetable=
                     }
                 }
             },
-
+            
             {
-                time=900,
+                time=2400,
                 HP=1800,
-                bossname="Matara Okina",
+                bossname="Kochiya Sanae",
                 spellname=" ",
                 spellnum=3,
                 name_x=-100,
@@ -72,7 +72,7 @@ phasetable=
             {
                 time=1800,
                 HP=2500,
-                bossname="Matara Okina",
+                bossname="Kochiya Sanae",
                 spellname="「终忆」吹拂樱花",
                 spellnum=3,
                 name_x=750,
@@ -94,7 +94,7 @@ phasetable=
             {
                 time=1800,
                 HP=2500,
-                bossname="Matara Okina",
+                bossname="Kochiya Sanae",
                 spellname="「终忆」吹拂樱花",
                 spellnum=2,
                 name_x=750,
@@ -120,7 +120,7 @@ phasetable=
             {
                 time=1800,
                 HP=2500,
-                bossname="Matara Okina",
+                bossname="Kochiya Sanae",
                 spellname="「终忆」吹拂樱花",
                 spellnum=1,
                 name_x=750,
@@ -150,7 +150,7 @@ phasetable=
             {
                 time=1800,
                 HP=2000,
-                bossname="Matara Okina",
+                bossname="Kochiya Sanae",
                 spellname="「终忆」吹拂樱花",
                 spellnum=0,
                 name_x=750,

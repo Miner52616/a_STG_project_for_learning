@@ -11,6 +11,10 @@
 Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     Entity(texture),
     hitbox_exist_(false),
+    a_(1),
+    v_low_(4),
+    v_high_(8),
+    v_target_(0),
     speed_(10),
     grazebox_r(50),
     request_shoot_(false),

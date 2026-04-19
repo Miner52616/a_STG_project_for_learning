@@ -17,7 +17,11 @@ class Player:public Entity
 {
 private:
     bool hitbox_exist_;
-    int speed_;
+    float a_;
+    float v_low_;
+    float v_high_;
+    float v_target_;
+    float speed_;
     bool request_shoot_;
     int grazebox_r;
     Clock clock_;
