@@ -16,7 +16,7 @@ RoundMove1::RoundMove1(sf::Vector2f direction,float omega):
     direction_(direction), omega_(omega),nextposition_({0,0}),clock_(120)
 {
     std::vector<long long int> possible_time={0,30,60,90};
-    clock_.set_target(120+get_random_from(possible_time));
+    clock_.set_target(120+get_random_from<long long int>(possible_time));
 
     clock_.reset();
 }

@@ -10,6 +10,8 @@ Bullet::Bullet(sf::Texture &texture,sf::Vector2f position):
     bulletconfig_=std::make_unique<BulletConfig>(texture);
     position_=position;
     hitbox_r_=10;
+    hitbox_draw_.setRadius(hitbox_r_);
+    hitbox_draw_.setOrigin(hitbox_draw_.getLocalBounds().getCenter());
 }
 
 Bullet::Bullet(sf::Texture &texture,sf::Vector2f position,float damage):
@@ -18,6 +20,34 @@ Bullet::Bullet(sf::Texture &texture,sf::Vector2f position,float damage):
     bulletconfig_=std::make_unique<BulletConfig>(texture);
     position_=position;
     hitbox_r_=10;
+    hitbox_draw_.setRadius(hitbox_r_);
+    hitbox_draw_.setOrigin(hitbox_draw_.getLocalBounds().getCenter());
+}
+
+void Bullet::selfbehavior()
+{
+    switch (bulletconfig_->bulletbehavior_)
+    {
+    case BulletBehavior::Fix:
+        {
+            break;
+        }
+    
+    case BulletBehavior::Rotate:
+        {
+            picture_.rotate(sf::degrees(3));
+            break;
+        }
+
+    case BulletBehavior::Direct:
+        {
+            picture_.setRotation(sf::degrees(bulletconfig_->angle_));
+            break;
+        }
+    
+    default:
+        break;
+    }
 }
 
 void Bullet::update()
@@ -25,12 +55,28 @@ void Bullet::update()
     store_position();
     
     update_table[bulletconfig_->bulletclass_](*this,yellowpage_,resource_);
+    selfbehavior();
 
     if(isOut())
     {
         //std::cout<<getPosition().x<<" "<<getPosition().y<<std::endl;
         markDead();
     }
+}
+
+void Bullet::drawtexture(sf::RenderTexture& texture)
+{
+    texture.draw(picture_);
+    if(show_hitbox_)
+    {
+        texture.draw(hitbox_draw_);
+    }
+}
+
+void Bullet::setPosition(sf::Vector2f position)
+{
+    Entity::setPosition(position);
+    hitbox_draw_.setPosition(position);
 }
 
 bool Bullet::isDead() const
@@ -68,18 +114,26 @@ bool Bullet::isOut()
 void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position)
 {
     bullet_texture_=&texture;
-    picture_.setTexture(*bullet_texture_);
+    picture_.setTexture(*bullet_texture_,true);
+    picture_.setScale({1.414,1.414});
+    picture_.setOrigin(picture_.getLocalBounds().getCenter());
     position_=position;
-    hitbox_r_=10;
+    hitbox_r_=5;
+    hitbox_draw_.setRadius(hitbox_r_);
+    hitbox_draw_.setOrigin(hitbox_draw_.getLocalBounds().getCenter());
 }
 
 void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position,float damage)
 {
     bullet_texture_=&texture;
-    picture_.setTexture(*bullet_texture_);
+    picture_.setTexture(*bullet_texture_,true);
+    picture_.setScale({1.414,1.414});
+    picture_.setOrigin(picture_.getLocalBounds().getCenter());
     damage_=damage;
     position_=position;
-    hitbox_r_=10;
+    hitbox_r_=5;
+    hitbox_draw_.setRadius(hitbox_r_);
+    hitbox_draw_.setOrigin(hitbox_draw_.getLocalBounds().getCenter());
 }
 
 void Bullet::initialize()

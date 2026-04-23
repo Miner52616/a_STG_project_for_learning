@@ -10,12 +10,16 @@
 
 Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     Entity(texture),
+    hitbox_texture_(resource->app_.hitboxTexture_),
     hitbox_exist_(false),
-    a_(1),
+    a_low_(3),
+    a_high_(4.5),
+    a_(4.5),
     v_low_(4),
     v_high_(8),
-    v_target_(0),
-    speed_(10),
+    speed_x_(0),
+    speed_y_(0),
+    v_limit_(0),
     grazebox_r(50),
     request_shoot_(false),
     clock_((long long int)2),
@@ -32,6 +36,9 @@ Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     point_.setRadius(6);
     point_.setOrigin(point_.getGlobalBounds().getCenter());
     point_.setFillColor(sf::Color::White);
+    
+    hitbox_texture_.setOrigin(hitbox_texture_.getGlobalBounds().getCenter());
+    hitbox_texture_.setScale({2,2});
 
     hitbox_r_=1;
     hitbox_.setRadius(hitbox_r_);
@@ -204,6 +211,7 @@ void Player::setPosition()
 {
     hitbox_.setPosition(position_);
     point_.setPosition(position_);
+    hitbox_texture_.setPosition(position_);
     picture_.setPosition(position_);
 }
 
@@ -266,7 +274,8 @@ void Player::drawtexture(sf::RenderTexture& texture)
     */
     if(hitbox_exist_)
     {
-        texture.draw(point_);
+        //texture.draw(point_);
+        texture.draw(hitbox_texture_);
     }
 }
 
@@ -274,65 +283,7 @@ void Player::Player_update()
 {
     store_position();
     power_=yellowpage_->power_line_.getCurrentNum();
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)))
-    {
-        setPosition({getPosition().x-(float)(speed_*0.707),getPosition().y-(float)(speed_*0.707)});
-        check_position();
-    }
-    else
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)))
-    {
-        setPosition({getPosition().x-(float)(speed_*0.707),getPosition().y+(float)(speed_*0.707)});
-        check_position();
-    }
-    else
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))
-    {
-        setPosition({getPosition().x+(float)(speed_*0.707),getPosition().y-(float)(speed_*0.707)});
-        check_position();
-    }
-    else
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))
-    {
-        setPosition({getPosition().x+(float)(speed_*0.707),getPosition().y+(float)(speed_*0.707)});
-        check_position();
-    }
-    else
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
-    {
-        setPosition({position_.x,(position_.y)-speed_});
-        check_position();
-    }
-    else
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
-    {
-        setPosition({position_.x,(position_.y)+speed_});
-        check_position();
-    }
-    else
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
-    {
-        setPosition({position_.x-speed_,position_.y});
-        check_position();
-    }
-    else
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
-    {
-        setPosition({position_.x+speed_,position_.y});
-        check_position();
-    }
 
-/*
-    if(child_planes_[0]->getPosition()==sf::Vector2f{0,0})
-    {
-        child_planes_[0]->setPosition(prev_position_+sf::Vector2f{-80,0});
-        child_planes_[1]->setPosition(prev_position_+sf::Vector2f{80,0});
-    }
-    
-    child_planes_[0]->setPosition(child_planes_[0]->getPosition()+(getPosition()-prev_position_));
-    child_planes_[1]->setPosition(child_planes_[1]->getPosition()+(getPosition()-prev_position_));
-  */
-    
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
     {
         hitbox_exist_=true;
@@ -382,7 +333,8 @@ void Player::Player_update()
         child_planes_[2]->setTargetPosition(sf::Vector2f{30,100});
         child_planes_[3]->setTargetPosition(sf::Vector2f{80,80});
         */
-        speed_=4;
+        v_limit_=v_low_;
+        a_=a_low_;
     }
     else
     {
@@ -433,8 +385,311 @@ void Player::Player_update()
         child_planes_[2]->setTargetPosition(sf::Vector2f{10,-50});
         child_planes_[3]->setTargetPosition(sf::Vector2f{20,-50});
         */
-        speed_=8;
+        v_limit_=v_high_;
+        a_=a_high_;
     }
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)))
+    {
+        if(speed_x_<v_limit_*0.707)
+        {
+            speed_x_=speed_x_+a_;
+            if(speed_x_>v_limit_*0.707)
+            {
+                speed_x_=v_limit_*0.707;
+            }
+        }
+        if(speed_x_>v_limit_*0.707)
+        {
+            speed_x_=speed_x_-a_high_;
+            if(speed_x_<v_limit_*0.707)
+            {
+                speed_x_=v_limit_*0.707;
+            }
+        }
+        if(speed_y_<v_limit_*0.707)
+        {
+            speed_y_=speed_y_+a_;
+            if(speed_y_>v_limit_*0.707)
+            {
+                speed_y_=v_limit_*0.707;
+            }
+        }
+        if(speed_y_>v_limit_*0.707)
+        {
+            speed_y_=speed_y_-a_high_;
+            if(speed_y_<v_limit_*0.707)
+            {
+                speed_y_=v_limit_*0.707;
+            }
+        }
+        setPosition({getPosition().x-speed_x_,getPosition().y-speed_y_});
+        check_position();
+    }
+    else
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)))
+    {
+        if(speed_x_<v_limit_*0.707)
+        {
+            speed_x_=speed_x_+a_;
+            if(speed_x_>v_limit_*0.707)
+            {
+                speed_x_=v_limit_*0.707;
+            }
+        }
+        if(speed_x_>v_limit_*0.707)
+        {
+            speed_x_=speed_x_-a_high_;
+            if(speed_x_<v_limit_*0.707)
+            {
+                speed_x_=v_limit_*0.707;
+            }
+        }
+        if(speed_y_<v_limit_*0.707)
+        {
+            speed_y_=speed_y_+a_;
+            if(speed_y_>v_limit_*0.707)
+            {
+                speed_y_=v_limit_*0.707;
+            }
+        }
+        if(speed_y_>v_limit_*0.707)
+        {
+            speed_y_=speed_y_-a_high_;
+            if(speed_y_<v_limit_*0.707)
+            {
+                speed_y_=v_limit_*0.707;
+            }
+        }
+        setPosition({getPosition().x-speed_x_,getPosition().y+speed_y_});
+        check_position();
+    }
+    else
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))
+    {
+        if(speed_x_<v_limit_*0.707)
+        {
+            speed_x_=speed_x_+a_;
+            if(speed_x_>v_limit_*0.707)
+            {
+                speed_x_=v_limit_*0.707;
+            }
+        }
+        if(speed_x_>v_limit_*0.707)
+        {
+            speed_x_=speed_x_-a_high_;
+            if(speed_x_<v_limit_*0.707)
+            {
+                speed_x_=v_limit_*0.707;
+            }
+        }
+        if(speed_y_<v_limit_*0.707)
+        {
+            speed_y_=speed_y_+a_;
+            if(speed_y_>v_limit_*0.707)
+            {
+                speed_y_=v_limit_*0.707;
+            }
+        }
+        if(speed_y_>v_limit_*0.707)
+        {
+            speed_y_=speed_y_-a_high_;
+            if(speed_y_<v_limit_*0.707)
+            {
+                speed_y_=v_limit_*0.707;
+            }
+        }
+        setPosition({getPosition().x+speed_x_,getPosition().y-speed_y_});
+        check_position();
+    }
+    else
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))
+    {
+        if(speed_x_<v_limit_*0.707)
+        {
+            speed_x_=speed_x_+a_;
+            if(speed_x_>v_limit_*0.707)
+            {
+                speed_x_=v_limit_*0.707;
+            }
+        }
+        if(speed_x_>v_limit_*0.707)
+        {
+            speed_x_=speed_x_-a_high_;
+            if(speed_x_<v_limit_*0.707)
+            {
+                speed_x_=v_limit_*0.707;
+            }
+        }
+        if(speed_y_<v_limit_*0.707)
+        {
+            speed_y_=speed_y_+a_;
+            if(speed_y_>v_limit_*0.707)
+            {
+                speed_y_=v_limit_*0.707;
+            }
+        }
+        if(speed_y_>v_limit_*0.707)
+        {
+            speed_y_=speed_y_-a_high_;
+            if(speed_y_<v_limit_*0.707)
+            {
+                speed_y_=v_limit_*0.707;
+            }
+        }
+        setPosition({getPosition().x+speed_x_,getPosition().y+speed_y_});
+        check_position();
+    }
+    else
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+    {
+        if(speed_x_>0)
+        {
+            speed_x_=speed_x_-a_high_;
+            if(speed_x_<0)
+            {
+                speed_x_=0;
+            }
+        }
+        if(speed_y_<v_limit_)
+        {
+            speed_y_=speed_y_+a_;
+            if(speed_y_>v_limit_)
+            {
+                speed_y_=v_limit_;
+            }
+        }
+        if(speed_y_>v_limit_)
+        {
+            speed_y_=speed_y_-a_high_;
+            if(speed_y_<v_limit_)
+            {
+                speed_y_=v_limit_;
+            }
+        }
+        setPosition({position_.x,(position_.y)-speed_y_});
+        check_position();
+    }
+    else
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+    {
+        if(speed_x_>0)
+        {
+            speed_x_=speed_x_-a_high_;
+            if(speed_x_<0)
+            {
+                speed_x_=0;
+            }
+        }
+        if(speed_y_<v_limit_)
+        {
+            speed_y_=speed_y_+a_;
+            if(speed_y_>v_limit_)
+            {
+                speed_y_=v_limit_;
+            }
+        }
+        if(speed_y_>v_limit_)
+        {
+            speed_y_=speed_y_-a_high_;
+            if(speed_y_<v_limit_)
+            {
+                speed_y_=v_limit_;
+            }
+        }
+        setPosition({position_.x,(position_.y)+speed_y_});
+        check_position();
+    }
+    else
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+    {
+        if(speed_y_>0)
+        {
+            speed_y_=speed_y_-a_high_;
+            if(speed_y_<0)
+            {
+                speed_y_=0;
+            }
+        }
+        if(speed_x_<v_limit_)
+        {
+            speed_x_=speed_x_+a_;
+            if(speed_x_>v_limit_)
+            {
+                speed_x_=v_limit_;
+            }
+        }
+        if(speed_x_>v_limit_)
+        {
+            speed_x_=speed_x_-a_high_;
+            if(speed_x_<v_limit_)
+            {
+                speed_x_=v_limit_;
+            }
+        }
+        setPosition({position_.x-speed_x_,position_.y});
+        check_position();
+    }
+    else
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+    {
+        if(speed_y_>0)
+        {
+            speed_y_=speed_y_-a_high_;
+            if(speed_y_<0)
+            {
+                speed_y_=0;
+            }
+        }
+        if(speed_x_<v_limit_)
+        {
+            speed_x_=speed_x_+a_;
+            if(speed_x_>v_limit_)
+            {
+                speed_x_=v_limit_;
+            }
+        }
+        if(speed_x_>v_limit_)
+        {
+            speed_x_=speed_x_-a_high_;
+            if(speed_x_<v_limit_)
+            {
+                speed_x_=v_limit_;
+            }
+        }
+        setPosition({position_.x+speed_x_,position_.y});
+        check_position();
+    }
+    else
+    {
+        if(speed_x_>0)
+        {
+            speed_x_=speed_x_-a_high_;
+            if(speed_x_<0)
+            {
+                speed_x_=0;
+            }
+        }
+        if(speed_y_>0)
+        {
+            speed_y_=speed_y_-a_high_;
+            if(speed_y_<0)
+            {
+                speed_y_=0;
+            }
+        }
+    }
+
+/*
+    if(child_planes_[0]->getPosition()==sf::Vector2f{0,0})
+    {
+        child_planes_[0]->setPosition(prev_position_+sf::Vector2f{-80,0});
+        child_planes_[1]->setPosition(prev_position_+sf::Vector2f{80,0});
+    }
+    
+    child_planes_[0]->setPosition(child_planes_[0]->getPosition()+(getPosition()-prev_position_));
+    child_planes_[1]->setPosition(child_planes_[1]->getPosition()+(getPosition()-prev_position_));
+  */
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))
     {

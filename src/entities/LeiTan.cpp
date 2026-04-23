@@ -57,6 +57,7 @@ LeiTan::LeiTan(const sf::Texture &texture,sf::Vector2f position,sf::Vector2f dir
 
 void LeiTan::update()
 {
+    store_position();
     switch (phase_)
     {
     case 1:

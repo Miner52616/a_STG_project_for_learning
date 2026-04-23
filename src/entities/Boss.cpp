@@ -8,6 +8,7 @@ Boss::Boss(const sf::Texture &texture,Resource* resource):
 
 void Boss::update()
 {
+    store_position();
     phasecontroller_.update();
     if(!phasecontroller_.apply_change())
     {

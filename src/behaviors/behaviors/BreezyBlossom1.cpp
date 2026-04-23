@@ -39,6 +39,7 @@ void BreezyBlossom1::update()
                 
                     bullet_direction_=spawn_position-center_position_;
                     bulletconfig_.direction_=bullet_direction_;
+                    bulletconfig_.angle_=atan2f(bullet_direction_.y,bullet_direction_.x)*360/(2*3.14159)+90;
 
                     resource_->bulletmanager_.add_process(&bulletconfig_);
                 }
@@ -68,6 +69,7 @@ void BreezyBlossom1::setBulletConfig()
 {
     bulletconfig_.v_=0.2;
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet2;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Direct;
     bulletconfig_.r_=2;
     bulletconfig_.a_=0.1;
     bulletconfig_.v2_=6;

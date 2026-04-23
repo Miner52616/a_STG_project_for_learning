@@ -5,6 +5,7 @@
 
 class Entity;
 
+//与风刃一起的星星弹幕
 class NonSpell2_1:public Behavior
 {
 private:
@@ -27,6 +28,7 @@ public:
     void update() override;
 };
 
+//只在开局发射一次的星星弹幕
 class NonSpell2_2:public Behavior
 {
 protected:
@@ -76,11 +78,13 @@ public:
     void update() override;
 };
 
+//风刃弹幕
 class NonSpell2_3:public Behavior
 {
 private:
     Entity* entity_;
     BulletConfig bulletconfig_;
+    std::vector<int> left_right_;
 
     int bullet_num_;
     sf::Vector2f start_position_;

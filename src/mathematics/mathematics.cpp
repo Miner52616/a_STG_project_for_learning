@@ -148,6 +148,7 @@ sf::Vector2f get_randomposition_for_LeiTan(sf::Vector2f v)
     return {0,0};
 }
 
+/*
 long long int get_random_from(std::vector<long long int> vector)
 {
     std::random_device rd;
@@ -166,4 +167,20 @@ Enemy* get_random_from(std::vector<Enemy*> vector)
     std::uniform_int_distribution<> dis_int(0,vector.size()-1);
 
     return vector[dis_int(gen)];
+}
+
+int get_random_from(std::vector<int> vector)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+
+    std::uniform_int_distribution<> dis_int(0,vector.size()-1);
+    return vector[dis_int(gen)];
+}
+*/
+
+float RadTransToDegree(float rad)
+{
+    float degree=rad*180/std::numbers::pi;
+    return degree;
 }

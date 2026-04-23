@@ -42,7 +42,7 @@ void BulletFactory::initialize(int size)
     std::cout<<"bullet storage "<<size<<std::endl;
     for (int i=1;i<=size;i++)
     {
-        bulletlist_.emplace_back(app_.bulletTexture_,sf::Vector2f{0,0});
+        bulletlist_.emplace_back(app_.overlay1Texture_,sf::Vector2f{0,0});
         free_list_.push_back(i-1);
     }
 }
@@ -122,4 +122,6 @@ void copyconfig(BulletConfig* copy,BulletConfig* origin)
     copy->direction2_=origin->direction2_;
     copy->clock2_.set_target(origin->clock2_.get_target());
     copy->clock3_.set_target(origin->clock3_.get_target());
+    copy->bulletbehavior_=origin->bulletbehavior_;
+    copy->angle_=origin->angle_;
 }

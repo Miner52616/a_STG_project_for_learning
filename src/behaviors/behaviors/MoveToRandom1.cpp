@@ -28,7 +28,7 @@ void MoveToRandom1::update()
     }
     else
     {
-        entity_->store_position();
+        //entity_->store_position();
         entity_->setPosition((nextposition_-entity_->getPosition())*0.01f+entity_->getPosition());
         if(clock_.get_condition())
         {

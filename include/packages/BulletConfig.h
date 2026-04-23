@@ -13,6 +13,13 @@ enum BulletClasses
     DirectBullet3=5
 };
 
+enum BulletBehavior
+{
+    Fix=0,
+    Rotate=1,
+    Direct=2
+};
+
 class BulletConfig
 {
 public:
@@ -23,6 +30,7 @@ public:
     float v3_=0;
     float r_=2;
     float damage_=0;
+    float angle_=0;
     Clock clock1_;
     Clock clock2_;
     Clock clock3_;
@@ -31,6 +39,7 @@ public:
     sf::Vector2f spawn_point_={0,0};
     sf::Vector2f target_point_={0,0};
     BulletClasses bulletclass_=BulletClasses::PlayerBullet;
+    BulletBehavior bulletbehavior_=Fix;
     sf::Texture& texture_;
 
 public:

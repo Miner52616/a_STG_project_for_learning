@@ -76,6 +76,7 @@ void Enemy::update(long long int frame)
     set_exist(frame);
     if(isExist())
     {
+        store_position();
         if(HP_<=0)
         {
             markDead();

@@ -16,4 +16,15 @@ sf::Vector2f normalize(sf::Vector2f Vector);
 
 sf::Vector2f get_randomposition_for_LeiTan(sf::Vector2f v);
 
+/*
 long long int get_random_from(std::vector<long long int> vector);
+
+int get_random_from(std::vector<int> vector);
+*/
+
+template <typename T>
+T get_random_from(std::vector<T> vector);
+
+float RadTransToDegree(float rad);
+
+#include "mathematics/mathematics.ipp"

@@ -15,6 +15,8 @@ friend void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resourc
 friend void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 
 protected:
+    bool show_hitbox_=true;
+
     Resource* resource_;
     YellowPage* yellowpage_;
     sf::Texture* bullet_texture_;
@@ -25,6 +27,10 @@ protected:
     bool active_;
     float damage_;
     std::unique_ptr<BulletConfig> bulletconfig_;
+    sf::CircleShape hitbox_draw_;
+
+private:
+    void selfbehavior();
 
 public:
     Bullet(sf::Texture &texture,sf::Vector2f position);  //初始化子弹位置，初始化资源引用，默认子弹设置
@@ -32,6 +38,9 @@ public:
 
 public:
     virtual void update();
+    void drawtexture(sf::RenderTexture& texture) override;
+    void setPosition(sf::Vector2f position) override;
+
     bool isDead() const;
     bool isAcitve();
     bool isGrazed();

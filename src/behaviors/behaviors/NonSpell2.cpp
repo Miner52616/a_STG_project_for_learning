@@ -24,6 +24,7 @@ void NonSpell2_1::setBulletConfig()
     bulletconfig_.v2_=4;
     bulletconfig_.clock1_.set_target(30);
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet2;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Rotate;
 }
 
 void NonSpell2_1::update()
@@ -102,6 +103,7 @@ void NonSpell2_2::setBulletConfig()
     bulletconfig_.clock1_.set_target(30);
     bulletconfig_.clock2_.set_target(80);
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet3;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Rotate;
 }
 
 void NonSpell2_2::reset()
@@ -236,6 +238,8 @@ NonSpell2_3::NonSpell2_3(Entity* entity,Resource* resource,YellowPage* yellowpag
     bullet_num_=15;
     bullet_direction_={0,1};
     gap_=2;
+    left_right_.push_back(1);
+    left_right_.push_back(0);
 
     setBulletConfig();
 }
@@ -258,13 +262,28 @@ void NonSpell2_3::update()
             {
                 start_position_={getRandomNum(200,570),getRandomNum(100,300)};
                 set_direction_=roundwithCenter({0,0},{0,1},getRandomNum(0,360));
-                bullet_direction_=roundwithCenter({0,0},set_direction_,-18);
-                
+                int chiral=get_random_from<int>(left_right_);
+                if(chiral)
+                {
+                    bullet_direction_=roundwithCenter({0,0},set_direction_,-18);
+                }
+                else
+                {
+                    bullet_direction_=roundwithCenter({0,0},set_direction_,18);
+                }
+
                 for(int i=1;i<=bullet_num_;i++)
                 {
                     bulletconfig_.spawn_point_=start_position_+(i-1)*gap_*set_direction_;
                     bulletconfig_.direction_=bullet_direction_;
-                    bulletconfig_.v_=2+i*0.2;
+                    if(chiral)
+                    {
+                        bulletconfig_.v_=2+i*0.2;
+                    }
+                    else
+                    {
+                        bulletconfig_.v_=2+0.2*(bullet_num_+1-i);
+                    }
                     resource_->bulletmanager_.add_process(&bulletconfig_);
                     bullet_direction_=roundwithCenter({0,0},bullet_direction_,2);
                 }

@@ -17,11 +17,14 @@ class Player:public Entity
 {
 private:
     bool hitbox_exist_;
+    float a_low_;
+    float a_high_;
     float a_;
     float v_low_;
     float v_high_;
-    float v_target_;
-    float speed_;
+    float speed_x_;
+    float speed_y_;
+    float v_limit_;
     bool request_shoot_;
     int grazebox_r;
     Clock clock_;
@@ -35,6 +38,7 @@ private:
     std::unique_ptr<BombConfig> bombconfig_;
     std::vector<std::unique_ptr<Child_Plane>> child_planes_;
 
+    sf::Sprite hitbox_texture_;
     sf::CircleShape point_;
 
     int life_;
