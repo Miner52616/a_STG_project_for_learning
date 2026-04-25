@@ -10,7 +10,7 @@ private:
 
 
 public:
-    LeiTan_Air(const sf::Texture &texture,sf::Vector2f position,long long int time,sf::Vector2f direction,float v);
+    LeiTan_Air(sf::Texture &texture,sf::Vector2f position,long long int time,sf::Vector2f direction,float v);
     void setDirection(sf::Vector2f direction);
     void setV(float v);
 };

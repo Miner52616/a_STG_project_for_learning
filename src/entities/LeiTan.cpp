@@ -91,18 +91,23 @@ void LeiTan::update()
         break;
     
     default:
+        
         for(int i=1;i<=8;i++)
         {
             float x=getRandomNum(-1,1);
             float y=getRandomNum(-1,1);
-            float length=getRandomNum(0,100);
+            //float length=getRandomNum(0,100);
             sf::Vector2f direction={x,y};
-            direction=length*normalize(direction);
+            direction=normalize(direction);
             effectconfig_->direction_=direction;
             effectconfig_->spawn_point_=getPosition();
             effectconfig_->time_=getRandomNum(30,60);
+            effectconfig_->v_=getRandomNum(1,4);
+            effectconfig_->v2_=0;
+            effectconfig_->a_=0.1;
             resource_->effectmanager_.add_process(effectconfig_.get());
         }
+            
         markDead();
         break;
     }

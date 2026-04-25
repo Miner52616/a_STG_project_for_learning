@@ -22,6 +22,7 @@ GameState::GameState(application &app):
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
     window_sprite_(game_window_.getTexture()),
     bulletfactory_(app),
+    effectfactory_(app),
     bulletmanager_(app,bulletlist_,bulletfactory_),
     dropmanager_(droplist_,dropfactory_),
     bombmanager_(bomblist_,bombfactory_),

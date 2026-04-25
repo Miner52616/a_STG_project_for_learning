@@ -1,9 +1,9 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-enum class EffectType
+enum EffectType
 {
-    LeiTan_Air
+    LeiTan_Air=0
 };
 
 enum class OverlayType
@@ -17,12 +17,14 @@ public:
     sf::Vector2f spawn_point_={0,0};
     EffectType effecttype_=EffectType::LeiTan_Air;
     long long int time_=48;
+    float a_=0;
     float v_=0.08;
+    float v2_=0;
     sf::Vector2f direction_={100,0};
-    const sf::Texture &texture_;
+    sf::Texture &texture_;
 
 public:
-    EffectConfig(const sf::Texture& texture_);
+    EffectConfig(sf::Texture& texture_);
 };
 
 class OverlayConfig

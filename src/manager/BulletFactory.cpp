@@ -51,7 +51,7 @@ Bullet* BulletFactory::getBullet()
 {
     if(free_list_.empty())
     {
-        std::cout<<"FULL!!!"<<std::endl;
+        std::cout<<"BULLET FULL!!!"<<std::endl;
         return nullptr;
     }
 

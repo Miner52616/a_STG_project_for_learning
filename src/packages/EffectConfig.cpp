@@ -1,6 +1,6 @@
 #include "packages/EffectConfig.h"
 
-EffectConfig::EffectConfig(const sf::Texture& texture):
+EffectConfig::EffectConfig(sf::Texture& texture):
     texture_(texture)
 {
     ;

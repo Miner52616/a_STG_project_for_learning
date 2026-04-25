@@ -1,7 +1,7 @@
 #include "manager/EffectManager.h"
 #include <iostream>
 
-EffectManager::EffectManager(std::vector<std::unique_ptr<Effect>> &effectlist,std::vector<std::unique_ptr<Overlay>> &overlaylist,EffectFactory& effectfactory):
+EffectManager::EffectManager(std::vector<Effect*>& effectlist,std::vector<std::unique_ptr<Overlay>> &overlaylist,EffectFactory& effectfactory):
     effectlist_(effectlist),overlaylist_(overlaylist),effectfactory_(effectfactory)
 {
     ;
@@ -34,15 +34,23 @@ void EffectManager::update()
 
 void EffectManager::clear_dead()
 {
+    for(auto it=effectlist_.begin();it!=effectlist_.end();++it)
+    {
+        if((*it)->isDead())
+        effectfactory_.destroy(*it);
+    }
+
     effectlist_.erase
     (
         std::remove_if
         (
             effectlist_.begin(),effectlist_.end(),
-            [this](const std::unique_ptr<Effect>& effect)
+            [this](Effect*& effect)
             {
                 if(effect->isDead())
                 {
+                    //std::cout<<"dead"<<std::endl;
+                    //std::cout<<effect->getPosition().x<<" "<<effect->getPosition().y<<std::endl;
                     return true;
                 }
                 else

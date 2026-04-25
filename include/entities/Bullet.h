@@ -17,8 +17,8 @@ friend void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resourc
 protected:
     bool show_hitbox_=true;
 
-    Resource* resource_;
-    YellowPage* yellowpage_;
+    Resource* resource_;//追踪弹将向phasecontroller申请最近的目标位置
+    YellowPage* yellowpage_;//自机狙将访问player获取player位置
     sf::Texture* bullet_texture_;
     bool ofplayer_;
     bool exist_;

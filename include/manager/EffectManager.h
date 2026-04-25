@@ -10,13 +10,14 @@
 class EffectManager
 {
 private:
-    std::vector<std::unique_ptr<Effect>> &effectlist_;
+    std::vector<Effect*> &effectlist_;
     std::vector<std::unique_ptr<Overlay>> &overlaylist_;
     EffectFactory& effectfactory_;
 
 
 public:
-    EffectManager(std::vector<std::unique_ptr<Effect>> &effectlist,std::vector<std::unique_ptr<Overlay>> &overlaylist,EffectFactory& effectfactory);
+    //EffectManager(std::vector<std::unique_ptr<Effect>> &effectlist,std::vector<std::unique_ptr<Overlay>> &overlaylist,EffectFactory& effectfactory);
+    EffectManager(std::vector<Effect*>& effectlist,std::vector<std::unique_ptr<Overlay>> &overlaylist,EffectFactory& effectfactory);
     void add_process(EffectConfig* effectconfig);
     void add_process(OverlayConfig* overlayconfig);
     void update();
