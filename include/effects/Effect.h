@@ -13,6 +13,7 @@ class Effect
 {
 friend void direct_move1(Effect& effect);
 friend void direct_move2(Effect& effect);
+friend void keep_static(Effect& effect);
 
 protected:
     Resource* resource_;
@@ -25,6 +26,7 @@ protected:
     EffectConfig effectconfig_;
 
     Clock clock_;
+    Clock texture_clock_;
 
     sf::Sprite picture_;
     std::vector<std::unique_ptr<Behavior>> behaviorlist_;
@@ -47,6 +49,7 @@ public:
     void initialize();
     void setActive(bool active);
     void rebuild(sf::Texture &texture,sf::Vector2f position);
+    void rebuild_initialize();
     EffectConfig* getEffectConfig();
 
     virtual void update();
@@ -58,5 +61,6 @@ using EffectUpdateFunc=void(*)(Effect& effect);
 
 void direct_move1(Effect& effect);
 void direct_move2(Effect& effect);
+void keep_static(Effect& effect);
 
 extern EffectUpdateFunc effect_update_table[];

@@ -23,7 +23,15 @@ application::application():
     red_light_bulletTexture_("assets/textures/red_light_bullet.png"),
     blue_light_bulletTexture_("assets/textures/blue_light_bullet.png"),
     deep_blue_light_bulletTexture_("assets/textures/deep_blue_light_bullet.png"),
-    hitboxTexture_("assets/textures/hitbox.png")
+    hitboxTexture_("assets/textures/hitbox.png"),
+    Air_1_1Texture_("assets/textures/air/air1.png"),
+    Air_1_2Texture_("assets/textures/air/air2.png"),
+    Air_1_3Texture_("assets/textures/air/air3.png"),
+    Air_1_4Texture_("assets/textures/air/air4.png"),
+    Air_1_5Texture_("assets/textures/air/air5.png"),
+    Air_1_6Texture_("assets/textures/air/air6.png"),
+    Air_1_7Texture_("assets/textures/air/air7.png"),
+    Air_1_8Texture_("assets/textures/air/air8.png")
 {
     window_.setFramerateLimit(60);
     gameview_.setSize({1280,960});

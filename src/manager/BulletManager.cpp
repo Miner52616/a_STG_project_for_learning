@@ -39,7 +39,9 @@ void BulletManager::clear()
     for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
     {
         if((*it)->isDead())
-        bulletfactory_.destroy(*it);
+        {
+            bulletfactory_.destroy(*it);
+        }
     }
 
     bulletlist_.erase

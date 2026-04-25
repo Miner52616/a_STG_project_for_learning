@@ -72,10 +72,18 @@ Effect* EffectFactory::create(EffectConfig* effectconfig)
 {
     Effect* effect=getEffect();
 
-    //重新初始化特效，特别单独处理texture的更换
-    effect->rebuild(effectconfig->texture_,effectconfig->spawn_point_);
-    effect->setTime(effectconfig->time_);
     copyconfig(effect->getEffectConfig(),effectconfig);
+
+    //重新初始化特效，特别单独处理texture的更换
+    if(effectconfig->texturelist_size_!=0)
+    {
+        effect->rebuild(*(effectconfig->texturelist_[0]),effectconfig->spawn_point_);
+    }
+    else
+    {
+        effect->rebuild(effectconfig->texture_,effectconfig->spawn_point_);
+    }
+    effect->setTime(effectconfig->time_);
 
     return effect;
 }
@@ -112,4 +120,7 @@ void copyconfig(EffectConfig* copy,EffectConfig* origin)
     copy->time_=origin->time_;
     copy->v_=origin->v_;
     copy->direction_=origin->direction_;
+    copy->texturelist_=origin->texturelist_;
+    copy->texturelist_size_=origin->texturelist_size_;
+    copy->current_texture_num_=origin->current_texture_num_;
 }

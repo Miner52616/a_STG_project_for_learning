@@ -16,6 +16,11 @@ void Clock::reset()
     current_frame_=0;
 }
 
+void Clock::set_ready()
+{
+    current_frame_=target_frame_+1;
+}
+
 long long int Clock::get_target()
 {
     return target_frame_;

@@ -1,11 +1,13 @@
 #include "entities/Bullet.h"
 #include "behaviors/Behavior.h"
+#include "core/application.h"
 #include "mathematics/mathematics.h"
 #include "manager/PhaseController.h"
 #include <iostream>
 
 Bullet::Bullet(sf::Texture &texture,sf::Vector2f position):
-    Entity(texture),bullet_texture_(&texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(100)
+    Entity(texture),bullet_texture_(&texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(100),
+    effectconfig_(texture)
 {
     bulletconfig_=std::make_unique<BulletConfig>(texture);
     position_=position;
@@ -15,7 +17,8 @@ Bullet::Bullet(sf::Texture &texture,sf::Vector2f position):
 }
 
 Bullet::Bullet(sf::Texture &texture,sf::Vector2f position,float damage):
-    Entity(texture),bullet_texture_(&texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(damage)
+    Entity(texture),bullet_texture_(&texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(damage),
+    effectconfig_(texture)
 {
     bulletconfig_=std::make_unique<BulletConfig>(texture);
     position_=position;
@@ -56,6 +59,7 @@ void Bullet::update()
     
     update_table[bulletconfig_->bulletclass_](*this,yellowpage_,resource_);
     selfbehavior();
+    effectconfig_.spawn_point_=getPosition();
 
     if(isOut())
     {
@@ -149,11 +153,41 @@ void Bullet::setBulletConfig(std::unique_ptr<BulletConfig> bulletconfig)
     bulletconfig_=std::move(bulletconfig);
 }
 
+//在自己被注入资源后调用（在BulletFactory中的setResource中被注入资源，在自己被注入资源的同时（被调用自己的setResource时）调用）
+void Bullet::initialize_EffectConfig()
+{
+    std::vector<sf::Texture*> texturelist;
+    texturelist.emplace_back(&resource_->app_.Air_1_1Texture_);
+    texturelist.emplace_back(&resource_->app_.Air_1_2Texture_);
+    texturelist.emplace_back(&resource_->app_.Air_1_3Texture_);
+    texturelist.emplace_back(&resource_->app_.Air_1_4Texture_);
+    texturelist.emplace_back(&resource_->app_.Air_1_5Texture_);
+    texturelist.emplace_back(&resource_->app_.Air_1_6Texture_);
+    texturelist.emplace_back(&resource_->app_.Air_1_7Texture_);
+    texturelist.emplace_back(&resource_->app_.Air_1_8Texture_);
+    effectconfig_.current_texture_num_=0;
+    effectconfig_.texturelist_=texturelist;
+    effectconfig_.effecttype_=EffectType::Bullet_Air;
+    effectconfig_.texturelist_size_=texturelist.size();
+    effectconfig_.time_=4*(effectconfig_.texturelist_size_-1);
+}
+
+/*
+void Bullet::reset_EffectConfig()
+{
+    effectconfig_.current_texture_num_=0;
+}
+    */
+
 BulletConfig* Bullet::getBulletConfig()
 {
     return bulletconfig_.get();
 }
 
+EffectConfig* Bullet::getEffectConfig()
+{
+    return &effectconfig_;
+}
 
 void Bullet::setYellowPage(YellowPage* yellowpage)
 {
@@ -163,6 +197,7 @@ void Bullet::setYellowPage(YellowPage* yellowpage)
 void Bullet::setResource(Resource* resource)
 {
     resource_=resource;
+    initialize_EffectConfig();
 }
 
 void Bullet::setDead(bool dead)

@@ -1,4 +1,5 @@
 #include "manager/CollisionSystem.h"
+#include "manager/EffectManager.h"
 #include "collision/CollisionCheck.h"
 #include "entities/Entity.h"
 #include "entities/Boss.h"
@@ -36,6 +37,7 @@ void CollisionSystem::HandleCollision(Boss* boss,Bullet *bullet)
             {
                 //std::cout<<"boss collision"<<std::endl;
                 bullet->markDead();
+                resource_->effectmanager_.add_process(bullet->getEffectConfig());
                 boss->be_damage(bullet->getDamage());
             }
         }
@@ -52,6 +54,7 @@ void CollisionSystem::HandleCollision(Enemy* enemy,Bullet *bullet)
             {
                 //std::cout<<"enemy collision"<<std::endl;
                 bullet->markDead();
+                resource_->effectmanager_.add_process(bullet->getEffectConfig());
                 enemy->be_damage(bullet->getDamage());
             }
         }
@@ -68,6 +71,7 @@ void CollisionSystem::HandleCollision(Player* player,Bullet *bullet)
             {
                 //std::cout<<"player collision"<<std::endl;
                 bullet->markDead();
+                resource_->effectmanager_.add_process(bullet->getEffectConfig());
                 player->be_damage();
             }
             if(isGraze(*player,*bullet)&&(!bullet->isGrazed()))
@@ -127,6 +131,7 @@ void CollisionSystem::HandleCollision(Bomb* bomb,Bullet *bullet)
             {
                 //std::cout<<"bomb collision"<<std::endl;
                 bullet->markDead();
+                resource_->effectmanager_.add_process(bullet->getEffectConfig());
             }
         }
     }

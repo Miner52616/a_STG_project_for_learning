@@ -10,6 +10,7 @@ public:
     bool get_condition();
     void count();
     void reset();
+    void set_ready();
     long long int get_target();
     void set_target(long long int target_frame);
 };

@@ -2,9 +2,10 @@
 #include "Entity.h"
 #include "behaviors/Behavior.h"
 #include "packages/BulletConfig.h"
+#include "packages/EffectConfig.h"
 
 class Behavior;
-
+class Resource;
 //子弹
 class Bullet:public Entity
 {
@@ -27,6 +28,7 @@ protected:
     bool active_;
     float damage_;
     std::unique_ptr<BulletConfig> bulletconfig_;
+    EffectConfig effectconfig_;
     sf::CircleShape hitbox_draw_;
 
 private:
@@ -50,7 +52,10 @@ public:
     void rebuild(sf::Texture &texture,sf::Vector2f position,float damage);
     void initialize();
     void setBulletConfig(std::unique_ptr<BulletConfig> bulletconfig);
+    void initialize_EffectConfig();
+    //void reset_EffectConfig();
     BulletConfig* getBulletConfig();
+    EffectConfig* getEffectConfig();
     void setYellowPage(YellowPage* yellowpage);
     void setResource(Resource* resource);
     void setDead(bool dead);

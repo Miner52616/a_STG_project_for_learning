@@ -3,7 +3,8 @@
 
 enum EffectType
 {
-    LeiTan_Air=0
+    LeiTan_Air=0,
+    Bullet_Air=1
 };
 
 enum class OverlayType
@@ -22,6 +23,10 @@ public:
     float v2_=0;
     sf::Vector2f direction_={100,0};
     sf::Texture &texture_;
+    int texturelist_size_=0;
+    int current_texture_num_=0;
+    bool random_rotate_=true;
+    std::vector<sf::Texture*> texturelist_;
 
 public:
     EffectConfig(sf::Texture& texture_);

@@ -33,6 +33,15 @@ public:
     sf::Texture deep_blue_light_bulletTexture_;
     sf::Texture hitboxTexture_;
 
+    sf::Texture Air_1_1Texture_;
+    sf::Texture Air_1_2Texture_;
+    sf::Texture Air_1_3Texture_;
+    sf::Texture Air_1_4Texture_;
+    sf::Texture Air_1_5Texture_;
+    sf::Texture Air_1_6Texture_;
+    sf::Texture Air_1_7Texture_;
+    sf::Texture Air_1_8Texture_;
+
 public:
     StateStack stack_;
 

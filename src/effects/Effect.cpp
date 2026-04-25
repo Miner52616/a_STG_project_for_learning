@@ -1,16 +1,19 @@
 #include "effects/Effect.h"
 #include "packages/EffectConfig.h"
 #include "core/application.h"
+#include "mathematics/mathematics.h"
 
 Effect::Effect(sf::Texture &texture):
-    texture_(&texture),picture_(texture),position_({0,0}),prev_position_({0,0}),dead_(false),clock_(48),effectconfig_(texture)
+    texture_(&texture),picture_(texture),position_({0,0}),prev_position_({0,0}),dead_(false),clock_(48),effectconfig_(texture),texture_clock_(4)
 {
+    texture_clock_.set_ready();
     clock_.reset();
 }
 
 Effect::Effect(sf::Texture &texture,sf::Vector2f position,long long int time):
-    texture_(&texture),picture_(texture),position_(position),prev_position_({0,0}),dead_(false),clock_(time),effectconfig_(texture)
+    texture_(&texture),picture_(texture),position_(position),prev_position_({0,0}),dead_(false),clock_(time),effectconfig_(texture),texture_clock_(4)
 {
+    texture_clock_.set_ready();
     clock_.reset();
 }
 
@@ -92,12 +95,24 @@ void Effect::rebuild(sf::Texture &texture,sf::Vector2f position)
 {
     texture_=&texture;
     picture_.setTexture(*texture_,true);
+    picture_.setOrigin(picture_.getLocalBounds().getCenter());
     prev_position_={0,0};
     dead_=false;
     clock_.set_target(48);
 
     setPosition(position);
     clock_.reset();
+    texture_clock_.set_ready();
+
+    rebuild_initialize();
+}
+
+void Effect::rebuild_initialize()
+{
+    if(effectconfig_.random_rotate_)
+    {
+        picture_.setRotation(sf::degrees(getRandomNum(0,360)));
+    }
 }
 
 EffectConfig* Effect::getEffectConfig()
@@ -142,7 +157,27 @@ void direct_move2(Effect& effect)
     }
 }
 
+void keep_static(Effect& effect)
+{
+    if(effect.texture_clock_.get_condition())
+    {
+        //std::cout<<"111"<<std::endl;
+        effect.texture_clock_.reset();
+        //std::cout<<effect.effectconfig_.current_texture_num_<<" "<<effect.effectconfig_.texturelist_size_-1<<std::endl;
+        if(effect.effectconfig_.current_texture_num_<=effect.effectconfig_.texturelist_size_-1)
+        {
+            //std::cout<<"222"<<std::endl;
+            effect.picture_.setTexture(*(effect.effectconfig_.texturelist_[effect.effectconfig_.current_texture_num_]),true);
+            effect.picture_.setOrigin(effect.picture_.getLocalBounds().getCenter());
+
+            effect.effectconfig_.current_texture_num_++;
+        }
+    }
+    effect.texture_clock_.count();
+}
+
 EffectUpdateFunc effect_update_table[]=
 {
-    direct_move2
+    direct_move2,
+    keep_static
 };
