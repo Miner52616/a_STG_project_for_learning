@@ -40,6 +40,7 @@ public:
     sf::Vector2f target_point_={0,0};
     BulletClasses bulletclass_=BulletClasses::PlayerBullet;
     BulletBehavior bulletbehavior_=Fix;
+    std::vector<int> bullet_index_={1,1};
     sf::Texture& texture_;
 
 public:

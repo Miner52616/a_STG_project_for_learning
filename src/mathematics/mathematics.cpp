@@ -1,6 +1,7 @@
 #include "mathematics/mathematics.h"
 #include "entities/Enemy.h"
 #include <random>
+#include <iostream>
 
 float distancePointToSegment(sf::Vector2f p, sf::Vector2f a, sf::Vector2f b)
 {
@@ -183,4 +184,99 @@ float RadTransToDegree(float rad)
 {
     float degree=rad*180/std::numbers::pi;
     return degree;
+}
+
+constexpr int BULLET_SHEET_GAP=16;
+
+std::vector<int> bulletsheet_transform(const std::vector<int>& want)
+{
+    std::vector<int> rect;
+    rect.resize(4);
+
+    if(want.size()!=2)
+    {
+        std::cout<<"sheet target dim wrong"<<std::endl;
+        rect[0]=0;
+        rect[1]=0;
+        rect[2]=BULLET_SHEET_GAP;
+        rect[3]=BULLET_SHEET_GAP;
+    }
+    else
+    {
+        //左上角点
+        int x1=(want[0]-1)*BULLET_SHEET_GAP;
+        int y1=(want[1]-1)*BULLET_SHEET_GAP;
+        //边长
+        int x_side=BULLET_SHEET_GAP;
+        int y_side=BULLET_SHEET_GAP;
+
+        rect[0]=x1;
+        rect[1]=y1;
+        rect[2]=x_side;
+        rect[3]=y_side;
+    }
+
+    return rect;
+}
+
+std::vector<int> playersheet_bullet_transform(const std::vector<int>& want)
+{
+    std::vector<int> rect;
+    rect.resize(4);
+
+    if(want.size()!=2)
+    {
+        std::cout<<"sheet target dim wrong"<<std::endl;
+        rect[0]=0;
+        rect[1]=0;
+        rect[2]=BULLET_SHEET_GAP;
+        rect[3]=BULLET_SHEET_GAP;
+    }
+    else
+    {
+        //左上角点
+        int x1=(want[0]-1)*BULLET_SHEET_GAP;
+        int y1=(want[1]-1+11)*BULLET_SHEET_GAP;
+        //边长
+        int x_side=4*BULLET_SHEET_GAP;
+        int y_side=BULLET_SHEET_GAP;
+
+        rect[0]=x1;
+        rect[1]=y1;
+        rect[2]=x_side;
+        rect[3]=y_side;
+    }
+
+    return rect;
+}
+
+std::vector<int> playersheet_effect_transform(const std::vector<int>& want)
+{
+    std::vector<int> rect;
+    rect.resize(4);
+
+    if(want.size()!=2)
+    {
+        std::cout<<"sheet target dim wrong"<<std::endl;
+        rect[0]=0;
+        rect[1]=0;
+        rect[2]=BULLET_SHEET_GAP;
+        rect[3]=BULLET_SHEET_GAP;
+    }
+    else
+    {
+        //左上角点
+        int x1=(want[0]-1)*BULLET_SHEET_GAP;
+        int y1=(want[1]-1+9)*BULLET_SHEET_GAP;
+        //边长
+        int x_side=BULLET_SHEET_GAP;
+        int y_side=BULLET_SHEET_GAP;
+
+        rect[0]=x1;
+        rect[1]=y1;
+        rect[2]=x_side;
+        rect[3]=y_side;
+    }
+
+    return rect;
 }

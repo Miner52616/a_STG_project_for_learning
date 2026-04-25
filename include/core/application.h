@@ -42,6 +42,10 @@ public:
     sf::Texture Air_1_7Texture_;
     sf::Texture Air_1_8Texture_;
 
+    sf::Texture bulletsheetTexture_;
+    sf::Texture playersheetTexture_;
+    sf::Texture bulletsheetTexture2_;
+
 public:
     StateStack stack_;
 

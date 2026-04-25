@@ -117,8 +117,13 @@ bool Bullet::isOut()
 
 void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position)
 {
-    bullet_texture_=&texture;
-    picture_.setTexture(*bullet_texture_,true);
+    if(&texture!=bullet_texture_)
+    {
+        std::cout<<"texture reset"<<std::endl;
+        bullet_texture_=&texture;
+        picture_.setTexture(*bullet_texture_,true);
+    }
+    rebuild_Initialize();
     picture_.setScale({1.414,1.414});
     picture_.setOrigin(picture_.getLocalBounds().getCenter());
     position_=position;
@@ -129,8 +134,13 @@ void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position)
 
 void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position,float damage)
 {
-    bullet_texture_=&texture;
-    picture_.setTexture(*bullet_texture_,true);
+    if(&texture!=bullet_texture_)
+    {
+        std::cout<<"texture reset"<<std::endl;
+        bullet_texture_=&texture;
+        picture_.setTexture(*bullet_texture_,true);
+    }
+    rebuild_Initialize();
     picture_.setScale({1.414,1.414});
     picture_.setOrigin(picture_.getLocalBounds().getCenter());
     damage_=damage;
@@ -138,6 +148,34 @@ void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position,float damage)
     hitbox_r_=5;
     hitbox_draw_.setRadius(hitbox_r_);
     hitbox_draw_.setOrigin(hitbox_draw_.getLocalBounds().getCenter());
+}
+
+void Bullet::rebuild_Initialize()
+{
+    switch (bulletconfig_->bulletclass_)
+    {
+    case BulletClasses::PlayerBullet:
+        {
+            std::vector<int> rect=playersheet_bullet_transform(bulletconfig_->bullet_index_);
+            sf::Vector2i position={rect[0],rect[1]};
+            sf::Vector2i size={rect[2],rect[3]};
+            picture_.setTextureRect({position,size});
+            picture_.setRotation(sf::degrees(-90));
+            break;
+        }
+    
+    default:
+        {
+            std::vector<int> rect=bulletsheet_transform(bulletconfig_->bullet_index_);
+            sf::Vector2i position={rect[0],rect[1]};
+            sf::Vector2i size={rect[2],rect[3]};
+            picture_.setTextureRect({position,size});
+            picture_.setRotation(sf::degrees(90));
+            break;
+        }
+    }
+
+
 }
 
 void Bullet::initialize()

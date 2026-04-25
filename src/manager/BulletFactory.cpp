@@ -42,7 +42,7 @@ void BulletFactory::initialize(int size)
     std::cout<<"bullet storage "<<size<<std::endl;
     for (int i=1;i<=size;i++)
     {
-        bulletlist_.emplace_back(app_.overlay1Texture_,sf::Vector2f{0,0});
+        bulletlist_.emplace_back(app_.bulletsheetTexture_,sf::Vector2f{0,0});
         free_list_.push_back(i-1);
     }
 }
@@ -78,6 +78,9 @@ Bullet* BulletFactory::create(BulletConfig* bulletconfig)
 {
     Bullet* bullet=getBullet();
 
+    //子弹其它可选用属性，通过bulletconfig传递
+    copyconfig(bullet->getBulletConfig(),bulletconfig);
+
     //重新初始化和设置子弹核心属性，特别单独处理texture的更换
     bullet->rebuild(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->damage_);
     bullet->setHitbox_r(bulletconfig->r_);
@@ -93,8 +96,6 @@ Bullet* BulletFactory::create(BulletConfig* bulletconfig)
     {
         bullet->setbelong(false);
     }
-    //子弹其它可选用属性，通过bulletconfig传递
-    copyconfig(bullet->getBulletConfig(),bulletconfig);
 
     return bullet;
 }
@@ -124,4 +125,5 @@ void copyconfig(BulletConfig* copy,BulletConfig* origin)
     copy->clock3_.set_target(origin->clock3_.get_target());
     copy->bulletbehavior_=origin->bulletbehavior_;
     copy->angle_=origin->angle_;
+    copy->bullet_index_=origin->bullet_index_;
 }

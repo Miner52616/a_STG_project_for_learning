@@ -63,7 +63,7 @@ void NonSpell2_1::update()
 /*********************************************************** */
 
 NonSpell2_2::NonSpell2_2(Entity* entity,Resource* resource,YellowPage* yellowpage):
-    Behavior(resource,yellowpage),entity_(entity),shoot_clock_(1),shoot_num_(75),shoot_num2_(15),bulletconfig_(resource->app_.blue_light_bulletTexture_)
+    Behavior(resource,yellowpage),entity_(entity),shoot_clock_(1),shoot_num_(75),shoot_num2_(15),bulletconfig_(resource->app_.bulletsheetTexture_)
 {
     shoot_num_.reset();
     shoot_num2_.reset();
@@ -102,6 +102,7 @@ void NonSpell2_2::setBulletConfig()
     bulletconfig_.direction2_={0,1};
     bulletconfig_.clock1_.set_target(30);
     bulletconfig_.clock2_.set_target(80);
+    bulletconfig_.bullet_index_={6,8};
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet3;
     bulletconfig_.bulletbehavior_=BulletBehavior::Rotate;
 }

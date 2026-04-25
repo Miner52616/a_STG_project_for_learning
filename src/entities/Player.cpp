@@ -77,7 +77,8 @@ void Player::setOverlayConfig()
 
 void Player::setBulletConfig()
 {
-    bulletconfig_=std::make_shared<BulletConfig>(resource_->app_.bulletTexture_);
+    bulletconfig_=std::make_shared<BulletConfig>(resource_->app_.playersheetTexture_);
+    bulletconfig_->bullet_index_={1,1};
     bulletconfig_->damage_=10;
     bulletconfig_->bulletclass_=BulletClasses::PlayerBullet;
     bulletconfig_->r_=10;

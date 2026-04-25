@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <vector>
 
 float distancePointToSegment(sf::Vector2f p, sf::Vector2f a, sf::Vector2f b);
 float distancePointToSegment2(sf::Vector2f p, sf::Vector2f a, sf::Vector2f b);
@@ -26,5 +27,9 @@ template <typename T>
 T get_random_from(std::vector<T> vector);
 
 float RadTransToDegree(float rad);
+
+std::vector<int> bulletsheet_transform(const std::vector<int>& want);
+std::vector<int> playersheet_bullet_transform(const std::vector<int>& want);
+std::vector<int> playersheet_effect_transform(const std::vector<int>& want);
 
 #include "mathematics/mathematics.ipp"
