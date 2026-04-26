@@ -20,6 +20,12 @@ enum BulletBehavior
     Direct=2
 };
 
+enum BulletSize
+{
+    Small=0,
+    Big=1
+};
+
 class BulletConfig
 {
 public:
@@ -39,7 +45,8 @@ public:
     sf::Vector2f spawn_point_={0,0};
     sf::Vector2f target_point_={0,0};
     BulletClasses bulletclass_=BulletClasses::PlayerBullet;
-    BulletBehavior bulletbehavior_=Fix;
+    BulletBehavior bulletbehavior_=BulletBehavior::Fix;
+    BulletSize bulletsize_=BulletSize::Small;
     std::vector<int> bullet_index_={1,1};
     sf::Texture& texture_;
 

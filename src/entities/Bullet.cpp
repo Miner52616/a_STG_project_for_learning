@@ -161,16 +161,43 @@ void Bullet::rebuild_Initialize()
             sf::Vector2i size={rect[2],rect[3]};
             picture_.setTextureRect({position,size});
             picture_.setRotation(sf::degrees(-90));
+
+            //initialize_playerEffectConfig();
             break;
         }
     
     default:
         {
-            std::vector<int> rect=bulletsheet_transform(bulletconfig_->bullet_index_);
-            sf::Vector2i position={rect[0],rect[1]};
-            sf::Vector2i size={rect[2],rect[3]};
-            picture_.setTextureRect({position,size});
-            picture_.setRotation(sf::degrees(90));
+            switch (bulletconfig_->bulletsize_)
+            {
+            case BulletSize::Small:
+                {
+                    std::vector<int> rect=bulletsheet_transform(bulletconfig_->bullet_index_);
+                    sf::Vector2i position={rect[0],rect[1]};
+                    sf::Vector2i size={rect[2],rect[3]};
+                    picture_.setTextureRect({position,size});
+                    //picture_.setRotation(sf::degrees(90));
+
+                    break;
+                }
+
+            case BulletSize::Big:
+                {
+                    std::vector<int> rect=big_bulletsheet_transform(bulletconfig_->bullet_index_);
+                    sf::Vector2i position={rect[0],rect[1]};
+                    sf::Vector2i size={rect[2],rect[3]};
+                    picture_.setTextureRect({position,size});
+                    //picture_.setRotation(sf::degrees(90));
+
+                    break;
+                }
+            
+            default:
+                break;
+            }
+
+            //initialize_EffectConfig();
+
             break;
         }
     }
@@ -210,6 +237,15 @@ void Bullet::initialize_EffectConfig()
     effectconfig_.time_=4*(effectconfig_.texturelist_size_-1);
 }
 
+void Bullet::initialize_playerEffectConfig()
+{
+    effectconfig_.texturelist_.clear();
+    effectconfig_.current_texture_num_=0;
+    effectconfig_.effecttype_=EffectType::PlayerBullet_Air;
+    effectconfig_.effect_index_={1,1};
+    effectconfig_.texturelist_size_=4;
+    effectconfig_.time_=4*(effectconfig_.texturelist_size_-1);
+}
 /*
 void Bullet::reset_EffectConfig()
 {

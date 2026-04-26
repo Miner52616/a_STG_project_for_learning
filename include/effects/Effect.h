@@ -14,6 +14,7 @@ class Effect
 friend void direct_move1(Effect& effect);
 friend void direct_move2(Effect& effect);
 friend void keep_static(Effect& effect);
+friend void keep_static2(Effect& effect);
 
 protected:
     Resource* resource_;
@@ -62,5 +63,6 @@ using EffectUpdateFunc=void(*)(Effect& effect);
 void direct_move1(Effect& effect);
 void direct_move2(Effect& effect);
 void keep_static(Effect& effect);
+void keep_static2(Effect& effect);
 
 extern EffectUpdateFunc effect_update_table[];

@@ -4,7 +4,8 @@
 enum EffectType
 {
     LeiTan_Air=0,
-    Bullet_Air=1
+    Bullet_Air=1,
+    PlayerBullet_Air=2
 };
 
 enum class OverlayType
@@ -26,6 +27,7 @@ public:
     int texturelist_size_=0;
     int current_texture_num_=0;
     bool random_rotate_=true;
+    std::vector<int> effect_index_={1,1};
     std::vector<sf::Texture*> texturelist_;
 
 public:

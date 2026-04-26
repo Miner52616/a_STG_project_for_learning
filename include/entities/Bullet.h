@@ -54,6 +54,7 @@ public:
     void initialize();
     void setBulletConfig(std::unique_ptr<BulletConfig> bulletconfig);
     void initialize_EffectConfig();
+    void initialize_playerEffectConfig();
     //void reset_EffectConfig();
     BulletConfig* getBulletConfig();
     EffectConfig* getEffectConfig();

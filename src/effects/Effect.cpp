@@ -176,8 +176,32 @@ void keep_static(Effect& effect)
     effect.texture_clock_.count();
 }
 
+void keep_static2(Effect& effect)
+{
+    if(effect.texture_clock_.get_condition())
+    {
+        //std::cout<<"111"<<std::endl;
+        effect.texture_clock_.reset();
+        //std::cout<<effect.effectconfig_.current_texture_num_<<" "<<effect.effectconfig_.texturelist_size_-1<<std::endl;
+        if(effect.effectconfig_.current_texture_num_<=effect.effectconfig_.texturelist_size_-1)
+        {
+            //std::cout<<"222"<<std::endl;
+            std::vector<int> rect=playersheet_effect_transform(effect.effectconfig_.effect_index_);
+            sf::Vector2i position={rect[0],rect[1]};
+            sf::Vector2i size={rect[2],rect[3]};
+            effect.picture_.setTextureRect({position,size});
+            effect.picture_.setOrigin(effect.picture_.getLocalBounds().getCenter());
+
+            effect.effectconfig_.effect_index_[0]++;
+            effect.effectconfig_.current_texture_num_++;
+        }
+    }
+    effect.texture_clock_.count();
+}
+
 EffectUpdateFunc effect_update_table[]=
 {
     direct_move2,
-    keep_static
+    keep_static,
+    keep_static2
 };

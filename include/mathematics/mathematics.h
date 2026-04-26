@@ -28,7 +28,10 @@ T get_random_from(std::vector<T> vector);
 
 float RadTransToDegree(float rad);
 
+constexpr int BULLET_SHEET_GAP=16;
+
 std::vector<int> bulletsheet_transform(const std::vector<int>& want);
+std::vector<int> big_bulletsheet_transform(const std::vector<int>& want);
 std::vector<int> playersheet_bullet_transform(const std::vector<int>& want);
 std::vector<int> playersheet_effect_transform(const std::vector<int>& want);
 

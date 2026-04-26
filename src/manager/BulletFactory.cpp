@@ -126,4 +126,5 @@ void copyconfig(BulletConfig* copy,BulletConfig* origin)
     copy->bulletbehavior_=origin->bulletbehavior_;
     copy->angle_=origin->angle_;
     copy->bullet_index_=origin->bullet_index_;
+    copy->bulletsize_=origin->bulletsize_;
 }

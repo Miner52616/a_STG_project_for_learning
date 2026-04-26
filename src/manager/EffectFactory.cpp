@@ -123,4 +123,5 @@ void copyconfig(EffectConfig* copy,EffectConfig* origin)
     copy->texturelist_=origin->texturelist_;
     copy->texturelist_size_=origin->texturelist_size_;
     copy->current_texture_num_=origin->current_texture_num_;
+    copy->effect_index_=origin->effect_index_;
 }
