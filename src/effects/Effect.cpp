@@ -138,12 +138,12 @@ void Effect::rebuild_initialize()
 {
     if(effectconfig_.random_rotate_)
     {
-        std::cout<<"rotate"<<std::endl;
+        //std::cout<<"rotate"<<std::endl;
         picture_.setRotation(sf::degrees(getRandomNum(0,360)));
     }
     else
     {
-        std::cout<<"no rotate"<<std::endl;
+        //std::cout<<"no rotate"<<std::endl;
         picture_.setRotation(sf::degrees(90));
     }
 }
