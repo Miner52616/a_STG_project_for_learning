@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "ui/Frame.h"
 #include "core/Clock.h"
+#include "packages/EffectConfig.h"
 
 enum BulletClasses
 {

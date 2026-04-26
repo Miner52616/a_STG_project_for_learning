@@ -1,11 +1,11 @@
 #pragma once
-#include "behaviors/Behavior.h"
+#include "behaviors/ShootBehavior.h"
 #include "packages/BulletConfig.h"
 #include "core/Clock.h"
 
 class Entity;
 
-class BreezyBlossom4:public Behavior
+class BreezyBlossom4:public ShootBehavior
 {
 private:
     Entity* entity_;

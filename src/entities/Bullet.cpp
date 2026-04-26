@@ -119,7 +119,7 @@ void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position)
 {
     if(&texture!=bullet_texture_)
     {
-        std::cout<<"texture reset"<<std::endl;
+        //std::cout<<"texture reset"<<std::endl;
         bullet_texture_=&texture;
         picture_.setTexture(*bullet_texture_,true);
     }
@@ -136,7 +136,7 @@ void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position,float damage)
 {
     if(&texture!=bullet_texture_)
     {
-        std::cout<<"texture reset"<<std::endl;
+        //std::cout<<"texture reset"<<std::endl;
         bullet_texture_=&texture;
         picture_.setTexture(*bullet_texture_,true);
     }
@@ -218,9 +218,11 @@ void Bullet::setBulletConfig(std::unique_ptr<BulletConfig> bulletconfig)
     bulletconfig_=std::move(bulletconfig);
 }
 
+/*
 //在自己被注入资源后调用（在BulletFactory中的setResource中被注入资源，在自己被注入资源的同时（被调用自己的setResource时）调用）
 void Bullet::initialize_EffectConfig()
 {
+    
     std::vector<sf::Texture*> texturelist;
     texturelist.emplace_back(&resource_->app_.Air_1_1Texture_);
     texturelist.emplace_back(&resource_->app_.Air_1_2Texture_);
@@ -235,17 +237,20 @@ void Bullet::initialize_EffectConfig()
     effectconfig_.effecttype_=EffectType::Bullet_Air;
     effectconfig_.texturelist_size_=texturelist.size();
     effectconfig_.time_=4*(effectconfig_.texturelist_size_-1);
+    
 }
-
+*/
+/*
 void Bullet::initialize_playerEffectConfig()
 {
-    effectconfig_.texturelist_.clear();
+    //effectconfig_.texturelist_.clear();
     effectconfig_.current_texture_num_=0;
     effectconfig_.effecttype_=EffectType::PlayerBullet_Air;
     effectconfig_.effect_index_={1,1};
     effectconfig_.texturelist_size_=4;
     effectconfig_.time_=4*(effectconfig_.texturelist_size_-1);
 }
+*/
 /*
 void Bullet::reset_EffectConfig()
 {
@@ -271,7 +276,7 @@ void Bullet::setYellowPage(YellowPage* yellowpage)
 void Bullet::setResource(Resource* resource)
 {
     resource_=resource;
-    initialize_EffectConfig();
+    //initialize_EffectConfig();
 }
 
 void Bullet::setDead(bool dead)

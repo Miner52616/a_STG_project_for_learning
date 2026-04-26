@@ -34,5 +34,6 @@ std::vector<int> bulletsheet_transform(const std::vector<int>& want);
 std::vector<int> big_bulletsheet_transform(const std::vector<int>& want);
 std::vector<int> playersheet_bullet_transform(const std::vector<int>& want);
 std::vector<int> playersheet_effect_transform(const std::vector<int>& want);
+std::vector<int> effectsheet_transform(const std::vector<int>& want);
 
 #include "mathematics/mathematics.ipp"

@@ -95,6 +95,33 @@ void Effect::rebuild(sf::Texture &texture,sf::Vector2f position)
 {
     texture_=&texture;
     picture_.setTexture(*texture_,true);
+    switch (effectconfig_.effecttype_)
+    {
+    case LeiTan_Air:
+        break;
+    
+    case Bullet_Air:
+        {
+            std::vector<int> rect=effectsheet_transform(effectconfig_.effect_index_);
+            sf::Vector2i position={rect[0],rect[1]};
+            sf::Vector2i size={rect[2],rect[3]};
+            picture_.setTextureRect({position,size});
+            break;
+        }
+
+    case PlayerBullet_Air:
+        {
+            std::vector<int> rect=playersheet_effect_transform(effectconfig_.effect_index_);
+            sf::Vector2i position={rect[0],rect[1]};
+            sf::Vector2i size={rect[2],rect[3]};
+            picture_.setTextureRect({position,size});
+            break;
+        }
+    
+    default:
+        break;
+    }
+    picture_.setScale({1.414,1.414});
     picture_.setOrigin(picture_.getLocalBounds().getCenter());
     prev_position_={0,0};
     dead_=false;
@@ -111,7 +138,13 @@ void Effect::rebuild_initialize()
 {
     if(effectconfig_.random_rotate_)
     {
+        std::cout<<"rotate"<<std::endl;
         picture_.setRotation(sf::degrees(getRandomNum(0,360)));
+    }
+    else
+    {
+        std::cout<<"no rotate"<<std::endl;
+        picture_.setRotation(sf::degrees(90));
     }
 }
 
@@ -167,10 +200,20 @@ void keep_static(Effect& effect)
         if(effect.effectconfig_.current_texture_num_<=effect.effectconfig_.texturelist_size_-1)
         {
             //std::cout<<"222"<<std::endl;
-            effect.picture_.setTexture(*(effect.effectconfig_.texturelist_[effect.effectconfig_.current_texture_num_]),true);
+            
+            std::vector<int> rect=effectsheet_transform(effect.effectconfig_.effect_index_);
+            sf::Vector2i position={rect[0],rect[1]};
+            sf::Vector2i size={rect[2],rect[3]};
+            effect.picture_.setTextureRect({position,size});
             effect.picture_.setOrigin(effect.picture_.getLocalBounds().getCenter());
 
+            effect.effectconfig_.effect_index_[0]++;
             effect.effectconfig_.current_texture_num_++;
+            
+            //effect.picture_.setTexture(*(effect.effectconfig_.texturelist_[effect.effectconfig_.current_texture_num_]),true);
+            //effect.picture_.setOrigin(effect.picture_.getLocalBounds().getCenter());
+
+            //effect.effectconfig_.current_texture_num_++;
         }
     }
     effect.texture_clock_.count();
@@ -178,6 +221,7 @@ void keep_static(Effect& effect)
 
 void keep_static2(Effect& effect)
 {
+    effect.setPosition(effect.getPosition()+effect.effectconfig_.v_*effect.effectconfig_.direction_);
     if(effect.texture_clock_.get_condition())
     {
         //std::cout<<"111"<<std::endl;

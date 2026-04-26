@@ -6,7 +6,7 @@
 #include "manager/BulletManager.h"
 
 NonSpell2_1::NonSpell2_1(Entity* entity,Resource* resource,YellowPage* yellowpage):
-    Behavior(resource,yellowpage),entity_(entity),shoot_clock_(90),start_clock_(300),bulletconfig_(resource->app_.deep_blue_light_bulletTexture_)
+    ShootBehavior(resource,yellowpage),entity_(entity),shoot_clock_(90),start_clock_(300),bulletconfig_(resource->app_.deep_blue_light_bulletTexture_)
 {
     start_clock_.reset();
     bullet_num_=13;
@@ -44,7 +44,7 @@ void NonSpell2_1::update()
                 {
                     bulletconfig_.spawn_point_=start_position_+(i-1)*gap_*set_direction_;
                     bulletconfig_.direction_=bullet_direction_;
-                    resource_->bulletmanager_.add_process(&bulletconfig_);
+                    resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
                     bullet_direction_=roundwithCenter({0,0},bullet_direction_,3);
                 }
                 start_position_=start_position_+(float)(bullet_num_-1)*gap_*set_direction_;
@@ -63,7 +63,7 @@ void NonSpell2_1::update()
 /*********************************************************** */
 
 NonSpell2_2::NonSpell2_2(Entity* entity,Resource* resource,YellowPage* yellowpage):
-    Behavior(resource,yellowpage),entity_(entity),shoot_clock_(1),shoot_num_(75),shoot_num2_(15),bulletconfig_(resource->app_.bulletsheetTexture_)
+    ShootBehavior(resource,yellowpage),entity_(entity),shoot_clock_(1),shoot_num_(75),shoot_num2_(15),bulletconfig_(resource->app_.bulletsheetTexture_)
 {
     shoot_num_.reset();
     shoot_num2_.reset();
@@ -164,13 +164,13 @@ void NonSpell2_2::update()
             {
                 bulletconfig_.direction2_=direction_list[2*i-1];
                 bulletconfig_.direction_=bullet_direction_;
-                resource_->bulletmanager_.add_process(&bulletconfig_);
+                resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
             }
             for(int i=1;i<=group_num_/2;i++)
             {
                 bulletconfig_.direction2_=direction_list[2*i-2];
                 bulletconfig_.direction_=bullet_direction2_;
-                resource_->bulletmanager_.add_process(&bulletconfig_);
+                resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
             }
 
             //resource_->bulletmanager_.add_process(&bulletconfig_);
@@ -233,7 +233,7 @@ void NonSpell2_2_2::update()
 //***************************************************************** */
 
 NonSpell2_3::NonSpell2_3(Entity* entity,Resource* resource,YellowPage* yellowpage):
-    Behavior(resource,yellowpage),entity_(entity),shoot_clock_(20),start_clock_(300),bulletconfig_(resource->app_.blue_light_bulletTexture_)
+    ShootBehavior(resource,yellowpage),entity_(entity),shoot_clock_(20),start_clock_(300),bulletconfig_(resource->app_.blue_light_bulletTexture_)
 {
     start_clock_.reset();
     bullet_num_=15;
@@ -285,7 +285,7 @@ void NonSpell2_3::update()
                     {
                         bulletconfig_.v_=2+0.2*(bullet_num_+1-i);
                     }
-                    resource_->bulletmanager_.add_process(&bulletconfig_);
+                    resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
                     bullet_direction_=roundwithCenter({0,0},bullet_direction_,2);
                 }
             }

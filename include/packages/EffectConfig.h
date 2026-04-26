@@ -23,12 +23,12 @@ public:
     float v_=0.08;
     float v2_=0;
     sf::Vector2f direction_={100,0};
-    sf::Texture &texture_;
+    sf::Texture* texture_;
     int texturelist_size_=0;
     int current_texture_num_=0;
     bool random_rotate_=true;
     std::vector<int> effect_index_={1,1};
-    std::vector<sf::Texture*> texturelist_;
+    //std::vector<sf::Texture*> texturelist_;
 
 public:
     EffectConfig(sf::Texture& texture_);

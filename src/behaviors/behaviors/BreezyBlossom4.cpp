@@ -5,7 +5,7 @@
 #include "entities/Player.h"
 
 BreezyBlossom4::BreezyBlossom4(Entity* entity,Resource* resource,YellowPage* yellowpage):
-    entity_(entity),Behavior(resource,yellowpage),shoot_clock_(90),bulletconfig_(resource->app_.blossom_small_bulletTexture)
+    entity_(entity),ShootBehavior(resource,yellowpage),shoot_clock_(90),bulletconfig_(resource->app_.blossom_small_bulletTexture)
 {
     shoot_clock_.reset();
     setBulletConfig();
@@ -24,12 +24,12 @@ void BreezyBlossom4::update()
         for(int i=1;i<=30;i++)
         {
             bulletconfig_.direction_=direction;
-            resource_->bulletmanager_.add_process(&bulletconfig_);
+            resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
 
             direction=roundwithCenter({0,0},direction,12);
         }
 
-        resource_->bulletmanager_.add_process(&bulletconfig_);
+        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
     }
 
     shoot_clock_.count();

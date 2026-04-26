@@ -44,6 +44,7 @@ Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     hitbox_.setRadius(hitbox_r_);
     std::cout<<"1"<<std::endl;
     setBulletConfig();
+    setEffectConfig();
     setBombConfig();
     setOverlayConfig();
     std::cout<<"2"<<std::endl;
@@ -52,6 +53,7 @@ Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
         std::unique_ptr<Child_Plane> child_plane1=std::make_unique<Child_Plane>(resource_->app_.child_planeTexture_);
         child_plane1->setResource(resource_,this);
         child_plane1->setBulletConfig();
+        child_plane1->setEffectConfig();
         child_planes_.emplace_back(std::move(child_plane1));
     }
     /*
@@ -84,6 +86,19 @@ void Player::setBulletConfig()
     bulletconfig_->r_=10;
     bulletconfig_->v_=50;
     bulletconfig_->spawn_point_=getPosition();
+}
+
+void Player::setEffectConfig()
+{
+    effectconfig_=std::make_unique<EffectConfig>(resource_->app_.playersheetTexture_);
+    effectconfig_->effect_index_={1,1};
+    effectconfig_->effecttype_=PlayerBullet_Air;
+    effectconfig_->random_rotate_=false;
+    effectconfig_->texturelist_size_=4;
+    effectconfig_->current_texture_num_=0;
+    effectconfig_->time_=16;
+    effectconfig_->v_=5;
+    effectconfig_->direction_={0,-1};
 }
 
 void Player::setBombConfig()
@@ -700,9 +715,9 @@ void Player::Player_update()
             //std::cout<<"shoot"<<std::endl;
             //resource_->bulletmanager_.add_process(std::make_unique<PlayerBullet>(resource_->app_.bulletTexture_,getPosition()));
             bulletconfig_->spawn_point_=getPosition()+sf::Vector2f{10,0};
-            resource_->bulletmanager_.add_process(bulletconfig_.get());
+            resource_->bulletmanager_.add_process(bulletconfig_.get(),effectconfig_.get());
             bulletconfig_->spawn_point_=getPosition()+sf::Vector2f{-10,0};
-            resource_->bulletmanager_.add_process(bulletconfig_.get());
+            resource_->bulletmanager_.add_process(bulletconfig_.get(),effectconfig_.get());
 
 
             clock_.reset();
@@ -785,7 +800,7 @@ void Child_Plane::update()
             //std::cout<<"shoot"<<std::endl;
             //resource_->bulletmanager_.add_process(std::make_unique<PlayerBullet>(resource_->app_.bulletTexture_,getPosition()));
             bulletconfig_->spawn_point_=getPosition();
-            resource_->bulletmanager_.add_process(bulletconfig_.get());
+            resource_->bulletmanager_.add_process(bulletconfig_.get(),effectconfig_.get());
 
             clock_.reset();
         }
@@ -826,6 +841,18 @@ void Child_Plane::setBulletConfig()
     bulletconfig_->a_=8;
     bulletconfig_->spawn_point_=getPosition();
 }
+
+void Child_Plane::setEffectConfig()
+{
+    effectconfig_=std::make_unique<EffectConfig>(resource_->app_.playersheetTexture_);
+    effectconfig_->effect_index_={1,1};
+    effectconfig_->effecttype_=PlayerBullet_Air;
+    effectconfig_->random_rotate_=false;
+    effectconfig_->texturelist_size_=4;
+    effectconfig_->current_texture_num_=0;
+    effectconfig_->time_=16;
+}
+
 
 void Child_Plane::setResource(Resource* resource,Player* player)
 {

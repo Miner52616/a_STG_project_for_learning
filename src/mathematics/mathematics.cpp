@@ -311,3 +311,44 @@ std::vector<int> playersheet_effect_transform(const std::vector<int>& want)
 
     return rect;
 }
+
+std::vector<int> effectsheet_transform(const std::vector<int>& want)
+{
+    std::vector<int> rect;
+    rect.resize(4);
+
+    if(want.size()!=2)
+    {
+        std::cout<<"sheet target dim wrong"<<std::endl;
+        rect[0]=0;
+        rect[1]=0;
+        rect[2]=4*BULLET_SHEET_GAP;
+        rect[3]=4*BULLET_SHEET_GAP;
+    }
+    else
+    {
+        //左上角点
+        int x1;
+        int y1;
+        if(want[0]<=4)
+        {
+            x1=(want[0]-1)*4*BULLET_SHEET_GAP;
+            y1=(want[1]-1)*4*BULLET_SHEET_GAP;
+        }
+        else
+        {
+            x1=(want[0]-5)*4*BULLET_SHEET_GAP;
+            y1=(want[1])*4*BULLET_SHEET_GAP;
+        }
+        //边长
+        int x_side=4*BULLET_SHEET_GAP;
+        int y_side=4*BULLET_SHEET_GAP;
+
+        rect[0]=x1;
+        rect[1]=y1;
+        rect[2]=x_side;
+        rect[3]=y_side;
+    }
+
+    return rect;
+}

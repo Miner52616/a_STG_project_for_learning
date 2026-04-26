@@ -15,9 +15,9 @@ void BulletManager::add_process(std::unique_ptr<Bullet> bullet)
 }
     */
 
-void BulletManager::add_process(BulletConfig* bulletconfig)
+void BulletManager::add_process(BulletConfig* bulletconfig,EffectConfig* effectconfig)
 {
-    bulletlist_.emplace_back(std::move(bulletfactory_.create(bulletconfig)));
+    bulletlist_.emplace_back(std::move(bulletfactory_.create(bulletconfig,effectconfig)));
     /*
     if(bulletconfig->bulletclass_==BulletClasses::LinearBullet)
     {

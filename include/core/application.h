@@ -45,6 +45,7 @@ public:
     sf::Texture bulletsheetTexture_;
     sf::Texture playersheetTexture_;
     sf::Texture bulletsheetTexture2_;
+    sf::Texture effectsheetTexture_;
 
 public:
     StateStack stack_;

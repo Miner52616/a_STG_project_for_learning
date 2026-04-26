@@ -75,14 +75,7 @@ Effect* EffectFactory::create(EffectConfig* effectconfig)
     copyconfig(effect->getEffectConfig(),effectconfig);
 
     //重新初始化特效，特别单独处理texture的更换
-    if(effectconfig->texturelist_size_!=0)
-    {
-        effect->rebuild(*(effectconfig->texturelist_[0]),effectconfig->spawn_point_);
-    }
-    else
-    {
-        effect->rebuild(effectconfig->texture_,effectconfig->spawn_point_);
-    }
+    effect->rebuild(*(effectconfig->texture_),effectconfig->spawn_point_);
     effect->setTime(effectconfig->time_);
 
     return effect;
@@ -115,13 +108,17 @@ std::unique_ptr<Overlay> EffectFactory::create(OverlayConfig* overlayconfig)
 void copyconfig(EffectConfig* copy,EffectConfig* origin)
 {
     //除了texture引用外全员复制
+    copy->texture_=origin->texture_;
     copy->spawn_point_=origin->spawn_point_;
     copy->effecttype_=origin->effecttype_;
     copy->time_=origin->time_;
     copy->v_=origin->v_;
+    copy->a_=origin->a_;
+    copy->v2_=origin->v2_;
     copy->direction_=origin->direction_;
-    copy->texturelist_=origin->texturelist_;
+    //copy->texturelist_=origin->texturelist_;
     copy->texturelist_size_=origin->texturelist_size_;
     copy->current_texture_num_=origin->current_texture_num_;
     copy->effect_index_=origin->effect_index_;
+    copy->random_rotate_=origin->random_rotate_;
 }

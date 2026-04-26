@@ -3,6 +3,7 @@
 #include "bullets/LinearBullet.h"
 #include <iostream>
 
+/*
 AimShoot1::AimShoot1(Entity* entity):
     entity_(entity)
 {
@@ -13,9 +14,10 @@ AimShoot1::AimShoot1()
 {
     ;
 }
+    */
 
 AimShoot1::AimShoot1(Resource* resource,YellowPage* yellowpage):
-    Behavior(resource,yellowpage)
+    ShootBehavior(resource,yellowpage)
 {
     setBulletConfig();
 }
@@ -43,7 +45,7 @@ void AimShoot1::update()
     {
         bulletconfig_->spawn_point_=entity_->getPosition();
         bulletconfig_->target_point_=yellowpage_->player_->getPosition();
-        resource_->bulletmanager_.add_process(bulletconfig_.get());//(std::make_unique<LinearBullet>(resource_->app_.bulletTexture_,entity_->getPosition(),resource_->player_->getPosition(),0.06,6));
+        resource_->bulletmanager_.add_process(bulletconfig_.get(),&effectconfig_);//(std::make_unique<LinearBullet>(resource_->app_.bulletTexture_,entity_->getPosition(),resource_->player_->getPosition(),0.06,6));
         clock_.reset();
     }
     clock_.count();

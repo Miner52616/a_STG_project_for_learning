@@ -30,7 +30,7 @@ public:
     void setYellowPage(YellowPage* yellowpage);
     int getPoolSize();
 
-    Bullet* create(BulletConfig* bulletconfig);
+    Bullet* create(BulletConfig* bulletconfig,EffectConfig* effectconfig);
 
     void destroy(Bullet* bullet);
     Bullet* getBullet();

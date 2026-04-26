@@ -1,7 +1,7 @@
 #include "packages/EffectConfig.h"
 
 EffectConfig::EffectConfig(sf::Texture& texture):
-    texture_(texture)
+    texture_(&texture)
 {
     ;
 }

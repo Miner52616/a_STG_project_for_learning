@@ -34,7 +34,8 @@ application::application():
     Air_1_8Texture_("assets/textures/air/air8.png"),
     bulletsheetTexture_("assets/textures/sheets/bullet_sheet.png"),
     bulletsheetTexture2_("assets/textures/sheets/big_bullet_sheet.png"),
-    playersheetTexture_("assets/textures/sheets/player_sheet.png")
+    playersheetTexture_("assets/textures/sheets/player_sheet.png"),
+    effectsheetTexture_("assets/textures/sheets/effect_sheet.png")
 {
     window_.setFramerateLimit(60);
     gameview_.setSize({1280,960});

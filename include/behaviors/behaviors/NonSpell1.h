@@ -1,11 +1,11 @@
 #pragma once
-#include "behaviors/Behavior.h"
+#include "behaviors/ShootBehavior.h"
 #include "packages/BulletConfig.h"
 #include "core/Clock.h"
 
 class Entity;
 
-class NonSpell1_1:public Behavior
+class NonSpell1_1:public ShootBehavior
 {
 private:
     Entity* entity_;
@@ -24,7 +24,7 @@ public:
     void update() override;
 };
 
-class NonSpell1_2:public Behavior
+class NonSpell1_2:public ShootBehavior
 {
 private:
     Entity* entity_;
@@ -43,7 +43,7 @@ public:
     void update() override;
 };
 
-class NonSpell1:public Behavior
+class NonSpell1:public ShootBehavior
 {
 private:
     Entity* entity_;

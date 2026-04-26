@@ -1,4 +1,5 @@
 #include "manager/BulletFactory.h"
+#include "manager/EffectFactory.h"
 #include "core/application.h"
 #include "behaviors/behaviors/DirectMove1.h"
 #include "behaviors/behaviors/AimMove3.h"
@@ -74,12 +75,13 @@ void BulletFactory::destroy(Bullet* bullet)
 }
 
 
-Bullet* BulletFactory::create(BulletConfig* bulletconfig)
+Bullet* BulletFactory::create(BulletConfig* bulletconfig,EffectConfig* effectconfig)
 {
     Bullet* bullet=getBullet();
 
     //子弹其它可选用属性，通过bulletconfig传递
     copyconfig(bullet->getBulletConfig(),bulletconfig);
+    copyconfig(bullet->getEffectConfig(),effectconfig);
 
     //重新初始化和设置子弹核心属性，特别单独处理texture的更换
     bullet->rebuild(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->damage_);

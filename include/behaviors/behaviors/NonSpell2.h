@@ -1,12 +1,12 @@
 #pragma once
-#include "behaviors/Behavior.h"
+#include "behaviors/ShootBehavior.h"
 #include "packages/BulletConfig.h"
 #include "core/Clock.h"
 
 class Entity;
 
 //与风刃一起的星星弹幕
-class NonSpell2_1:public Behavior
+class NonSpell2_1:public ShootBehavior
 {
 private:
     Entity* entity_;
@@ -29,7 +29,7 @@ public:
 };
 
 //只在开局发射一次的星星弹幕
-class NonSpell2_2:public Behavior
+class NonSpell2_2:public ShootBehavior
 {
 protected:
     Entity* entity_;
@@ -79,7 +79,7 @@ public:
 };
 
 //风刃弹幕
-class NonSpell2_3:public Behavior
+class NonSpell2_3:public ShootBehavior
 {
 private:
     Entity* entity_;

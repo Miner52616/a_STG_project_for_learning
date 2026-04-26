@@ -5,7 +5,7 @@
 #include "entities/Player.h"
 
 BreezyBlossom2::BreezyBlossom2(Entity* entity,Resource* resource,YellowPage* yellowpage):
-    entity_(entity),Behavior(resource,yellowpage),shoot_clock_(6),bulletconfig_(resource->app_.blossom_small_bulletTexture)
+    entity_(entity),ShootBehavior(resource,yellowpage),shoot_clock_(6),bulletconfig_(resource->app_.blossom_small_bulletTexture)
 {
     shoot_clock_.reset();
     setBulletConfig();
@@ -25,7 +25,7 @@ void BreezyBlossom2::update()
         bulletconfig_.angle_=RadTransToDegree(atan2f(direction.y,direction.x))+90;
         bulletconfig_.spawn_point_=spawnposition;
 
-        resource_->bulletmanager_.add_process(&bulletconfig_);
+        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
     }
 
     shoot_clock_.count();
