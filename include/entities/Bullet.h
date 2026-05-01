@@ -14,6 +14,8 @@ friend void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 friend void direct_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 friend void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 friend void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+friend void gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+friend void rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 
 protected:
     bool show_hitbox_=true;
@@ -86,5 +88,7 @@ void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 void direct_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+void gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+void rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 
 extern UpdateFunc update_table[];

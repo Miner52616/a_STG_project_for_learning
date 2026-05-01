@@ -8,6 +8,7 @@ protected:
     EffectConfig effectconfig_;
 
     void setEffectConfig();
+    virtual void setBulletConfig()=0;
 
 public:
     ShootBehavior(Resource* resource,YellowPage* yellowpage);

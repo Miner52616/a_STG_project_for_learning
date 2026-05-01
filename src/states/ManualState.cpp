@@ -5,7 +5,7 @@
 
 ManualState::ManualState(application &app):
     TextState(app,ManPageNum)
-{  
+{   
     auto& lua=app_.lua_;
     lua.loadScript("include/luas/manual.lua");
     
@@ -13,6 +13,7 @@ ManualState::ManualState(application &app):
     int manual_size=manual.size();
 
     setPagelistLength(manual_size);
+    manual_page_num_=manual_size;
 
     for(;buttonlist_.size()<manual_size;)
     {
@@ -39,14 +40,14 @@ ManualState::ManualState(application &app):
 
         pagelist_[i-1].setTextlistLength(texts_length+1);
         pagelist_[i-1].setTextText(1,page["title"]);
-        pagelist_[i-1].setTextPosition(1,{400,120});
-        pagelist_[i-1].setTextSize(1,50);
+        pagelist_[i-1].setTextPosition(1,{350,120});
+        pagelist_[i-1].setTextSize(1,40);
 
         for(int j=1;j<=texts_length;j++)
         {
             pagelist_[i-1].setTextText(j+1,texts[j]);
-            pagelist_[i-1].setTextPosition(j+1,{400,220+float(j-1)*60});
-            pagelist_[i-1].setTextSize(j+1,35);
+            pagelist_[i-1].setTextPosition(j+1,{350,200+float(j-1)*40});
+            pagelist_[i-1].setTextSize(j+1,30);
         }
     }
 }
@@ -78,7 +79,7 @@ void ManualState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPress
 {
     if(key.code==sf::Keyboard::Key::Down)
     {
-        focus_=(focus_%ManPageNum)+1;
+        focus_=(focus_%manual_page_num_)+1;
         buttonlist_[focus_-1].shake();
     }
 
@@ -87,7 +88,7 @@ void ManualState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPress
         focus_--;
         if(focus_<1)
         {
-            focus_=focus_+ManPageNum;
+            focus_=focus_+manual_page_num_;
         }
         buttonlist_[focus_-1].shake();
     }

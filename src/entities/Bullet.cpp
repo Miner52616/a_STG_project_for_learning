@@ -44,7 +44,7 @@ void Bullet::selfbehavior()
 
     case BulletBehavior::Direct:
         {
-            picture_.setRotation(sf::degrees(bulletconfig_->angle_));
+            picture_.setRotation(sf::degrees(bulletconfig_->angle_-90));
             break;
         }
     
@@ -401,6 +401,34 @@ void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
     }
 }
 
+void gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+{
+    bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*bullet.bulletconfig_->direction_);
+    
+    sf::Vector2f direction=bullet.bulletconfig_->v_*bullet.bulletconfig_->direction_;
+    direction=direction+bullet.bulletconfig_->a_*sf::Vector2f{0,1};
+    bullet.bulletconfig_->v_=direction.length();
+    bullet.bulletconfig_->angle_=RadTransToDegree(atan2f(direction.y,direction.x));
+    bullet.bulletconfig_->direction_=normalize(direction);
+    
+    if((bullet.bulletconfig_->v_)>(bullet.bulletconfig_->v2_))
+    {
+        bullet.bulletconfig_->v_=bullet.bulletconfig_->v2_;
+    }
+}
+
+void rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+{
+    bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*bullet.bulletconfig_->direction_);
+
+    if(bullet.bulletconfig_->rotate_angle2_>0)
+    {
+        bullet.bulletconfig_->direction_=roundwithCenter({0,0},bullet.bulletconfig_->direction_,bullet.bulletconfig_->rotate_angle_);
+        bullet.bulletconfig_->rotate_angle2_=bullet.bulletconfig_->rotate_angle2_-abs(bullet.bulletconfig_->rotate_angle_);
+        bullet.bulletconfig_->angle_=bullet.bulletconfig_->angle_+bullet.bulletconfig_->rotate_angle_;
+    }
+}
+
 UpdateFunc update_table[]=
 {
     aim_move1,
@@ -408,5 +436,7 @@ UpdateFunc update_table[]=
     direct_move1,
     direct_move2,
     aim_move2,
-    direct_move3
+    direct_move3,
+    gravity_move,
+    rotate_move1
 };

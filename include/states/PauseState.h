@@ -2,7 +2,7 @@
 #include "basicstates/ButtonState.h"
 
 //总按钮数为4
-constexpr int PauButtonNum=4;
+constexpr int PauButtonNum=3;
 
 //暂停菜单页面
 class PauseState:public ButtonState<PauseState>

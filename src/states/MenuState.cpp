@@ -1,5 +1,6 @@
 #include "states/MenuState.h"
 #include "states/DifficultyState.h"
+#include "states/GameState.h"
 #include "states/ManualState.h"
 #include "core/application.h"
 #include <iostream>
@@ -7,20 +8,20 @@
 MenuState::MenuState(application &app):
     ButtonState(app,MenuButtonNum),current_phase_(1),clock_(30)
 {
-    buttonlist_[0].setButtonText("Start");
+    buttonlist_[0].setButtonText("Phantasm Start");
     buttonlist_[0].setButtonPosition({100,100});
 
-    buttonlist_[1].setButtonText("Extra Start");
-    buttonlist_[1].setButtonPosition({100,200});
-    buttonlist_[1].setButtonLock(locked);
+    //buttonlist_[1].setButtonText("Extra Start");
+    //buttonlist_[1].setButtonPosition({100,200});
+    //buttonlist_[1].setButtonLock(locked);
 
-    buttonlist_[2].setButtonText("Manual");
+    buttonlist_[1].setButtonText("Manual");
+    buttonlist_[1].setButtonPosition({100,200});
+
+    buttonlist_[2].setButtonText("Quit");
     buttonlist_[2].setButtonPosition({100,300});
 
-    buttonlist_[3].setButtonText("Quit");
-    buttonlist_[3].setButtonPosition({100,400});
-
-    for(int i=1;i<=4;i++)
+    for(int i=1;i<=MenuButtonNum;i++)
     {
         buttonlist_[i-1].setButtonShake(5,15);
     }
@@ -43,32 +44,50 @@ void MenuState::Update()
 {
     rec_.setTargetPosition({50,buttonlist_[focus_-1].getButtonPosition().y});
 
-    if(current_phase_==2)
+
+    switch (current_phase_)
     {
-        if(buttonlist_[focus_-1].isDone())
+    case 2:
         {
-            buttonlist_[focus_-1].setDone(false);
-            current_phase_=1;
-            switch (focus_)
+            curtain_.update();
+            if(curtain_.getPosition().x>=0)
             {
-                case 1:
+                current_phase_=3;
+            }
+            break;
+        }
+
+    case 3:
+        {
+            if(buttonlist_[focus_-1].isDone())
+            {
+                buttonlist_[focus_-1].setDone(false);
+                current_phase_=1;
+                switch (focus_)
                 {
-                    std::cout<<"choose difficulty\n";
-                    app_.stack_.pushRequest(std::make_unique<DifficultyState>(app_));
+                    case 1:
+                    {
+                        std::cout<<"Phantasm Start"<<std::endl;
+                        app_.stack_.pushRequest(std::make_unique<GameState>(app_));
+                        break;
+                    }
+
+                    case 2:
+                    {
+                        std::cout<<"manual for playing"<<std::endl;
+                        app_.stack_.pushRequest(std::make_unique<ManualState>(app_));
+                        break;
+                    }   
+                    
+                default:
                     break;
                 }
-
-                case 3:
-                {
-                    std::cout<<"manual for playing\n";
-                    app_.stack_.pushRequest(std::make_unique<ManualState>(app_));
-                    break;
-                }   
-                
-            default:
-                break;
             }
+            break;
         }
+    
+    default:
+        break;
     }
 
     rec_.update();
@@ -79,6 +98,7 @@ void MenuState::Render(sf::RenderWindow& window)
 {
     rec_.render(window);
     ButtonState<MenuState>::Render(window);
+    curtain_.render(window);
 }
 
 void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed& key)
@@ -116,11 +136,23 @@ void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed
     if(key.code==sf::Keyboard::Key::Z)
     {
         buttonlist_[focus_-1].setPhase(2);
-        current_phase_=2;
+        //current_phase_=2;
         
         switch (focus_)
         {
-            case 4:
+            case 1:
+            {
+                current_phase_=2;
+                break;
+            }
+
+            case 2:
+            {
+                current_phase_=3;
+                break;
+            }
+
+            case MenuButtonNum:
             {
                 window.close();
                 std::cout<<"window closed\n";

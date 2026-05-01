@@ -3,14 +3,14 @@
 #include "ui/Button.h"
 
 //总页数为5
-constexpr int ManPageNum=6;
+constexpr int ManPageNum=8;
 
 //游戏说明页
 class ManualState:public TextState<ManualState>
 {
 private:
     std::vector<Button> buttonlist_;
-
+    int manual_page_num_=ManPageNum;
 
 public:
     using TextState<ManualState>::HandleEvent;

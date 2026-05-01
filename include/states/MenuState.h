@@ -1,10 +1,11 @@
 #pragma  once
 #include "basicstates/ButtonState.h"
 #include "overlays/overlays/RecShape1.h"
+#include "overlays/overlays/Curtain1.h"
 #include "core/Clock.h"
 
 //总按钮数为4
-constexpr int MenuButtonNum=4;
+constexpr int MenuButtonNum=3;
 
 //主菜单页面
 class MenuState:public ButtonState<MenuState>
@@ -13,6 +14,7 @@ private:
     int current_phase_;
     Clock clock_;
     RecShape1 rec_;
+    Curtain1 curtain_;
 
 public:
     using ButtonState<MenuState>::HandleEvent;

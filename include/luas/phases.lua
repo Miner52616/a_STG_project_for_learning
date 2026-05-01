@@ -37,12 +37,7 @@ phasetable=
                 behaviortable=
                 {
                     {
-                        type="MoveToRandom1",
-                        start_time=180,
-                    },
-
-                    {
-                        type="NonSpell2"
+                        type="SuddenRain"
                     }
                 }
             },

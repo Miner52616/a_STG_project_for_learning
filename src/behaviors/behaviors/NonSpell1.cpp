@@ -118,7 +118,7 @@ void NonSpell1_2::update()
 
 //******************************* */
 NonSpell1::NonSpell1(Entity* entity,Resource* resource,YellowPage* yellowpage):
-    entity_(entity),ShootBehavior(resource,yellowpage),spell1(entity,resource,yellowpage),spell2(entity,resource,yellowpage)
+    entity_(entity),Behavior(resource,yellowpage),spell1(entity,resource,yellowpage),spell2(entity,resource,yellowpage)
 {
     ;
 }

@@ -7,18 +7,18 @@ PauseState::PauseState(application &app):
     ButtonState(app,PauButtonNum)
 {
     buttonlist_[0].setButtonText("Return to Game");
-    buttonlist_[0].setButtonPosition({100,600});
+    buttonlist_[0].setButtonPosition({100,700});
 
-    buttonlist_[1].setButtonText("Save Replay and Return to Title");
-    buttonlist_[1].setButtonPosition({100,700});
+    //buttonlist_[1].setButtonText("Save Replay and Return to Title");
+    //buttonlist_[1].setButtonPosition({100,700});
 
-    buttonlist_[2].setButtonText("Manual");
-    buttonlist_[2].setButtonPosition({100,800});
+    buttonlist_[1].setButtonText("Manual");
+    buttonlist_[1].setButtonPosition({100,800});
 
-    buttonlist_[3].setButtonText("Return to Title");
-    buttonlist_[3].setButtonPosition({100,900});
+    buttonlist_[2].setButtonText("Return to Title");
+    buttonlist_[2].setButtonPosition({100,900});
 
-    for(int i=1;i<=4;i++)
+    for(int i=1;i<=PauButtonNum;i++)
     {
         buttonlist_[i-1].setButtonShake(5,15);
     }
@@ -60,7 +60,7 @@ void PauseState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPresse
         {
             case 4:
             {
-                app_.stack_.clearRequest();
+                //app_.stack_.clearRequest();
                 break;
             }
         
@@ -72,13 +72,15 @@ void PauseState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPresse
 
             case 3:
             {
-                app_.stack_.pushRequest(std::make_unique<ManualState>(app_));
+                //app_.stack_.pushRequest(std::make_unique<ManualState>(app_));
+                app_.stack_.clearRequest();
                 break;
             }
             
             case 2:
             {
-                app_.stack_.clearRequest();
+                //app_.stack_.clearRequest();
+                app_.stack_.pushRequest(std::make_unique<ManualState>(app_));
                 break;
             }
         default:

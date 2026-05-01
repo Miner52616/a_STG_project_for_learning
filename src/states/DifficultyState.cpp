@@ -18,7 +18,7 @@ DifficultyState::DifficultyState(application &app):
     buttonlist_[3].setButtonText("Lunatic");
     buttonlist_[3].setButtonPosition({450,550});
 
-    for(int i=1;i<=4;i++)
+    for(int i=1;i<=DifButtonNum;i++)
     {
         buttonlist_[i-1].setButtonShake(5,15);
     }

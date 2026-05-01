@@ -89,8 +89,8 @@ void GameState::set_ui()
     curtain_.setPosition({0,0});
     
     //初始化设置固定ui
-    difficulty_.setTextPosition({980,20});
-    difficulty_.setTextText("Easy");
+    difficulty_.setTextPosition({960,20});
+    difficulty_.setTextText("Phantasm");
     difficulty_.setTextSize(50);
 
     high_score_line_.setLinePosition({865,130});
@@ -98,23 +98,23 @@ void GameState::set_ui()
     high_score_line_.setCurrentNum(0);
     high_score_line_.setMaxNum(999999999);
     score_line_.setLinePosition({865,180});
-    score_line_.setLineText("         Score");
+    score_line_.setLineText("     Score");
     score_line_.setCurrentNum(0);
     score_line_.setMaxNum(999999999);
     power_line_.setLinePosition({865,400});
-    power_line_.setLineText("         Power");
+    power_line_.setLineText("     Power");
     power_line_.setCurrentNum(0);
     power_line_.setMaxNum(400);
     graze_line_.setLinePosition({865,450});
-    graze_line_.setLineText("         Graze");
+    graze_line_.setLineText("     Graze");
     graze_line_.setCurrentNum(0);
     graze_line_.setMaxNum(999999999);
     life_line_.setLinePosition({865,250});
-    life_line_.setLineText("Life");
+    life_line_.setLineText("Player");
     life_line_.setMaxNum(8);
     life_line_.setCurrentNum(2);
     bomb_line_.setLinePosition({865,300});
-    bomb_line_.setLineText("Bomb");
+    bomb_line_.setLineText("Spell");
     bomb_line_.setMaxNum(8);
     bomb_line_.setCurrentNum(3);
 }

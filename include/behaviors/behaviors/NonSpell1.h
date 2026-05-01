@@ -43,7 +43,7 @@ public:
     void update() override;
 };
 
-class NonSpell1:public ShootBehavior
+class NonSpell1:public Behavior
 {
 private:
     Entity* entity_;
