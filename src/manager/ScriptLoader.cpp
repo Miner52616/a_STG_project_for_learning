@@ -15,6 +15,7 @@
 #include "behaviors/behaviors/NonSpell1.h"
 #include "behaviors/behaviors/NonSpell2.h"
 #include "behaviors/behaviors/SuddenRain.h"
+#include "behaviors/behaviors/TheStorm.h"
 #include "behaviors/behaviors/BreezyBlossom1.h"
 #include "behaviors/behaviors/BreezyBlossom2.h"
 #include "behaviors/behaviors/BreezyBlossom3.h"
@@ -360,6 +361,16 @@ BFactory::BFactory()
             std::unique_ptr<SuddenRain> suddenrain=std::make_unique<SuddenRain>(enemy,resource_,yellowpage_);
 
             return std::move(suddenrain);
+        }
+    );
+
+    registerBehavior("TheStorm",
+        [this](Entity* enemy,const sol::table& behaviorscript)
+        {
+            std::cout<<"TheStorm"<<std::endl;
+            std::unique_ptr<TheStorm1> thestorm=std::make_unique<TheStorm1>(enemy,resource_,yellowpage_);
+
+            return std::move(thestorm);
         }
     );
 }

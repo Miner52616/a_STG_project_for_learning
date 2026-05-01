@@ -172,6 +172,7 @@ void Bullet::rebuild_Initialize()
             {
             case BulletSize::Small:
                 {
+                    //std::cout<<"111"<<std::endl;
                     std::vector<int> rect=bulletsheet_transform(bulletconfig_->bullet_index_);
                     sf::Vector2i position={rect[0],rect[1]};
                     sf::Vector2i size={rect[2],rect[3]};

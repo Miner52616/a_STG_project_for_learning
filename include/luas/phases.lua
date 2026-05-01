@@ -37,6 +37,23 @@ phasetable=
                 behaviortable=
                 {
                     {
+                        type="TheStorm"
+                    }
+                }
+            },
+
+            {
+                time=4200,
+                HP=1800,
+                bossname="Kochiya Sanae",
+                spellname=" ",
+                spellnum=3,
+                name_x=-100,
+                name_y=-100,
+                voidspell=false,
+                behaviortable=
+                {
+                    {
                         type="SuddenRain"
                     }
                 }

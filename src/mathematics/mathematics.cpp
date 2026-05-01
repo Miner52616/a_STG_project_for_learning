@@ -32,6 +32,10 @@ float distancePointToSegment2(sf::Vector2f p, sf::Vector2f a, sf::Vector2f b)
 
 float getRandomNum(float a,float b)
 {
+    if(a>b)
+    {
+        std::swap(a,b);
+    }
     std::random_device rd;
     std::mt19937 gen(rd());
 
