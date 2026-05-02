@@ -6,28 +6,17 @@
 #include "manager/BulletManager.h"
 
 TheStorm1::TheStorm1(Entity* entity,Resource* resource,YellowPage* yellowpage):
-    ShootBehavior(resource,yellowpage),entity_(entity),bulletconfig_(resource->app_.bulletsheetTexture_),bulletconfig2_(resource->app_.bulletsheetTexture_),shoot_clock_(180),shoot_clock2_(2),shoot_clock3_1_(48),shoot_clock3_2_(3),shoot_num_clock_(60),shoot_num_clock2_(60)
+    ShootBehavior(resource,yellowpage),entity_(entity),bulletconfig_(resource->app_.bulletsheetTexture_),shoot_clock_(720),shoot_clock2_(2),shoot_num_clock_(30)
 {
-    shoot_clock3_1_.reset();
     shoot_num_clock_.reset();
-    shoot_num_clock2_.reset();
     translation_={-100,0};
+    initial_delay_time_=40;
+    delay_time_=initial_angle_;
     initial_radius_=roundwithCenter({0,0},{0,50},135);
     radius_=initial_radius_;
-    radius2_=initial_radius_;
     direction_=normalize(roundwithCenter({0,0},radius_,-90));
-    direction2_=normalize(roundwithCenter({0,0},radius2_,-90));
     initial_angle_=-2;
     rotate_angle_=initial_angle_;
-    rotate_angle2_=initial_angle_;
-
-    shoot_direction_list_.resize(5);
-    angle_list_.resize(5);
-    for(int i=1;i<=5;i++)
-    {
-        shoot_direction_list_[i-1]=roundwithCenter({0,0},{0,-1},72*(i-1));
-        angle_list_[i-1]=72*(i-1);
-    }
 
     setBulletConfig();
 }
@@ -35,44 +24,34 @@ TheStorm1::TheStorm1(Entity* entity,Resource* resource,YellowPage* yellowpage):
 void TheStorm1::setBulletConfig()
 {
     bulletconfig_.r_=3;
+    bulletconfig_.v2_=1.5;
+    bulletconfig_.angle2_=0;
+    bulletconfig_.bullet_num_=5;
     //bulletconfig_.v_=0.5;
     //bulletconfig_.a_=0.05;
     //bulletconfig_.v2_=4;
-    //bulletconfig_.clock1_.set_target(30);
+    bulletconfig_.clock1_.set_target(initial_delay_time_);
+    bulletconfig_.clock1_.reset();
     bulletconfig_.bulletsize_=Small;
     bulletconfig_.bullet_index_={11,3};
+    bulletconfig_.bullet_index2_={11,5};
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
     bulletconfig_.bulletbehavior_=BulletBehavior::Fix;
-
-    bulletconfig2_.r_=3;
-    bulletconfig2_.v_=0;
-    bulletconfig2_.v2_=1.5;
-    bulletconfig2_.a_=0.05;
-    //bulletconfig2_.clock1_.set_target(24);
-    bulletconfig2_.bulletsize_=Small;
-    bulletconfig2_.bullet_index_={11,5};
-    bulletconfig2_.bulletclass_=BulletClasses::DirectBullet2;
-    bulletconfig2_.bulletbehavior_=BulletBehavior::Direct;
 }
 
 void TheStorm1::update()
 {
     if(shoot_clock_.get_condition())
     {
-        if((shoot_num_clock_.get_condition())&&(shoot_num_clock2_.get_condition()))
+        if((shoot_num_clock_.get_condition()))
         {
             shoot_clock_.reset();
-            shoot_clock3_1_.reset();
 
             shoot_num_clock_.reset();
             rotate_angle_=initial_angle_;
             radius_=roundwithCenter({0,0},initial_radius_,getRandomNum(-5,5));
             direction_=normalize(roundwithCenter({0,0},radius_,-90));
-
-            shoot_num_clock2_.reset();
-            rotate_angle2_=initial_angle_;
-            radius2_=radius_;
-            direction2_=direction_;
+            bulletconfig_.clock1_.set_target(initial_delay_time_);
         }
         else
         {
@@ -83,51 +62,305 @@ void TheStorm1::update()
                 sf::Vector2f position=entity_->getPosition();
                 bulletconfig_.spawn_point_=position+translation_+radius_;
                 bulletconfig_.direction_=direction_;
+                bulletconfig_.angle2_=getRandomNum(0,72);
                 for(int i=1;i<=25;i++)
                 {
+                    if(i==1)
+                    {
+                        bulletconfig_.bulletclass_=Behavior_DirectBullet1;
+                    }
+                    else
+                    {
+                        bulletconfig_.bulletclass_=DirectBullet1;
+                    }
                     bulletconfig_.v_=(float)3+(float)i*4/25;
                     resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
                 }
 
+                bulletconfig_.clock1_.set_target(bulletconfig_.clock1_.get_target()+3);
                 radius_=roundwithCenter({0,0},radius_,rotate_angle_);
                 direction_=roundwithCenter({0,0},direction_,rotate_angle_);
-                rotate_angle_=rotate_angle_-0.3;
+                rotate_angle_=rotate_angle_+getRandomNum(-0.4,-0.2);
                 
                 shoot_num_clock_.count();
             }
-
-            if(shoot_clock3_1_.get_condition())
-            {
-                if(shoot_clock3_2_.get_condition())
-                {
-                    shoot_clock3_2_.reset();
-
-                    sf::Vector2f position=entity_->getPosition();
-                    position=position+translation_+radius2_;
-                    for(int i=1;i<=3;i++)
-                    {
-                        bulletconfig2_.clock1_.set_target(24+(i-1)*8);
-                        bulletconfig2_.spawn_point_=position+(float)i*300*direction2_;
-                        float error=getRandomNum(0,72);
-                        for(int j=1;j<=5;j++)
-                        {
-                            bulletconfig2_.direction_=roundwithCenter({0,0},shoot_direction_list_[j-1],error);
-                            bulletconfig2_.angle_=angle_list_[j-1]-90+error;
-                            resource_->bulletmanager_.add_process(&bulletconfig2_,&effectconfig_);
-                        }
-
-                        radius2_=roundwithCenter({0,0},radius2_,rotate_angle_);
-                        direction2_=roundwithCenter({0,0},direction2_,rotate_angle_);
-                        rotate_angle2_=rotate_angle2_-0.3;
-                    }
-
-                    shoot_num_clock2_.count();
-                }
-            }
         }
-        shoot_clock3_1_.count();
     }
     shoot_clock_.count();
     shoot_clock2_.count();
-    shoot_clock3_2_.count();
+}
+
+/********************************************************* */
+
+TheStorm2::TheStorm2(Entity* entity,Resource* resource,YellowPage* yellowpage):
+    ShootBehavior(resource,yellowpage),entity_(entity),bulletconfig_(resource->app_.bulletsheetTexture_),shoot_clock_(720),shoot_clock2_(2),shoot_num_clock_(30),start_clock_(180)
+{
+    start_clock_.reset();
+    shoot_num_clock_.reset();
+    translation_={100,0};
+    initial_delay_time_=40;
+    delay_time_=initial_angle_;
+    initial_radius_=roundwithCenter({0,0},{0,50},-135);
+    radius_=initial_radius_;
+    direction_=normalize(roundwithCenter({0,0},radius_,90));
+    initial_angle_=2;
+    rotate_angle_=initial_angle_;
+
+    setBulletConfig();
+}
+
+void TheStorm2::setBulletConfig()
+{
+    bulletconfig_.r_=3;
+    bulletconfig_.v2_=1.5;
+    bulletconfig_.angle2_=0;
+    bulletconfig_.bullet_num_=5;
+    //bulletconfig_.v_=0.5;
+    //bulletconfig_.a_=0.05;
+    //bulletconfig_.v2_=4;
+    bulletconfig_.clock1_.set_target(initial_delay_time_);
+    bulletconfig_.clock1_.reset();
+    bulletconfig_.bulletsize_=Small;
+    bulletconfig_.bullet_index_={11,3};
+    bulletconfig_.bullet_index2_={11,5};
+    bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Fix;
+}
+
+void TheStorm2::update()
+{
+    if(start_clock_.get_condition())
+    {
+        if(shoot_clock_.get_condition())
+        {
+            if((shoot_num_clock_.get_condition()))
+            {
+                shoot_clock_.reset();
+
+                shoot_num_clock_.reset();
+                rotate_angle_=initial_angle_;
+                radius_=roundwithCenter({0,0},initial_radius_,getRandomNum(-5,5));
+                direction_=normalize(roundwithCenter({0,0},radius_,90));
+                bulletconfig_.clock1_.set_target(initial_delay_time_);
+            }
+            else
+            {
+                if(shoot_clock2_.get_condition())
+                {
+                    shoot_clock2_.reset();
+
+                    sf::Vector2f position=entity_->getPosition();
+                    bulletconfig_.spawn_point_=position+translation_+radius_;
+                    bulletconfig_.direction_=direction_;
+                    bulletconfig_.angle2_=getRandomNum(0,72);
+                    for(int i=1;i<=25;i++)
+                    {
+                        if(i==1)
+                        {
+                            bulletconfig_.bulletclass_=Behavior_DirectBullet1;
+                        }
+                        else
+                        {
+                            bulletconfig_.bulletclass_=DirectBullet1;
+                        }
+                        bulletconfig_.v_=(float)3+(float)i*4/25;
+                        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
+                    }
+
+                    bulletconfig_.clock1_.set_target(bulletconfig_.clock1_.get_target()+3);
+                    radius_=roundwithCenter({0,0},radius_,rotate_angle_);
+                    direction_=roundwithCenter({0,0},direction_,rotate_angle_);
+                    rotate_angle_=rotate_angle_+getRandomNum(0.2,0.4);
+                    
+                    shoot_num_clock_.count();
+                }
+            }
+        }
+    }
+    start_clock_.count();
+    shoot_clock_.count();
+    shoot_clock2_.count();
+}
+
+/********************************************* */
+
+TheStorm3::TheStorm3(Entity* entity,Resource* resource,YellowPage* yellowpage):
+    ShootBehavior(resource,yellowpage),entity_(entity),bulletconfig_(resource->app_.bulletsheetTexture_),shoot_clock_(580),shoot_clock2_(4),shoot_num_clock_(50),start_clock_(360)
+{
+    start_clock_.reset();
+    shoot_num_clock_.reset();
+    initial_translation_={100,-50};
+    translation_=initial_translation_;
+    initial_delay_time_=40;
+    delay_time_=initial_angle_;
+    initial_radius_=roundwithCenter({0,0},{0,50},135);
+    radius_=initial_radius_;
+    direction_=normalize(roundwithCenter({0,0},radius_,-90));
+    initial_angle_=-4;
+    rotate_angle_=initial_angle_;
+
+    setBulletConfig();
+}
+
+void TheStorm3::setBulletConfig()
+{
+    bulletconfig_.r_=3;
+    //bulletconfig_.v_=0.5;
+    //bulletconfig_.a_=0.05;
+    //bulletconfig_.v2_=4;
+    bulletconfig_.clock1_.set_target(initial_delay_time_);
+    bulletconfig_.clock1_.reset();
+    bulletconfig_.bulletsize_=Small;
+    bulletconfig_.bullet_index_={11,3};
+    bulletconfig_.bullet_index2_={11,5};
+    bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Fix;
+}
+
+void TheStorm3::update()
+{
+    if(start_clock_.get_condition())
+    {
+        if(shoot_clock_.get_condition())
+        {
+            if((shoot_num_clock_.get_condition()))
+            {
+                shoot_clock_.reset();
+
+                shoot_num_clock_.reset();
+                rotate_angle_=initial_angle_;
+                radius_=roundwithCenter({0,0},initial_radius_,getRandomNum(-5,5));
+                direction_=normalize(roundwithCenter({0,0},radius_,-90));
+                bulletconfig_.clock1_.set_target(initial_delay_time_);
+                translation_=initial_translation_;
+            }
+            else
+            {
+                if(shoot_clock2_.get_condition())
+                {
+                    shoot_clock2_.reset();
+
+                    sf::Vector2f position=entity_->getPosition();
+                    bulletconfig_.spawn_point_=position+translation_+radius_;
+                    bulletconfig_.direction_=direction_;
+                    bulletconfig_.angle2_=getRandomNum(0,72);
+                    for(int i=1;i<=15;i++)
+                    {
+                        bulletconfig_.v_=(float)2+(float)i*3.5/15;
+                        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
+                    }
+
+                    bulletconfig_.clock1_.set_target(bulletconfig_.clock1_.get_target()+3);
+                    radius_=roundwithCenter({0,0},radius_,rotate_angle_);
+                    direction_=roundwithCenter({0,0},direction_,rotate_angle_);
+                    rotate_angle_=rotate_angle_+getRandomNum(-0.1,0);
+                    translation_=translation_+sf::Vector2f{1,2};
+
+                    shoot_num_clock_.count();
+                }
+            }
+        }
+    }
+    start_clock_.count();
+    shoot_clock_.count();
+    shoot_clock2_.count();
+}
+//**************************************************** */
+
+TheStorm4::TheStorm4(Entity* entity,Resource* resource,YellowPage* yellowpage):
+    ShootBehavior(resource,yellowpage),entity_(entity),bulletconfig_(resource->app_.bulletsheetTexture_),shoot_clock_(580),shoot_clock2_(4),shoot_num_clock_(50),start_clock_(360)
+{
+    start_clock_.reset();
+    shoot_num_clock_.reset();
+    initial_translation_={-100,-50};
+    translation_=initial_translation_;
+    initial_delay_time_=40;
+    delay_time_=initial_angle_;
+    initial_radius_=roundwithCenter({0,0},{0,50},-135);
+    radius_=initial_radius_;
+    direction_=normalize(roundwithCenter({0,0},radius_,90));
+    initial_angle_=4;
+    rotate_angle_=initial_angle_;
+
+    setBulletConfig();
+}
+
+void TheStorm4::setBulletConfig()
+{
+    bulletconfig_.r_=3;
+    //bulletconfig_.v_=0.5;
+    //bulletconfig_.a_=0.05;
+    //bulletconfig_.v2_=4;
+    bulletconfig_.clock1_.set_target(initial_delay_time_);
+    bulletconfig_.clock1_.reset();
+    bulletconfig_.bulletsize_=Small;
+    bulletconfig_.bullet_index_={11,3};
+    bulletconfig_.bullet_index2_={11,5};
+    bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Fix;
+}
+
+void TheStorm4::update()
+{
+    if(start_clock_.get_condition())
+    {
+        if(shoot_clock_.get_condition())
+        {
+            if((shoot_num_clock_.get_condition()))
+            {
+                shoot_clock_.reset();
+
+                shoot_num_clock_.reset();
+                rotate_angle_=initial_angle_;
+                radius_=roundwithCenter({0,0},initial_radius_,getRandomNum(-5,5));
+                direction_=normalize(roundwithCenter({0,0},radius_,90));
+                bulletconfig_.clock1_.set_target(initial_delay_time_);
+                translation_=initial_translation_;
+            }
+            else
+            {
+                if(shoot_clock2_.get_condition())
+                {
+                    shoot_clock2_.reset();
+
+                    sf::Vector2f position=entity_->getPosition();
+                    bulletconfig_.spawn_point_=position+translation_+radius_;
+                    bulletconfig_.direction_=direction_;
+                    bulletconfig_.angle2_=getRandomNum(0,72);
+                    for(int i=1;i<=15;i++)
+                    {
+                        bulletconfig_.v_=(float)2+(float)i*3.5/15;
+                        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
+                    }
+
+                    bulletconfig_.clock1_.set_target(bulletconfig_.clock1_.get_target()+3);
+                    radius_=roundwithCenter({0,0},radius_,rotate_angle_);
+                    direction_=roundwithCenter({0,0},direction_,rotate_angle_);
+                    rotate_angle_=rotate_angle_+getRandomNum(0,0.1);
+                    translation_=translation_+sf::Vector2f{-1,2};
+
+                    shoot_num_clock_.count();
+                }
+            }
+        }
+    }
+    start_clock_.count();
+    shoot_clock_.count();
+    shoot_clock2_.count();
+}
+
+/********************************************************** */
+
+TheStorm::TheStorm(Entity* entity,Resource* resource,YellowPage* yellowpage):
+    Behavior(resource,yellowpage),storm1_(entity,resource,yellowpage),storm2_(entity,resource,yellowpage),storm3_(entity,resource,yellowpage),storm4_(entity,resource,yellowpage)
+{
+    ;
+}
+
+void TheStorm::update()
+{
+    storm1_.update();
+    storm2_.update();
+    storm3_.update();
+    storm4_.update();
 }

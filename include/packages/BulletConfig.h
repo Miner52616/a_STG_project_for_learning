@@ -44,6 +44,8 @@ public:
     float r_=2;
     float damage_=0;
     float angle_=0;//子弹贴图的旋转角度（degree）。注意，0代表子弹贴图朝右
+    float angle2_=0;
+    float bullet_num_=0;
     Clock clock1_;
     Clock clock2_;
     Clock clock3_;
@@ -55,6 +57,7 @@ public:
     BulletBehavior bulletbehavior_=BulletBehavior::Fix;//子弹贴图表现方式。将决定子弹贴图的朝向方向会如何更新
     BulletSize bulletsize_=BulletSize::Small;//子弹大小属性，将影响贴图表的裁切方式
     std::vector<int> bullet_index_={1,1};//子弹贴图裁切的索引，填写前请务必检查不同大小属性子弹的贴图索引方式
+    std::vector<int> bullet_index2_={1,1};
     sf::Texture& texture_;//子弹将使用的贴图。现在一般直接给子弹一个贴图表
 
 public:

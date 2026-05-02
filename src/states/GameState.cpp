@@ -17,6 +17,8 @@ GameState::GameState(application &app):
     score_line_(app_.mainFont_),
     power_line_(app_.mainFont_),
     graze_line_(app_.mainFont_),
+    bullet_line_(app_.mainFont_),
+    fps_line_(app_.mainFont_),
     life_line_(app_.mainFont_,app_.lifeUI_),
     bomb_line_(app_.mainFont_,app_.bombUI_),
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
@@ -92,6 +94,15 @@ void GameState::set_ui()
     difficulty_.setTextPosition({960,20});
     difficulty_.setTextText("Phantasm");
     difficulty_.setTextSize(50);
+
+    bullet_line_.setLinePosition({865,910});
+    bullet_line_.setLineText("Bullet Num");
+    bullet_line_.setCurrentNum(0);
+    bullet_line_.setMaxNum(999999999);
+    fps_line_.setLinePosition({865,860});
+    fps_line_.setLineText("Fps");
+    fps_line_.setCurrentNum(0);
+    fps_line_.setMaxNum(999999999);
 
     high_score_line_.setLinePosition({865,130});
     high_score_line_.setLineText("High Score");
@@ -283,6 +294,10 @@ void GameState::Update()
     effectmanager_.clear_dead();
     //std::cout<<"effect clear"<<std::endl;
 
+    fps_update();
+
+    fps_line_.setCurrentNum(fps_);
+    bullet_line_.setCurrentNum(bulletlist_.size());
     life_line_.setCurrentNum(player_->getLifeNum());
     bomb_line_.setCurrentNum(player_->getBombNum());
 
@@ -325,10 +340,29 @@ void GameState::Render(sf::RenderWindow& window)
     score_line_.render(window);
     power_line_.render(window);
     graze_line_.render(window);
+
+    bullet_line_.render(window);
+    fps_line_.render(window);
+
     life_line_.render(window);
     bomb_line_.render(window);
 
     curtain_.render(window);
+}
+
+void GameState::fps_update()
+{
+    float dt=clock_.restart().asSeconds();
+    elapsed_+=dt;
+    frame_count_++;
+
+    if(elapsed_>=1)
+    {
+        fps_=frame_count_/elapsed_;
+        
+        frame_count_=0;
+        elapsed_=0;
+    }
 }
 
 void GameState::clock_update()

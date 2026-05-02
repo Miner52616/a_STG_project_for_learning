@@ -43,12 +43,19 @@ private:
     long long int high_score_;
     long long int score_;
 
+    sf::Clock clock_;
+    float elapsed_=0;
+    int frame_count_=0;
+    float fps_=0;
+
     Frame outline1;
     Text difficulty_;
     NumLine1 high_score_line_;
     NumLine1 score_line_;
     NumLine1 power_line_;
     NumLine1 graze_line_;
+    NumLine1 bullet_line_;
+    NumLine1 fps_line_;
     NumLine1_1 life_line_;
     NumLine1_1 bomb_line_;
 
@@ -120,6 +127,7 @@ protected:
     void read_script();
     void bundle_leader_menber();
 
+    void fps_update();
     void clock_update();
     void handlecollision();
     void HandleEvent(sf::RenderWindow& window,const sf::Event::Closed);  //处理“关闭窗口”事件

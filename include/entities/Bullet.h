@@ -16,6 +16,7 @@ friend void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resourc
 friend void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 friend void gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 friend void rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+friend void behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 
 protected:
     bool show_hitbox_=true;
@@ -30,6 +31,7 @@ protected:
     bool active_;
     float damage_;
     std::unique_ptr<BulletConfig> bulletconfig_;
+    std::unique_ptr<BulletConfig> sonconfig_;
     EffectConfig effectconfig_;
     sf::CircleShape hitbox_draw_;
 
@@ -90,5 +92,6 @@ void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 void gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 void rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+void behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 
 extern UpdateFunc update_table[];

@@ -1,6 +1,5 @@
 phasetable=
 {
-
     {
         type="BossPhase",
         spelltable=
@@ -26,13 +25,35 @@ phasetable=
             },
 
             {
-                time=4200,
+                time=2400,
                 HP=1800,
                 bossname="Kochiya Sanae",
                 spellname=" ",
                 spellnum=3,
                 name_x=-100,
                 name_y=-100,
+                voidspell=false,
+                behaviortable=
+                {
+                    {
+                        type="MoveToRandom1",
+                        start_time=30,
+                    },
+
+                    {
+                        type="NewNonSpell1"
+                    }
+                }
+            },
+
+            {
+                time=4200,
+                HP=1800,
+                bossname="Kochiya Sanae",
+                spellname="岚符「大孔雀暴风」",
+                spellnum=3,
+                name_x=750,
+                name_y=25,
                 voidspell=false,
                 behaviortable=
                 {
@@ -46,10 +67,10 @@ phasetable=
                 time=4200,
                 HP=1800,
                 bossname="Kochiya Sanae",
-                spellname=" ",
+                spellname="「骤然风雨」",
                 spellnum=3,
-                name_x=-100,
-                name_y=-100,
+                name_x=750,
+                name_y=25,
                 voidspell=false,
                 behaviortable=
                 {

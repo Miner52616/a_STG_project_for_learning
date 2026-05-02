@@ -12,7 +12,7 @@ class EffectFactory
 private:
     application& app_;
 
-    int poolsize_=2000;
+    int poolsize_=5000;
     std::vector<Effect> effectlist_;
     std::vector<int> free_list_;
 

@@ -3,6 +3,7 @@
 #include "core/application.h"
 #include "mathematics/mathematics.h"
 #include "manager/PhaseController.h"
+#include "manager/BulletManager.h"
 #include <iostream>
 
 Bullet::Bullet(sf::Texture &texture,sf::Vector2f position):
@@ -10,6 +11,7 @@ Bullet::Bullet(sf::Texture &texture,sf::Vector2f position):
     effectconfig_(texture)
 {
     bulletconfig_=std::make_unique<BulletConfig>(texture);
+    //sonconfig_=std::make_unique<BulletConfig>(texture);
     position_=position;
     hitbox_r_=10;
     hitbox_draw_.setRadius(hitbox_r_);
@@ -21,6 +23,7 @@ Bullet::Bullet(sf::Texture &texture,sf::Vector2f position,float damage):
     effectconfig_(texture)
 {
     bulletconfig_=std::make_unique<BulletConfig>(texture);
+    //sonconfig_=std::make_unique<BulletConfig>(texture);
     position_=position;
     hitbox_r_=10;
     hitbox_draw_.setRadius(hitbox_r_);
@@ -277,6 +280,7 @@ void Bullet::setYellowPage(YellowPage* yellowpage)
 void Bullet::setResource(Resource* resource)
 {
     resource_=resource;
+    sonconfig_=std::make_unique<BulletConfig>(resource->app_.bulletsheetTexture_);
     //initialize_EffectConfig();
 }
 
@@ -430,6 +434,32 @@ void rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
     }
 }
 
+void behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+{
+    bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*bullet.bulletconfig_->direction_);
+    if(bullet.bulletconfig_->clock1_.get_condition())
+    {
+        bullet.bulletconfig_->clock1_.reset();
+        //BulletConfig bullet.sonconfig_->(*(bullet.bullet_texture_));
+        bullet.sonconfig_->spawn_point_=bullet.getPosition();
+        bullet.sonconfig_->v_=bullet.bulletconfig_->v2_;
+        bullet.sonconfig_->bullet_index_=bullet.bulletconfig_->bullet_index2_;
+        //bullet.sonconfig_->.direction_=roundwithCenter({0,0},{1,0},bullet.bulletconfig_->angle2_);
+        //bullet.sonconfig_->.angle_=bullet.bulletconfig_->angle2_;
+        bullet.sonconfig_->bulletbehavior_=Direct;
+        bullet.sonconfig_->bulletclass_=DirectBullet1;
+        bullet.sonconfig_->bulletsize_=Small;
+
+        for(int i=1;i<=bullet.bulletconfig_->bullet_num_;i++)
+        {
+            bullet.sonconfig_->angle_=bullet.bulletconfig_->angle2_+(i-1)*360/(bullet.bulletconfig_->bullet_num_);
+            bullet.sonconfig_->direction_=roundwithCenter({0,0},{1,0},bullet.bulletconfig_->angle2_+(i-1)*360/(bullet.bulletconfig_->bullet_num_));
+            resource->bulletmanager_.add_process(bullet.sonconfig_.get(),bullet.getEffectConfig());
+        }
+    }
+    bullet.bulletconfig_->clock1_.count();
+}
+
 UpdateFunc update_table[]=
 {
     aim_move1,
@@ -439,5 +469,6 @@ UpdateFunc update_table[]=
     aim_move2,
     direct_move3,
     gravity_move,
-    rotate_move1
+    rotate_move1,
+    behavior_move1
 };
