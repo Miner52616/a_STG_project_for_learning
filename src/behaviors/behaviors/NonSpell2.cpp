@@ -196,6 +196,9 @@ NonSpell2_2_1::NonSpell2_2_1(Entity* entity,Resource* resource,YellowPage* yello
     rotate_degree_=3;
 
     reset();
+
+    bulletconfig_.bulletbehavior_=Rotate;
+    bulletconfig_.bullet_index_={7,11};
 }
 
 void NonSpell2_2_1::update()
@@ -216,6 +219,9 @@ NonSpell2_2_2::NonSpell2_2_2(Entity* entity,Resource* resource,YellowPage* yello
     bulletconfig_.a2_=-0.05;
     
     reset();
+
+    bulletconfig_.bulletbehavior_=Rotate;
+    bulletconfig_.bullet_index_={3,11};
 }
 
 void NonSpell2_2_2::update()
@@ -230,10 +236,138 @@ void NonSpell2_2_2::update()
     }
 }
 
+/********************************************************************************** */
+
+NonSpell2_1_2::NonSpell2_1_2(Entity* entity,Resource* resource,YellowPage* yellowpage):
+    NonSpell2_2(entity,resource,yellowpage),start_clock_(300),son_shoot_clock_(90)
+{
+    son_left_right_=true;
+    start_clock_.reset();
+    bullet_num_=21;
+    group_num_=1;
+    gap_=8;
+    rotate_degree_=3;
+    
+    reset();
+
+    for(int i=1;i<=group_num_;i++)
+    {
+        direction_list[i-1]=roundwithCenter({0,0},{0,1},i*360/group_num_+getRandomNum(0,360));
+    }
+    delaytime_=120;
+    set_direction_=roundwithCenter({0,0},{0,1},18+getRandomNum(0,360));
+    bullet_direction_=roundwithCenter({0,0},set_direction_,-18);
+    bullet_direction2_=roundwithCenter({0,0},set_direction_,-162+(-rotate_degree_*(bullet_num_-1)));
+
+    bulletconfig_.v3_=4;
+    bulletconfig_.a2_=-0.05;
+    bulletconfig_.bulletbehavior_=Rotate;
+    bulletconfig_.bullet_index_={7,11};
+}
+
+void NonSpell2_1_2::update()
+{
+    if(start_clock_.get_condition())
+    {
+        if(son_shoot_clock_.get_condition())
+        {
+            if(shoot_num_.get_condition())
+            {
+                son_shoot_clock_.reset();
+
+                NonSpell2_2::reset();
+                bulletconfig_.v3_=4;
+                bulletconfig_.a2_=-0.05;
+                bulletconfig_.bulletbehavior_=Rotate;
+                bulletconfig_.bullet_index_={7,11};
+                for(int i=1;i<=group_num_;i++)
+                {
+                    direction_list[i-1]=roundwithCenter({0,0},{0,1},i*360/group_num_+getRandomNum(135,225));
+                }
+                delaytime_=120;
+                set_direction_=roundwithCenter({0,0},{0,1},18+getRandomNum(0,360));
+                bullet_direction_=roundwithCenter({0,0},set_direction_,-18);
+                bullet_direction2_=roundwithCenter({0,0},set_direction_,-162+(-rotate_degree_*(bullet_num_-1)));
+            }
+            else
+            {
+                if(!get_center)
+                {
+                    center_=entity_->getPosition();
+                    sf::Vector2f direction=roundwithCenter({0,0},set_direction_,198);
+                    start_position_=center_+(float)((gap_*(bullet_num_-1)/2)/0.95106)*direction;
+
+                    get_center=true;
+                }
+
+                if(shoot_clock_.get_condition())
+                {
+                    std::cout<<"shoot"<<std::endl;
+                    if(shoot_num2_.get_condition())
+                    {
+                        shoot_num2_.reset();
+
+                        set_direction_=roundwithCenter({0,0},set_direction_,144);
+                        bullet_direction_=roundwithCenter({0,0},set_direction_,-18);
+                        bullet_direction2_=roundwithCenter({0,0},set_direction_,-162+(-rotate_degree_*(bullet_num_-1)));
+                    }
+
+                    shoot_clock_.reset();
+                    bulletconfig_.spawn_point_=start_position_;
+
+                    bulletconfig_.clock3_.set_target(delaytime_);
+                    
+                    if(son_left_right_)
+                    {
+                        bulletconfig_.direction2_=direction_list[0];
+                        bulletconfig_.direction_=bullet_direction_;
+                        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
+                        son_left_right_=false;
+                    }
+                    else
+                    {
+                        bulletconfig_.direction2_=direction_list[0];
+                        bulletconfig_.direction_=bullet_direction2_;
+                        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
+                        son_left_right_=true;
+                    }
+                    /*
+                    for(int i=1;i<=group_num_/2;i++)
+                    {
+                        bulletconfig_.direction2_=direction_list[2*i-1];
+                        bulletconfig_.direction_=bullet_direction_;
+                        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
+                    }
+                    for(int i=1;i<=group_num_/2;i++)
+                    {
+                        bulletconfig_.direction2_=direction_list[2*i-2];
+                        bulletconfig_.direction_=bullet_direction2_;
+                        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
+                    }
+                        */
+
+                    //resource_->bulletmanager_.add_process(&bulletconfig_);
+
+                    bullet_direction_=roundwithCenter({0,0},bullet_direction_,rotate_degree_);
+                    bullet_direction2_=roundwithCenter({0,0},bullet_direction2_,rotate_degree_);
+                    start_position_=start_position_+gap_*set_direction_;
+
+                    shoot_num_.count();
+                    shoot_num2_.count();
+                    delaytime_=delaytime_-shoot_clock_.get_target();
+                }
+                shoot_clock_.count();
+            }
+        }
+    }
+    start_clock_.count();
+    son_shoot_clock_.count();
+}
+
 //***************************************************************** */
 
 NonSpell2_3::NonSpell2_3(Entity* entity,Resource* resource,YellowPage* yellowpage):
-    ShootBehavior(resource,yellowpage),entity_(entity),shoot_clock_(20),start_clock_(300),bulletconfig_(resource->app_.blue_light_bulletTexture_)
+    ShootBehavior(resource,yellowpage),entity_(entity),shoot_clock_(20),start_clock_(300),bulletconfig_(resource->app_.bulletsheetTexture_)
 {
     start_clock_.reset();
     bullet_num_=15;
@@ -249,6 +383,9 @@ void NonSpell2_3::setBulletConfig()
 {
     bulletconfig_.r_=3;
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
+    bulletconfig_.bulletbehavior_=Direct;
+    bulletconfig_.bulletsize_=Small;
+    bulletconfig_.bullet_index_={6,8};
 }
 
 void NonSpell2_3::update()
@@ -277,6 +414,7 @@ void NonSpell2_3::update()
                 {
                     bulletconfig_.spawn_point_=start_position_+(i-1)*gap_*set_direction_;
                     bulletconfig_.direction_=bullet_direction_;
+                    bulletconfig_.angle_=RadTransToDegree(atan2(bullet_direction_.y,bullet_direction_.x))-90;
                     if(chiral)
                     {
                         bulletconfig_.v_=2+i*0.2;
@@ -301,14 +439,14 @@ void NonSpell2_3::update()
 /************************************************************ */
 
 NonSpell2::NonSpell2(Entity* entity,Resource* resource,YellowPage* yellowpage):
-    Behavior(resource,yellowpage),nonspell2_1(entity,resource,yellowpage),nonspell2_2_1(entity,resource,yellowpage),nonspell2_2_2(entity,resource,yellowpage),nonspell2_3(entity,resource,yellowpage)
+    Behavior(resource,yellowpage),nonspell2_1_2(entity,resource,yellowpage),nonspell2_2_1(entity,resource,yellowpage),nonspell2_2_2(entity,resource,yellowpage),nonspell2_3(entity,resource,yellowpage)
 {
     ;
 }
 
 void NonSpell2::update()
 {
-    nonspell2_1.update();
+    nonspell2_1_2.update();
     nonspell2_2_1.update();
     nonspell2_2_2.update();
     nonspell2_3.update();

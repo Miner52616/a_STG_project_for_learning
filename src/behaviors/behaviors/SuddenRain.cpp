@@ -50,7 +50,7 @@ void SuddenRain1::update()
 
             float error=getRandomNum(-5,5);
             bulletconfig_.direction_=roundwithCenter({0,0},shoot_direction_list_[i-1],error);
-            bulletconfig_.angle_=angle_list_[i-1]+error;
+            bulletconfig_.angle_=angle_list_[i-1]+error-90;
             
             resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
         }

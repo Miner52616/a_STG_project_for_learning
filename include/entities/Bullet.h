@@ -17,9 +17,10 @@ friend void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resourc
 friend void gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 friend void rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 friend void behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+friend void rotate_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 
 protected:
-    bool show_hitbox_=true;
+    bool show_hitbox_=false;
 
     Resource* resource_;//追踪弹将向phasecontroller申请最近的目标位置
     YellowPage* yellowpage_;//自机狙将访问player获取player位置
@@ -93,5 +94,6 @@ void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 void gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 void rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 void behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+void rotate_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);//绕着中心点的多阶段的移动函数
 
 extern UpdateFunc update_table[];

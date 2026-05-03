@@ -25,8 +25,42 @@ phasetable=
             },
 
             {
+                time=4200,
+                HP=3600,
+                bossname="Kochiya Sanae",
+                spellname="「呼唤流星的星术仪式」",
+                spellnum=3,
+                name_x=750,
+                name_y=25,
+                voidspell=false,
+                behaviortable=
+                {
+                    {
+                        type="StarRite"
+                    }
+                }
+            },
+
+            {
+                time=4200,
+                HP=3600,
+                bossname="Kochiya Sanae",
+                spellname="「骤然风雨」",
+                spellnum=3,
+                name_x=750,
+                name_y=25,
+                voidspell=false,
+                behaviortable=
+                {
+                    {
+                        type="SuddenRain"
+                    }
+                }
+            },
+
+            {
                 time=2400,
-                HP=1800,
+                HP=3600,
                 bossname="Kochiya Sanae",
                 spellname=" ",
                 spellnum=3,
@@ -47,8 +81,48 @@ phasetable=
             },
 
             {
+                time=120,
+                HP=2000,
+                bossname="Kochiya Sanae",
+                spellname=" ",
+                spellnum=0,
+                name_x=-100,
+                name_y=-100,
+                voidspell=true,
+                behaviortable=
+                {
+                    {
+                        type="MoveTo",
+                        v=0.1,
+                        x=385,
+                        y=300
+                    }
+                }
+            },
+
+            {
+                time=120,
+                HP=2000,
+                bossname="Kochiya Sanae",
+                spellname=" ",
+                spellnum=0,
+                name_x=-100,
+                name_y=-100,
+                voidspell=true,
+                behaviortable=
+                {
+                    {
+                        type="MoveTo",
+                        v=0.1,
+                        x=385,
+                        y=250
+                    }
+                }
+            },
+
+            {
                 time=4200,
-                HP=1800,
+                HP=3600,
                 bossname="Kochiya Sanae",
                 spellname="岚符「大孔雀暴风」",
                 spellnum=3,
@@ -64,25 +138,28 @@ phasetable=
             },
 
             {
-                time=4200,
-                HP=1800,
+                time=120,
+                HP=2000,
                 bossname="Kochiya Sanae",
-                spellname="「骤然风雨」",
-                spellnum=3,
-                name_x=750,
-                name_y=25,
-                voidspell=false,
+                spellname=" ",
+                spellnum=0,
+                name_x=-100,
+                name_y=-100,
+                voidspell=true,
                 behaviortable=
                 {
                     {
-                        type="SuddenRain"
+                        type="MoveTo",
+                        v=0.1,
+                        x=385,
+                        y=350
                     }
                 }
             },
-            
+
             {
                 time=2400,
-                HP=1800,
+                HP=3600,
                 bossname="Kochiya Sanae",
                 spellname=" ",
                 spellnum=3,
@@ -92,19 +169,34 @@ phasetable=
                 behaviortable=
                 {
                     {
-                        type="MoveToRandom1",
-                        start_time=30,
-                    },
+                        type="NonSpell2"
+                    }
+                }
+            },
 
+            {
+                time=120,
+                HP=3000,
+                bossname="Kochiya Sanae",
+                spellname=" ",
+                spellnum=0,
+                name_x=-100,
+                name_y=-100,
+                voidspell=true,
+                behaviortable=
+                {
                     {
-                        type="NonSpell1"
+                        type="MoveTo",
+                        v=0.1,
+                        x=385,
+                        y=250
                     }
                 }
             },
 
             {
                 time=1800,
-                HP=2500,
+                HP=3000,
                 bossname="Kochiya Sanae",
                 spellname="「终忆」吹拂樱花",
                 spellnum=3,
@@ -126,7 +218,7 @@ phasetable=
 
             {
                 time=1800,
-                HP=2500,
+                HP=3500,
                 bossname="Kochiya Sanae",
                 spellname="「终忆」吹拂樱花",
                 spellnum=2,
@@ -152,7 +244,7 @@ phasetable=
 
             {
                 time=1800,
-                HP=2500,
+                HP=3500,
                 bossname="Kochiya Sanae",
                 spellname="「终忆」吹拂樱花",
                 spellnum=1,
@@ -182,7 +274,7 @@ phasetable=
 
             {
                 time=1800,
-                HP=2000,
+                HP=3000,
                 bossname="Kochiya Sanae",
                 spellname="「终忆」吹拂樱花",
                 spellnum=0,
@@ -244,5 +336,5 @@ phasetable=
                 }
             }
         }
-    }
+    },
 }

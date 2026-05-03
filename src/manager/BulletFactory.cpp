@@ -104,6 +104,7 @@ Bullet* BulletFactory::create(BulletConfig* bulletconfig,EffectConfig* effectcon
 
 void copyconfig(BulletConfig* copy,BulletConfig* origin)
 {
+    //std::cout<<"111"<<std::endl;
     //提供的时钟默认先reset
     copy->clock1_.reset();
     copy->clock2_.reset();
@@ -134,4 +135,11 @@ void copyconfig(BulletConfig* copy,BulletConfig* origin)
     copy->angle2_=origin->angle2_;
     copy->bullet_num_=origin->bullet_num_;
     copy->bullet_index2_=origin->bullet_index2_;
+    copy->shareconfig_=origin->shareconfig_;
+    //std::cout<<"222"<<std::endl;
+    copy->center_point_=origin->center_point_;
+    copy->bulletbehavior2_=origin->bulletbehavior2_;
+    copy->random_son_direction_=origin->random_son_direction_;
+    copy->center_point2_=origin->center_point2_;
+    copy->x_=origin->x_;
 }

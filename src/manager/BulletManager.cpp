@@ -6,6 +6,7 @@ BulletManager::BulletManager(application &app,std::vector<Bullet*> &bulletlist,B
     app_(app),bulletlist_(bulletlist),bulletfactory_(bulletfactory)//,outline_(outline),player_(player)
 {
     std::cout<<"build BulletManager"<<std::endl;
+    bulletlist_.reserve(10000);
 }
 
 /*
@@ -41,6 +42,7 @@ void BulletManager::clear()
         if((*it)->isDead())
         {
             bulletfactory_.destroy(*it);
+            (*it)->getBulletConfig()->shareconfig_.active_=false;
         }
     }
 

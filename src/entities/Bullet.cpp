@@ -47,7 +47,7 @@ void Bullet::selfbehavior()
 
     case BulletBehavior::Direct:
         {
-            picture_.setRotation(sf::degrees(bulletconfig_->angle_-90));
+            picture_.setRotation(sf::degrees(bulletconfig_->angle_));
             break;
         }
     
@@ -60,15 +60,25 @@ void Bullet::update()
 {
     store_position();
     
+    //if(bulletconfig_->bulletclass_==DirectBullet2)
+    //std::cout<<"111"<<std::endl;
     update_table[bulletconfig_->bulletclass_](*this,yellowpage_,resource_);
+    //if(bulletconfig_->bulletclass_==DirectBullet2)
+    //std::cout<<"222"<<std::endl;
     selfbehavior();
+    //if(bulletconfig_->bulletclass_==DirectBullet2)
+    //std::cout<<"333"<<std::endl;
     effectconfig_.spawn_point_=getPosition();
+    //if(bulletconfig_->bulletclass_==DirectBullet2)
+    //std::cout<<"444"<<std::endl;
 
     if(isOut())
     {
         //std::cout<<getPosition().x<<" "<<getPosition().y<<std::endl;
         markDead();
     }
+    //if(bulletconfig_->bulletclass_==DirectBullet2)
+    //std::cout<<"555"<<std::endl;
 }
 
 void Bullet::drawtexture(sf::RenderTexture& texture)
@@ -413,7 +423,7 @@ void gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
     sf::Vector2f direction=bullet.bulletconfig_->v_*bullet.bulletconfig_->direction_;
     direction=direction+bullet.bulletconfig_->a_*sf::Vector2f{0,1};
     bullet.bulletconfig_->v_=direction.length();
-    bullet.bulletconfig_->angle_=RadTransToDegree(atan2f(direction.y,direction.x));
+    bullet.bulletconfig_->angle_=RadTransToDegree(atan2f(direction.y,direction.x))-90;
     bullet.bulletconfig_->direction_=normalize(direction);
     
     if((bullet.bulletconfig_->v_)>(bullet.bulletconfig_->v2_))
@@ -453,11 +463,84 @@ void behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
         for(int i=1;i<=bullet.bulletconfig_->bullet_num_;i++)
         {
             bullet.sonconfig_->angle_=bullet.bulletconfig_->angle2_+(i-1)*360/(bullet.bulletconfig_->bullet_num_);
-            bullet.sonconfig_->direction_=roundwithCenter({0,0},{1,0},bullet.bulletconfig_->angle2_+(i-1)*360/(bullet.bulletconfig_->bullet_num_));
+            bullet.sonconfig_->direction_=roundwithCenter({0,0},{0,1},bullet.bulletconfig_->angle2_+(i-1)*360/(bullet.bulletconfig_->bullet_num_));
             resource->bulletmanager_.add_process(bullet.sonconfig_.get(),bullet.getEffectConfig());
         }
     }
     bullet.bulletconfig_->clock1_.count();
+}
+
+void rotate_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+{
+    if(bullet.bulletconfig_->shareconfig_.active_)
+    {
+        switch(*(bullet.bulletconfig_->shareconfig_.phase_))
+        {
+        case 1:
+            {
+                if(bullet.bulletconfig_->x_>0)
+                {
+                    bullet.bulletconfig_->x_=bullet.bulletconfig_->x_-abs(bullet.bulletconfig_->v_);
+                    if(bullet.bulletconfig_->x_<0)
+                    {
+                        bullet.bulletconfig_->x_=0;
+                    }
+                    sf::Vector2f direction=bullet.getPosition()-bullet.bulletconfig_->center_point_;
+                    direction=roundwithCenter({0,0},direction,bullet.bulletconfig_->v_);
+                    bullet.setPosition(bullet.bulletconfig_->center_point_+direction);
+                }
+                else
+                {
+                    bullet.bulletconfig_->v_=0;
+                }
+                break;
+            }
+
+        case 2:
+            {
+                bullet.bulletconfig_->v_=bullet.bulletconfig_->v_+bullet.bulletconfig_->a_;
+                if((bullet.bulletconfig_->v_)>(bullet.bulletconfig_->v2_))
+                {
+                    bullet.bulletconfig_->v_=bullet.bulletconfig_->v2_;
+                }
+                sf::Vector2f direction=bullet.getPosition()-bullet.bulletconfig_->center_point2_;
+                direction=roundwithCenter({0,0},direction,bullet.bulletconfig_->v_);
+                bullet.setPosition(bullet.bulletconfig_->center_point2_+direction);
+                break;
+            }
+        
+        default:
+            break;
+        }
+        if(*(bullet.bulletconfig_->shareconfig_.trigger_))
+        {
+            //std::cout<<"111"<<std::endl;
+            bullet.sonconfig_->spawn_point_=bullet.getPosition();
+            bullet.sonconfig_->bulletclass_=DirectBullet2;
+            bullet.sonconfig_->v_=0;
+            bullet.sonconfig_->v2_=bullet.bulletconfig_->v3_;
+            bullet.sonconfig_->a_=bullet.bulletconfig_->a2_;
+            bullet.sonconfig_->clock1_.set_target(bullet.bulletconfig_->clock1_.get_target());
+            bullet.sonconfig_->bullet_index_=bullet.bulletconfig_->bullet_index2_;
+            bullet.sonconfig_->bulletbehavior_=bullet.bulletconfig_->bulletbehavior2_;
+            if(bullet.bulletconfig_->random_son_direction_)
+            {
+                bullet.sonconfig_->direction_=roundwithCenter({0,0},{0,1},getRandomNum(0,360));
+            }
+            else
+            {
+                bullet.sonconfig_->direction_=bullet.bulletconfig_->direction_;
+            }
+            //std::cout<<"222"<<std::endl;
+
+            resource->bulletmanager_.add_process(bullet.sonconfig_.get(),bullet.getEffectConfig());
+            ///std::cout<<"333"<<std::endl;
+        }
+    }
+    else
+    {
+        bullet.markDead();
+    }
 }
 
 UpdateFunc update_table[]=
@@ -470,5 +553,6 @@ UpdateFunc update_table[]=
     direct_move3,
     gravity_move,
     rotate_move1,
-    behavior_move1
+    behavior_move1,
+    rotate_move2
 };
