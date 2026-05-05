@@ -44,6 +44,8 @@ private:
     sf::Sprite hitbox_texture_;
     sf::CircleShape point_;
 
+    bool continued_=false;
+    bool missed_=false;
     int life_;
     int bomb_;
     int power_;
@@ -64,10 +66,14 @@ public:
     void setBombConfig();
     void setOverlayConfig();
     void resetBombConfig();
+    void setContinued(bool continued);
     void setResource(Resource* resource);
     void setYellowPage(YellowPage* yellowpage);
     void setPosition() override;
     void setPosition(sf::Vector2f position) override;
+    bool isContinued();
+    bool isMissed();
+    void setMissed(bool miss);
     int getLifeNum();
     void setLifeNum(int life);
     int getBombNum();

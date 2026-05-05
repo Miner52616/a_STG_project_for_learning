@@ -30,7 +30,7 @@ Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     outline_(outline),
     resource_(resource),
     //bulletconfig_(resource_->app_.bulletTexture_)
-    life_(0),
+    life_(3),
     bomb_(3),
     power_(0)
 {
@@ -124,6 +124,11 @@ void Player::resetBombConfig()
     bombconfig_->spawn_point_=getPosition();
     bombconfig_->direction_={350,0};
     bombconfig_->v_=6;
+}
+
+void Player::setContinued(bool continued)
+{
+    continued_=continued;
 }
 
 void Player::check_position()
@@ -239,6 +244,21 @@ void Player::setPosition(sf::Vector2f position)
 {
     position_=position;
     setPosition();
+}
+
+bool Player::isContinued()
+{
+    return continued_;
+}
+
+bool Player::isMissed()
+{
+    return missed_;
+}
+
+void Player::setMissed(bool missed)
+{
+    missed_=missed;
 }
 
 int Player::getLifeNum()

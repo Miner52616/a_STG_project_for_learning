@@ -73,6 +73,7 @@ void CollisionSystem::HandleCollision(Player* player,Bullet *bullet)
                 bullet->markDead();
                 resource_->effectmanager_.add_process(bullet->getEffectConfig());
                 player->be_damage();
+                player->setMissed(true);
             }
             if(isGraze(*player,*bullet)&&(!bullet->isGrazed()))
             {

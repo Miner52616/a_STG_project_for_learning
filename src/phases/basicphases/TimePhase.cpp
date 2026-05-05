@@ -14,7 +14,7 @@ void TimePhase::frame_forward()
     frame_++;
 }
 
-bool TimePhase::isTimeup()
+bool TimePhase::isTimeup() const
 {
     if(frame_>=target_frame_)
     {

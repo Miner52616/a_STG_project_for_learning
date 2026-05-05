@@ -25,6 +25,15 @@ phasetable=
                             dropnum=25
                         }
                     },
+                    
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=10
+                        }
+                    },
                 }
             },
 
@@ -46,6 +55,15 @@ phasetable=
                         {
                             droptype="Power",
                             dropnum=25
+                        }
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=10
                         }
                     },
                 }
@@ -71,6 +89,15 @@ phasetable=
                             dropnum=25
                         }
                     },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=10
+                        }
+                    },
                 }
             },
 
@@ -94,6 +121,15 @@ phasetable=
                             dropnum=25
                         }
                     },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=10
+                        }
+                    },
                 }
             },
         }
@@ -112,6 +148,7 @@ phasetable=
                 name_x=-100,
                 name_y=-100,
                 voidspell=true,
+                spellcard=false,
                 behaviortable=
                 {
                     {
@@ -132,6 +169,7 @@ phasetable=
                 name_x=-100,
                 name_y=-100,
                 voidspell=false,
+                spellcard=true,
                 behaviortable=
                 {
                     {
@@ -141,7 +179,16 @@ phasetable=
 
                     {
                         type="NewNonSpell1"
-                    }
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=10
+                        }
+                    },
                 }
             },
 
@@ -154,6 +201,7 @@ phasetable=
                 name_x=-100,
                 name_y=-100,
                 voidspell=true,
+                spellcard=false,
                 behaviortable=
                 {
                     {
@@ -174,6 +222,7 @@ phasetable=
                 name_x=750,
                 name_y=25,
                 voidspell=false,
+                spellcard=true,
                 behaviortable=
                 {
                     {
@@ -191,6 +240,7 @@ phasetable=
                 name_x=-100,
                 name_y=-100,
                 voidspell=true,
+                spellcard=false,
                 behaviortable=
                 {
                     {
@@ -211,6 +261,7 @@ phasetable=
                 name_x=750,
                 name_y=25,
                 voidspell=false,
+                spellcard=true,
                 behaviortable=
                 {
                     {
@@ -228,6 +279,7 @@ phasetable=
                 name_x=-100,
                 name_y=-100,
                 voidspell=true,
+                spellcard=false,
                 behaviortable=
                 {
                     {
@@ -248,6 +300,7 @@ phasetable=
                 name_x=-100,
                 name_y=-100,
                 voidspell=false,
+                spellcard=true,
                 behaviortable=
                 {
                     {
@@ -265,6 +318,7 @@ phasetable=
                 name_x=-100,
                 name_y=-100,
                 voidspell=true,
+                spellcard=false,
                 behaviortable=
                 {
                     {
@@ -285,6 +339,7 @@ phasetable=
                 name_x=750,
                 name_y=25,
                 voidspell=false,
+                spellcard=true,
                 behaviortable=
                 {
                     {
@@ -302,6 +357,7 @@ phasetable=
                 name_x=-100,
                 name_y=-100,
                 voidspell=true,
+                spellcard=false,
                 behaviortable=
                 {
                     {
@@ -322,6 +378,7 @@ phasetable=
                 name_x=750,
                 name_y=25,
                 voidspell=false,
+                spellcard=false,
                 behaviortable=
                 {
                     {
@@ -344,6 +401,7 @@ phasetable=
                 name_x=750,
                 name_y=25,
                 voidspell=false,
+                spellcard=false,
                 behaviortable=
                 {
                     {
@@ -370,6 +428,7 @@ phasetable=
                 name_x=750,
                 name_y=25,
                 voidspell=false,
+                spellcard=false,
                 behaviortable=
                 {
                     {
@@ -400,6 +459,7 @@ phasetable=
                 name_x=750,
                 name_y=25,
                 voidspell=false,
+                spellcard=true,
                 behaviortable=
                 {
                     {

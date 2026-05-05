@@ -50,6 +50,15 @@ ManualState::ManualState(application &app):
             pagelist_[i-1].setTextSize(j+1,30);
         }
     }
+
+    if(app_.history_data_.cleared_)
+    {
+        buttonlist_[buttonlist_.size()-1].setButtonLock(unlocked);
+    }
+    else
+    {
+        buttonlist_[buttonlist_.size()-1].setButtonLock(locked);
+    }
 }
 
 void ManualState::Update()
@@ -79,17 +88,23 @@ void ManualState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPress
 {
     if(key.code==sf::Keyboard::Key::Down)
     {
-        focus_=(focus_%manual_page_num_)+1;
+        do
+        {
+            focus_=(focus_%manual_page_num_)+1;
+        }while(buttonlist_[focus_-1].getButtonLocked()==locked);
         buttonlist_[focus_-1].shake();
     }
 
     if(key.code==sf::Keyboard::Key::Up)
     {
-        focus_--;
-        if(focus_<1)
+        do
         {
-            focus_=focus_+manual_page_num_;
-        }
+            focus_--;
+            if(focus_<1)
+            {
+                focus_=focus_+manual_page_num_;
+            }
+        }while(buttonlist_[focus_-1].getButtonLocked()==locked);
         buttonlist_[focus_-1].shake();
     }
 

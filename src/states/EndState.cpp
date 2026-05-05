@@ -4,7 +4,7 @@
 #include <iostream>
 
 EndState::EndState(application &app,GameState& gamestate):
-    ButtonState(app,EndButtonNum),gamestate_(gamestate),title_(app.mainFont_),title2_(app.mainFont_)
+    ButtonState(app,EndButtonNum),gamestate_(gamestate),title_(app.mainFont_),title2_(app.mainFont_),title3_(app.mainFont_)
 {
     title_.setTextText("满身疮痍！");
     title_.setTextSize(60);
@@ -12,6 +12,9 @@ EndState::EndState(application &app,GameState& gamestate):
     title2_.setTextText("Game Over");
     title2_.setTextSize(30);
     title2_.setTextPosition({350,660});
+    title3_.setTextText(" ");
+    title3_.setTextSize(30);
+    title3_.setTextPosition({100,670});
 
     buttonlist_[0].setButtonText("Continue");
     buttonlist_[0].setButtonPosition({100,700});
@@ -35,24 +38,25 @@ EndState::EndState(application &app,GameState& gamestate):
     {
         buttonlist_[0].setButtonLock(locked);
         focus_=2;
-        title_.setTextText("游戏通关！");
-        title2_.setTextText("Game Clear");
+        if(gamestate_.isContinued())
+        {
+            title_.setTextText("游戏结束");
+            title2_.setTextPosition({350,640});
+            title2_.setTextText("Game Over");
+            title3_.setTextText("争取下次不续关通关吧！");
+        }
+        else
+        {
+            title_.setTextText("游戏通关！");
+            title2_.setTextPosition({350,640});
+            title2_.setTextText("Game Clear");
+            title3_.setTextText("manual中后日谈现已解锁！");
+        }
     }
 }
 
 void EndState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed& key)
 {
-    
-    if(gamestate_.getLife()<0)
-    {
-        buttonlist_[0].setButtonLock(unlocked);
-    }
-    else
-    {
-        buttonlist_[0].setButtonLock(locked);
-        title_.setTextText("游戏通关！");
-        title2_.setTextText("Game Clear");
-    }
 
     if(key.code==sf::Keyboard::Key::Down)
     {
@@ -89,6 +93,7 @@ void EndState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed&
             case 1:
             {
                 gamestate_.setLife(2);
+                gamestate_.setScore(0);
                 app_.stack_.popRequest();
                 break;
             }
@@ -109,4 +114,5 @@ void EndState::Render(sf::RenderWindow& window)
     ButtonState::Render(window);
     title_.DrawText(window);
     title2_.DrawText(window);
+    title3_.DrawText(window);
 }

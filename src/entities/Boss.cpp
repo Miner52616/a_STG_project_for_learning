@@ -1,4 +1,5 @@
 #include "entities/Boss.h"
+#include "phases/phases/SpellPhase.h"
 
 Boss::Boss(const sf::Texture &texture,Resource* resource):
     Entity(texture),resource_(resource),phasecontroller_(resource->app_,phaselist_),beaten_(false)
@@ -49,4 +50,10 @@ void Boss::ProcessCollision()
 bool Boss::isBeaten()
 {
     return beaten_;
+}
+
+bool Boss::isDead() const
+{
+    //std::cout<<(((SpellPhase*)(phasecontroller_.getCurrentPhase()))->isDead())<<std::endl;
+    return (((SpellPhase*)(phasecontroller_.getCurrentPhase()))->isDead());
 }

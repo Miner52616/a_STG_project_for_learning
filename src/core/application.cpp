@@ -5,7 +5,7 @@
 
 application::application():
     stack_(*(this)),
-    window_(sf::VideoMode({1280,960}),"trytry window"),
+    window_(sf::VideoMode({1280,960}),"thwss_0.0.1"),
     mainFont_("assets/fonts/abc.ttf"),
     playerTexture_("assets/textures/player.png"),
     enemyTexture_("assets/textures/enemy.png"),
@@ -44,6 +44,10 @@ application::application():
     applyLetterBox();
     window_.setView(gameview_);
     stack_.push(std::make_unique<MenuState>(*this));
+
+    history_data_=lua_.loadSave();
+    //std::cout <<history_data_.high_score_<<std::endl;
+    //std::cout <<history_data_.cleared_<<std::endl;
 }
 
 bool application::IsRunning() const

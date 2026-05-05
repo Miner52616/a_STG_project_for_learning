@@ -1,12 +1,14 @@
 #include "phases/phases/SpellPhase.h"
 #include "manager/BulletManager.h"
 #include "manager/CollisionSystem.h"
+#include "manager/EffectManager.h"
 #include "mathematics/mathematics.h"
 #include "bullets/LinearBullet.h"
 #include "entities/Boss.h"
 
 SpellPhase::SpellPhase(Resource* resource,YellowPage* yellowpage,int target_frame):
-    TimePhase(resource,yellowpage,target_frame),boss_(NULL),moveclock_(240),shootclock_(60),nextposition_(460,200),fullHP_(1000),HP_(1000),voidspell_(false),spellname_(resource->app_.mainFont_),timer_(resource->app_.mainFont_),spellnum_(resource->app_.mainFont_,resource->app_.spellnumUI_)
+    TimePhase(resource,yellowpage,target_frame),boss_(NULL),moveclock_(240),shootclock_(60),nextposition_(460,200),fullHP_(1000),HP_(1000),voidspell_(false),spellname_(resource->app_.mainFont_),timer_(resource->app_.mainFont_),spellnum_(resource->app_.mainFont_,resource->app_.spellnumUI_),
+    overlayconfig_(resource->app_.playerTexture_),spellcard_(false)
 {
     setHP(600);
     spellnum_.setLinePosition({10,25});
@@ -52,9 +54,45 @@ void SpellPhase::update()
     shootclock_.count();
     frame_++;
 
-    if(isTimeup()||HP_<=0)
+    if(isDead())
     {
         //Spell结束，切换至下一个Spell前最后的操作在此完成
+        if(!voidspell_)
+        {
+            if(spellcard_)
+            {
+                overlayconfig_.overlaytype_=OverlayType::Text_Overlay;
+                overlayconfig_.color_alpha_=255;
+                overlayconfig_.time_=180;
+                overlayconfig_.change_origin_=true;
+                
+                if(!(yellowpage_->player_->isMissed()))
+                {
+                    overlayconfig_.text_="Get Spell Card Bonus!!";
+                    overlayconfig_.text_size_=50;
+                    overlayconfig_.spawn_position_={670,200};
+                    resource_->effectmanager_.add_process(&overlayconfig_);
+                    int bonus=30000+10*(target_frame_-frame_);
+                    overlayconfig_.text_="+"+std::to_string(bonus);
+                    overlayconfig_.spawn_position_={670,265};
+                    resource_->effectmanager_.add_process(&overlayconfig_);
+                    yellowpage_->score_line_.setCurrentNum(yellowpage_->score_line_.getCurrentNum()+bonus);
+                }
+                else
+                {
+                    overlayconfig_.text_="Spell Card Bonus";
+                    overlayconfig_.text_size_=40;
+                    overlayconfig_.spawn_position_={540,180};
+                    resource_->effectmanager_.add_process(&overlayconfig_);
+                    int bonus=(30000+10*(target_frame_-frame_))*0.65;
+                    overlayconfig_.text_="+"+std::to_string(bonus);
+                    overlayconfig_.spawn_position_={540,230};
+                    resource_->effectmanager_.add_process(&overlayconfig_);
+                    yellowpage_->score_line_.setCurrentNum(yellowpage_->score_line_.getCurrentNum()+bonus);
+                }
+            }
+        }
+        yellowpage_->player_->setMissed(false);
         resource_->bulletmanager_.clear_enemybullet();
         change_=true;
     }
@@ -92,6 +130,23 @@ void SpellPhase::setHP(float HP)
 {
     fullHP_=HP;
     HP_=HP;
+}
+
+bool SpellPhase::isDead() const
+{
+    if((isTimeup())||(HP_<=0))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+void SpellPhase::setSpellCard(bool spellcard)
+{
+    spellcard_=spellcard;
 }
 
 void SpellPhase::be_damage(float damage)

@@ -3,6 +3,7 @@
 #include "core/Clock.h"
 #include "behaviors/Behavior.h"
 #include "overlays/overlays/TextOverlay.h"
+#include "packages/EffectConfig.h"
 #include "ui/NumLine1.h"
 #include "ui/NumLine1_1.h"
 
@@ -21,7 +22,9 @@ protected:
     float fullHP_;
     float HP_;
     bool voidspell_;
+    bool spellcard_;
     TextOverlay spellname_;
+    OverlayConfig overlayconfig_;
     NumLine1 timer_;
     NumLine1_1 spellnum_;
 
@@ -32,6 +35,8 @@ public:
     void render(sf::RenderTexture& texture) override;
     void addBehavior(std::unique_ptr<Behavior> behavior);
     void setHP(float HP);
+    bool isDead() const;
+    void setSpellCard(bool spellcard);
     void be_damage(float damage) override;
     void ProcessCollision() override;
     void setBoss(Boss* boss);

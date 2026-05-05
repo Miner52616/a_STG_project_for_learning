@@ -10,7 +10,8 @@ enum EffectType
 
 enum class OverlayType
 {
-    Picture_Overlay
+    Picture_Overlay,
+    Text_Overlay
 };
 
 class EffectConfig
@@ -43,6 +44,11 @@ public:
     OverlayType overlaytype_=OverlayType::Picture_Overlay;
     float v1_=12;
     float v2_=5;
+    std::string text_=" ";
+    bool change_origin_=false;
+    int text_size_=30;
+    uint8_t color_alpha_=255;
+    int time_=99999;
     const sf::Texture& texture_;
 
     sf::Vector2f direction_;

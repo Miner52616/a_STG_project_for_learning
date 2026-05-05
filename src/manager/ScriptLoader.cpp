@@ -215,6 +215,7 @@ std::unique_ptr<SpellPhase> SFactory::buildSpell(Boss* boss,const sol::table& sp
     spell->setTextPosition(sf::Vector2f{x,y});
     spell->setHP(spellscript["HP"]);
     spell->setVoidSpell(spellscript["voidspell"]);
+    spell->setSpellCard(spellscript["spellcard"]);
 
     sol::table behaviortable=spellscript["behaviortable"];
     int behaviortablesize=behaviortable.size();

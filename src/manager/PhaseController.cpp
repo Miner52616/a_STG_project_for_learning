@@ -54,6 +54,11 @@ void PhaseController::ProcessCollision()
     phaselist_[current_-1]->ProcessCollision();
 }
 
+Phase* PhaseController::getCurrentPhase() const
+{
+    return phaselist_[current_-1].get();
+}
+
 bool PhaseController::check_phase()
 {
     if(phaselist_[current_-1]->isFinish())

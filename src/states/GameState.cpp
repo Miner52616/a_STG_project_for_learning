@@ -113,8 +113,10 @@ void GameState::set_ui()
 
     high_score_line_.setLinePosition({865,130});
     high_score_line_.setLineText("High Score");
-    high_score_line_.setCurrentNum(0);
     high_score_line_.setMaxNum(999999999);
+    //std::cout <<app_.history_data_.high_score_<<std::endl;
+    //std::cout <<app_.history_data_.cleared_<<std::endl;
+    high_score_line_.setCurrentNum(app_.history_data_.high_score_);
     score_line_.setLinePosition({865,180});
     score_line_.setLineText("     Score");
     score_line_.setCurrentNum(0);
@@ -313,6 +315,28 @@ void GameState::Update()
     effect_line_.setCurrentNum(effectlist_.size());
     life_line_.setCurrentNum(player_->getLifeNum());
     bomb_line_.setCurrentNum(player_->getBombNum());
+    if((score_line_.getCurrentNum())>(high_score_line_.getCurrentNum()))
+    {
+        high_score_line_.setCurrentNum(score_line_.getCurrentNum());
+    }
+
+    if(!phasecontroller_.apply_change())
+    {
+        std::cout<<"Game Over"<<std::endl;
+        SaveData data;
+        if(player_->isContinued())
+        {
+            data.cleared_=false;
+        }
+        else
+        {
+            data.cleared_=true;
+        }
+        data.high_score_=high_score_line_.getCurrentNum();
+        app_.lua_.writeSave(data);
+        app_.history_data_=app_.lua_.loadSave();
+        app_.stack_.pushRequest(std::make_unique<EndState>(app_,*this));
+    }
 
     clock_update();
 
@@ -336,11 +360,13 @@ void GameState::Render(sf::RenderWindow& window)
     //phasecontroller_.render(window);
     phasecontroller_.render(game_window_);
 
+    /*
     if(!phasecontroller_.apply_change())
     {
         std::cout<<"Game Over"<<std::endl;
         app_.stack_.pushRequest(std::make_unique<EndState>(app_,*this));
     }
+        */
 
     
 
@@ -374,6 +400,15 @@ void GameState::setLife(int life)
     player_->setLifeNum(2);
 }
 
+void GameState::setScore(int score)
+{
+    score_line_.setCurrentNum(score);
+}
+
+bool GameState::isContinued()
+{
+    return player_->isContinued();
+}
 
 void GameState::fps_update()
 {
@@ -400,6 +435,20 @@ void GameState::continue_check()
     if((player_->getLifeNum())==(-1))
     {
         app_.stack_.pushRequest(std::make_unique<EndState>(app_,*this));
+        player_->setContinued(true);
+
+        SaveData data;
+        if(player_->isContinued())
+        {
+            data.cleared_=false;
+        }
+        else
+        {
+            data.cleared_=true;
+        }
+        data.high_score_=high_score_line_.getCurrentNum();
+        app_.lua_.writeSave(data);
+        app_.history_data_=app_.lua_.loadSave();
     }
 }
 

@@ -31,7 +31,7 @@ void NonSpell1_1::setBulletConfig()
 
 void NonSpell1_1::rotate()
 {
-    float rotate=9;
+    float rotate=9.25;
     bullet_direction_=roundwithCenter({0,0},bullet_direction_,rotate);//40次发弹转一圈
     direction_angle_=direction_angle_+rotate;
 

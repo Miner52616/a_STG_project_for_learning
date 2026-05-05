@@ -47,6 +47,8 @@ public:
     sf::Texture bulletsheetTexture2_;
     sf::Texture effectsheetTexture_;
 
+    SaveData history_data_;
+
 public:
     StateStack stack_;
 

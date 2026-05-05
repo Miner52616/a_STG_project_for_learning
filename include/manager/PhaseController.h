@@ -26,6 +26,7 @@ public:
     void render(sf::RenderTexture& texture);
     void be_damage(float damage);
     void ProcessCollision();
+    Phase* getCurrentPhase() const;
     bool check_phase();
     void phase_change();
     bool apply_change();

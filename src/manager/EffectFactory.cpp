@@ -3,6 +3,8 @@
 #include "effects/Effect.h"
 #include "effects/effects/LeiTan_Air.h"
 #include "overlays/overlays/PictureOverlay.h"
+#include "overlays/overlays/TextOverlay.h"
+#include "behaviors/behaviors/MarkDead.h"
 #include <iostream>
 
 EffectFactory::EffectFactory(application& app):
@@ -85,7 +87,10 @@ std::unique_ptr<Overlay> EffectFactory::create(OverlayConfig* overlayconfig)
 {
     std::unique_ptr<Overlay> overlay;
 
+    std::unique_ptr<MarkDead> behavior;
+
     std::unique_ptr<PictureOverlay> pictureoverlay;
+    std::unique_ptr<TextOverlay> textoverlay;
     switch (overlayconfig->overlaytype_)
     {
     case OverlayType::Picture_Overlay:
@@ -94,6 +99,20 @@ std::unique_ptr<Overlay> EffectFactory::create(OverlayConfig* overlayconfig)
         pictureoverlay->setTargetPosition(overlayconfig->target_position_);
         pictureoverlay->setV(overlayconfig->v1_,overlayconfig->v2_);
         return std::move(pictureoverlay);
+        break;
+
+    case OverlayType::Text_Overlay:
+        textoverlay=std::make_unique<TextOverlay>(app_.mainFont_);
+        textoverlay->setTextText(overlayconfig->text_);
+        textoverlay->setTextSize(overlayconfig->text_size_);
+        textoverlay->setTextColor(sf::Color{255,255,255,overlayconfig->color_alpha_});
+        textoverlay->changeOrigin(overlayconfig->change_origin_);
+        textoverlay->setPosition(overlayconfig->spawn_position_);
+        behavior=std::make_unique<MarkDead>(textoverlay.get());
+        behavior->setTargetTime(overlayconfig->time_);
+
+        textoverlay->addBehavior(std::move(behavior));
+        return std::move(textoverlay);
         break;
     
     default:

@@ -14,5 +14,5 @@ public:
 
 protected:
     void frame_forward();
-    bool isTimeup();
+    bool isTimeup() const;
 };

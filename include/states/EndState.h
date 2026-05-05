@@ -13,6 +13,7 @@ private:
     GameState& gamestate_;
     Text title_;
     Text title2_;
+    Text title3_;
 
 public:
     using ButtonState<EndState>::HandleEvent;

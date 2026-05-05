@@ -118,6 +118,8 @@ public:
     void Render(sf::RenderWindow& window) override;  //统一渲染至屏幕
     int getLife();
     void setLife(int life);
+    void setScore(int score);
+    bool isContinued();
 
 public:
     GameState(application &app);  //初始化起始帧，初始化资源引用，初始化实体设置

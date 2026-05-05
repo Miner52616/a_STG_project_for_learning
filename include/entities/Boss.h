@@ -26,4 +26,5 @@ public:
     void be_damage(float damage);
     void ProcessCollision();
     bool isBeaten();
+    bool isDead() const override;//判断符卡是否结束，给掉落行为使用的
 };
