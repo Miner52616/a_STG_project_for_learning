@@ -2,6 +2,7 @@
 #include "behaviors/ShootBehavior.h"
 #include "packages/BulletConfig.h"
 #include "core/Clock.h"
+#include "behaviors/behaviors/NonSpell1.h"
 
 class Entity;
 
@@ -34,5 +35,17 @@ private:
 
 public:
     StarRite1(Entity* entity,Resource* resource,YellowPage* yellowpage);
+    void update() override;
+};
+
+class StarRite:public Behavior
+{
+private:
+    StarRite1 starrite1_;
+    NonSpell1_1 starrite2_;
+    Clock delay_clock_;
+
+public:
+    StarRite(Entity* entity,Resource* resource,YellowPage* yellowpage);
     void update() override;
 };

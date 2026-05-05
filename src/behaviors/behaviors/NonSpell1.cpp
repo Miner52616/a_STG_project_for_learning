@@ -6,12 +6,15 @@
 #include "manager/BulletManager.h"
 
 NonSpell1_1::NonSpell1_1(Entity* entity,Resource* resource,YellowPage* yellowpage):
-    ShootBehavior(resource,yellowpage),entity_(entity),shoot_clock_(2),bulletconfig_(resource->app_.red_light_bulletTexture_)
+    ShootBehavior(resource,yellowpage),entity_(entity),shoot_clock_(2),bulletconfig_(resource->app_.bulletsheetTexture_)
 {
     bullet_direction_={0,1};
+    direction_angle_=0;
+    
     for(int i=1;i<=4;i++)
     {
         direction_list_.push_back({0,0});
+        angle_list_.resize(4);
     }
     setBulletConfig();
     rotate();
@@ -21,15 +24,26 @@ void NonSpell1_1::setBulletConfig()
 {
     bulletconfig_.r_=3;
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
+    bulletconfig_.bulletsize_=Small;
+    bulletconfig_.bulletbehavior_=Direct;
+    bulletconfig_.bullet_index_={7,8};
 }
 
 void NonSpell1_1::rotate()
 {
-    bullet_direction_=roundwithCenter({0,0},bullet_direction_,9);//40次发弹转一圈
+    float rotate=9;
+    bullet_direction_=roundwithCenter({0,0},bullet_direction_,rotate);//40次发弹转一圈
+    direction_angle_=direction_angle_+rotate;
+
     direction_list_[0]=bullet_direction_;
     direction_list_[1]={-bullet_direction_.y,bullet_direction_.x};
     direction_list_[2]=-bullet_direction_;
     direction_list_[3]={bullet_direction_.y,-bullet_direction_.x};
+
+    for(int i=1;i<=4;i++)
+    {
+        angle_list_[i-1]=direction_angle_+(i-1)*90;
+    }
 }
 
 void NonSpell1_1::update()
@@ -38,24 +52,47 @@ void NonSpell1_1::update()
     {
         shoot_clock_.reset();
 
-        bulletconfig_.spawn_point_=entity_->getPosition();
-
         bulletconfig_.v_=6;
 
         bulletconfig_.direction_=direction_list_[0];
+        bulletconfig_.angle_=angle_list_[0];
+        bulletconfig_.spawn_point_=entity_->getPosition();
+        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
+        bulletconfig_.spawn_point_=entity_->getPosition()+(10.f)*direction_list_[0];
+        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
+        bulletconfig_.spawn_point_=entity_->getPosition()+(20.f)*direction_list_[0];
         resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
 
         bulletconfig_.direction_=direction_list_[2];
+        bulletconfig_.angle_=angle_list_[2];
+        bulletconfig_.spawn_point_=entity_->getPosition();
+        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
+        bulletconfig_.spawn_point_=entity_->getPosition()+(10.f)*direction_list_[2];
+        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
+        bulletconfig_.spawn_point_=entity_->getPosition()+(20.f)*direction_list_[2];
         resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
 
         bulletconfig_.v_=3;
 
         bulletconfig_.direction_=direction_list_[1];
+        bulletconfig_.angle_=angle_list_[1];
+        bulletconfig_.spawn_point_=entity_->getPosition();
+        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
+        bulletconfig_.spawn_point_=entity_->getPosition()+(10.f)*direction_list_[1];
+        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
+        bulletconfig_.spawn_point_=entity_->getPosition()+(20.f)*direction_list_[1];
         resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
 
         bulletconfig_.direction_=direction_list_[3];
+        bulletconfig_.angle_=angle_list_[3];
+        bulletconfig_.spawn_point_=entity_->getPosition();
+        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
+        bulletconfig_.spawn_point_=entity_->getPosition()+(10.f)*direction_list_[3];
+        resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
+        bulletconfig_.spawn_point_=entity_->getPosition()+(20.f)*direction_list_[3];
         resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
     
+        
         rotate();
     }
     shoot_clock_.count();
@@ -100,7 +137,7 @@ void NonSpell1_2::update()
             bulletconfig_.direction_=direction_list_[i-1];
             if(i%2)
             {
-                bulletconfig_.spawn_point_=center+(float)10*direction_list_[i-1];
+                bulletconfig_.spawn_point_=center+(10.f)*direction_list_[i-1];
                 resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
                 bulletconfig_.spawn_point_=center+(float)70*direction_list_[i-1];
                 resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
@@ -126,5 +163,5 @@ NonSpell1::NonSpell1(Entity* entity,Resource* resource,YellowPage* yellowpage):
 void NonSpell1::update()
 {
     spell1.update();
-    spell2.update();
+    //spell2.update();
 }

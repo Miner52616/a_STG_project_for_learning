@@ -146,6 +146,8 @@ void Effect::rebuild_initialize()
         //std::cout<<"no rotate"<<std::endl;
         picture_.setRotation(sf::degrees(90));
     }
+
+    picture_.setColor(sf::Color{255,255,255,effectconfig_.color_alpha_});
 }
 
 EffectConfig* Effect::getEffectConfig()

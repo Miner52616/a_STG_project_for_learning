@@ -20,9 +20,10 @@ public:
     EffectType effecttype_=EffectType::LeiTan_Air;
     long long int time_=48;
     float a_=0;
-    float v_=0.08;
+    float v_=0;
     float v2_=0;
-    sf::Vector2f direction_={100,0};
+    uint8_t color_alpha_=255;
+    sf::Vector2f direction_={0,0};
     sf::Texture* texture_;
     int texturelist_size_=0;
     int current_texture_num_=0;

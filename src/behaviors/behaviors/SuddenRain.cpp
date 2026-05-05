@@ -45,7 +45,7 @@ void SuddenRain1::update()
         for(int i=1;i<=5;i++)
         {
             bulletconfig_.v_=3+getRandomNum(0,1);
-            bulletconfig_.v2_=5.5+getRandomNum(0,1);
+            bulletconfig_.v2_=3.5+getRandomNum(0,1);
             bulletconfig_.a_=0.05+getRandomNum(-0.05,0.05);
 
             float error=getRandomNum(-5,5);
@@ -88,7 +88,7 @@ SuddenRain2::SuddenRain2(Entity* entity,Resource* resource,YellowPage* yellowpag
 
 void SuddenRain2::setBulletConfig()
 {
-    bulletconfig_.r_=3;
+    bulletconfig_.r_=15;
     bulletconfig_.v_=9;
     bulletconfig_.rotate_angle_=1.4;
     bulletconfig_.rotate_angle2_=120;

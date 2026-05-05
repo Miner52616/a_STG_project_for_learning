@@ -121,4 +121,5 @@ void copyconfig(EffectConfig* copy,EffectConfig* origin)
     copy->current_texture_num_=origin->current_texture_num_;
     copy->effect_index_=origin->effect_index_;
     copy->random_rotate_=origin->random_rotate_;
+    copy->color_alpha_=origin->color_alpha_;
 }

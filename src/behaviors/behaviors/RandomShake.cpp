@@ -10,7 +10,7 @@ RandomShake::RandomShake(Button* button,sf::Vector2f centerposition,float shake_
 
 void RandomShake::update()
 {
-    if(!clock_.get_condition())
+    if(!(clock_.get_condition()))
     {
         nextposition_=centerposition_+sf::Vector2f{getRandomNum(-shake_range_,shake_range_),getRandomNum(-shake_range_,shake_range_)};
         button_->setButtonPosition(nextposition_);

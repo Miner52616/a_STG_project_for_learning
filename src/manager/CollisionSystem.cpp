@@ -130,6 +130,7 @@ void CollisionSystem::HandleCollision(Bomb* bomb,Bullet *bullet)
             if(isCollision(*bomb,*bullet))
             {
                 //std::cout<<"bomb collision"<<std::endl;
+                if(!(bullet->isNotClear()))
                 bullet->markDead();
                 resource_->effectmanager_.add_process(bullet->getEffectConfig());
             }

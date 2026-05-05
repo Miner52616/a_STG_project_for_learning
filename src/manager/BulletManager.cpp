@@ -1,4 +1,5 @@
 #include "manager/BulletManager.h"
+#include "manager/EffectManager.h"
 #include "ui/Frame.h"
 #include "core/Clock.h"
 
@@ -30,6 +31,13 @@ void BulletManager::add_process(BulletConfig* bulletconfig,EffectConfig* effectc
     }*/
 }
 
+
+void BulletManager::setResource(Resource* resource)
+{
+    resource_=resource;
+}
+
+
 void BulletManager::update()
 {
     bulletlist_update();
@@ -42,7 +50,7 @@ void BulletManager::clear()
         if((*it)->isDead())
         {
             bulletfactory_.destroy(*it);
-            (*it)->getBulletConfig()->shareconfig_.active_=false;
+            (*it)->getBulletConfig()->shareconfig_.active_=false;//这里有一层保障，保证回收后子弹的shareconfig都是未启用状态
         }
     }
 
@@ -67,6 +75,33 @@ void BulletManager::clear()
         ),
         bulletlist_.end()
     );
+}
+
+void BulletManager::clear_enemybullet()
+{
+    for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
+    {
+        if(!((*it)->isPlayer()))
+        {
+            (*it)->markDead();
+            resource_->effectmanager_.add_process((*it)->getEffectConfig());
+        }
+    }
+}
+
+void BulletManager::clear_common_enemybullet()
+{
+    for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
+    {
+        if(!((*it)->isPlayer()))
+        {
+            if(!((*it)->isNotClear()))
+            {
+                (*it)->markDead();
+                resource_->effectmanager_.add_process((*it)->getEffectConfig());
+            }
+        }
+    }
 }
 
 void BulletManager::render(sf::RenderWindow& window)

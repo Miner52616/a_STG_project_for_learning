@@ -30,7 +30,8 @@ StarRite1::StarRite1(Entity* entity,Resource* resource,YellowPage* yellowpage):
 
 void StarRite1::setBulletConfig()
 {
-    bulletconfig_.r_=3;
+    bulletconfig_.r_=5;
+    bulletconfig_.r2_=5;
     //bulletconfig_.v_=0;
     bulletconfig_.a_=0.05;
     bulletconfig_.v2_=1.5;
@@ -44,6 +45,7 @@ void StarRite1::setBulletConfig()
     bulletconfig_.bullet_index_={7,11};
     bulletconfig_.bullet_index2_={7,11};
     bulletconfig_.random_son_direction_=true;
+    bulletconfig_.not_clear_=true;
     
     bulletconfig_.shareconfig_.active_=true;
     bulletconfig_.shareconfig_.phase_=&phase_;
@@ -134,4 +136,20 @@ void StarRite1::update()
     shoot_clock_.count();
     trigger_clock_.count();
     trigger_delay_.count();
+}
+
+StarRite::StarRite(Entity* entity,Resource* resource,YellowPage* yellowpage):
+    Behavior(resource,yellowpage),starrite1_(entity,resource,yellowpage),starrite2_(entity,resource,yellowpage),delay_clock_(135)
+{
+    delay_clock_.reset();
+}
+
+void StarRite::update()
+{
+    starrite1_.update();
+    if(delay_clock_.get_condition())
+    {
+        starrite2_.update();
+    }
+    delay_clock_.count();
 }

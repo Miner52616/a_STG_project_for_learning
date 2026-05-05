@@ -24,6 +24,7 @@
 #include "behaviors/behaviors/MoveToRandom1.h"
 #include "behaviors/behaviors/ScoreDrop1.h"
 #include "manager/EnemyManager.h"
+#include "manager/BatchManager.h"
 #include "manager/BulletManager.h"
 #include "manager/BulletFactory.h"
 #include "manager/DropManager.h"
@@ -55,6 +56,7 @@ private:
     NumLine1 power_line_;
     NumLine1 graze_line_;
     NumLine1 bullet_line_;
+    NumLine1 effect_line_;
     NumLine1 fps_line_;
     NumLine1_1 life_line_;
     NumLine1_1 bomb_line_;
@@ -66,6 +68,7 @@ private:
 
 
     std::vector<Bullet*> bulletlist_;
+    std::vector<std::unique_ptr<Batch>> batchlist_;
     std::vector<std::unique_ptr<Drop>> droplist_;
     std::vector<std::unique_ptr<Bomb>> bomblist_;
     std::vector<Effect*> effectlist_;
@@ -78,6 +81,7 @@ private:
     EffectFactory effectfactory_;
 
     BulletManager bulletmanager_;
+    BatchManager batchmanager_;
     DropManager dropmanager_;
     BombManager bombmanager_;
     EffectManager effectmanager_;
@@ -112,6 +116,8 @@ public:
     void ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理被分发到的事件
     void Update() override;  //统一更新属性
     void Render(sf::RenderWindow& window) override;  //统一渲染至屏幕
+    int getLife();
+    void setLife(int life);
 
 public:
     GameState(application &app);  //初始化起始帧，初始化资源引用，初始化实体设置
@@ -129,6 +135,7 @@ protected:
 
     void fps_update();
     void clock_update();
+    void continue_check();
     void handlecollision();
     void HandleEvent(sf::RenderWindow& window,const sf::Event::Closed);  //处理“关闭窗口”事件
     void HandleEvent(sf::RenderWindow& window,const sf::Event::Resized&);  //拉伸窗口时保证宽高比一致

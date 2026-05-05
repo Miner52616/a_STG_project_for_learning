@@ -142,4 +142,7 @@ void copyconfig(BulletConfig* copy,BulletConfig* origin)
     copy->random_son_direction_=origin->random_son_direction_;
     copy->center_point2_=origin->center_point2_;
     copy->x_=origin->x_;
+    copy->color_alpha_=origin->color_alpha_;
+    copy->r2_=origin->r2_;
+    copy->not_clear_=origin->not_clear_;
 }

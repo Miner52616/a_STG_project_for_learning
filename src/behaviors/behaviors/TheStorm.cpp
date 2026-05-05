@@ -23,7 +23,7 @@ TheStorm1::TheStorm1(Entity* entity,Resource* resource,YellowPage* yellowpage):
 
 void TheStorm1::setBulletConfig()
 {
-    bulletconfig_.r_=3;
+    bulletconfig_.r_=5;
     bulletconfig_.v2_=1.5;
     bulletconfig_.angle2_=0;
     bulletconfig_.bullet_num_=5;
@@ -111,7 +111,8 @@ TheStorm2::TheStorm2(Entity* entity,Resource* resource,YellowPage* yellowpage):
 
 void TheStorm2::setBulletConfig()
 {
-    bulletconfig_.r_=3;
+    bulletconfig_.r_=5;
+    bulletconfig_.r2_=2;
     bulletconfig_.v2_=1.5;
     bulletconfig_.angle2_=0;
     bulletconfig_.bullet_num_=5;
@@ -204,7 +205,7 @@ TheStorm3::TheStorm3(Entity* entity,Resource* resource,YellowPage* yellowpage):
 
 void TheStorm3::setBulletConfig()
 {
-    bulletconfig_.r_=3;
+    bulletconfig_.r_=5;
     //bulletconfig_.v_=0.5;
     //bulletconfig_.a_=0.05;
     //bulletconfig_.v2_=4;

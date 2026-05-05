@@ -52,11 +52,14 @@ public:
     float rotate_angle_=0;//用于移动轨迹会旋转的旋转型子弹的每帧的旋转角度（degree）
     float rotate_angle2_=0;
     float r_=2;
+    float r2_=2;
     float damage_=0;
     float angle_=0;//子弹贴图的旋转角度（degree）。注意，0代表子弹贴图朝右
     float angle2_=0;
     float bullet_num_=0;
     bool random_son_direction_=false;
+    bool not_clear_=false;
+    uint8_t color_alpha_=255;
     Clock clock1_;
     Clock clock2_;
     Clock clock3_;

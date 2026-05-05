@@ -93,7 +93,7 @@ NonSpell2_2::NonSpell2_2(Entity* entity,Resource* resource,YellowPage* yellowpag
 
 void NonSpell2_2::setBulletConfig()
 {
-    bulletconfig_.r_=3;
+    bulletconfig_.r_=5;
     bulletconfig_.v_=0.5;
     bulletconfig_.a_=0.05;
     bulletconfig_.v2_=4;
@@ -302,7 +302,7 @@ void NonSpell2_1_2::update()
 
                 if(shoot_clock_.get_condition())
                 {
-                    std::cout<<"shoot"<<std::endl;
+                    //std::cout<<"shoot"<<std::endl;
                     if(shoot_num2_.get_condition())
                     {
                         shoot_num2_.reset();

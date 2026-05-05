@@ -37,6 +37,7 @@ application::application():
     playersheetTexture_("assets/textures/sheets/player_sheet.png"),
     effectsheetTexture_("assets/textures/sheets/effect_sheet.png")
 {
+    window_.setVerticalSyncEnabled(false);
     window_.setFramerateLimit(60);
     gameview_.setSize({1280,960});
     gameview_.setCenter({640,480});

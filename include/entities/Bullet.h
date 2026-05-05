@@ -52,6 +52,7 @@ public:
     bool isAcitve();
     bool isGrazed();
     bool isPlayer();
+    bool isNotClear();
     bool isOut();
     void rebuild(sf::Texture &texture,sf::Vector2f position);
     void rebuild(sf::Texture &texture,sf::Vector2f position,float damage);

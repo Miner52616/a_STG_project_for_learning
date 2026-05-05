@@ -4,8 +4,15 @@
 #include <iostream>
 
 PauseState::PauseState(application &app):
-    ButtonState(app,PauButtonNum)
+    ButtonState(app,PauButtonNum),title_(app.mainFont_),title2_(app.mainFont_)
 {
+    title_.setTextText("一时停止");
+    title_.setTextSize(60);
+    title_.setTextPosition({100,600});
+    title2_.setTextText("Game Pause");
+    title2_.setTextSize(30);
+    title2_.setTextPosition({350,660});
+
     buttonlist_[0].setButtonText("Return to Game");
     buttonlist_[0].setButtonPosition({100,700});
 
@@ -22,6 +29,13 @@ PauseState::PauseState(application &app):
     {
         buttonlist_[i-1].setButtonShake(5,15);
     }
+}
+
+void PauseState::Render(sf::RenderWindow& window)
+{
+    ButtonState::Render(window);
+    title_.DrawText(window);
+    title2_.DrawText(window);
 }
 
 void PauseState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed& key)

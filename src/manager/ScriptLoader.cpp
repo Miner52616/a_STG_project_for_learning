@@ -390,7 +390,7 @@ BFactory::BFactory()
         [this](Entity* enemy,const sol::table& behaviorscript)
         {
             std::cout<<"StarRite"<<std::endl;
-            std::unique_ptr<StarRite1> starrite=std::make_unique<StarRite1>(enemy,resource_,yellowpage_);
+            std::unique_ptr<StarRite> starrite=std::make_unique<StarRite>(enemy,resource_,yellowpage_);
 
             return std::move(starrite);
         }

@@ -15,6 +15,7 @@ Bullet::Bullet(sf::Texture &texture,sf::Vector2f position):
     position_=position;
     hitbox_r_=10;
     hitbox_draw_.setRadius(hitbox_r_);
+    hitbox_draw_.setFillColor(sf::Color::Red);
     hitbox_draw_.setOrigin(hitbox_draw_.getLocalBounds().getCenter());
 }
 
@@ -116,6 +117,11 @@ bool Bullet::isPlayer()
     return ofplayer_;
 }
 
+bool Bullet::isNotClear()
+{
+    return bulletconfig_->not_clear_;
+}
+
 bool Bullet::isOut()
 {
     if(getPosition().x<=-100||getPosition().y<=-100||getPosition().x>=870||getPosition().y>=1000)
@@ -140,7 +146,7 @@ void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position)
     picture_.setScale({1.414,1.414});
     picture_.setOrigin(picture_.getLocalBounds().getCenter());
     position_=position;
-    hitbox_r_=5;
+    hitbox_r_=bulletconfig_->r_;
     hitbox_draw_.setRadius(hitbox_r_);
     hitbox_draw_.setOrigin(hitbox_draw_.getLocalBounds().getCenter());
 }
@@ -158,7 +164,7 @@ void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position,float damage)
     picture_.setOrigin(picture_.getLocalBounds().getCenter());
     damage_=damage;
     position_=position;
-    hitbox_r_=5;
+    hitbox_r_=bulletconfig_->r_;
     hitbox_draw_.setRadius(hitbox_r_);
     hitbox_draw_.setOrigin(hitbox_draw_.getLocalBounds().getCenter());
 }
@@ -205,6 +211,17 @@ void Bullet::rebuild_Initialize()
 
                     break;
                 }
+
+            case BulletSize::Large:
+                {
+                    std::vector<int> rect=large_bulletsheet_transform(bulletconfig_->bullet_index_);
+                    sf::Vector2i position={rect[0],rect[1]};
+                    sf::Vector2i size={rect[2],rect[3]};
+                    picture_.setTextureRect({position,size});
+                    //picture_.setRotation(sf::degrees(90));
+
+                    break;
+                }
             
             default:
                 break;
@@ -216,7 +233,7 @@ void Bullet::rebuild_Initialize()
         }
     }
 
-
+    picture_.setColor(sf::Color{255,255,255,bulletconfig_->color_alpha_});
 }
 
 void Bullet::initialize()
@@ -350,6 +367,7 @@ void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
         sf::Vector2f a_direction=target-bullet.getPosition();
         a_direction=bullet.bulletconfig_->a_*normalize(a_direction);
         sf::Vector2f direction=bullet.bulletconfig_->v_*bullet.bulletconfig_->direction_+a_direction;
+        bullet.bulletconfig_->angle_=RadTransToDegree(atan2f(direction.y,direction.x));
         direction=normalize(direction);
         bullet.bulletconfig_->direction_=direction;
     }
@@ -359,7 +377,7 @@ void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 
 void direct_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
-    bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*normalize(bullet.bulletconfig_->direction_));
+    bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*bullet.bulletconfig_->direction_);
 }
 
 void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
@@ -453,6 +471,7 @@ void behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
         //BulletConfig bullet.sonconfig_->(*(bullet.bullet_texture_));
         bullet.sonconfig_->spawn_point_=bullet.getPosition();
         bullet.sonconfig_->v_=bullet.bulletconfig_->v2_;
+        bullet.sonconfig_->r_=bullet.bulletconfig_->r2_;
         bullet.sonconfig_->bullet_index_=bullet.bulletconfig_->bullet_index2_;
         //bullet.sonconfig_->.direction_=roundwithCenter({0,0},{1,0},bullet.bulletconfig_->angle2_);
         //bullet.sonconfig_->.angle_=bullet.bulletconfig_->angle2_;
@@ -518,6 +537,7 @@ void rotate_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
             bullet.sonconfig_->spawn_point_=bullet.getPosition();
             bullet.sonconfig_->bulletclass_=DirectBullet2;
             bullet.sonconfig_->v_=0;
+            bullet.sonconfig_->r_=bullet.bulletconfig_->r2_;
             bullet.sonconfig_->v2_=bullet.bulletconfig_->v3_;
             bullet.sonconfig_->a_=bullet.bulletconfig_->a2_;
             bullet.sonconfig_->clock1_.set_target(bullet.bulletconfig_->clock1_.get_target());

@@ -1,5 +1,6 @@
 #include "states/GameState.h"
 #include "states/PauseState.h"
+#include "states/EndState.h"
 #include "phases/phases/MidPhase.h"
 #include "phases/phases/VoidPhase.h"
 #include "phases/phases/BossPhase.h"
@@ -18,6 +19,7 @@ GameState::GameState(application &app):
     power_line_(app_.mainFont_),
     graze_line_(app_.mainFont_),
     bullet_line_(app_.mainFont_),
+    effect_line_(app_.mainFont_),
     fps_line_(app_.mainFont_),
     life_line_(app_.mainFont_,app_.lifeUI_),
     bomb_line_(app_.mainFont_,app_.bombUI_),
@@ -26,6 +28,7 @@ GameState::GameState(application &app):
     bulletfactory_(app),
     effectfactory_(app),
     bulletmanager_(app,bulletlist_,bulletfactory_),
+    batchmanager_(batchlist_),
     dropmanager_(droplist_,dropfactory_),
     bombmanager_(bomblist_,bombfactory_),
     effectmanager_(effectlist_,overlaylist_,effectfactory_),
@@ -99,7 +102,11 @@ void GameState::set_ui()
     bullet_line_.setLineText("Bullet Num");
     bullet_line_.setCurrentNum(0);
     bullet_line_.setMaxNum(999999999);
-    fps_line_.setLinePosition({865,860});
+    effect_line_.setLinePosition({865,860});
+    effect_line_.setLineText("Effect Num");
+    effect_line_.setCurrentNum(0);
+    effect_line_.setMaxNum(999999999);
+    fps_line_.setLinePosition({865,810});
     fps_line_.setLineText("Fps");
     fps_line_.setCurrentNum(0);
     fps_line_.setMaxNum(999999999);
@@ -123,7 +130,7 @@ void GameState::set_ui()
     life_line_.setLinePosition({865,250});
     life_line_.setLineText("Player");
     life_line_.setMaxNum(8);
-    life_line_.setCurrentNum(2);
+    life_line_.setCurrentNum(3);
     bomb_line_.setLinePosition({865,300});
     bomb_line_.setLineText("Spell");
     bomb_line_.setMaxNum(8);
@@ -141,6 +148,7 @@ void GameState::set_gamewindow()
 void GameState::bundle_resource()
 {
     //行为对象资源绑定
+    bulletmanager_.setResource(resource_.get());
     bulletfactory_.setResource(resource_.get());
     bulletfactory_.setYellowPage(yellowpage_.get());
     dropfactory_.set_Resourse(resource_.get());
@@ -219,6 +227,7 @@ void GameState::bundle_leader_menber()
     //行为绑定敌人/Boss
     //符卡绑定Boss
     
+    /*
     //敌人与行为相互绑定
     enemy1_drop_->set_entity(enemy1_.get());
     enemy1_->addBehavior(std::move(enemy1_drop_));
@@ -251,6 +260,7 @@ void GameState::bundle_leader_menber()
     phasecontroller_.add_process(std::move(voidphase1_));
     phasecontroller_.add_process(std::move(bossphase1_));
     phasecontroller_.add_process(std::move(voidphase2_));
+    */
 }
 
 void GameState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
@@ -267,6 +277,8 @@ void GameState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Ev
 void GameState::Update()
 {
     curtain_.update();
+
+    continue_check();
 
     player_->Player_update();
 
@@ -298,6 +310,7 @@ void GameState::Update()
 
     fps_line_.setCurrentNum(fps_);
     bullet_line_.setCurrentNum(bulletlist_.size());
+    effect_line_.setCurrentNum(effectlist_.size());
     life_line_.setCurrentNum(player_->getLifeNum());
     bomb_line_.setCurrentNum(player_->getBombNum());
 
@@ -326,7 +339,7 @@ void GameState::Render(sf::RenderWindow& window)
     if(!phasecontroller_.apply_change())
     {
         std::cout<<"Game Over"<<std::endl;
-        app_.stack_.pushRequest(std::make_unique<PauseState>(app_));
+        app_.stack_.pushRequest(std::make_unique<EndState>(app_,*this));
     }
 
     
@@ -342,6 +355,7 @@ void GameState::Render(sf::RenderWindow& window)
     graze_line_.render(window);
 
     bullet_line_.render(window);
+    effect_line_.render(window);
     fps_line_.render(window);
 
     life_line_.render(window);
@@ -349,6 +363,17 @@ void GameState::Render(sf::RenderWindow& window)
 
     curtain_.render(window);
 }
+
+int GameState::getLife()
+{
+    return life_line_.getCurrentNum();
+}
+
+void GameState::setLife(int life)
+{
+    player_->setLifeNum(2);
+}
+
 
 void GameState::fps_update()
 {
@@ -368,6 +393,14 @@ void GameState::fps_update()
 void GameState::clock_update()
 {
     player_->clock_count();
+}
+
+void GameState::continue_check()
+{
+    if((player_->getLifeNum())==(-1))
+    {
+        app_.stack_.pushRequest(std::make_unique<EndState>(app_,*this));
+    }
 }
 
 void GameState::handlecollision()

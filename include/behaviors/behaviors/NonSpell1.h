@@ -12,7 +12,9 @@ private:
     BulletConfig bulletconfig_;
 
     sf::Vector2f bullet_direction_;
+    float direction_angle_;
     std::vector<sf::Vector2f> direction_list_;
+    std::vector<float> angle_list_;
 
     Clock shoot_clock_;
 

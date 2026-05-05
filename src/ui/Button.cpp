@@ -30,9 +30,11 @@ void Button::setButtonText(const std::string text)
 
 void Button::setButtonPosition(sf::Vector2f position)
 {
+    //std::cout<<"position set"<<position.x<<" "<<position.y<<std::endl;
     text_.setPosition(position);
 }
 
+//务必需要setButtonShake
 void Button::setButtonShake(float shake_range,int shake_time)
 {
     shake_=std::make_unique<RandomShake>(this,getButtonPosition(),shake_range,shake_time);
@@ -103,7 +105,7 @@ void Button::update()
     else
     {
         text_.setStyle(sf::Text::Regular);
-        text_.setFillColor(sf::Color::White);
+        text_.setFillColor(sf::Color{128,128,128});
     }
 
     shake_->update();

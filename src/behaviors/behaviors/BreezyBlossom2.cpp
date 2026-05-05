@@ -5,7 +5,7 @@
 #include "entities/Player.h"
 
 BreezyBlossom2::BreezyBlossom2(Entity* entity,Resource* resource,YellowPage* yellowpage):
-    entity_(entity),ShootBehavior(resource,yellowpage),shoot_clock_(6),bulletconfig_(resource->app_.blossom_small_bulletTexture)
+    entity_(entity),ShootBehavior(resource,yellowpage),shoot_clock_(6),bulletconfig_(resource->app_.bulletsheetTexture_)
 {
     shoot_clock_.reset();
     setBulletConfig();
@@ -35,5 +35,6 @@ void BreezyBlossom2::setBulletConfig()
 {
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
     bulletconfig_.bulletbehavior_=BulletBehavior::Direct;
-    bulletconfig_.r_=2;
+    bulletconfig_.r_=5;
+    bulletconfig_.bullet_index_={5,3};
 }

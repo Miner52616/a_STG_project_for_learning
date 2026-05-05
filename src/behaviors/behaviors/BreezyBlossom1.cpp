@@ -72,7 +72,7 @@ void BreezyBlossom1::setBulletConfig()
     bulletconfig_.bulletbehavior_=BulletBehavior::Direct;
     bulletconfig_.bulletsize_=Small;
     bulletconfig_.bullet_index_={5,5};
-    bulletconfig_.r_=2;
+    bulletconfig_.r_=3;
     bulletconfig_.a_=0.1;
     bulletconfig_.v2_=6;
 }

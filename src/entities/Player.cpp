@@ -22,13 +22,15 @@ Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     v_limit_(0),
     grazebox_r(50),
     request_shoot_(false),
+    shining_(false),
     clock_((long long int)2),
     life_clock_((long long int)240),
     bomb_clock_((long long int)180),
+    shining_clock_(2),
     outline_(outline),
     resource_(resource),
     //bulletconfig_(resource_->app_.bulletTexture_)
-    life_(2),
+    life_(0),
     bomb_(3),
     power_(0)
 {
@@ -81,11 +83,12 @@ void Player::setBulletConfig()
 {
     bulletconfig_=std::make_shared<BulletConfig>(resource_->app_.playersheetTexture_);
     bulletconfig_->bullet_index_={1,1};
-    bulletconfig_->damage_=10;
+    bulletconfig_->damage_=4;
     bulletconfig_->bulletclass_=BulletClasses::PlayerBullet;
     bulletconfig_->r_=10;
     bulletconfig_->v_=50;
     bulletconfig_->spawn_point_=getPosition();
+    bulletconfig_->color_alpha_=192;
 }
 
 void Player::setEffectConfig()
@@ -97,8 +100,9 @@ void Player::setEffectConfig()
     effectconfig_->texturelist_size_=4;
     effectconfig_->current_texture_num_=0;
     effectconfig_->time_=16;
-    effectconfig_->v_=5;
+    effectconfig_->v_=1.2;
     effectconfig_->direction_={0,-1};
+    effectconfig_->color_alpha_=192;
 }
 
 void Player::setBombConfig()
@@ -242,6 +246,11 @@ int Player::getLifeNum()
     return life_;
 }
 
+void Player::setLifeNum(int life)
+{
+    life_=life;
+}
+
 int Player::getBombNum()
 {
     return bomb_;
@@ -254,8 +263,9 @@ int Player::getGrazebox_r()
 
 void Player::be_damage()
 {
-    if((life_>=1)&&(life_clock_.get_condition()))
+    if((life_>=0)&&(life_clock_.get_condition()))
     {
+        resource_->bulletmanager_.clear_common_enemybullet();
         life_--;
         if(bomb_<3)
         {
@@ -299,6 +309,27 @@ void Player::Player_update()
 {
     store_position();
     power_=yellowpage_->power_line_.getCurrentNum();
+    
+    if(life_clock_.get_condition())
+    {
+        picture_.setColor({255,255,255,255});
+    }
+    else
+    {
+        if(shining_clock_.get_condition())
+        {
+            if(shining_)
+            {
+                shining_=false;
+                picture_.setColor({255,255,255,255});
+            }
+            else
+            {
+                shining_=true;
+                picture_.setColor({255,255,255,127});
+            }
+        }
+    }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
     {
@@ -314,6 +345,7 @@ void Player::Player_update()
 
         case 1:
             child_planes_[0]->setTargetPosition(sf::Vector2f{0,50});
+            child_planes_[0]->setBulletDirection({0,-1});
             child_planes_[1]->setTargetPosition(sf::Vector2f{0,0});
             child_planes_[2]->setTargetPosition(sf::Vector2f{0,0});
             child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
@@ -321,23 +353,32 @@ void Player::Player_update()
 
         case 2:
             child_planes_[0]->setTargetPosition(sf::Vector2f{-30,40});
+            child_planes_[0]->setBulletDirection({-0.5,-0.866});
             child_planes_[1]->setTargetPosition(sf::Vector2f{30,40});
+            child_planes_[1]->setBulletDirection({0.5,-0.866});
             child_planes_[2]->setTargetPosition(sf::Vector2f{0,0});
             child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
             break;
 
         case 3:
             child_planes_[0]->setTargetPosition(sf::Vector2f{-40,30});
+            child_planes_[0]->setBulletDirection({-0.5,-0.866});
             child_planes_[1]->setTargetPosition(sf::Vector2f{40,30});
+            child_planes_[1]->setBulletDirection({0.5,-0.866});
             child_planes_[2]->setTargetPosition(sf::Vector2f{0,50});
+            child_planes_[2]->setBulletDirection({0,-1});
             child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
             break;
 
         case 4:
             child_planes_[0]->setTargetPosition(sf::Vector2f{-40,30});
+            child_planes_[0]->setBulletDirection({-0.5,-0.866});
             child_planes_[1]->setTargetPosition(sf::Vector2f{40,30});
+            child_planes_[1]->setBulletDirection({0.5,-0.866});
             child_planes_[2]->setTargetPosition(sf::Vector2f{-15.12,47.65});
+            child_planes_[2]->setBulletDirection({-0.259,-0.96});
             child_planes_[3]->setTargetPosition(sf::Vector2f{15.12,47.65});
+            child_planes_[3]->setBulletDirection({0.259,-0.96});
             break;
 
         default:
@@ -355,6 +396,10 @@ void Player::Player_update()
     else
     {
         hitbox_exist_=false;
+        child_planes_[0]->setBulletDirection({0,-1});
+        child_planes_[1]->setBulletDirection({0,-1});
+        child_planes_[2]->setBulletDirection({0,-1});
+        child_planes_[3]->setBulletDirection({0,-1});
         switch (power_/100)
         {
         case 0:
@@ -372,24 +417,24 @@ void Player::Player_update()
             break;
 
         case 2:
-            child_planes_[0]->setTargetPosition(sf::Vector2f{-20,-50});
-            child_planes_[1]->setTargetPosition(sf::Vector2f{20,-50});
+            child_planes_[0]->setTargetPosition(sf::Vector2f{-40,-80});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{40,-80});
             child_planes_[2]->setTargetPosition(sf::Vector2f{0,0});
             child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
             break;
 
         case 3:
-            child_planes_[0]->setTargetPosition(sf::Vector2f{-25,0});
-            child_planes_[1]->setTargetPosition(sf::Vector2f{25,0});
-            child_planes_[2]->setTargetPosition(sf::Vector2f{0,-50});
+            child_planes_[0]->setTargetPosition(sf::Vector2f{-50,-60});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{50,-60});
+            child_planes_[2]->setTargetPosition(sf::Vector2f{0,-80});
             child_planes_[3]->setTargetPosition(sf::Vector2f{0,0});
             break;
 
         case 4:
-            child_planes_[0]->setTargetPosition(sf::Vector2f{-30,0});
-            child_planes_[1]->setTargetPosition(sf::Vector2f{30,0});
-            child_planes_[2]->setTargetPosition(sf::Vector2f{-10,-50});
-            child_planes_[3]->setTargetPosition(sf::Vector2f{10,-50});
+            child_planes_[0]->setTargetPosition(sf::Vector2f{-50,-60});
+            child_planes_[1]->setTargetPosition(sf::Vector2f{50,-60});
+            child_planes_[2]->setTargetPosition(sf::Vector2f{-15,-80});
+            child_planes_[3]->setTargetPosition(sf::Vector2f{15,-80});
             break;
 
         default:
@@ -777,19 +822,29 @@ void Child_Plane::update()
     
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
     {
-        bulletconfig_->damage_=5;
+        bulletconfig_->damage_=1.5;
         bulletconfig_->bulletclass_=BulletClasses::PlayerAimBullet;
         bulletconfig_->r_=10;
         bulletconfig_->v_=10;
         bulletconfig_->spawn_point_=getPosition();
+        bulletconfig_->bullet_index_={1,11};
+        bulletconfig_->bulletbehavior_=Direct;
+
+        effectconfig_->effect_index_={1,2};
+        effectconfig_->v_=0;
     }
     else
     {
-        bulletconfig_->damage_=8;
+        bulletconfig_->damage_=2;
         bulletconfig_->bulletclass_=BulletClasses::PlayerBullet;
         bulletconfig_->r_=10;
         bulletconfig_->v_=70;
         bulletconfig_->spawn_point_=getPosition();
+        bulletconfig_->bullet_index_={9,1};
+        bulletconfig_->bulletbehavior_=Fix;
+
+        effectconfig_->effect_index_={9,2};
+        effectconfig_->v_=1;
     }
     
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))
@@ -831,21 +886,30 @@ void Child_Plane::setTargetPosition(sf::Vector2f target_position)
     target_position_=target_position;
 }
 
+void Child_Plane::setBulletDirection(sf::Vector2f direction)
+{
+    bulletconfig_->direction_=direction;
+}
+
 void Child_Plane::setBulletConfig()
 {
-    bulletconfig_=std::make_shared<BulletConfig>(resource_->app_.bulletTexture_);
+    bulletconfig_=std::make_shared<BulletConfig>(resource_->app_.playersheetTexture_);
     bulletconfig_->damage_=8;
     bulletconfig_->bulletclass_=BulletClasses::PlayerAimBullet;
+    bulletconfig_->color_alpha_=127;
     bulletconfig_->r_=10;
     bulletconfig_->v_=10;
-    bulletconfig_->a_=8;
+    bulletconfig_->a_=0.5;
     bulletconfig_->spawn_point_=getPosition();
 }
 
 void Child_Plane::setEffectConfig()
 {
     effectconfig_=std::make_unique<EffectConfig>(resource_->app_.playersheetTexture_);
-    effectconfig_->effect_index_={1,1};
+    effectconfig_->effect_index_={9,2};
+    effectconfig_->v_=1;
+    effectconfig_->direction_={0,-1};
+    effectconfig_->color_alpha_=192;
     effectconfig_->effecttype_=PlayerBullet_Air;
     effectconfig_->random_rotate_=false;
     effectconfig_->texturelist_size_=4;

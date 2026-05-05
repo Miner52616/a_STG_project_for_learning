@@ -54,6 +54,8 @@ void SpellPhase::update()
 
     if(isTimeup()||HP_<=0)
     {
+        //Spell结束，切换至下一个Spell前最后的操作在此完成
+        resource_->bulletmanager_.clear_enemybullet();
         change_=true;
     }
 }

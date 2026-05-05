@@ -27,6 +27,8 @@ private:
     float v_limit_;
     bool request_shoot_;
     int grazebox_r;
+    bool shining_;
+    Clock shining_clock_;
     Clock clock_;
     Clock life_clock_;
     Clock bomb_clock_;
@@ -67,6 +69,7 @@ public:
     void setPosition() override;
     void setPosition(sf::Vector2f position) override;
     int getLifeNum();
+    void setLifeNum(int life);
     int getBombNum();
     int getGrazebox_r();
     void be_damage();
@@ -77,6 +80,7 @@ public:
 
 class Child_Plane:public Entity
 {
+friend Player;
 private:
     Player* player_;
     Clock clock_;
@@ -95,6 +99,7 @@ public:
     void setRelativePosition(sf::Vector2f position);
     void setPosition(sf::Vector2f position) override;
     void setTargetPosition(sf::Vector2f target_position);
+    void setBulletDirection(sf::Vector2f direction);
     void setBulletConfig();
     void setEffectConfig();
     void setResource(Resource* resource,Player* player);

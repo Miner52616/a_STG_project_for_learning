@@ -20,7 +20,7 @@ NewNonSpell1::NewNonSpell1(Entity* entity,Resource* resource,YellowPage* yellowp
 
 void NewNonSpell1::setBulletConfig()
 {
-    bulletconfig_.r_=3;
+    bulletconfig_.r_=5;
     bulletconfig_.bulletbehavior_=Fix;
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
     bulletconfig_.bulletsize_=Small;
