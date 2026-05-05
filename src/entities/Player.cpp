@@ -183,6 +183,8 @@ bool Player::Handle_shoot_request()
 
 void Player::useBomb()
 {
+    missed_=true;
+
     if(bomb_>=1)
     {
         resource_->effectmanager_.add_process(overlayconfig_.get());

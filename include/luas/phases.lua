@@ -227,7 +227,25 @@ phasetable=
                 {
                     {
                         type="SuddenRain"
-                    }
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=20
+                        }
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Power",
+                            dropnum=5
+                        }
+                    },
                 }
             },
 
@@ -266,7 +284,25 @@ phasetable=
                 {
                     {
                         type="TheStorm"
-                    }
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=20
+                        }
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Power",
+                            dropnum=5
+                        }
+                    },
                 }
             },
 
@@ -305,7 +341,16 @@ phasetable=
                 {
                     {
                         type="NonSpell2"
-                    }
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=10
+                        }
+                    },
                 }
             },
 
@@ -344,7 +389,25 @@ phasetable=
                 {
                     {
                         type="StarRite"
-                    }
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=20
+                        }
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Power",
+                            dropnum=5
+                        }
+                    },
                 }
             },
 
@@ -481,7 +544,25 @@ phasetable=
 
                     {
                         type="BreezyBlossom4"
-                    }
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=25
+                        }
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Power",
+                            dropnum=5
+                        }
+                    },
                 }
             }
         }
