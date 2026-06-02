@@ -47,6 +47,8 @@ public:
     sf::Texture bulletsheetTexture2_;
     sf::Texture effectsheetTexture_;
 
+    sf::Texture curtain_texture1_;
+
     SaveData history_data_;
 
 public:

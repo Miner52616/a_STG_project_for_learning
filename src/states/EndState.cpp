@@ -49,8 +49,8 @@ EndState::EndState(application &app,GameState& gamestate):
         {
             title_.setTextText("游戏通关！");
             title2_.setTextPosition({350,640});
-            title2_.setTextText("Game Clear");
-            title3_.setTextText("manual中后日谈现已解锁！");
+            title2_.setTextText(" Game Clear");
+            title3_.setTextText("manual中ending现已解锁！");
         }
     }
 }

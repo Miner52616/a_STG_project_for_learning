@@ -6,7 +6,14 @@
 #include <iostream>
 
 MenuState::MenuState(application &app):
-    ButtonState(app,MenuButtonNum),current_phase_(1),clock_(30)
+    ButtonState(app,MenuButtonNum),current_phase_(1),clock_(30),
+    title_(app.mainFont_),
+    text1_(app.mainFont_),
+    text2_(app.mainFont_),
+    text3_(app.mainFont_),
+    text4_(app.mainFont_),
+    star_curtain2_(app.curtain_texture1_)
+    //star_curtain_(app.curtain_texture1_)
 {
     buttonlist_[0].setButtonText("Phantasm Start");
     buttonlist_[0].setButtonPosition({100,100});
@@ -29,6 +36,82 @@ MenuState::MenuState(application &app):
     rec_.setspeed(0.1);
     rec_.setSize({500,80});
 
+    title_.setTextText("界面操作方法");
+    title_.setTextSize(30);
+    text1_.setTextText("↑ ↓ ← → ：选择按钮");
+    text2_.setTextText("Z ：确定");
+    text3_.setTextText("ESC / X ：返回");
+    text4_.setTextText("第一次游玩请务必阅读Manual！");
+    text4_.setTextSize(35);
+    
+    title_.setTextPosition({900,680});
+    text1_.setTextPosition({900,730});
+    text2_.setTextPosition({900,780});
+    text3_.setTextPosition({900,830});
+    text4_.setTextPosition({750,880});
+
+    Star star1;
+    star1.setR(100);
+    star1.setAngle(-18);
+    sf::Vector2f position1={50,920};
+    star1.setPosition(position1);
+    star1.getConfig()->clock_.set_target(0);
+    star1.getConfig()->target_r_=740;
+    star1.getConfig()->target_angle_=108;
+    star1.getConfig()->target_position_=position1;
+
+    Star star2;
+    star2.setR(0);
+    star2.setAngle(-80);
+    sf::Vector2f position2={240,200};
+    star2.setPosition(position2);
+    star2.getConfig()->clock_.set_target(24);
+    star2.getConfig()->target_r_=600;
+    star2.getConfig()->target_angle_=0;
+    star2.getConfig()->target_position_=position2;
+
+    Star star3;
+    star3.setR(0);
+    star3.setAngle(-60);
+    sf::Vector2f position3={960,192};
+    star3.setPosition(position3);
+    star3.getConfig()->clock_.set_target(48);
+    star3.getConfig()->target_r_=580;
+    star3.getConfig()->target_angle_=25;
+    star3.getConfig()->target_position_=position3;
+
+    Star star4;
+    star4.setR(0);
+    star4.setAngle(-112);
+    sf::Vector2f position4={700,500};
+    star4.setPosition(position4);
+    star4.getConfig()->clock_.set_target(72);
+    star4.getConfig()->target_r_=720;
+    star4.getConfig()->target_angle_=1;
+    star4.getConfig()->target_position_=position4;
+
+    Star star5;
+    star5.setR(0);
+    star5.setAngle(-147);
+    sf::Vector2f position5={999,822};
+    star5.setPosition(position5);
+    star5.getConfig()->clock_.set_target(96);
+    star5.getConfig()->target_r_=600;
+    star5.getConfig()->target_angle_=36;
+    star5.getConfig()->target_position_=position5;
+
+    star_curtain2_.add_star(star1);
+    star_curtain2_.add_star(star2);
+    star_curtain2_.add_star(star3);
+    star_curtain2_.add_star(star4);
+    star_curtain2_.add_star(star5);
+    /*
+    int num_x=14;
+    int num_y=12;
+    star_curtain_.setNum(num_x,num_y);
+    star_curtain_.setStart_Target({640,-150},{1280-0.5*((float)1280/num_x),960-0.5*((float)960/num_y)},180);
+    */
+
     clock_.reset();
 }
 
@@ -43,17 +126,25 @@ void MenuState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Ev
 void MenuState::Update()
 {
     rec_.setTargetPosition({50,buttonlist_[focus_-1].getButtonPosition().y});
-
+    //star_curtain_.update();
+    star_curtain2_.update();
 
     switch (current_phase_)
     {
     case 2:
         {
+            star_curtain2_.setEnable(true);
+            if(star_curtain2_.isFinished())
+            {
+                current_phase_=3;
+            }
+            /*
             curtain_.update();
             if(curtain_.getPosition().x>=0)
             {
                 current_phase_=3;
             }
+                */
             break;
         }
 
@@ -99,6 +190,15 @@ void MenuState::Render(sf::RenderWindow& window)
     rec_.render(window);
     ButtonState<MenuState>::Render(window);
     curtain_.render(window);
+
+    title_.DrawText(window);
+    text1_.DrawText(window);
+    text2_.DrawText(window);
+    text3_.DrawText(window);
+    text4_.DrawText(window);
+
+    star_curtain2_.render(window);
+    //star_curtain_.render(window);
 }
 
 void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed& key)

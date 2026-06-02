@@ -45,8 +45,12 @@ SaveData LuaManager::loadSave()
         // 读取
         data.high_score_=save["high_score"].get_or(0);
         data.cleared_=save["cleared"].get_or(false);
-        std::cout<<"high score"<<data.high_score_<<std::endl;
-        std::cout<<"is cleared"<<data.cleared_<<std::endl;
+        std::cout<<"------------------------------------------"<<std::endl;
+        std::cout<<"Load Save Data..."<<std::endl;
+        std::cout<<"high score: "<<data.high_score_<<std::endl;
+        std::cout<<"game cleared: "<<data.cleared_<<std::endl;
+        std::cout<<"------------------------------------------"<<std::endl;
+        std::cout<<std::endl;
     }
     catch (const std::exception& e)
     {

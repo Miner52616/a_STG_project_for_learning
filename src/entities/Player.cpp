@@ -15,7 +15,7 @@ Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     a_low_(3),
     a_high_(4.5),
     a_(4.5),
-    v_low_(4),
+    v_low_(3.5),
     v_high_(8),
     speed_x_(0),
     speed_y_(0),
@@ -34,7 +34,7 @@ Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     bomb_(3),
     power_(0)
 {
-    std::cout<<"0"<<std::endl;
+    //std::cout<<"0"<<std::endl;
     point_.setRadius(6);
     point_.setOrigin(point_.getGlobalBounds().getCenter());
     point_.setFillColor(sf::Color::White);
@@ -44,12 +44,12 @@ Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
 
     hitbox_r_=1;
     hitbox_.setRadius(hitbox_r_);
-    std::cout<<"1"<<std::endl;
+    //std::cout<<"1"<<std::endl;
     setBulletConfig();
     setEffectConfig();
     setBombConfig();
     setOverlayConfig();
-    std::cout<<"2"<<std::endl;
+    //std::cout<<"2"<<std::endl;
     for(int i=1;i<=4;i++)
     {
         std::unique_ptr<Child_Plane> child_plane1=std::make_unique<Child_Plane>(resource_->app_.child_planeTexture_);

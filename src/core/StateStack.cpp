@@ -12,7 +12,7 @@ StateStack::StateStack(application &app):
 void StateStack::push(std::unique_ptr<State> state)
 {
     stack_.push_back(std::move(state));
-    std::cout<<"push success\n";
+    //std::cout<<"push success\n";
 }
 
 void StateStack::pop()
@@ -20,7 +20,7 @@ void StateStack::pop()
     if(!stack_.empty())
     {
         stack_.pop_back();
-        std::cout<<"pop success\n";
+        //std::cout<<"pop success\n";
     }
 }
 
@@ -61,7 +61,7 @@ void StateStack::pushRequest(std::unique_ptr<State> state)
 {
     changestate_.action=Action::Push;
     changestate_.state=std::move(state);
-    std::cout<<"wait for push success\n";
+    //std::cout<<"wait for push success\n";
 }
 
 void StateStack::popRequest()

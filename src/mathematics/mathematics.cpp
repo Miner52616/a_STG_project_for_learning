@@ -1,6 +1,7 @@
 #include "mathematics/mathematics.h"
 #include "entities/Enemy.h"
 #include <random>
+#include <math.h>
 #include <iostream>
 
 float distancePointToSegment(sf::Vector2f p, sf::Vector2f a, sf::Vector2f b)

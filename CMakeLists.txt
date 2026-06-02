@@ -1,23 +1,30 @@
 cmake_minimum_required(VERSION 3.21)
+
 project(SFMLGame)
 
 set(CMAKE_CXX_STANDARD 20)
 
+#////CMAKE寻找依赖库根目录路径，需编译请自行重新修改路径！////
 set(CMAKE_PREFIX_PATH "C:/msys64/mingw64")
 
-# 头文件目录（sol2 也放这里）
+
+# ======================
+# 项目结构
+# ======================
+
+# 头文件目录
 include_directories(include)
 
-# 自动收集 cpp
+# 收集 cpp
 file(GLOB_RECURSE SRC_FILES src/*.cpp)
 
 # 可执行文件输出到项目根目录
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 
-# 创建程序
+# 创建可执行文件
 add_executable(main ${SRC_FILES})
 
-# 预编译头
+# 预编译头加快编译速度
 target_precompile_headers(main PRIVATE
     <SFML/Graphics.hpp>
     <vector>
@@ -25,8 +32,10 @@ target_precompile_headers(main PRIVATE
 )
 
 # ======================
-# ✅ SFML
+# SFML
 # ======================
+
+#////SFML路径，需编译请自行重新修改路径！////
 set(SFML_DIR "C:/msys64/mingw64/lib/cmake/SFML")
 
 find_package(SFML 3 REQUIRED COMPONENTS Graphics Window System)
@@ -39,9 +48,10 @@ target_link_libraries(main PRIVATE
 )
 
 # ======================
-# ✅ Lua（加在这里）
+# Lua
 # ======================
-# Lua 路径（MSYS2）
+
+#////Lua安装路径，需编译请自行重新修改路径！////
 set(LUA_INCLUDE_DIR "C:/msys64/mingw64/include")
 set(LUA_LIBRARY "C:/msys64/mingw64/lib/liblua.dll.a")
 
@@ -55,4 +65,3 @@ add_custom_command(TARGET main POST_BUILD
         $<TARGET_FILE_DIR:main>
     COMMAND_EXPAND_LISTS
 )
-

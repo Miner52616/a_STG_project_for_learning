@@ -25,6 +25,7 @@ GameState::GameState(application &app):
     bomb_line_(app_.mainFont_,app_.bombUI_),
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
     window_sprite_(game_window_.getTexture()),
+    star_curtain_(app_.curtain_texture1_),
     bulletfactory_(app),
     effectfactory_(app),
     bulletmanager_(app,bulletlist_,bulletfactory_),
@@ -36,6 +37,7 @@ GameState::GameState(application &app):
     phasecontroller_(app,phaselist_),
     scriptloader_(app_.lua_)
 {
+    std::cout<<"/////////////////////////////////////////////////////////////"<<std::endl;
     std::cout<<"Game Loading..."<<std::endl;
 
     //**** 1 ui界面和游戏小窗基础设置
@@ -65,7 +67,7 @@ GameState::GameState(application &app):
     bundle_resource();
     std::cout<<"Resource and YellowPage Bundle"<<std::endl;
 
-    //**** 4 创建游戏对象
+    //**** 4 创建游戏对象。这部分是对象是写死在.cpp中而非通过脚本阅读创建的。现已不再使用
     //创建并初始化行为对象
     set_behavior();
     std::cout<<"Behavior Create and Initialize"<<std::endl;
@@ -78,21 +80,28 @@ GameState::GameState(application &app):
     set_phase();
     std::cout<<"Phase Create and Initialize"<<std::endl;
 
-    read_script();
-    std::cout<<"Script Loaded"<<std::endl;
-
-    //**** 5 根据对象间运行信息流上下级绑定   
+    //**** 5 根据对象间运行信息流上下级绑定。这部分针对写死在.cpp中的对象。现已不再使用
     bundle_leader_menber();
     std::cout<<"Leader and Member Bundle"<<std::endl;
 
-    std::cout<<"Game Prepared"<<std::endl;
+    //**** 6 阅读脚本创建对象并且绑定上下级关系
+    read_script();
+    std::cout<<"Script Loaded"<<std::endl;
+
+    std::cout<<"Game Prepared!"<<std::endl;
+    std::cout<<"/////////////////////////////////////////////////////////////"<<std::endl;
 }
 
 void GameState::set_ui()
 {
     //初始化overlays
-    curtain_.setPosition({0,0});
-    
+    //curtain_.setPosition({0,0});
+    int num_x=14;
+    int num_y=12;
+    star_curtain_.setNum(num_x,num_y);
+    star_curtain_.setStart_Target({1280-0.5f*((float)1280/num_x),960-0.5f*((float)960/num_y)},{1880,-250},210);
+    star_curtain_.setEnable(true);
+
     //初始化设置固定ui
     difficulty_.setTextPosition({960,20});
     difficulty_.setTextText("Phantasm");
@@ -278,7 +287,8 @@ void GameState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Ev
 
 void GameState::Update()
 {
-    curtain_.update();
+    //curtain_.update();
+    star_curtain_.update();
 
     continue_check();
 
@@ -326,7 +336,7 @@ void GameState::Update()
         SaveData data;
         if(player_->isContinued())
         {
-            data.cleared_=false;
+            data.cleared_=app_.history_data_.cleared_;
         }
         else
         {
@@ -387,7 +397,8 @@ void GameState::Render(sf::RenderWindow& window)
     life_line_.render(window);
     bomb_line_.render(window);
 
-    curtain_.render(window);
+    //curtain_.render(window);
+    star_curtain_.render(window);
 }
 
 int GameState::getLife()
@@ -440,7 +451,7 @@ void GameState::continue_check()
         SaveData data;
         if(player_->isContinued())
         {
-            data.cleared_=false;
+            data.cleared_=app_.history_data_.cleared_;
         }
         else
         {

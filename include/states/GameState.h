@@ -6,6 +6,7 @@
 #include "ui/NumLine1.h"
 #include "ui/Text.h"
 #include "overlays/overlays/Curtain1.h"
+#include "overlays/overlays/texturecurtains/StarCurtain.h"
 #include "packages/Resource.h"
 #include "packages/YellowPage.h"
 #include "entities/Player.h"
@@ -64,8 +65,8 @@ private:
     sf::RenderTexture game_window_{{770u,900u}};
     sf::Sprite window_sprite_;
 
-    Curtain1 curtain_;
-
+    //Curtain1 curtain_;
+    StarCurtain star_curtain_;
 
     std::vector<Bullet*> bulletlist_;
     std::vector<std::unique_ptr<Batch>> batchlist_;

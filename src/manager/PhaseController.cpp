@@ -11,7 +11,7 @@ PhaseController::PhaseController(application &app,std::vector<std::unique_ptr<Ph
 
 void PhaseController::add_process(std::unique_ptr<Phase> phase)
 {
-    std::cout<<"add a phase"<<std::endl;
+    //std::cout<<"add a phase"<<std::endl;
     phaselist_.emplace_back(std::move(phase));
 }
 

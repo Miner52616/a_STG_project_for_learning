@@ -35,7 +35,8 @@ application::application():
     bulletsheetTexture_("assets/textures/sheets/bullet_sheet.png"),
     bulletsheetTexture2_("assets/textures/sheets/big_bullet_sheet.png"),
     playersheetTexture_("assets/textures/sheets/player_sheet.png"),
-    effectsheetTexture_("assets/textures/sheets/effect_sheet.png")
+    effectsheetTexture_("assets/textures/sheets/effect_sheet.png"),
+    curtain_texture1_("assets/textures/curtain1.png")
 {
     window_.setVerticalSyncEnabled(false);
     window_.setFramerateLimit(60);
@@ -46,6 +47,17 @@ application::application():
     stack_.push(std::make_unique<MenuState>(*this));
 
     history_data_=lua_.loadSave();
+
+    std::cout <<"------------------------------------------"<<std::endl;
+    std::cout <<"Playing Manual"<<std::endl;
+    std::cout <<std::endl;
+    std::cout <<"UP / DOWN / LEFT / RIGHT: select buttons"<<std::endl;
+    std::cout <<"Z: confirm"<<std::endl;
+    std::cout <<"ESC / X: return,or select the last button"<<std::endl;
+    std::cout <<std::endl;
+    std::cout <<"more infomation please read ""Manual"" in game!"<<std::endl;
+    std::cout <<"------------------------------------------"<<std::endl;
+    std::cout <<std::endl;
     //std::cout <<history_data_.high_score_<<std::endl;
     //std::cout <<history_data_.cleared_<<std::endl;
 }

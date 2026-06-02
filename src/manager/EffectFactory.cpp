@@ -22,7 +22,7 @@ void EffectFactory::initialize(int size)
         effectlist_.emplace_back(app_.overlay1Texture_,sf::Vector2f{0,0},(long long int)60);
         free_list_.push_back(i-1);
     }
-    std::cout<<"effect pool initialized"<<std::endl;
+    //std::cout<<"effect pool initialized"<<std::endl;
 }
 
 Effect* EffectFactory::getEffect()

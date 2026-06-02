@@ -8,9 +8,9 @@
 BulletFactory::BulletFactory(application& app):
     app_(app)
 {
-    std::cout<<"build BulletFactory"<<std::endl;
+    //std::cout<<"build BulletFactory"<<std::endl;
     initialize(poolsize_);
-    std::cout<<"success"<<std::endl;
+    //std::cout<<"success"<<std::endl;
 }
 
 

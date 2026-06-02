@@ -2,7 +2,9 @@
 #include "basicstates/ButtonState.h"
 #include "overlays/overlays/RecShape1.h"
 #include "overlays/overlays/Curtain1.h"
+#include "overlays/overlays/texturecurtains/StarCurtain.h"
 #include "core/Clock.h"
+#include "ui/Text.h"
 
 //总按钮数为4
 constexpr int MenuButtonNum=3;
@@ -15,6 +17,15 @@ private:
     Clock clock_;
     RecShape1 rec_;
     Curtain1 curtain_;
+    //StarCurtain star_curtain_;
+    StarCurtain2 star_curtain2_;
+
+    Text title_;
+    Text text1_;
+    Text text2_;
+    Text text3_;
+    Text text4_;
+
 
 public:
     using ButtonState<MenuState>::HandleEvent;
