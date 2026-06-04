@@ -51,6 +51,7 @@ private:
 
 public:
     StarCurtain(sf::Texture& texture);
+    StarCurtain(sf::Texture& texture,sf::Shader& shader);
     void setNum(int num_x,int num_y);
     void setStart_Target(sf::Vector2f start_position,sf::Vector2f target_position,float target_angle);
 
@@ -64,6 +65,7 @@ private:
 
 public:
     StarCurtain2(sf::Texture& texture);
+    StarCurtain2(sf::Texture& texture,sf::Shader& shader);
     void add_star(Star& star);
     
     void update() override;

@@ -46,6 +46,8 @@ application::application():
     window_.setView(gameview_);
     stack_.push(std::make_unique<MenuState>(*this));
 
+    color_flip_.loadFromFile("assets/shaders/ColorFlip.frag",sf::Shader::Type::Fragment);
+
     history_data_=lua_.loadSave();
 
     std::cout <<"------------------------------------------"<<std::endl;

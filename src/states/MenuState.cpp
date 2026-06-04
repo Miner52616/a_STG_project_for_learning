@@ -12,7 +12,7 @@ MenuState::MenuState(application &app):
     text2_(app.mainFont_),
     text3_(app.mainFont_),
     text4_(app.mainFont_),
-    star_curtain2_(app.curtain_texture1_)
+    star_curtain2_(app.curtain_texture1_,app.color_flip_)
     //star_curtain_(app.curtain_texture1_)
 {
     buttonlist_[0].setButtonText("Phantasm Start");

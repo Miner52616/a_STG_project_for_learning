@@ -12,6 +12,7 @@ protected:
 
 public:
     TextureCurtain(sf::Texture& texture);
+    TextureCurtain(sf::Texture& texture,sf::Shader& shader);
     void setTexture(sf::Texture& texture);
     void setEnable(bool enable);
     bool isFinished();

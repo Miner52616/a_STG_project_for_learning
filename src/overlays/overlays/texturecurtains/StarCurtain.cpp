@@ -17,6 +17,12 @@ StarCurtain::StarCurtain(sf::Texture& texture):
     ;
 }
 
+StarCurtain::StarCurtain(sf::Texture& texture,sf::Shader& shader):
+    TextureCurtain(texture,shader)
+{
+    ;
+}
+
 std::vector<sf::Vertex> getStarTriangleVertex(sf::Vector2f position,float angle,float r)
 {
     std::vector<sf::Vertex> vertex_list;
@@ -102,6 +108,7 @@ void StarCurtain::setStart_Target(sf::Vector2f start_position,sf::Vector2f targe
             float y=0.5*((float)960/num_y_)+((float)(j-1))*((float)960/num_y_);
             star.setPosition(sf::Vector2f{x,y}+start_translation);
             star.getConfig()->target_position_=sf::Vector2f{x,y}+target_translation;
+            star.getConfig()->target_r_=0;
             star.getConfig()->target_angle_=target_angle;
             switch (mode_)
             {
@@ -172,6 +179,12 @@ void StarCurtain::update()
 
 StarCurtain2::StarCurtain2(sf::Texture& texture):
     TextureCurtain(texture)
+{
+    ;
+}
+
+StarCurtain2::StarCurtain2(sf::Texture& texture,sf::Shader& shader):
+    TextureCurtain(texture,shader)
 {
     ;
 }

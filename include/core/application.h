@@ -49,6 +49,8 @@ public:
 
     sf::Texture curtain_texture1_;
 
+    sf::Shader color_flip_;
+
     SaveData history_data_;
 
 public:
