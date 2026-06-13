@@ -3,6 +3,7 @@
 #include "core/application.h"
 #include "behaviors/behaviors/DirectMove1.h"
 #include "behaviors/behaviors/AimMove3.h"
+#include "batch/Batch.h"
 #include <iostream>
 
 BulletFactory::BulletFactory(application& app):
@@ -97,6 +98,12 @@ Bullet* BulletFactory::create(BulletConfig* bulletconfig,EffectConfig* effectcon
     else
     {
         bullet->setbelong(false);
+    }
+
+    //与batch之间的联动，如果config绑定了batch，则也需要将子弹加入batch（引用计数+1）
+    if((bulletconfig->shareconfig_.batch_)!=nullptr)
+    {
+        bulletconfig->shareconfig_.batch_->add_bullet();
     }
 
     return bullet;

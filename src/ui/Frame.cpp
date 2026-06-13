@@ -43,3 +43,9 @@ void Frame::drawwindow(sf::RenderWindow& window)
     window.draw(frame_out_);
     window.draw(frame_in_);
 }
+
+void Frame::drawTexture(sf::RenderTexture& texture)
+{
+    texture.draw(frame_out_);
+    texture.draw(frame_in_);
+}

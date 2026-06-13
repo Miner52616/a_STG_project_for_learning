@@ -16,4 +16,5 @@ public:
     float getBounds_left();
     float getBounds_right();
     void drawwindow(sf::RenderWindow& window);
+    void drawTexture(sf::RenderTexture& texture);
 };

@@ -1,5 +1,6 @@
 #include "phases/phases/SpellPhase.h"
 #include "manager/BulletManager.h"
+#include "manager/BatchManager.h"
 #include "manager/CollisionSystem.h"
 #include "manager/EffectManager.h"
 #include "mathematics/mathematics.h"
@@ -94,6 +95,7 @@ void SpellPhase::update()
         }
         yellowpage_->player_->setMissed(false);
         resource_->bulletmanager_.clear_enemybullet();
+        resource_->batchmanager_.set_all_finished();
         change_=true;
     }
 }

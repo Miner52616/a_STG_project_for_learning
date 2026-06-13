@@ -11,14 +11,17 @@ StarConfig::StarConfig():
 StarCurtain::StarCurtain(sf::Texture& texture):
     TextureCurtain(texture),
     mode_(1),
-    num_x_(0),num_y_(0),
+    num_x_(0),num_y_(0),r_(100),
     start_position_({0,0}),target_position_({0,0}),target_angle_(0)
 {
     ;
 }
 
 StarCurtain::StarCurtain(sf::Texture& texture,sf::Shader& shader):
-    TextureCurtain(texture,shader)
+    TextureCurtain(texture,shader),
+    mode_(1),
+    num_x_(0),num_y_(0),r_(100),
+    start_position_({0,0}),target_position_({0,0}),target_angle_(0)
 {
     ;
 }
@@ -85,6 +88,11 @@ void StarCurtain::setNum(int num_x,int num_y)
     num_y_=num_y;
 }
 
+void StarCurtain::setR(float R)
+{
+    r_=R;
+}
+
 //注意，由于需要根据右下角星星的移动轨迹推算其它位置星星的移动轨迹，务必在设置轨迹之前设置好星星的x，y数量！
 void StarCurtain::setStart_Target(sf::Vector2f start_position,sf::Vector2f target_position,float target_angle)
 {
@@ -107,6 +115,7 @@ void StarCurtain::setStart_Target(sf::Vector2f start_position,sf::Vector2f targe
             float x=(j%2)*(0.5*((float)1280/num_x_))+((float)(i-1-10/2))*((float)1280/num_x_);
             float y=0.5*((float)960/num_y_)+((float)(j-1))*((float)960/num_y_);
             star.setPosition(sf::Vector2f{x,y}+start_translation);
+            star.setR(r_);
             star.getConfig()->target_position_=sf::Vector2f{x,y}+target_translation;
             star.getConfig()->target_r_=0;
             star.getConfig()->target_angle_=target_angle;
@@ -139,6 +148,7 @@ void StarCurtain::update()
 {
     if(enable_&&(!finish_))
     {
+        have_fliped_=false;
         vertices_.clear();
 
         std::vector<sf::Vertex> vertex_list;
@@ -147,7 +157,10 @@ void StarCurtain::update()
         {
             for(auto star=(*line).begin();star!=(*line).end();++star)
             {
-                star->update();
+                if(delay_time_.get_condition())
+                {
+                    star->update();
+                }
                 std::vector<sf::Vertex> star_vertex=getStarTriangleVertex(star->getPosition(),star->getAngle(),star->getR());
                 for(int i=1;i<=star_vertex.size();i++)
                 {
@@ -172,6 +185,8 @@ void StarCurtain::update()
         {
             finish_=true;
         }
+
+        delay_time_.count();
     }
 }
 
@@ -198,6 +213,7 @@ void StarCurtain2::update()
 {
     if(enable_&&(!finish_))
     {
+        have_fliped_=false;
         vertices_.clear();
 
         std::vector<sf::Vertex> vertex_list;
@@ -205,7 +221,10 @@ void StarCurtain2::update()
         //std::cout<<star_list_.size()<<std::endl;
         for(auto star=star_list_.begin();star!=star_list_.end();++star)
         {
-            star->update();
+            if(delay_time_.get_condition())
+            {
+                star->update();
+            }
             std::vector<sf::Vertex> star_vertex=getStarTriangleVertex(star->getPosition(),star->getAngle(),star->getR());
             for(int i=1;i<=star_vertex.size();i++)
             {
@@ -223,6 +242,8 @@ void StarCurtain2::update()
         {
             finish_=true;
         }
+
+        delay_time_.count();
     }
 }
 

@@ -25,11 +25,14 @@ GameState::GameState(application &app):
     bomb_line_(app_.mainFont_,app_.bombUI_),
     outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
     window_sprite_(game_window_.getTexture()),
-    star_curtain_(app_.curtain_texture1_),
+    //origin_window_sprite_(origin_window_.getTexture()),
+    star_curtain1_(app_.curtain_texture1_),
+    star_curtain2_(app_.curtain_texture1_,app_.color_flip_),
+    star_curtain3_(app_.curtain_texture1_,app_.color_flip_),
     bulletfactory_(app),
     effectfactory_(app),
     bulletmanager_(app,bulletlist_,bulletfactory_),
-    batchmanager_(batchlist_),
+    batchmanager_(batchlist_,batchfactory_),
     dropmanager_(droplist_,dropfactory_),
     bombmanager_(bomblist_,bombfactory_),
     effectmanager_(effectlist_,overlaylist_,effectfactory_),
@@ -48,7 +51,7 @@ GameState::GameState(application &app):
 
     //**** 2 各种资源包创建并初始化，同时创建好资源包需要的对象
     //初始化资源，资源包含各大manager和system的引用
-    resource_=std::make_unique<Resource>(app,bulletmanager_,dropmanager_,bombmanager_,effectmanager_,collisionsystem_,phasecontroller_);
+    resource_=std::make_unique<Resource>(app,bulletmanager_,dropmanager_,bombmanager_,effectmanager_,batchmanager_,collisionsystem_,phasecontroller_);
     std::cout<<"Resource Set"<<std::endl;
 
     //创建并初始化玩家对象
@@ -96,11 +99,28 @@ void GameState::set_ui()
 {
     //初始化overlays
     //curtain_.setPosition({0,0});
-    int num_x=14;
-    int num_y=12;
-    star_curtain_.setNum(num_x,num_y);
-    star_curtain_.setStart_Target({1280-0.5f*((float)1280/num_x),960-0.5f*((float)960/num_y)},{1880,-250},210);
-    star_curtain_.setEnable(true);
+
+    int num_x1=6;
+    int num_y1=5;
+    star_curtain1_.setNum(num_x1,num_y1);
+    star_curtain1_.setR(240);
+    star_curtain1_.setStart_Target({1280-0.5f*((float)1280/num_x1),960-0.5f*((float)960/num_y1)},{1880,-250},210);
+    star_curtain1_.setEnable(true);
+
+    int num_x2=9;
+    int num_y2=8;
+    star_curtain2_.setNum(num_x2,num_y2);
+    star_curtain2_.setR(185);
+    star_curtain2_.setStart_Target({1280-0.5f*((float)1280/num_x2),960-0.5f*((float)960/num_y2)},{1880,-250},210);
+    star_curtain2_.setEnable(true);
+
+    int num_x3=12;
+    int num_y3=11;
+    star_curtain3_.setNum(num_x3,num_y3);
+    star_curtain3_.setR(120);
+    star_curtain3_.setStart_Target({1280-0.5f*((float)1280/num_x3),960-0.5f*((float)960/num_y3)},{1880,-250},210);
+    star_curtain3_.setEnable(true);
+    star_curtain3_.setFlip(true);
 
     //初始化设置固定ui
     difficulty_.setTextPosition({960,20});
@@ -154,6 +174,10 @@ void GameState::set_gamewindow()
     window_sprite_.setTexture(game_window_.getTexture());
     window_sprite_.setScale({1.f,-1.f});
     window_sprite_.setPosition({75,30+900});
+    
+    //origin_window_sprite_.setTexture(origin_window_.getTexture());
+    //origin_window_sprite_.setScale({1.f,-1.f});
+    //origin_window_sprite_.setPosition({0,960});
 }
 
 void GameState::bundle_resource()
@@ -288,7 +312,9 @@ void GameState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Ev
 void GameState::Update()
 {
     //curtain_.update();
-    star_curtain_.update();
+    star_curtain1_.update();
+    star_curtain2_.update();
+    star_curtain3_.update();
 
     continue_check();
 
@@ -297,6 +323,8 @@ void GameState::Update()
     phasecontroller_.update();
     //std::cout<<"phase update"<<std::endl;
 
+    batchmanager_.update();
+    //std::cout<<"batch update"<<std::endl;
     bulletmanager_.update();//后续需要把清理子弹放到帧末统一处理，以不影响碰撞检测
     //std::cout<<"enemy update"<<std::endl;
     dropmanager_.update();
@@ -317,6 +345,8 @@ void GameState::Update()
     //std::cout<<"bomb clear"<<std::endl;
     effectmanager_.clear_dead();
     //std::cout<<"effect clear"<<std::endl;
+    batchmanager_.clear_empty();
+    //std::cout<<"batch clear"<<std::endl;
 
     fps_update();
 
@@ -356,8 +386,10 @@ void GameState::Update()
 void GameState::Render(sf::RenderWindow& window)
 {
     game_window_.clear();
+    origin_window_.clear();
 
     outline1.drawwindow(window);
+    outline1.drawTexture(origin_window_);
 
     //player_->drawwindow(window);
     player_->drawtexture(game_window_);
@@ -382,23 +414,38 @@ void GameState::Render(sf::RenderWindow& window)
 
     window_sprite_.setTexture(game_window_.getTexture());
     window.draw(window_sprite_);
+    origin_window_.draw(window_sprite_);
 
     difficulty_.DrawText(window);
+    difficulty_.DrawText(origin_window_);
 
     high_score_line_.render(window);
+    high_score_line_.render(origin_window_);
     score_line_.render(window);
+    score_line_.render(origin_window_);
     power_line_.render(window);
+    power_line_.render(origin_window_);
     graze_line_.render(window);
+    graze_line_.render(origin_window_);
 
     bullet_line_.render(window);
+    bullet_line_.render(origin_window_);
     effect_line_.render(window);
+    effect_line_.render(origin_window_);
     fps_line_.render(window);
+    fps_line_.render(origin_window_);
 
     life_line_.render(window);
+    life_line_.render(origin_window_);
     bomb_line_.render(window);
+    bomb_line_.render(origin_window_);
 
     //curtain_.render(window);
-    star_curtain_.render(window);
+    star_curtain3_.setTexture(origin_window_.getTexture());
+    
+    star_curtain3_.render(window);
+    star_curtain2_.render(window);
+    star_curtain1_.render(window);
 }
 
 int GameState::getLife()

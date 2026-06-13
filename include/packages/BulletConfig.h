@@ -15,7 +15,8 @@ enum BulletClasses
     GravityBullet=6,
     RotateBullet1=7,
     Behavior_DirectBullet1=8,
-    PhaseCenterRotateBullet1=9
+    PhaseCenterRotateBullet1=9,
+    PhaseCenterRotateExpandBullet1=10
 };
 
 enum BulletBehavior
@@ -32,9 +33,12 @@ enum BulletSize
     Large=2
 };
 
+class Batch;
+
 class ShareConfig
 {
 public:
+    Batch* batch_=nullptr;
     bool active_=false;
     int* phase_=nullptr;
     bool* trigger_=nullptr;

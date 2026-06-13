@@ -45,6 +45,7 @@ private:
     sf::Vector2f start_position_;
     sf::Vector2f target_position_;
     float target_angle_;
+    float r_;
     int mode_=1;
 
     std::vector<std::vector<Star>> star_matrix_;
@@ -53,6 +54,7 @@ public:
     StarCurtain(sf::Texture& texture);
     StarCurtain(sf::Texture& texture,sf::Shader& shader);
     void setNum(int num_x,int num_y);
+    void setR(float R);
     void setStart_Target(sf::Vector2f start_position,sf::Vector2f target_position,float target_angle);
 
     void update() override;

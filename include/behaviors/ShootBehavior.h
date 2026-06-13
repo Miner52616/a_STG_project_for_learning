@@ -7,8 +7,8 @@ class ShootBehavior:public Behavior
 protected:
     EffectConfig effectconfig_;
 
-    void setEffectConfig();
-    virtual void setBulletConfig()=0;
+    virtual void setEffectConfig();//特效的固定属性设置
+    virtual void setBulletConfig()=0;//子弹的固定属性设置
 
 public:
     ShootBehavior(Resource* resource,YellowPage* yellowpage);

@@ -354,11 +354,21 @@ void Bullet::drawwindow(sf::RenderWindow& window)
     */
 
 //************************************************************** */
+//以下是子弹移动函数表的移动函数实现
+
+//子弹以 位置P控制 模式向目标position移动
+//开销小，未使用开根号
+//目前没有子弹使用这个移动函数
+//使用配置v_ target_point_
 void aim_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*(bullet.bulletconfig_->target_point_-bullet.getPosition()));
 }
 
+//子弹以定加速度大小，加速度方向指向离子弹最近敌人position来向目标敌人position移动
+//有一定开销，使用了开根号
+//自机的诱导弹使用这个移动函数
+//使用配置a_
 void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     sf::Vector2f target=resource->phasecontroller_.get_closest_target(bullet.getPosition());
@@ -375,11 +385,17 @@ void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
     bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*bullet.bulletconfig_->direction_);
 }
 
+//子弹匀速直线移动
+//开销很小
+//使用配置v_ direction_
 void direct_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*bullet.bulletconfig_->direction_);
 }
 
+//两个阶段的直线移动。第一阶段子弹以v_匀速直线移动，第二阶段在第一阶段基础上开始加速，加速至上限速度后匀速直线运动
+//开销很小
+//使用配置v_ a_ v2_ direction_ clock1_
 void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     if(!bullet.bulletconfig_->clock1_.get_condition())
@@ -398,6 +414,10 @@ void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
     bullet.bulletconfig_->clock1_.count();
 }
 
+//四个阶段的直线运动。第一阶段子弹原地不动，第二阶段子弹加/减速直线运动，第三阶段匀速直线运动，第四阶段在第三阶段基础上加速直线运动，到最大速度后以最大速度匀速直线运动
+//基本为NonSpell2特化使用
+//有一定开销
+//使用配置v_ v2_ v3_ a_ a2_ direction_ clock1_ clock2_ clock3_
 void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     if(!bullet.bulletconfig_->clock3_.get_condition())
@@ -434,6 +454,9 @@ void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
     }
 }
 
+//子弹会受到固定大小方向向下的加速度，同时子弹也有速度上限
+//有一定开销
+//使用配置v_ v2_  direction_（初速度方向） a_
 void gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*bullet.bulletconfig_->direction_);
@@ -450,6 +473,8 @@ void gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
     }
 }
 
+//子弹从匀速移动，但每帧都移动方向都会旋转固定角度，直到旋转角度上限
+//使用配置v_ direction_ rotate_angle_ rotate_angle2_
 void rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*bullet.bulletconfig_->direction_);
@@ -462,6 +487,9 @@ void rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
     }
 }
 
+//子母弹。母弹匀速直线运动，每一定时间触发一次生成一波子弹。子弹生成方向随机
+//母弹使用配置v_ direction_ clock1_ bullet_num_
+//子弹使用配置v2_ r2_ bullet_index2_
 void behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*bullet.bulletconfig_->direction_);
@@ -489,6 +517,9 @@ void behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
     bullet.bulletconfig_->clock1_.count();
 }
 
+//需要有共享状态batch控制的多阶段多旋转中心旋转移动子弹。阶段由共享状态控制。第一阶段绕一个中心旋转指定的角度后停止，第二阶段绕第二个中心加速旋转至速度上限
+//同时也是子母弹。在共享状态trigger为true触发时发射子弹
+//基本为StarRite特化使用
 void rotate_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     if(bullet.bulletconfig_->shareconfig_.active_)
@@ -563,6 +594,46 @@ void rotate_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
     }
 }
 
+void rotate_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+{
+    if(bullet.bulletconfig_->shareconfig_.active_)
+    {
+        switch (*(bullet.bulletconfig_->shareconfig_.phase_))
+        {
+        case 1:
+            {
+                bullet.setPosition(bullet.getPosition());
+                break;
+            }
+
+        case 2:
+            {
+                sf::Vector2f direction=normalize(bullet.getPosition()-bullet.bulletconfig_->center_point_);
+
+                bullet.setPosition(roundwithCenter(bullet.bulletconfig_->center_point_,bullet.getPosition(),bullet.bulletconfig_->rotate_angle_));
+                bullet.setPosition(bullet.getPosition()+(bullet.bulletconfig_->v_)*direction);
+                
+                bullet.bulletconfig_->v_=bullet.bulletconfig_->v_+bullet.bulletconfig_->a_;
+                if(bullet.bulletconfig_->v_>bullet.bulletconfig_->v2_)
+                {
+                    bullet.bulletconfig_->v_=bullet.bulletconfig_->v2_;
+                }
+                break;
+            }
+        
+        default:
+            {
+                bullet.setPosition(bullet.getPosition());
+                break;
+            }
+        }
+    }
+    else
+    {
+        bullet.markDead();
+    }
+}
+
 UpdateFunc update_table[]=
 {
     aim_move1,
@@ -574,5 +645,6 @@ UpdateFunc update_table[]=
     gravity_move,
     rotate_move1,
     behavior_move1,
-    rotate_move2
+    rotate_move2,
+    rotate_move3
 };

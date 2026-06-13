@@ -1,5 +1,6 @@
 #include "manager/BulletManager.h"
 #include "manager/EffectManager.h"
+#include "batch/Batch.h"
 #include "ui/Frame.h"
 #include "core/Clock.h"
 
@@ -50,6 +51,13 @@ void BulletManager::clear()
         if((*it)->isDead())
         {
             bulletfactory_.destroy(*it);
+            if((*it)->getBulletConfig()->shareconfig_.active_)
+            {
+                if(((*it)->getBulletConfig()->shareconfig_.batch_)!=nullptr)
+                {
+                    ((*it)->getBulletConfig()->shareconfig_.batch_)->decreace_bullet();
+                }
+            }
             (*it)->getBulletConfig()->shareconfig_.active_=false;//这里有一层保障，保证回收后子弹的shareconfig都是未启用状态
         }
     }

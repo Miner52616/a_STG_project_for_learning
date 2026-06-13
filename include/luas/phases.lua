@@ -1,141 +1,6 @@
 phasetable=
 {   
     {
-        type="MidPhase",
-        time=360,
-        enemytable=
-        {
-            {
-                x=460,
-                y=100,
-                HP=50,
-                start=60,
-                End=216000,
-                behaviortable=
-                {
-                    {
-                        type="MoveToRandom1",
-                        start_time=30,
-                    },
-                    {
-                        type="ScoreDrop1",
-                        dropconfig=
-                        {
-                            droptype="Power",
-                            dropnum=25
-                        }
-                    },
-                    
-                    {
-                        type="ScoreDrop1",
-                        dropconfig=
-                        {
-                            droptype="Score",
-                            dropnum=10
-                        }
-                    },
-                }
-            },
-
-            {
-                x=410,
-                y=100,
-                HP=50,
-                start=60,
-                End=216000,
-                behaviortable=
-                {
-                    {
-                        type="MoveToRandom1",
-                        start_time=30,
-                    },
-                    {
-                        type="ScoreDrop1",
-                        dropconfig=
-                        {
-                            droptype="Power",
-                            dropnum=25
-                        }
-                    },
-
-                    {
-                        type="ScoreDrop1",
-                        dropconfig=
-                        {
-                            droptype="Score",
-                            dropnum=10
-                        }
-                    },
-                }
-            },
-
-            {
-                x=360,
-                y=100,
-                HP=50,
-                start=60,
-                End=216000,
-                behaviortable=
-                {
-                    {
-                        type="MoveToRandom1",
-                        start_time=30,
-                    },
-                    {
-                        type="ScoreDrop1",
-                        dropconfig=
-                        {
-                            droptype="Power",
-                            dropnum=25
-                        }
-                    },
-
-                    {
-                        type="ScoreDrop1",
-                        dropconfig=
-                        {
-                            droptype="Score",
-                            dropnum=10
-                        }
-                    },
-                }
-            },
-
-            {
-                x=310,
-                y=100,
-                HP=50,
-                start=60,
-                End=216000,
-                behaviortable=
-                {
-                    {
-                        type="MoveToRandom1",
-                        start_time=30,
-                    },
-                    {
-                        type="ScoreDrop1",
-                        dropconfig=
-                        {
-                            droptype="Power",
-                            dropnum=25
-                        }
-                    },
-
-                    {
-                        type="ScoreDrop1",
-                        dropconfig=
-                        {
-                            droptype="Score",
-                            dropnum=10
-                        }
-                    },
-                }
-            },
-        }
-    },
-
-    {
         type="BossPhase",
         spelltable=
         {
@@ -157,6 +22,38 @@ phasetable=
                         x=385,
                         y=250
                     }
+                }
+            },
+
+            {
+                time=2400,
+                HP=3600,
+                bossname="Kochiya Sanae",
+                spellname=" ",
+                spellnum=5,
+                name_x=-100,
+                name_y=-100,
+                voidspell=false,
+                spellcard=true,
+                behaviortable=
+                {
+                    {
+                        type="MoveToRandom1",
+                        start_time=30,
+                    },
+
+                    {
+                        type="NonSpell3"
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=10
+                        }
+                    },
                 }
             },
 
@@ -571,6 +468,141 @@ phasetable=
 
 store=
 {
+    {
+        type="MidPhase",
+        time=360,
+        enemytable=
+        {
+            {
+                x=460,
+                y=100,
+                HP=50,
+                start=60,
+                End=216000,
+                behaviortable=
+                {
+                    {
+                        type="MoveToRandom1",
+                        start_time=30,
+                    },
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Power",
+                            dropnum=25
+                        }
+                    },
+                    
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=10
+                        }
+                    },
+                }
+            },
+
+            {
+                x=410,
+                y=100,
+                HP=50,
+                start=60,
+                End=216000,
+                behaviortable=
+                {
+                    {
+                        type="MoveToRandom1",
+                        start_time=30,
+                    },
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Power",
+                            dropnum=25
+                        }
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=10
+                        }
+                    },
+                }
+            },
+
+            {
+                x=360,
+                y=100,
+                HP=50,
+                start=60,
+                End=216000,
+                behaviortable=
+                {
+                    {
+                        type="MoveToRandom1",
+                        start_time=30,
+                    },
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Power",
+                            dropnum=25
+                        }
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=10
+                        }
+                    },
+                }
+            },
+
+            {
+                x=310,
+                y=100,
+                HP=50,
+                start=60,
+                End=216000,
+                behaviortable=
+                {
+                    {
+                        type="MoveToRandom1",
+                        start_time=30,
+                    },
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Power",
+                            dropnum=25
+                        }
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=10
+                        }
+                    },
+                }
+            },
+        }
+    },
+
     {
         type="BossPhase",
         spelltable=

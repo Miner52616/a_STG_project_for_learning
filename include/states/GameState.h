@@ -34,6 +34,8 @@
 #include "manager/BombFactory.h"
 #include "manager/EffectManager.h"
 #include "manager/EffectFactory.h"
+#include "manager/BatchManager.h"
+#include "manager/BatchFactory.h"
 #include "manager/PhaseController.h"
 #include "manager/CollisionSystem.h"
 #include "manager/ScriptLoader.h"
@@ -63,10 +65,14 @@ private:
     NumLine1_1 bomb_line_;
 
     sf::RenderTexture game_window_{{770u,900u}};
+    sf::RenderTexture origin_window_{{1280u,960u}};
     sf::Sprite window_sprite_;
+    //sf::Sprite origin_window_sprite_;
 
     //Curtain1 curtain_;
-    StarCurtain star_curtain_;
+    StarCurtain star_curtain1_;
+    StarCurtain star_curtain2_;
+    StarCurtain star_curtain3_;
 
     std::vector<Bullet*> bulletlist_;
     std::vector<std::unique_ptr<Batch>> batchlist_;
@@ -80,6 +86,7 @@ private:
     DropFactory dropfactory_;
     BombFactory bombfactory_;
     EffectFactory effectfactory_;
+    BatchFactory batchfactory_;
 
     BulletManager bulletmanager_;
     BatchManager batchmanager_;

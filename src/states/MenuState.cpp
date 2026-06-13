@@ -12,7 +12,7 @@ MenuState::MenuState(application &app):
     text2_(app.mainFont_),
     text3_(app.mainFont_),
     text4_(app.mainFont_),
-    star_curtain2_(app.curtain_texture1_,app.color_flip_)
+    star_curtain2_(app.curtain_texture1_)
     //star_curtain_(app.curtain_texture1_)
 {
     buttonlist_[0].setButtonText("Phantasm Start");
@@ -73,7 +73,7 @@ MenuState::MenuState(application &app):
     Star star3;
     star3.setR(0);
     star3.setAngle(-60);
-    sf::Vector2f position3={960,192};
+    sf::Vector2f position3={1050,192};
     star3.setPosition(position3);
     star3.getConfig()->clock_.set_target(48);
     star3.getConfig()->target_r_=580;
