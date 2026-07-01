@@ -2,6 +2,7 @@
 #include "states/DifficultyState.h"
 #include "states/GameState.h"
 #include "states/ManualState.h"
+#include "states/EndStoryState.h"
 #include "core/application.h"
 #include <iostream>
 
@@ -25,8 +26,11 @@ MenuState::MenuState(application &app):
     buttonlist_[1].setButtonText("Manual");
     buttonlist_[1].setButtonPosition({100,200});
 
-    buttonlist_[2].setButtonText("Quit");
+    buttonlist_[2].setButtonText("Ending");
     buttonlist_[2].setButtonPosition({100,300});
+
+    buttonlist_[3].setButtonText("Quit");
+    buttonlist_[3].setButtonPosition({100,400});
 
     for(int i=1;i<=MenuButtonNum;i++)
     {
@@ -168,7 +172,15 @@ void MenuState::Update()
                         std::cout<<"manual for playing"<<std::endl;
                         app_.stack_.pushRequest(std::make_unique<ManualState>(app_));
                         break;
-                    }   
+                    }
+
+                    case 3:
+                    {
+                        std::cout<<"watch ending"<<std::endl;
+                        std::unique_ptr<EndStoryState> endstorystate=std::make_unique<EndStoryState>(app_);
+                        endstorystate->Load("include/luas/endstory.lua");
+                        app_.stack_.pushRequest(std::move(endstorystate));
+                    }
                     
                 default:
                     break;
@@ -247,6 +259,12 @@ void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed
             }
 
             case 2:
+            {
+                current_phase_=3;
+                break;
+            }
+
+            case 3:
             {
                 current_phase_=3;
                 break;

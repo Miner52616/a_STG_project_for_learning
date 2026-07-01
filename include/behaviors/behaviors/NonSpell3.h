@@ -14,6 +14,7 @@ class NonSpell3:public ShootBehavior
 private:
     Entity* entity_;
     BulletConfig bulletconfig_;
+    BulletConfig bulletconfig2_;
     std::vector<ShootLine> lines_;
 
     int line_bullet_num_;

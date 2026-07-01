@@ -8,12 +8,14 @@ ShootLine::ShootLine(Entity* entity,Resource* resource,YellowPage* yellowpage,Bu
     draw_clock_(9999),
     draw_delay_clock_(0),
     shoot_clock_(2),
+    shoot_times_(1),
     start_position_({0,0}),
     line_direction_({0,-1}),
     gap_(1),
     bullet_num_(10),
     current_position_(start_position_),
-    current_num_(1)
+    current_num_(1),
+    update_func_([](ShootLine*){;})
 {
     //copyconfig(&bulletconfig_,bulletconfig);
 }
@@ -46,6 +48,11 @@ void ShootLine::setShootClock(long long int target)
     shoot_clock_.reset();
 }
 
+void ShootLine::setShootTimes(int times)
+{
+    shoot_times_=times;
+}
+
 void ShootLine::setDelay(long long int target)
 {
     draw_delay_clock_.set_target(target);
@@ -75,6 +82,26 @@ void ShootLine::setBulletConfig(BulletConfig* bulletconfig)
     bulletconfig_=bulletconfig;
 }
 
+void ShootLine::setUpdateFunction(std::function<void(ShootLine*)> update_func)
+{
+    update_func_=update_func;
+}
+
+sf::Vector2f ShootLine::getCurrentPosition()
+{
+    return current_position_;
+}
+
+BulletConfig* ShootLine::getBulletConfig()
+{
+    return bulletconfig_;
+}
+
+sf::Vector2f ShootLine::getDirection()
+{
+    return line_direction_;//line_direction已经在设置时被normalized
+}
+
 void ShootLine::update()
 {
     if(draw_clock_.get_condition())
@@ -87,7 +114,11 @@ void ShootLine::update()
                 {
                     shoot_clock_.reset();
                     bulletconfig_->spawn_point_=current_position_;
-                    resource_->bulletmanager_.add_process(bulletconfig_,effectconfig_);
+                    for(int i=1;i<=shoot_times_;i++)
+                    {
+                        update_func_(this);
+                        resource_->bulletmanager_.add_process(bulletconfig_,effectconfig_);
+                    }
                     current_position_=current_position_+gap_*line_direction_;
                     current_num_++;
                 }

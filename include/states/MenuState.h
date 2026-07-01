@@ -7,7 +7,7 @@
 #include "ui/Text.h"
 
 //总按钮数为4
-constexpr int MenuButtonNum=3;
+constexpr int MenuButtonNum=4;
 
 //主菜单页面
 class MenuState:public ButtonState<MenuState>
