@@ -5,7 +5,7 @@
 
 application::application():
     stack_(*(this)),
-    window_(sf::VideoMode({1280,960}),"thwss_0.0.2.2"),
+    window_(sf::VideoMode({1280,960}),"thssm_0.1.2.0"),
     mainFont_("assets/fonts/abc.ttf"),
     playerTexture_("assets/textures/player.png"),
     enemyTexture_("assets/textures/enemy.png"),

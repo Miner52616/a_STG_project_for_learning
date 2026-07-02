@@ -152,4 +152,5 @@ void copyconfig(BulletConfig* copy,BulletConfig* origin)
     copy->color_alpha_=origin->color_alpha_;
     copy->r2_=origin->r2_;
     copy->not_clear_=origin->not_clear_;
+    copy->specialized_update_func_=origin->specialized_update_func_;
 }

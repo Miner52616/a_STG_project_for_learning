@@ -1,4 +1,3 @@
-/*
 #pragma once
 #include "behaviors/ShootBehavior.h"
 #include "packages/BulletConfig.h"
@@ -20,4 +19,3 @@ public:
     void update() override;
 };
 
-*/

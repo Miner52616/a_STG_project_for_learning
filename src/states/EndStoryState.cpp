@@ -34,7 +34,7 @@ bool PackText::isShowNext()
 
 EndStoryState::EndStoryState(application &app):
     State(app),
-    current_page_(1),current_text_(1),
+    current_page_(1),current_text_(0),
     ispressing_(false)
 {
     ;
@@ -58,24 +58,30 @@ void EndStoryState::Load(const std::string& path)
         for(int j=1;j<=text_num;j++)
         {
             sol::table text=page[j];
+            sol::table color=text["RGB"];
+            int r=color["R"];
+            int g=color["G"];
+            int b=color["B"];
 
             PackText packtext_main=PackText(app_.mainFont_);
             PackText packtext_name=PackText(app_.mainFont_);
 
-            packtext_main.getText().setTextSize(20);
-            packtext_name.getText().setTextSize(20);
+            packtext_main.getText().setTextSize(27);
+            packtext_name.getText().setTextSize(27);
             packtext_main.getText().setTextText(text["text"]);
             packtext_name.getText().setTextText(text["name"]);
+            packtext_main.getText().setTextColor(sf::Color{r,g,b});
+            packtext_name.getText().setTextColor(sf::Color{r,g,b});
             bool aside=text["aside"];
             if(aside)
             {
-                packtext_main.getText().setTextPosition({100,float(760+30*(j-1))});
+                packtext_main.getText().setTextPosition({200,float(760+30*(j-1))});
                 packtext_name.getText().setTextPosition({-500,-500});
             }
             else
             {
-                packtext_main.getText().setTextPosition({150,float(760+30*(j-1))});
-                packtext_name.getText().setTextPosition({50,float(760+30*(j-1))});
+                packtext_main.getText().setTextPosition({250,float(760+30*(j-1))});
+                packtext_name.getText().setTextPosition({170,float(760+30*(j-1))});
             }
 
             bool show_next=text["show_next"];
@@ -107,8 +113,9 @@ void EndStoryState::Update()
                     if(current_page_>pages_main_.size())
                     {
                         current_page_=pages_main_.size();
-                        app_.stack_.popRequest();
+                        app_.stack_.clearRequest();
                     }
+                    break;
                 }
             }
             while(pages_main_[current_page_-1][current_text_-1].isShowNext());

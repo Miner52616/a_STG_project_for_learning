@@ -1,4 +1,3 @@
-/*
 #include "behaviors/behaviors/DivideSea.h"
 #include "core/application.h"
 
@@ -7,4 +6,13 @@ DivideSea1::DivideSea1(Entity* entity,Resource* resource,YellowPage* yellowpage)
 {
     setBulletConfig();
 }
-    */
+
+void DivideSea1::setBulletConfig()
+{
+    ;
+}
+
+void DivideSea1::update()
+{
+    ;
+}

@@ -3,6 +3,7 @@
 #include "ui/Frame.h"
 #include "core/Clock.h"
 #include "packages/EffectConfig.h"
+#include <functional>
 
 enum BulletClasses
 {
@@ -34,6 +35,7 @@ enum BulletSize
 };
 
 class Batch;
+class Bullet;
 
 class ShareConfig
 {
@@ -79,6 +81,10 @@ public:
     BulletSize bulletsize_=BulletSize::Small;//子弹大小属性，将影响贴图表的裁切方式
     std::vector<int> bullet_index_={1,1};//子弹贴图裁切的索引，填写前请务必检查不同大小属性子弹的贴图索引方式
     std::vector<int> bullet_index2_={1,1};
+
+    //using BulletUpdateFunc=void(*)(Bullet*);
+    //BulletUpdateFunc specialized_update_func_=nullptr;
+    void(*specialized_update_func_)(Bullet*)=nullptr;
 
     ShareConfig shareconfig_;
 
