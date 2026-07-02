@@ -29,7 +29,7 @@ public:
     int texturelist_size_=0;
     int current_texture_num_=0;
     bool random_rotate_=true;
-    std::vector<int> effect_index_={1,1};
+    sf::Vector2i effect_index_={1,1};
     //std::vector<sf::Texture*> texturelist_;
 
 public:

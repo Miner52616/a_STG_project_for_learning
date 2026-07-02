@@ -2,6 +2,13 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+class Two_Vector2i
+{
+public:
+    sf::Vector2i vec1_={0,0};
+    sf::Vector2i vec2_={0,0};
+};
+
 float distancePointToSegment(sf::Vector2f p, sf::Vector2f a, sf::Vector2f b);
 float distancePointToSegment2(sf::Vector2f p, sf::Vector2f a, sf::Vector2f b);
 
@@ -30,11 +37,11 @@ float RadTransToDegree(float rad);
 
 constexpr int BULLET_SHEET_GAP=16;
 
-std::vector<int> bulletsheet_transform(const std::vector<int>& want);
-std::vector<int> big_bulletsheet_transform(const std::vector<int>& want);
-std::vector<int> large_bulletsheet_transform(const std::vector<int>& want);
-std::vector<int> playersheet_bullet_transform(const std::vector<int>& want);
-std::vector<int> playersheet_effect_transform(const std::vector<int>& want);
-std::vector<int> effectsheet_transform(const std::vector<int>& want);
+Two_Vector2i bulletsheet_transform(const sf::Vector2i& want);
+Two_Vector2i big_bulletsheet_transform(const sf::Vector2i& want);
+Two_Vector2i large_bulletsheet_transform(const sf::Vector2i& want);
+Two_Vector2i playersheet_bullet_transform(const sf::Vector2i& want);
+Two_Vector2i playersheet_effect_transform(const sf::Vector2i& want);
+Two_Vector2i effectsheet_transform(const sf::Vector2i& want);
 
 #include "mathematics/mathematics.ipp"

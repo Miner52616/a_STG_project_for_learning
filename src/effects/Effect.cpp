@@ -102,18 +102,18 @@ void Effect::rebuild(sf::Texture &texture,sf::Vector2f position)
     
     case Bullet_Air:
         {
-            std::vector<int> rect=effectsheet_transform(effectconfig_.effect_index_);
-            sf::Vector2i position={rect[0],rect[1]};
-            sf::Vector2i size={rect[2],rect[3]};
+            Two_Vector2i rect=effectsheet_transform(effectconfig_.effect_index_);
+            sf::Vector2i position={rect.vec1_.x, rect.vec1_.y};
+            sf::Vector2i size={rect.vec2_.x, rect.vec2_.y};
             picture_.setTextureRect({position,size});
             break;
         }
 
     case PlayerBullet_Air:
         {
-            std::vector<int> rect=playersheet_effect_transform(effectconfig_.effect_index_);
-            sf::Vector2i position={rect[0],rect[1]};
-            sf::Vector2i size={rect[2],rect[3]};
+            Two_Vector2i rect=playersheet_effect_transform(effectconfig_.effect_index_);
+            sf::Vector2i position={rect.vec1_.x, rect.vec1_.y};
+            sf::Vector2i size={rect.vec2_.x, rect.vec2_.y};
             picture_.setTextureRect({position,size});
             break;
         }
@@ -202,14 +202,13 @@ void keep_static(Effect& effect)
         if(effect.effectconfig_.current_texture_num_<=effect.effectconfig_.texturelist_size_-1)
         {
             //std::cout<<"222"<<std::endl;
-            
-            std::vector<int> rect=effectsheet_transform(effect.effectconfig_.effect_index_);
-            sf::Vector2i position={rect[0],rect[1]};
-            sf::Vector2i size={rect[2],rect[3]};
+            Two_Vector2i rect=effectsheet_transform(effect.effectconfig_.effect_index_);
+            sf::Vector2i position={rect.vec1_.x, rect.vec1_.y};
+            sf::Vector2i size={rect.vec2_.x, rect.vec2_.y};
             effect.picture_.setTextureRect({position,size});
             effect.picture_.setOrigin(effect.picture_.getLocalBounds().getCenter());
 
-            effect.effectconfig_.effect_index_[0]++;
+            effect.effectconfig_.effect_index_.x++;
             effect.effectconfig_.current_texture_num_++;
             
             //effect.picture_.setTexture(*(effect.effectconfig_.texturelist_[effect.effectconfig_.current_texture_num_]),true);
@@ -232,13 +231,13 @@ void keep_static2(Effect& effect)
         if(effect.effectconfig_.current_texture_num_<=effect.effectconfig_.texturelist_size_-1)
         {
             //std::cout<<"222"<<std::endl;
-            std::vector<int> rect=playersheet_effect_transform(effect.effectconfig_.effect_index_);
-            sf::Vector2i position={rect[0],rect[1]};
-            sf::Vector2i size={rect[2],rect[3]};
+            Two_Vector2i rect=playersheet_effect_transform(effect.effectconfig_.effect_index_);
+            sf::Vector2i position={rect.vec1_.x, rect.vec1_.y};
+            sf::Vector2i size={rect.vec2_.x, rect.vec2_.y};
             effect.picture_.setTextureRect({position,size});
             effect.picture_.setOrigin(effect.picture_.getLocalBounds().getCenter());
 
-            effect.effectconfig_.effect_index_[0]++;
+            effect.effectconfig_.effect_index_.x++;
             effect.effectconfig_.current_texture_num_++;
         }
     }

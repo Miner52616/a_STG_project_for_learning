@@ -175,9 +175,9 @@ void Bullet::rebuild_Initialize()
     {
     case BulletClasses::PlayerBullet:
         {
-            std::vector<int> rect=playersheet_bullet_transform(bulletconfig_->bullet_index_);
-            sf::Vector2i position={rect[0],rect[1]};
-            sf::Vector2i size={rect[2],rect[3]};
+            Two_Vector2i rect=playersheet_bullet_transform(bulletconfig_->bullet_index_);
+            sf::Vector2i position={rect.vec1_.x, rect.vec1_.y};
+            sf::Vector2i size={rect.vec2_.x, rect.vec2_.y};
             picture_.setTextureRect({position,size});
             picture_.setRotation(sf::degrees(-90));
 
@@ -192,9 +192,9 @@ void Bullet::rebuild_Initialize()
             case BulletSize::Small:
                 {
                     //std::cout<<"111"<<std::endl;
-                    std::vector<int> rect=bulletsheet_transform(bulletconfig_->bullet_index_);
-                    sf::Vector2i position={rect[0],rect[1]};
-                    sf::Vector2i size={rect[2],rect[3]};
+                    Two_Vector2i rect=bulletsheet_transform(bulletconfig_->bullet_index_);
+                    sf::Vector2i position={rect.vec1_.x, rect.vec1_.y};
+                    sf::Vector2i size={rect.vec2_.x, rect.vec2_.y};
                     picture_.setTextureRect({position,size});
                     //picture_.setRotation(sf::degrees(90));
 
@@ -203,9 +203,9 @@ void Bullet::rebuild_Initialize()
 
             case BulletSize::Big:
                 {
-                    std::vector<int> rect=big_bulletsheet_transform(bulletconfig_->bullet_index_);
-                    sf::Vector2i position={rect[0],rect[1]};
-                    sf::Vector2i size={rect[2],rect[3]};
+                    Two_Vector2i rect=big_bulletsheet_transform(bulletconfig_->bullet_index_);
+                    sf::Vector2i position={rect.vec1_.x, rect.vec1_.y};
+                    sf::Vector2i size={rect.vec2_.x, rect.vec2_.y};
                     picture_.setTextureRect({position,size});
                     //picture_.setRotation(sf::degrees(90));
 
@@ -214,9 +214,9 @@ void Bullet::rebuild_Initialize()
 
             case BulletSize::Large:
                 {
-                    std::vector<int> rect=large_bulletsheet_transform(bulletconfig_->bullet_index_);
-                    sf::Vector2i position={rect[0],rect[1]};
-                    sf::Vector2i size={rect[2],rect[3]};
+                    Two_Vector2i rect=large_bulletsheet_transform(bulletconfig_->bullet_index_);
+                    sf::Vector2i position={rect.vec1_.x, rect.vec1_.y};
+                    sf::Vector2i size={rect.vec2_.x, rect.vec2_.y};
                     picture_.setTextureRect({position,size});
                     //picture_.setRotation(sf::degrees(90));
 

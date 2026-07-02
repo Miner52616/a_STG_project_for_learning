@@ -79,8 +79,8 @@ public:
     BulletBehavior bulletbehavior_=BulletBehavior::Fix;//子弹贴图表现方式。将决定子弹贴图的朝向方向会如何更新
     BulletBehavior bulletbehavior2_=BulletBehavior::Fix;
     BulletSize bulletsize_=BulletSize::Small;//子弹大小属性，将影响贴图表的裁切方式
-    std::vector<int> bullet_index_={1,1};//子弹贴图裁切的索引，填写前请务必检查不同大小属性子弹的贴图索引方式
-    std::vector<int> bullet_index2_={1,1};
+    sf::Vector2i bullet_index_={1,1};//子弹贴图裁切的索引，填写前请务必检查不同大小属性子弹的贴图索引方式
+    sf::Vector2i bullet_index2_={1,1};
 
     //using BulletUpdateFunc=void(*)(Bullet*);
     //BulletUpdateFunc specialized_update_func_=nullptr;
