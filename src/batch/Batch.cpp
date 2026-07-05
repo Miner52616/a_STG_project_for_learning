@@ -1,14 +1,23 @@
 #include "batch/Batch.h"
 #include "packages/BulletConfig.h"
 
-Batch::Batch(std::function<void(Batch*)> update_func):
-    update_func_(update_func),
+void copyBatchConfig(BatchConfig* copy,const BatchConfig* origin)
+{
+    copy->update_func_=origin->update_func_;
+    copy->target_time_=origin->target_time_;
+    copy->target_time2_=origin->target_time2_;
+    copy->target_time3_=origin->target_time3_;
+}
+
+Batch::Batch(const BatchConfig* batchconfig):
+    //update_func_(update_func),
     current_batch_num_(0),
     add_finish_(false),
     clock_(0),
     phase_(1),
     trigger_(false)
 {
+    copyBatchConfig(&batchconfig_,batchconfig);
     clock_.reset();
 }
 
@@ -47,5 +56,6 @@ void Batch::decreace_bullet()
 
 void Batch::update()
 {
-    update_func_(this);
+    //update_func_(this);
+    batchconfig_.update_func_(this);
 }

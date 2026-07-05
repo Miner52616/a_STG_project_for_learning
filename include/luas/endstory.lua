@@ -66,7 +66,7 @@ pages=
             show_next=false,
             aside=false,
             name="早苗",
-            text="「今天的天空简直可以画进教科书了。"
+            text="「今天的天空简直可以画进教科书了」"
         },
 
         {
@@ -74,7 +74,7 @@ pages=
             show_next=true,
             aside=false,
             name=" ",
-            text="  首先是银河，然后是牛郎星、织女星还有天津四……"
+            text="「银河，然后是牛郎星、织女星还有天津四……"
         },
 
         {
@@ -98,7 +98,7 @@ pages=
             show_next=false,
             aside=false,
             name="早苗",
-            text="「外界的小学都教这些的啦」"
+            text="「外界的小学会教这些的啦」"
         },
     },
 
@@ -116,7 +116,7 @@ pages=
             show_next=false,
             aside=false,
             name="早苗",
-            text="「甚至还是一起的，"
+            text="「甚至还是一起的」"
         },
 
         {
@@ -124,7 +124,7 @@ pages=
             show_next=false,
             aside=false,
             name=" ",
-            text="  八月，确实到流星雨的时候了」"
+            text="「八月，确实到流星雨的时候了」"
         },
 
         {
@@ -174,7 +174,7 @@ pages=
             show_next=false,
             aside=false,
             name="灵梦",
-            text="「啊，这样说明天补神社地板要热死了"
+            text="「啊，这样的话明天补神社地板要热死了」"
         },
 
         {
@@ -182,7 +182,7 @@ pages=
             show_next=false,
             aside=false,
             name=" ",
-            text="  不对，应该是你这家伙来补，绝对」"
+            text="「不对，应该是你这家伙来补，绝对」"
         },
 
         {
@@ -190,7 +190,7 @@ pages=
             show_next=false,
             aside=false,
             name="早苗",
-            text="「博丽的巫女，好残暴～」"
+            text="「博丽的巫女，好残忍～」"
         },
     },
 
@@ -205,10 +205,10 @@ pages=
 
         {
             RGB={R=224,G=224,B=224},
-            show_next=false,
+            show_next=true,
             aside=true,
             name=" ",
-            text="除了那颗差点狙到灵梦的星之外，没有人被流星砸中脑袋"
+            text="没有人被流星砸中脑袋（某颗差点狙到灵梦的星不算）"
         },
 
         {
@@ -217,6 +217,14 @@ pages=
             aside=true,
             name=" ",
             text="也没有其他人有意见找上门来"
+        },
+
+        {
+            RGB={R=224,G=224,B=224},
+            show_next=false,
+            aside=true,
+            name=" ",
+            text="说是异变，其实一点影响力都没有吧"
         },
     },
 
@@ -234,7 +242,7 @@ pages=
             show_next=false,
             aside=true,
             name=" ",
-            text="从五月中旬开始热，一直到九月"
+            text="从五月中旬开始热，一直到快十月"
         },
 
         {
@@ -258,7 +266,7 @@ pages=
             show_next=true,
             aside=true,
             name=" ",
-            text="Ending 今晚来看星星吧"
+            text="Ending 今晚来看星星吧！"
         },
 
         {

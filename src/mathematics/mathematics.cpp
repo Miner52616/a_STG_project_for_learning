@@ -195,32 +195,6 @@ float RadTransToDegree(float rad)
 
 Two_Vector2i bulletsheet_transform(const sf::Vector2i& want)
 {
-    //std::vector<int> rect;
-    //rect.resize(4);
-    /*
-    if(want.size()!=2)
-    {
-        std::cout<<"sheet target dim wrong"<<std::endl;
-        rect[0]=0;
-        rect[1]=0;
-        rect[2]=BULLET_SHEET_GAP;
-        rect[3]=BULLET_SHEET_GAP;
-    }
-    else
-    {
-        //左上角点
-        int x1=(want[0]-1)*BULLET_SHEET_GAP;
-        int y1=(want[1]-1)*BULLET_SHEET_GAP;
-        //边长
-        int x_side=BULLET_SHEET_GAP;
-        int y_side=BULLET_SHEET_GAP;
-
-        rect[0]=x1;
-        rect[1]=y1;
-        rect[2]=x_side;
-        rect[3]=y_side;
-    }*/
-
     Two_Vector2i rect;
 
     //左上角点
@@ -240,33 +214,6 @@ Two_Vector2i bulletsheet_transform(const sf::Vector2i& want)
 
 Two_Vector2i big_bulletsheet_transform(const sf::Vector2i& want)
 {
-    /*
-    std::vector<int> rect;
-    rect.resize(4);
-
-    if(want.size()!=2)
-    {
-        std::cout<<"sheet target dim wrong"<<std::endl;
-        rect[0]=0;
-        rect[1]=0;
-        rect[2]=BULLET_SHEET_GAP;
-        rect[3]=BULLET_SHEET_GAP;
-    }
-    else
-    {
-        //左上角点
-        int x1=(want[0]-1)*2*BULLET_SHEET_GAP;
-        int y1=(want[1]-1)*2*BULLET_SHEET_GAP;
-        //边长
-        int x_side=2*BULLET_SHEET_GAP;
-        int y_side=2*BULLET_SHEET_GAP;
-
-        rect[0]=x1;
-        rect[1]=y1;
-        rect[2]=x_side;
-        rect[3]=y_side;
-    }*/
-
     Two_Vector2i rect;
 
     //左上角点
@@ -286,33 +233,6 @@ Two_Vector2i big_bulletsheet_transform(const sf::Vector2i& want)
 
 Two_Vector2i large_bulletsheet_transform(const sf::Vector2i& want)
 {
-    /*
-    std::vector<int> rect;
-    rect.resize(4);
-
-    if(want.size()!=2)
-    {
-        std::cout<<"sheet target dim wrong"<<std::endl;
-        rect[0]=0;
-        rect[1]=0;
-        rect[2]=BULLET_SHEET_GAP;
-        rect[3]=BULLET_SHEET_GAP;
-    }
-    else
-    {
-        //左上角点
-        int x1=(want[0]-1)*4*BULLET_SHEET_GAP;
-        int y1=6*2*BULLET_SHEET_GAP;
-        //边长
-        int x_side=4*BULLET_SHEET_GAP;
-        int y_side=4*BULLET_SHEET_GAP;
-
-        rect[0]=x1;
-        rect[1]=y1;
-        rect[2]=x_side;
-        rect[3]=y_side;
-    }*/
-
     Two_Vector2i rect;
 
     //左上角点
@@ -332,33 +252,6 @@ Two_Vector2i large_bulletsheet_transform(const sf::Vector2i& want)
 
 Two_Vector2i playersheet_bullet_transform(const sf::Vector2i& want)
 {
-    /*
-    std::vector<int> rect;
-    rect.resize(4);
-
-    if(want.size()!=2)
-    {
-        std::cout<<"sheet target dim wrong"<<std::endl;
-        rect[0]=0;
-        rect[1]=0;
-        rect[2]=BULLET_SHEET_GAP;
-        rect[3]=BULLET_SHEET_GAP;
-    }
-    else
-    {
-        //左上角点
-        int x1=(want[0]-1)*BULLET_SHEET_GAP;
-        int y1=(want[1]-1+11)*BULLET_SHEET_GAP;
-        //边长
-        int x_side=4*BULLET_SHEET_GAP;
-        int y_side=BULLET_SHEET_GAP;
-
-        rect[0]=x1;
-        rect[1]=y1;
-        rect[2]=x_side;
-        rect[3]=y_side;
-    }*/
-
     Two_Vector2i rect;
 
     //左上角点
@@ -378,33 +271,6 @@ Two_Vector2i playersheet_bullet_transform(const sf::Vector2i& want)
 
 Two_Vector2i playersheet_effect_transform(const sf::Vector2i& want)
 {
-    /*
-    std::vector<int> rect;
-    rect.resize(4);
-
-    if(want.size()!=2)
-    {
-        std::cout<<"sheet target dim wrong"<<std::endl;
-        rect[0]=0;
-        rect[1]=0;
-        rect[2]=BULLET_SHEET_GAP;
-        rect[3]=BULLET_SHEET_GAP;
-    }
-    else
-    {
-        //左上角点
-        int x1=(want[0]-1)*BULLET_SHEET_GAP;
-        int y1=(want[1]-1+9)*BULLET_SHEET_GAP;
-        //边长
-        int x_side=BULLET_SHEET_GAP;
-        int y_side=BULLET_SHEET_GAP;
-
-        rect[0]=x1;
-        rect[1]=y1;
-        rect[2]=x_side;
-        rect[3]=y_side;
-    }*/
-
     Two_Vector2i rect;
 
     //左上角点
@@ -424,43 +290,6 @@ Two_Vector2i playersheet_effect_transform(const sf::Vector2i& want)
 
 Two_Vector2i effectsheet_transform(const sf::Vector2i& want)
 {
-    /*
-    std::vector<int> rect;
-    rect.resize(4);
-
-    if(want.size()!=2)
-    {
-        std::cout<<"sheet target dim wrong"<<std::endl;
-        rect[0]=0;
-        rect[1]=0;
-        rect[2]=4*BULLET_SHEET_GAP;
-        rect[3]=4*BULLET_SHEET_GAP;
-    }
-    else
-    {
-        //左上角点
-        int x1;
-        int y1;
-        if(want[0]<=4)
-        {
-            x1=(want[0]-1)*4*BULLET_SHEET_GAP;
-            y1=(want[1]-1)*4*BULLET_SHEET_GAP;
-        }
-        else
-        {
-            x1=(want[0]-5)*4*BULLET_SHEET_GAP;
-            y1=(want[1])*4*BULLET_SHEET_GAP;
-        }
-        //边长
-        int x_side=4*BULLET_SHEET_GAP;
-        int y_side=4*BULLET_SHEET_GAP;
-
-        rect[0]=x1;
-        rect[1]=y1;
-        rect[2]=x_side;
-        rect[3]=y_side;
-    }*/
-
     Two_Vector2i rect;
 
     //左上角点

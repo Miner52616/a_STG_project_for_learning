@@ -29,6 +29,38 @@ phasetable=
                 time=2400,
                 HP=3600,
                 bossname="Kochiya Sanae",
+                spellname="开海「摩西的奇迹」",
+                spellnum=5,
+                name_x=750,
+                name_y=25,
+                voidspell=false,
+                spellcard=true,
+                behaviortable=
+                {
+                    {
+                        type="MoveToRandom1",
+                        start_time=30,
+                    },
+
+                    {
+                        type="DivideSea"
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=10
+                        }
+                    },
+                }
+            },
+
+            {
+                time=2400,
+                HP=3600,
+                bossname="Kochiya Sanae",
                 spellname=" ",
                 spellnum=5,
                 name_x=-100,

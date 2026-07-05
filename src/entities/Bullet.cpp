@@ -48,6 +48,7 @@ void Bullet::selfbehavior()
 
     case BulletBehavior::Direct:
         {
+            //std::cout<<"1"<<std::endl;
             picture_.setRotation(sf::degrees(bulletconfig_->angle_));
             break;
         }
@@ -64,6 +65,10 @@ void Bullet::update()
     //if(bulletconfig_->bulletclass_==DirectBullet2)
     //std::cout<<"111"<<std::endl;
     update_table[bulletconfig_->bulletclass_](*this,yellowpage_,resource_);
+    if(bulletconfig_->specialized_update_func_)
+    {
+        bulletconfig_->specialized_update_func_(*this,yellowpage_,resource_);
+    }
     //if(bulletconfig_->bulletclass_==DirectBullet2)
     //std::cout<<"222"<<std::endl;
     selfbehavior();
@@ -634,6 +639,11 @@ void rotate_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
     }
 }
 
+void void_update(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+{
+    ;
+}
+
 UpdateFunc update_table[]=
 {
     aim_move1,
@@ -646,5 +656,109 @@ UpdateFunc update_table[]=
     rotate_move1,
     behavior_move1,
     rotate_move2,
-    rotate_move3
+    rotate_move3,
+    void_update
 };
+
+/****************************************************************************************************************** */
+
+void divide_sea1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+{
+    if(bullet.bulletconfig_->shareconfig_.active_)
+    {
+        //std::cout<<*(bullet.bulletconfig_->shareconfig_.phase_)<<std::endl;
+        switch (*(bullet.bulletconfig_->shareconfig_.phase_))
+        {
+        case 1:
+            {
+                //std::cout<<"case 1"<<std::endl;
+                //bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v_*(bullet.bulletconfig_->target_point_-bullet.getPosition()));
+                sf::Vector2f direction=bullet.bulletconfig_->target_point_-bullet.getPosition();
+                bullet.setPosition((bullet.bulletconfig_->v_*direction)+bullet.getPosition());
+                break;
+            }
+
+        case 2:
+            {
+                if(bullet.bulletconfig_->clock1_.get_condition())
+                {
+                    sf::Vector2f direction=bullet.bulletconfig_->target_point2_-bullet.getPosition();
+                    bullet.setPosition((bullet.bulletconfig_->v_*direction)+bullet.getPosition());
+                }
+                bullet.bulletconfig_->clock1_.count();
+                break;
+            }
+
+        case 3:
+            {
+                sf::Vector2f direction=bullet.bulletconfig_->target_point3_-bullet.getPosition();
+                bullet.setPosition(bullet.bulletconfig_->v_*direction+bullet.getPosition());
+                break;
+            }
+
+        case 4:
+            {
+                sf::Vector2f direction;
+                if(bullet.getPosition().x<=385)
+                {
+                    direction={-1,0};
+                }
+                else
+                {
+                    direction={1,0};
+                }
+
+                bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v2_*direction);
+                bullet.bulletconfig_->v2_=bullet.bulletconfig_->v2_+bullet.bulletconfig_->a_;
+                break;
+            }
+        
+        default:
+            {
+                bullet.markDead();
+                break;
+            }
+        }
+    }
+    else
+    {
+        bullet.markDead();
+    }
+}
+
+void divide_sea2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+{
+    switch(bullet.bulletconfig_->self_phase_)
+    {
+    case 1:
+        {
+            sf::Vector2f direction=bullet.bulletconfig_->target_point_-bullet.getPosition();
+            bullet.setPosition((bullet.bulletconfig_->v_*direction)+bullet.getPosition());
+            if(abs(bullet.getPosition().x-bullet.bulletconfig_->target_point_.x)<=1)
+            {
+                bullet.bulletconfig_->self_phase_++;
+            }
+            break;
+        }
+
+    case 2:
+        {
+            sf::Vector2f direction;
+            if(bullet.getPosition().x<=385)
+            {
+                direction={-1,0};
+            }
+            else
+            {
+                direction={1,0};
+            }
+
+            bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_->v2_*direction);
+            bullet.bulletconfig_->v2_=bullet.bulletconfig_->v2_+bullet.bulletconfig_->a_;
+            break;
+        }
+    
+    default:
+        break;
+    }
+}

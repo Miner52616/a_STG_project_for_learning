@@ -23,6 +23,7 @@
 #include "behaviors/behaviors/BreezyBlossom2.h"
 #include "behaviors/behaviors/BreezyBlossom3.h"
 #include "behaviors/behaviors/BreezyBlossom4.h"
+#include "behaviors/behaviors/DivideSea.h"
 #include <iostream>
 #include <sol/sol.hpp>
 
@@ -405,6 +406,16 @@ BFactory::BFactory()
             std::unique_ptr<StarRite> starrite=std::make_unique<StarRite>(enemy,resource_,yellowpage_);
 
             return std::move(starrite);
+        }
+    );
+
+    registerBehavior("DivideSea",
+        [this](Entity* enemy,const sol::table& behaviorscript)
+        {
+            std::cout<<"            DivideSea"<<std::endl;
+            std::unique_ptr<DivideSea> dividesea=std::make_unique<DivideSea>(enemy,resource_,yellowpage_);
+
+            return std::move(dividesea);
         }
     );
 }

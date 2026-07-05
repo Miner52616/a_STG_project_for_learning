@@ -153,4 +153,7 @@ void copyconfig(BulletConfig* copy,BulletConfig* origin)
     copy->r2_=origin->r2_;
     copy->not_clear_=origin->not_clear_;
     copy->specialized_update_func_=origin->specialized_update_func_;
+    copy->target_point2_=origin->target_point2_;
+    copy->target_point3_=origin->target_point3_;
+    copy->self_phase_=origin->self_phase_;
 }

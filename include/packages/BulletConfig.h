@@ -4,6 +4,8 @@
 #include "core/Clock.h"
 #include "packages/EffectConfig.h"
 #include <functional>
+#include "packages/Resource.h"
+#include "packages/YellowPage.h"
 
 enum BulletClasses
 {
@@ -17,7 +19,8 @@ enum BulletClasses
     RotateBullet1=7,
     Behavior_DirectBullet1=8,
     PhaseCenterRotateBullet1=9,
-    PhaseCenterRotateExpandBullet1=10
+    PhaseCenterRotateExpandBullet1=10,
+    VoidUpdate=11,
 };
 
 enum BulletBehavior
@@ -60,11 +63,12 @@ public:
     float r_=2;
     float r2_=2;
     float damage_=0;
-    float angle_=0;//子弹贴图的旋转角度（degree）。注意，0代表子弹贴图朝右
+    float angle_=0;//子弹贴图的旋转角度（degree）。注意，0代表子弹贴图朝下
     float angle2_=0;
     float bullet_num_=0;
     bool random_son_direction_=false;
     bool not_clear_=false;
+    int self_phase_=1;
     uint8_t color_alpha_=255;
     Clock clock1_;
     Clock clock2_;
@@ -75,6 +79,8 @@ public:
     sf::Vector2f center_point_={0,0};
     sf::Vector2f center_point2_={0,0};
     sf::Vector2f target_point_={0,0};
+    sf::Vector2f target_point2_={0,0};
+    sf::Vector2f target_point3_={0,0};
     BulletClasses bulletclass_=BulletClasses::PlayerBullet;//子弹类型。每一种子弹都有自己的更新函数
     BulletBehavior bulletbehavior_=BulletBehavior::Fix;//子弹贴图表现方式。将决定子弹贴图的朝向方向会如何更新
     BulletBehavior bulletbehavior2_=BulletBehavior::Fix;
@@ -84,7 +90,7 @@ public:
 
     //using BulletUpdateFunc=void(*)(Bullet*);
     //BulletUpdateFunc specialized_update_func_=nullptr;
-    void(*specialized_update_func_)(Bullet*)=nullptr;
+    void(*specialized_update_func_)(Bullet& bullet,YellowPage* yellowpage,Resource* resource)=nullptr;
 
     ShareConfig shareconfig_;
 

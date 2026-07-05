@@ -99,6 +99,7 @@ void StateStack::applyStateChanges()
         {
             clear();
             push(std::make_unique<MenuState>(app_));
+            break;
         }
         default:
         {

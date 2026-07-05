@@ -121,10 +121,7 @@ MenuState::MenuState(application &app):
 
 void MenuState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
 {
-    if(current_phase_==1)
-    {
-        ButtonState<MenuState>::ProcessEvent(window,event);
-    }
+    ButtonState<MenuState>::ProcessEvent(window,event);
 }
 
 void MenuState::Update()
@@ -215,71 +212,74 @@ void MenuState::Render(sf::RenderWindow& window)
 
 void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed& key)
 {
-    if(key.code==sf::Keyboard::Key::Down)
+    if(current_phase_==1)
     {
-       do
-       {
-            focus_=(focus_%MenuButtonNum)+1;
-       }while(buttonlist_[focus_-1].getButtonLocked()==locked);
-       buttonlist_[focus_-1].shake();
-    }
-
-    if(key.code==sf::Keyboard::Key::Up)
-    {
-       do
-       {
-            focus_--;
-            if(focus_<1)
-            {
-                focus_=focus_+MenuButtonNum;
-            }
-       }while(buttonlist_[focus_-1].getButtonLocked()==locked);
-       buttonlist_[focus_-1].shake();
-    }
-    
-    if((key.code==sf::Keyboard::Key::X)||(key.code==sf::Keyboard::Key::Escape))
-    {
-        focus_=MenuButtonNum;
-        
-        //std::cout<<a<<std::endl;
-        buttonlist_[focus_-1].shake();
-    }
-
-    if(key.code==sf::Keyboard::Key::Z)
-    {
-        buttonlist_[focus_-1].setPhase(2);
-        //current_phase_=2;
-        
-        switch (focus_)
+        if(key.code==sf::Keyboard::Key::Down)
         {
-            case 1:
-            {
-                current_phase_=2;
-                break;
-            }
-
-            case 2:
-            {
-                current_phase_=3;
-                break;
-            }
-
-            case 3:
-            {
-                current_phase_=3;
-                break;
-            }
-
-            case MenuButtonNum:
-            {
-                window.close();
-                std::cout<<"window closed\n";
-                break;
-            }
-        default:
-            break;
+        do
+        {
+                focus_=(focus_%MenuButtonNum)+1;
+        }while(buttonlist_[focus_-1].getButtonLocked()==locked);
+        buttonlist_[focus_-1].shake();
         }
+
+        if(key.code==sf::Keyboard::Key::Up)
+        {
+        do
+        {
+                focus_--;
+                if(focus_<1)
+                {
+                    focus_=focus_+MenuButtonNum;
+                }
+        }while(buttonlist_[focus_-1].getButtonLocked()==locked);
+        buttonlist_[focus_-1].shake();
+        }
+        
+        if((key.code==sf::Keyboard::Key::X)||(key.code==sf::Keyboard::Key::Escape))
+        {
+            focus_=MenuButtonNum;
             
+            //std::cout<<a<<std::endl;
+            buttonlist_[focus_-1].shake();
+        }
+
+        if(key.code==sf::Keyboard::Key::Z)
+        {
+            buttonlist_[focus_-1].setPhase(2);
+            //current_phase_=2;
+            
+            switch (focus_)
+            {
+                case 1:
+                {
+                    current_phase_=2;
+                    break;
+                }
+
+                case 2:
+                {
+                    current_phase_=3;
+                    break;
+                }
+
+                case 3:
+                {
+                    current_phase_=3;
+                    break;
+                }
+
+                case MenuButtonNum:
+                {
+                    window.close();
+                    std::cout<<"window closed\n";
+                    break;
+                }
+            default:
+                break;
+            }
+                
+        }
     }
 }
 
