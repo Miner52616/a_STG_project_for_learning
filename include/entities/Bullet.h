@@ -27,7 +27,7 @@ friend void divide_sea1(Bullet& bullet,YellowPage* yellowpage,Resource* resource
 friend void divide_sea2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
 
 protected:
-    bool show_hitbox_=false;
+    bool show_hitbox_=true;
 
     Resource* resource_;//追踪弹将向phasecontroller申请最近的目标位置
     YellowPage* yellowpage_;//自机狙将访问player获取player位置

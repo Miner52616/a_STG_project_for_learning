@@ -32,7 +32,7 @@ private:
     Clock clock_;
     Clock life_clock_;
     Clock bomb_clock_;
-    Frame &outline_;
+    //Frame &outline_;
     YellowPage* yellowpage_;
     Resource* resource_;
     std::shared_ptr<BulletConfig> bulletconfig_;
@@ -59,7 +59,10 @@ public:
     void clock_count();
 
 public:
-    Player(const sf::Texture &texture,Frame &outline,Resource* resource);  //初始化资源引用，默认玩家设置
+    Player(const sf::Texture &texture/*,Frame &outline*/,Resource* resource);  //初始化资源引用，默认玩家设置
+    void update();  //更新玩家属性
+    void drawwindow(sf::RenderWindow& window) override;  //渲染玩家至屏幕
+    void drawtexture(sf::RenderTexture& texture) override;
 
     void setBulletConfig();
     void setEffectConfig();
@@ -79,9 +82,6 @@ public:
     int getBombNum();
     int getGrazebox_r();
     void be_damage();
-    void Player_update();  //更新玩家属性
-    void drawwindow(sf::RenderWindow& window) override;  //渲染玩家至屏幕
-    void drawtexture(sf::RenderTexture& texture) override;
 };
 
 class Child_Plane:public Entity

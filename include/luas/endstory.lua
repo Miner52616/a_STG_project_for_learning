@@ -174,7 +174,7 @@ pages=
             show_next=false,
             aside=false,
             name="灵梦",
-            text="「啊，这样的话明天补神社地板要热死了」"
+            text="「啊，这样的话明天修神社地板要热死了」"
         },
 
         {
@@ -182,7 +182,7 @@ pages=
             show_next=false,
             aside=false,
             name=" ",
-            text="「不对，应该是你这家伙来补，绝对」"
+            text="「不对，应该是你这家伙来修，绝对」"
         },
 
         {
@@ -208,7 +208,7 @@ pages=
             show_next=true,
             aside=true,
             name=" ",
-            text="没有人被流星砸中脑袋（某颗差点狙到灵梦的星不算）"
+            text="没有人被流星砸中脑袋（如果某颗差点狙到灵梦的星不算）"
         },
 
         {

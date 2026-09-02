@@ -52,7 +52,7 @@ private:
     int frame_count_=0;
     float fps_=0;
 
-    Frame outline1;
+    Frame outline1_;
     Text difficulty_;
     NumLine1 high_score_line_;
     NumLine1 score_line_;

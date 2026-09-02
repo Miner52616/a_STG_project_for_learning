@@ -23,7 +23,7 @@ GameState::GameState(application &app):
     fps_line_(app_.mainFont_),
     life_line_(app_.mainFont_,app_.lifeUI_),
     bomb_line_(app_.mainFont_,app_.bombUI_),
-    outline1({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
+    outline1_({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
     window_sprite_(game_window_.getTexture()),
     //origin_window_sprite_(origin_window_.getTexture()),
     star_curtain1_(app_.curtain_texture1_),
@@ -202,7 +202,7 @@ void GameState::bundle_resource()
 void GameState::set_player()
 {
     //创建游戏对象并初始化
-    player_=std::make_unique<Player>(app_.playerTexture_,outline1,resource_.get());
+    player_=std::make_unique<Player>(app_.playerTexture_,resource_.get());
     player_->setPosition({385,450});
     player_->setResource(resource_.get());
 }
@@ -318,7 +318,7 @@ void GameState::Update()
 
     continue_check();
 
-    player_->Player_update();
+    player_->update();
 
     phasecontroller_.update();
     //std::cout<<"phase update"<<std::endl;
@@ -388,8 +388,8 @@ void GameState::Render(sf::RenderWindow& window)
     game_window_.clear();
     origin_window_.clear();
 
-    outline1.drawwindow(window);
-    outline1.drawTexture(origin_window_);
+    outline1_.drawwindow(window);
+    outline1_.drawTexture(origin_window_);
 
     //player_->drawwindow(window);
     player_->drawtexture(game_window_);

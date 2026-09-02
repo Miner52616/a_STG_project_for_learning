@@ -8,7 +8,7 @@
 #include "manager/EffectManager.h"
 #include "mathematics/mathematics.h"
 
-Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
+Player::Player(const sf::Texture &texture/*,Frame &outline*/,Resource* resource):
     Entity(texture),
     hitbox_texture_(resource->app_.hitboxTexture_),
     hitbox_exist_(false),
@@ -27,7 +27,7 @@ Player::Player(const sf::Texture &texture,Frame &outline,Resource* resource):
     life_clock_((long long int)240),
     bomb_clock_((long long int)180),
     shining_clock_(2),
-    outline_(outline),
+    //outline_(outline),
     resource_(resource),
     //bulletconfig_(resource_->app_.bulletTexture_)
     life_(3),
@@ -327,7 +327,7 @@ void Player::drawtexture(sf::RenderTexture& texture)
     }
 }
 
-void Player::Player_update()
+void Player::update()
 {
     store_position();
     power_=yellowpage_->power_line_.getCurrentNum();
