@@ -124,15 +124,6 @@ void BulletManager::render(sf::RenderTexture& texture)
         (*it)->drawtexture(texture);
     }
 }
-/*
-void BulletManager::playerbulletlist_add()
-{
-    if(player_.Handle_shoot_request())
-    {    
-        playerbulletlist_.emplace_back(std::make_unique<Bullet>(app_.bulletTexture_,player_.getPosition()));
-    }
-}
-*/
 
 void BulletManager::bulletlist_update()
 {

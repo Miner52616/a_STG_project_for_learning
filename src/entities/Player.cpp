@@ -21,15 +21,14 @@ Player::Player(const sf::Texture &texture/*,Frame &outline*/,Resource* resource)
     speed_y_(0),
     v_limit_(0),
     grazebox_r(50),
-    request_shoot_(false),
     shining_(false),
+    control_mode_(1),
     clock_((long long int)2),
     life_clock_((long long int)240),
     bomb_clock_((long long int)180),
+    auto_clock_((long long int)60),
     shining_clock_(2),
-    //outline_(outline),
     resource_(resource),
-    //bulletconfig_(resource_->app_.bulletTexture_)
     life_(3),
     bomb_(3),
     power_(0)
@@ -44,6 +43,8 @@ Player::Player(const sf::Texture &texture/*,Frame &outline*/,Resource* resource)
 
     hitbox_r_=1;
     hitbox_.setRadius(hitbox_r_);
+
+    auto_clock_.reset();
     //std::cout<<"1"<<std::endl;
     setBulletConfig();
     setEffectConfig();
@@ -58,16 +59,6 @@ Player::Player(const sf::Texture &texture/*,Frame &outline*/,Resource* resource)
         child_plane1->setEffectConfig();
         child_planes_.emplace_back(std::move(child_plane1));
     }
-    /*
-    std::unique_ptr<Child_Plane> child_plane1=std::make_unique<Child_Plane>(resource_->app_.child_planeTexture_);
-    child_plane1->setResource(resource_,this);
-    child_plane1->setBulletConfig();
-    child_planes_.emplace_back(std::move(child_plane1));
-    std::unique_ptr<Child_Plane> child_plane2=std::make_unique<Child_Plane>(resource_->app_.child_planeTexture_);
-    child_plane2->setResource(resource_,this);
-    child_plane2->setBulletConfig();
-    child_planes_.emplace_back(std::move(child_plane2));
-    */
 }
 
 void Player::setOverlayConfig()
@@ -81,7 +72,7 @@ void Player::setOverlayConfig()
 
 void Player::setBulletConfig()
 {
-    bulletconfig_=std::make_shared<BulletConfig>(resource_->app_.playersheetTexture_);
+    bulletconfig_=std::make_unique<BulletConfig>(resource_->app_.playersheetTexture_);
     bulletconfig_->bullet_index_={1,1};
     bulletconfig_->damage_=4;
     bulletconfig_->bulletclass_=BulletClasses::PlayerBullet;
@@ -133,23 +124,6 @@ void Player::setContinued(bool continued)
 
 void Player::check_position()
 {
-    /*
-    if(getPosition().x<outline_.getGlobalBounds().position.x+20)
-    {
-        setPosition({outline_.getGlobalBounds().position.x+20,getPosition().y});
-    }
-    if(getPosition().y<outline_.getGlobalBounds().position.y+35)
-    {
-        setPosition({getPosition().x,outline_.getGlobalBounds().position.y+35});
-    }
-    if(getPosition().x>outline_.getGlobalBounds().position.x+outline_.getGlobalBounds().size.x-20)
-    {
-        setPosition({outline_.getGlobalBounds().position.x+outline_.getGlobalBounds().size.x-20,getPosition().y});
-    }
-    if(getPosition().y>outline_.getGlobalBounds().position.y+outline_.getGlobalBounds().size.y-35)
-    {
-        setPosition({getPosition().x,outline_.getGlobalBounds().position.y+outline_.getGlobalBounds().size.y-35});
-    }*/
     if(getPosition().x<20)
     {
         setPosition({20,getPosition().y});
@@ -165,19 +139,6 @@ void Player::check_position()
     if(getPosition().y>900-35)
     {
         setPosition({getPosition().x,900-35});
-    }
-}
-
-bool Player::Handle_shoot_request()
-{
-    if(request_shoot_)
-    {
-        request_shoot_=false;
-        return true;
-    }
-    else
-    {
-        return false;
     }
 }
 
@@ -293,7 +254,8 @@ void Player::be_damage()
         {
             bomb_=3;
         }
-        setPosition({385,700});
+        setPosition({385,850});
+        control_mode_=2;
         life_clock_.reset();
     }
 }
@@ -406,12 +368,6 @@ void Player::update()
         default:
             break;
         }
-        /*
-        child_planes_[0]->setTargetPosition(sf::Vector2f{-80,80});
-        child_planes_[1]->setTargetPosition(sf::Vector2f{-30,100});
-        child_planes_[2]->setTargetPosition(sf::Vector2f{30,100});
-        child_planes_[3]->setTargetPosition(sf::Vector2f{80,80});
-        */
         v_limit_=v_low_;
         a_=a_low_;
     }
@@ -462,317 +418,327 @@ void Player::update()
         default:
             break;
         }
-        /*
-        child_planes_[0]->setTargetPosition(sf::Vector2f{-20,-50});
-        child_planes_[1]->setTargetPosition(sf::Vector2f{-10,-50});
-        child_planes_[2]->setTargetPosition(sf::Vector2f{10,-50});
-        child_planes_[3]->setTargetPosition(sf::Vector2f{20,-50});
-        */
         v_limit_=v_high_;
         a_=a_high_;
     }
-
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)))
-    {
-        if(speed_x_<v_limit_*0.707)
-        {
-            speed_x_=speed_x_+a_;
-            if(speed_x_>v_limit_*0.707)
-            {
-                speed_x_=v_limit_*0.707;
-            }
-        }
-        if(speed_x_>v_limit_*0.707)
-        {
-            speed_x_=speed_x_-a_high_;
-            if(speed_x_<v_limit_*0.707)
-            {
-                speed_x_=v_limit_*0.707;
-            }
-        }
-        if(speed_y_<v_limit_*0.707)
-        {
-            speed_y_=speed_y_+a_;
-            if(speed_y_>v_limit_*0.707)
-            {
-                speed_y_=v_limit_*0.707;
-            }
-        }
-        if(speed_y_>v_limit_*0.707)
-        {
-            speed_y_=speed_y_-a_high_;
-            if(speed_y_<v_limit_*0.707)
-            {
-                speed_y_=v_limit_*0.707;
-            }
-        }
-        setPosition({getPosition().x-speed_x_,getPosition().y-speed_y_});
-        check_position();
-    }
-    else
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)))
-    {
-        if(speed_x_<v_limit_*0.707)
-        {
-            speed_x_=speed_x_+a_;
-            if(speed_x_>v_limit_*0.707)
-            {
-                speed_x_=v_limit_*0.707;
-            }
-        }
-        if(speed_x_>v_limit_*0.707)
-        {
-            speed_x_=speed_x_-a_high_;
-            if(speed_x_<v_limit_*0.707)
-            {
-                speed_x_=v_limit_*0.707;
-            }
-        }
-        if(speed_y_<v_limit_*0.707)
-        {
-            speed_y_=speed_y_+a_;
-            if(speed_y_>v_limit_*0.707)
-            {
-                speed_y_=v_limit_*0.707;
-            }
-        }
-        if(speed_y_>v_limit_*0.707)
-        {
-            speed_y_=speed_y_-a_high_;
-            if(speed_y_<v_limit_*0.707)
-            {
-                speed_y_=v_limit_*0.707;
-            }
-        }
-        setPosition({getPosition().x-speed_x_,getPosition().y+speed_y_});
-        check_position();
-    }
-    else
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))
-    {
-        if(speed_x_<v_limit_*0.707)
-        {
-            speed_x_=speed_x_+a_;
-            if(speed_x_>v_limit_*0.707)
-            {
-                speed_x_=v_limit_*0.707;
-            }
-        }
-        if(speed_x_>v_limit_*0.707)
-        {
-            speed_x_=speed_x_-a_high_;
-            if(speed_x_<v_limit_*0.707)
-            {
-                speed_x_=v_limit_*0.707;
-            }
-        }
-        if(speed_y_<v_limit_*0.707)
-        {
-            speed_y_=speed_y_+a_;
-            if(speed_y_>v_limit_*0.707)
-            {
-                speed_y_=v_limit_*0.707;
-            }
-        }
-        if(speed_y_>v_limit_*0.707)
-        {
-            speed_y_=speed_y_-a_high_;
-            if(speed_y_<v_limit_*0.707)
-            {
-                speed_y_=v_limit_*0.707;
-            }
-        }
-        setPosition({getPosition().x+speed_x_,getPosition().y-speed_y_});
-        check_position();
-    }
-    else
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))
-    {
-        if(speed_x_<v_limit_*0.707)
-        {
-            speed_x_=speed_x_+a_;
-            if(speed_x_>v_limit_*0.707)
-            {
-                speed_x_=v_limit_*0.707;
-            }
-        }
-        if(speed_x_>v_limit_*0.707)
-        {
-            speed_x_=speed_x_-a_high_;
-            if(speed_x_<v_limit_*0.707)
-            {
-                speed_x_=v_limit_*0.707;
-            }
-        }
-        if(speed_y_<v_limit_*0.707)
-        {
-            speed_y_=speed_y_+a_;
-            if(speed_y_>v_limit_*0.707)
-            {
-                speed_y_=v_limit_*0.707;
-            }
-        }
-        if(speed_y_>v_limit_*0.707)
-        {
-            speed_y_=speed_y_-a_high_;
-            if(speed_y_<v_limit_*0.707)
-            {
-                speed_y_=v_limit_*0.707;
-            }
-        }
-        setPosition({getPosition().x+speed_x_,getPosition().y+speed_y_});
-        check_position();
-    }
-    else
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
-    {
-        if(speed_x_>0)
-        {
-            speed_x_=speed_x_-a_high_;
-            if(speed_x_<0)
-            {
-                speed_x_=0;
-            }
-        }
-        if(speed_y_<v_limit_)
-        {
-            speed_y_=speed_y_+a_;
-            if(speed_y_>v_limit_)
-            {
-                speed_y_=v_limit_;
-            }
-        }
-        if(speed_y_>v_limit_)
-        {
-            speed_y_=speed_y_-a_high_;
-            if(speed_y_<v_limit_)
-            {
-                speed_y_=v_limit_;
-            }
-        }
-        setPosition({position_.x,(position_.y)-speed_y_});
-        check_position();
-    }
-    else
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
-    {
-        if(speed_x_>0)
-        {
-            speed_x_=speed_x_-a_high_;
-            if(speed_x_<0)
-            {
-                speed_x_=0;
-            }
-        }
-        if(speed_y_<v_limit_)
-        {
-            speed_y_=speed_y_+a_;
-            if(speed_y_>v_limit_)
-            {
-                speed_y_=v_limit_;
-            }
-        }
-        if(speed_y_>v_limit_)
-        {
-            speed_y_=speed_y_-a_high_;
-            if(speed_y_<v_limit_)
-            {
-                speed_y_=v_limit_;
-            }
-        }
-        setPosition({position_.x,(position_.y)+speed_y_});
-        check_position();
-    }
-    else
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
-    {
-        if(speed_y_>0)
-        {
-            speed_y_=speed_y_-a_high_;
-            if(speed_y_<0)
-            {
-                speed_y_=0;
-            }
-        }
-        if(speed_x_<v_limit_)
-        {
-            speed_x_=speed_x_+a_;
-            if(speed_x_>v_limit_)
-            {
-                speed_x_=v_limit_;
-            }
-        }
-        if(speed_x_>v_limit_)
-        {
-            speed_x_=speed_x_-a_high_;
-            if(speed_x_<v_limit_)
-            {
-                speed_x_=v_limit_;
-            }
-        }
-        setPosition({position_.x-speed_x_,position_.y});
-        check_position();
-    }
-    else
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
-    {
-        if(speed_y_>0)
-        {
-            speed_y_=speed_y_-a_high_;
-            if(speed_y_<0)
-            {
-                speed_y_=0;
-            }
-        }
-        if(speed_x_<v_limit_)
-        {
-            speed_x_=speed_x_+a_;
-            if(speed_x_>v_limit_)
-            {
-                speed_x_=v_limit_;
-            }
-        }
-        if(speed_x_>v_limit_)
-        {
-            speed_x_=speed_x_-a_high_;
-            if(speed_x_<v_limit_)
-            {
-                speed_x_=v_limit_;
-            }
-        }
-        setPosition({position_.x+speed_x_,position_.y});
-        check_position();
-    }
-    else
-    {
-        if(speed_x_>0)
-        {
-            speed_x_=speed_x_-a_high_;
-            if(speed_x_<0)
-            {
-                speed_x_=0;
-            }
-        }
-        if(speed_y_>0)
-        {
-            speed_y_=speed_y_-a_high_;
-            if(speed_y_<0)
-            {
-                speed_y_=0;
-            }
-        }
-    }
-
-/*
-    if(child_planes_[0]->getPosition()==sf::Vector2f{0,0})
-    {
-        child_planes_[0]->setPosition(prev_position_+sf::Vector2f{-80,0});
-        child_planes_[1]->setPosition(prev_position_+sf::Vector2f{80,0});
-    }
     
-    child_planes_[0]->setPosition(child_planes_[0]->getPosition()+(getPosition()-prev_position_));
-    child_planes_[1]->setPosition(child_planes_[1]->getPosition()+(getPosition()-prev_position_));
-  */
+    switch (control_mode_)
+    {
+    case 1:
+        {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)))
+            {
+                if(speed_x_<v_limit_*0.707)
+                {
+                    speed_x_=speed_x_+a_;
+                    if(speed_x_>v_limit_*0.707)
+                    {
+                        speed_x_=v_limit_*0.707;
+                    }
+                }
+                if(speed_x_>v_limit_*0.707)
+                {
+                    speed_x_=speed_x_-a_high_;
+                    if(speed_x_<v_limit_*0.707)
+                    {
+                        speed_x_=v_limit_*0.707;
+                    }
+                }
+                if(speed_y_<v_limit_*0.707)
+                {
+                    speed_y_=speed_y_+a_;
+                    if(speed_y_>v_limit_*0.707)
+                    {
+                        speed_y_=v_limit_*0.707;
+                    }
+                }
+                if(speed_y_>v_limit_*0.707)
+                {
+                    speed_y_=speed_y_-a_high_;
+                    if(speed_y_<v_limit_*0.707)
+                    {
+                        speed_y_=v_limit_*0.707;
+                    }
+                }
+                setPosition({getPosition().x-speed_x_,getPosition().y-speed_y_});
+                check_position();
+            }
+            else
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)))
+            {
+                if(speed_x_<v_limit_*0.707)
+                {
+                    speed_x_=speed_x_+a_;
+                    if(speed_x_>v_limit_*0.707)
+                    {
+                        speed_x_=v_limit_*0.707;
+                    }
+                }
+                if(speed_x_>v_limit_*0.707)
+                {
+                    speed_x_=speed_x_-a_high_;
+                    if(speed_x_<v_limit_*0.707)
+                    {
+                        speed_x_=v_limit_*0.707;
+                    }
+                }
+                if(speed_y_<v_limit_*0.707)
+                {
+                    speed_y_=speed_y_+a_;
+                    if(speed_y_>v_limit_*0.707)
+                    {
+                        speed_y_=v_limit_*0.707;
+                    }
+                }
+                if(speed_y_>v_limit_*0.707)
+                {
+                    speed_y_=speed_y_-a_high_;
+                    if(speed_y_<v_limit_*0.707)
+                    {
+                        speed_y_=v_limit_*0.707;
+                    }
+                }
+                setPosition({getPosition().x-speed_x_,getPosition().y+speed_y_});
+                check_position();
+            }
+            else
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))
+            {
+                if(speed_x_<v_limit_*0.707)
+                {
+                    speed_x_=speed_x_+a_;
+                    if(speed_x_>v_limit_*0.707)
+                    {
+                        speed_x_=v_limit_*0.707;
+                    }
+                }
+                if(speed_x_>v_limit_*0.707)
+                {
+                    speed_x_=speed_x_-a_high_;
+                    if(speed_x_<v_limit_*0.707)
+                    {
+                        speed_x_=v_limit_*0.707;
+                    }
+                }
+                if(speed_y_<v_limit_*0.707)
+                {
+                    speed_y_=speed_y_+a_;
+                    if(speed_y_>v_limit_*0.707)
+                    {
+                        speed_y_=v_limit_*0.707;
+                    }
+                }
+                if(speed_y_>v_limit_*0.707)
+                {
+                    speed_y_=speed_y_-a_high_;
+                    if(speed_y_<v_limit_*0.707)
+                    {
+                        speed_y_=v_limit_*0.707;
+                    }
+                }
+                setPosition({getPosition().x+speed_x_,getPosition().y-speed_y_});
+                check_position();
+            }
+            else
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))
+            {
+                if(speed_x_<v_limit_*0.707)
+                {
+                    speed_x_=speed_x_+a_;
+                    if(speed_x_>v_limit_*0.707)
+                    {
+                        speed_x_=v_limit_*0.707;
+                    }
+                }
+                if(speed_x_>v_limit_*0.707)
+                {
+                    speed_x_=speed_x_-a_high_;
+                    if(speed_x_<v_limit_*0.707)
+                    {
+                        speed_x_=v_limit_*0.707;
+                    }
+                }
+                if(speed_y_<v_limit_*0.707)
+                {
+                    speed_y_=speed_y_+a_;
+                    if(speed_y_>v_limit_*0.707)
+                    {
+                        speed_y_=v_limit_*0.707;
+                    }
+                }
+                if(speed_y_>v_limit_*0.707)
+                {
+                    speed_y_=speed_y_-a_high_;
+                    if(speed_y_<v_limit_*0.707)
+                    {
+                        speed_y_=v_limit_*0.707;
+                    }
+                }
+                setPosition({getPosition().x+speed_x_,getPosition().y+speed_y_});
+                check_position();
+            }
+            else
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+            {
+                if(speed_x_>0)
+                {
+                    speed_x_=speed_x_-a_high_;
+                    if(speed_x_<0)
+                    {
+                        speed_x_=0;
+                    }
+                }
+                if(speed_y_<v_limit_)
+                {
+                    speed_y_=speed_y_+a_;
+                    if(speed_y_>v_limit_)
+                    {
+                        speed_y_=v_limit_;
+                    }
+                }
+                if(speed_y_>v_limit_)
+                {
+                    speed_y_=speed_y_-a_high_;
+                    if(speed_y_<v_limit_)
+                    {
+                        speed_y_=v_limit_;
+                    }
+                }
+                setPosition({position_.x,(position_.y)-speed_y_});
+                check_position();
+            }
+            else
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+            {
+                if(speed_x_>0)
+                {
+                    speed_x_=speed_x_-a_high_;
+                    if(speed_x_<0)
+                    {
+                        speed_x_=0;
+                    }
+                }
+                if(speed_y_<v_limit_)
+                {
+                    speed_y_=speed_y_+a_;
+                    if(speed_y_>v_limit_)
+                    {
+                        speed_y_=v_limit_;
+                    }
+                }
+                if(speed_y_>v_limit_)
+                {
+                    speed_y_=speed_y_-a_high_;
+                    if(speed_y_<v_limit_)
+                    {
+                        speed_y_=v_limit_;
+                    }
+                }
+                setPosition({position_.x,(position_.y)+speed_y_});
+                check_position();
+            }
+            else
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+            {
+                if(speed_y_>0)
+                {
+                    speed_y_=speed_y_-a_high_;
+                    if(speed_y_<0)
+                    {
+                        speed_y_=0;
+                    }
+                }
+                if(speed_x_<v_limit_)
+                {
+                    speed_x_=speed_x_+a_;
+                    if(speed_x_>v_limit_)
+                    {
+                        speed_x_=v_limit_;
+                    }
+                }
+                if(speed_x_>v_limit_)
+                {
+                    speed_x_=speed_x_-a_high_;
+                    if(speed_x_<v_limit_)
+                    {
+                        speed_x_=v_limit_;
+                    }
+                }
+                setPosition({position_.x-speed_x_,position_.y});
+                check_position();
+            }
+            else
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+            {
+                if(speed_y_>0)
+                {
+                    speed_y_=speed_y_-a_high_;
+                    if(speed_y_<0)
+                    {
+                        speed_y_=0;
+                    }
+                }
+                if(speed_x_<v_limit_)
+                {
+                    speed_x_=speed_x_+a_;
+                    if(speed_x_>v_limit_)
+                    {
+                        speed_x_=v_limit_;
+                    }
+                }
+                if(speed_x_>v_limit_)
+                {
+                    speed_x_=speed_x_-a_high_;
+                    if(speed_x_<v_limit_)
+                    {
+                        speed_x_=v_limit_;
+                    }
+                }
+                setPosition({position_.x+speed_x_,position_.y});
+                check_position();
+            }
+            else
+            {
+                if(speed_x_>0)
+                {
+                    speed_x_=speed_x_-a_high_;
+                    if(speed_x_<0)
+                    {
+                        speed_x_=0;
+                    }
+                }
+                if(speed_y_>0)
+                {
+                    speed_y_=speed_y_-a_high_;
+                    if(speed_y_<0)
+                    {
+                        speed_y_=0;
+                    }
+                }
+            }
+            break;
+        }
+
+    case 2:
+        {
+            auto_clock_.count();
+            if(auto_clock_.get_condition())
+            {
+                auto_clock_.reset();
+                control_mode_=1;
+            }
+
+            speed_x_=0;
+            speed_y_=0;
+
+            setPosition({position_.x,(position_.y)-2.5});
+            check_position();
+            break;
+        }
+    
+    default:
+        break;
+    }
 
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))
     {
@@ -801,23 +767,16 @@ void Player::update()
     }
 
     int i=1;
+    //power百位达到几，子机射击更新几个
     for(;i<=power_/100;i++)
     {
         child_planes_[i-1]->update();
     }
+    //剩余射击不更新子机全部将相对自机位置设置为{0,0}
     for(;i<=4;i++)
     {
         child_planes_[i-1]->setRelativePosition({0,0});
     }
-    /*
-    //int i=1;
-    for(auto it=child_planes_.begin();it!=child_planes_.end();++it)
-    {
-        //if(power_/100>=i)
-        (*it)->update();
-        //i++;
-    }
-        */
 }
 
 //********************************************************************

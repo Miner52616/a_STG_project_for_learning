@@ -25,17 +25,18 @@ private:
     float speed_x_;
     float speed_y_;
     float v_limit_;
-    bool request_shoot_;
     int grazebox_r;
     bool shining_;
-    Clock shining_clock_;
+    int control_mode_;
+    Clock shining_clock_;//闪烁速度
     Clock clock_;
-    Clock life_clock_;
-    Clock bomb_clock_;
+    Clock life_clock_;//miss冷却（miss后无敌时间）
+    Clock bomb_clock_;//bomb冷却
+    Clock auto_clock_;
     //Frame &outline_;
     YellowPage* yellowpage_;
     Resource* resource_;
-    std::shared_ptr<BulletConfig> bulletconfig_;
+    std::unique_ptr<BulletConfig> bulletconfig_;
     std::unique_ptr<EffectConfig> effectconfig_;
     std::unique_ptr<OverlayConfig> overlayconfig_;
     std::unique_ptr<BombConfig> bombconfig_;
@@ -52,23 +53,20 @@ private:
 
 private:
     void check_position();
-
-public:
-    bool Handle_shoot_request();  //是否有发弹申请，使用后处理发弹申请
+    void setBulletConfig();
+    void setEffectConfig();
+    void setBombConfig();
+    void setOverlayConfig();
+    void resetBombConfig();
     void useBomb();
-    void clock_count();
 
 public:
     Player(const sf::Texture &texture/*,Frame &outline*/,Resource* resource);  //初始化资源引用，默认玩家设置
     void update();  //更新玩家属性
     void drawwindow(sf::RenderWindow& window) override;  //渲染玩家至屏幕
     void drawtexture(sf::RenderTexture& texture) override;
+    void clock_count();
 
-    void setBulletConfig();
-    void setEffectConfig();
-    void setBombConfig();
-    void setOverlayConfig();
-    void resetBombConfig();
     void setContinued(bool continued);
     void setResource(Resource* resource);
     void setYellowPage(YellowPage* yellowpage);
