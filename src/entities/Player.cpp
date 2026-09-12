@@ -31,7 +31,8 @@ Player::Player(const sf::Texture &texture/*,Frame &outline*/,Resource* resource)
     resource_(resource),
     life_(3),
     bomb_(3),
-    power_(0)
+    power_(0),
+    miss_curtain_(resource->app_.void_texture_,resource->app_.color_flip_)
 {
     //std::cout<<"0"<<std::endl;
     point_.setRadius(6);
@@ -254,6 +255,10 @@ void Player::be_damage()
         {
             bomb_=3;
         }
+
+        miss_curtain_.reset();
+        miss_curtain_.setPosition(getPosition());
+
         setPosition({385,850});
         control_mode_=2;
         life_clock_.reset();
@@ -287,6 +292,11 @@ void Player::drawtexture(sf::RenderTexture& texture)
         //texture.draw(point_);
         texture.draw(hitbox_texture_);
     }
+}
+
+void Player::drawMissShaders(sf::RenderTexture& texture)
+{
+    miss_curtain_.render(texture);
 }
 
 void Player::update()
@@ -777,6 +787,9 @@ void Player::update()
     {
         child_planes_[i-1]->setRelativePosition({0,0});
     }
+
+    //miss动画更新
+    miss_curtain_.update();
 }
 
 //********************************************************************

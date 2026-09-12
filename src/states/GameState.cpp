@@ -28,7 +28,7 @@ GameState::GameState(application &app):
     //origin_window_sprite_(origin_window_.getTexture()),
     star_curtain1_(app_.curtain_texture1_),
     star_curtain2_(app_.curtain_texture1_,app_.color_flip_),
-    star_curtain3_(app_.curtain_texture1_,app_.color_flip_),
+    star_curtain3_(app_.curtain_texture1_,app_.color_flip_),//屏幕区域反色，需要在每次整个window已经渲染完成之后再取texture，因此这个curtain的取texture更新放在render中
     bulletfactory_(app),
     effectfactory_(app),
     bulletmanager_(app,bulletlist_,bulletfactory_),
@@ -399,18 +399,9 @@ void GameState::Render(sf::RenderWindow& window)
     bombmanager_.render(game_window_);
     effectmanager_.render(game_window_);
 
-    //phasecontroller_.render(window);
     phasecontroller_.render(game_window_);
 
-    /*
-    if(!phasecontroller_.apply_change())
-    {
-        std::cout<<"Game Over"<<std::endl;
-        app_.stack_.pushRequest(std::make_unique<EndState>(app_,*this));
-    }
-        */
-
-    
+    player_->drawMissShaders(game_window_);
 
     window_sprite_.setTexture(game_window_.getTexture());
     window.draw(window_sprite_);

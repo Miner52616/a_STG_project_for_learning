@@ -6,6 +6,7 @@
 #include "packages/BulletConfig.h"
 #include "packages/BombConfig.h"
 #include "packages/EffectConfig.h"
+#include "overlays/overlays/texturecurtains/MissCurtain.h"
 
 class application;
 class Frame;
@@ -45,6 +46,8 @@ private:
     sf::Sprite hitbox_texture_;
     sf::CircleShape point_;
 
+    MissCurtain miss_curtain_;
+
     bool continued_=false;
     bool missed_=false;
     int life_;
@@ -65,6 +68,7 @@ public:
     void update();  //更新玩家属性
     void drawwindow(sf::RenderWindow& window) override;  //渲染玩家至屏幕
     void drawtexture(sf::RenderTexture& texture) override;
+    void drawMissShaders(sf::RenderTexture& texture);
     void clock_count();
 
     void setContinued(bool continued);

@@ -57,6 +57,19 @@ int the_min(int a,int b)
     }
 }
 
+int round_off(float num)
+{
+    float res=num-(int)num;
+    if(res>=0.5)
+    {
+        return ((int)num+1);
+    }
+    else
+    {
+        return (int)num;
+    }
+}
+
 sf::Vector2f roundwithCenter(sf::Vector2f center,sf::Vector2f point,float angle)
 {
     float rad=angle*3.1415926/180;

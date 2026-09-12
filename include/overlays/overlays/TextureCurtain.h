@@ -25,4 +25,5 @@ public:
     bool isFinished();
     virtual void update()=0;
     virtual void render(sf::RenderWindow& window);
+    virtual void render(sf::RenderTexture& texture);
 };

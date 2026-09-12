@@ -210,11 +210,12 @@ Manual页
 - Up / Down： 翻页
 - X / Esc： 返回上一级菜单
 
-Easy难度
+游戏内
 - Up / Down / Left / Right: 自机移动
 - LShift: 按下时低速移动并显示判定点
 - Z: 射击
 - X: 使用bomb
+- Esc：游戏暂停
 
 ---
 

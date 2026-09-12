@@ -36,7 +36,8 @@ application::application():
     bulletsheetTexture2_("assets/textures/sheets/big_bullet_sheet.png"),
     playersheetTexture_("assets/textures/sheets/player_sheet.png"),
     effectsheetTexture_("assets/textures/sheets/effect_sheet.png"),
-    curtain_texture1_("assets/textures/curtain1.png")
+    curtain_texture1_("assets/textures/curtain1.png"),
+    void_texture_("assets/textures/void.png")
 {
     window_.setVerticalSyncEnabled(false);
     window_.setFramerateLimit(60);

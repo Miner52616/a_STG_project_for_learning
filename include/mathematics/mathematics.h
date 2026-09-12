@@ -16,6 +16,8 @@ float getRandomNum(float a,float b);
 
 int the_min(int a,int b);
 
+int round_off(float num);
+
 sf::Vector2f roundwithCenter(sf::Vector2f center,sf::Vector2f point,float angle);
 
 sf::Vector2f round(sf::Vector2f Vector,float angle);

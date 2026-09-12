@@ -62,3 +62,16 @@ void TextureCurtain::render(sf::RenderWindow& window)
     }
     window.draw(vertices_,states_);
 }
+
+void TextureCurtain::render(sf::RenderTexture& texture)
+{
+    if((flip_)&&(!have_fliped_))
+    {
+        have_fliped_=true;
+        for(int i=1;i<=vertices_.getVertexCount();i++)
+        {
+            vertices_[i-1].texCoords={vertices_[i-1].texCoords.x,960-vertices_[i-1].texCoords.y};
+        }
+    }
+    texture.draw(vertices_,states_);
+}
