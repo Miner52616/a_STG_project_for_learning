@@ -10,6 +10,8 @@ private:
     sf::RenderTexture cache1_;
     sf::RenderTexture cache2_;
     sf::Sprite cache_sprite_;
+    float r1_;
+    float r2_;
     
     sf::Vector2f position_;
     Clock second_circle_;
