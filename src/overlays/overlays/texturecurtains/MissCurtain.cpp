@@ -95,11 +95,11 @@ void MissCurtain::update()
     }
     for(auto it=circles_.begin();it!=circles_.end();++it)
     {
-        float rx=round_off(it->getLocalBounds().size.x/2);
-        float ry=round_off(it->getLocalBounds().size.y/2);
+        float rx=std::round(it->getLocalBounds().size.x/2);
+        float ry=std::round(it->getLocalBounds().size.y/2);
         it->setOrigin(it->getLocalBounds().getCenter());
         sf::Vector2f position=it->getPosition();
-        it->setTextureRect({{round_off(position.x-rx),round_off(900-(position.y-ry)-2*ry)},{round_off(2*rx),round_off(2*ry)}});
+        it->setTextureRect({{std::round(position.x-rx),std::round(900-(position.y-ry)-2*ry)},{std::round(2*rx),std::round(2*ry)}});
     }
 
     second_circle_.count();

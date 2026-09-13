@@ -257,7 +257,7 @@ void Player::be_damage()
         }
 
         miss_curtain_.reset();
-        miss_curtain_.setPosition(getPosition());
+        miss_curtain_.setPosition({(int)getPosition().x,(int)getPosition().y});
 
         setPosition({385,850});
         control_mode_=2;
