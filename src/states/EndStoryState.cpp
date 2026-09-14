@@ -1,5 +1,5 @@
 #include "states/EndStoryState.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "core/LuaManager.h"
 #include <iostream>
 
@@ -32,7 +32,7 @@ bool PackText::isShowNext()
 
 /*********************************************** */
 
-EndStoryState::EndStoryState(application &app):
+EndStoryState::EndStoryState(Application &app):
     State(app),
     current_page_(1),current_text_(0),
     ispressing_(false)
@@ -63,8 +63,8 @@ void EndStoryState::Load(const std::string& path)
             int g=color["G"];
             int b=color["B"];
 
-            PackText packtext_main=PackText(app_.mainFont_);
-            PackText packtext_name=PackText(app_.mainFont_);
+            PackText packtext_main=PackText(app_.assets_resource_.mainFont_);
+            PackText packtext_name=PackText(app_.assets_resource_.mainFont_);
 
             packtext_main.getText().setTextSize(27);
             packtext_name.getText().setTextSize(27);
@@ -97,7 +97,7 @@ void EndStoryState::Load(const std::string& path)
     }
 }
 
-void EndStoryState::Update()
+void EndStoryState::update()
 {
     if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))
     {
@@ -128,7 +128,7 @@ void EndStoryState::Update()
     }
 }
 
-void EndStoryState::Render(sf::RenderWindow& window)
+void EndStoryState::render(sf::RenderWindow& window)
 {
     for(int i=1;i<=current_text_;i++)
     {
@@ -137,7 +137,7 @@ void EndStoryState::Render(sf::RenderWindow& window)
     }
 }
 
-void EndStoryState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
+void EndStoryState::processEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
 {
     event->visit
     (

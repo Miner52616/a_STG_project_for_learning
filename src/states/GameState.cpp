@@ -4,31 +4,31 @@
 #include "phases/phases/MidPhase.h"
 #include "phases/phases/VoidPhase.h"
 #include "phases/phases/BossPhase.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "collision/CollisionCheck.h"
 #include <iostream>
 
-GameState::GameState(application &app):
+GameState::GameState(Application &app):
     State(app),
     frame_(0),
     high_score_(0),
     score_(0),
-    difficulty_(app_.mainFont_),
-    high_score_line_(app_.mainFont_),
-    score_line_(app_.mainFont_),
-    power_line_(app_.mainFont_),
-    graze_line_(app_.mainFont_),
-    bullet_line_(app_.mainFont_),
-    effect_line_(app_.mainFont_),
-    fps_line_(app_.mainFont_),
-    life_line_(app_.mainFont_,app_.lifeUI_),
-    bomb_line_(app_.mainFont_,app_.bombUI_),
+    difficulty_(app_.assets_resource_.mainFont_),
+    high_score_line_(app_.assets_resource_.mainFont_),
+    score_line_(app_.assets_resource_.mainFont_),
+    power_line_(app_.assets_resource_.mainFont_),
+    graze_line_(app_.assets_resource_.mainFont_),
+    bullet_line_(app_.assets_resource_.mainFont_),
+    effect_line_(app_.assets_resource_.mainFont_),
+    fps_line_(app_.assets_resource_.mainFont_),
+    life_line_(app_.assets_resource_.mainFont_,app_.assets_resource_.lifeUI_),
+    bomb_line_(app_.assets_resource_.mainFont_,app_.assets_resource_.bombUI_),
     outline1_({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
     window_sprite_(game_window_.getTexture()),
     //origin_window_sprite_(origin_window_.getTexture()),
-    star_curtain1_(app_.curtain_texture1_),
-    star_curtain2_(app_.curtain_texture1_,app_.color_flip_),
-    star_curtain3_(app_.curtain_texture1_,app_.color_flip_),//屏幕区域反色，需要在每次整个window已经渲染完成之后再取texture，因此这个curtain的取texture更新放在render中
+    star_curtain1_(app_.assets_resource_.curtain_texture1_),
+    star_curtain2_(app_.assets_resource_.curtain_texture1_,app_.assets_resource_.color_flip_),
+    star_curtain3_(app_.assets_resource_.curtain_texture1_,app_.assets_resource_.color_flip_),//屏幕区域反色，需要在每次整个window已经渲染完成之后再取texture，因此这个curtain的取texture更新放在render中
     bulletfactory_(app),
     effectfactory_(app),
     bulletmanager_(app,bulletlist_,bulletfactory_),
@@ -37,7 +37,7 @@ GameState::GameState(application &app):
     bombmanager_(bomblist_,bombfactory_),
     effectmanager_(effectlist_,overlaylist_,effectfactory_),
     collisionsystem_(bulletlist_,droplist_,bomblist_),
-    phasecontroller_(app,phaselist_),
+    phasecontroller_(phaselist_),
     scriptloader_(app_.lua_)
 {
     std::cout<<"/////////////////////////////////////////////////////////////"<<std::endl;
@@ -51,7 +51,7 @@ GameState::GameState(application &app):
 
     //**** 2 各种资源包创建并初始化，同时创建好资源包需要的对象
     //初始化资源，资源包含各大manager和system的引用
-    resource_=std::make_unique<Resource>(app,bulletmanager_,dropmanager_,bombmanager_,effectmanager_,batchmanager_,collisionsystem_,phasecontroller_);
+    resource_=std::make_unique<Resource>(app.assets_resource_,bulletmanager_,dropmanager_,bombmanager_,effectmanager_,batchmanager_,collisionsystem_,phasecontroller_);
     std::cout<<"Resource Set"<<std::endl;
 
     //创建并初始化玩家对象
@@ -202,7 +202,7 @@ void GameState::bundle_resource()
 void GameState::set_player()
 {
     //创建游戏对象并初始化
-    player_=std::make_unique<Player>(app_.playerTexture_,resource_.get());
+    player_=std::make_unique<Player>(app_.assets_resource_.playerTexture_,resource_.get());
     player_->setPosition({385,450});
     player_->setResource(resource_.get());
 }
@@ -223,15 +223,15 @@ void GameState::set_behavior()
 
 void GameState::set_entity()
 {
-    enemy1_=std::make_unique<Enemy>(app_.enemyTexture_);
+    enemy1_=std::make_unique<Enemy>(app_.assets_resource_.enemyTexture_);
     enemy1_->setPosition({460,100});
     enemy1_->setHP(200);
     enemy1_->set_start_end(240,216000);
-    enemy2_=std::make_unique<Enemy>(app_.enemyTexture_);
+    enemy2_=std::make_unique<Enemy>(app_.assets_resource_.enemyTexture_);
     enemy2_->setPosition({460,100});
     enemy2_->setHP(200);
     enemy2_->set_start_end(240,216000);
-    boss1_=std::make_unique<Boss>(app_.playerTexture_,resource_.get());
+    boss1_=std::make_unique<Boss>(app_.assets_resource_.playerTexture_,resource_.get());
     boss1_->setPosition({460,150});
     spell1_=std::make_unique<SpellPhase>(resource_.get(),yellowpage_.get(),360);
 }
@@ -298,7 +298,7 @@ void GameState::bundle_leader_menber()
     */
 }
 
-void GameState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
+void GameState::processEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
 {
     event->visit
     (
@@ -309,7 +309,7 @@ void GameState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Ev
     );
 }
 
-void GameState::Update()
+void GameState::update()
 {
     //curtain_.update();
     star_curtain1_.update();
@@ -383,7 +383,7 @@ void GameState::Update()
     frame_++;
 }
 
-void GameState::Render(sf::RenderWindow& window)
+void GameState::render(sf::RenderWindow& window)
 {
     game_window_.clear();
     origin_window_.clear();
@@ -446,7 +446,7 @@ int GameState::getLife()
 
 void GameState::setLife(int life)
 {
-    player_->setLifeNum(2);
+    player_->setLifeNum(life);
 }
 
 void GameState::setScore(int score)

@@ -19,10 +19,10 @@ public:
     void setPagelistLength(int length);  //设置文字类页面页数（设置页面数组大小）
 
 public:
-    TextState(application &app,int PageNum);  //初始化页数，初始化页选择
-    void ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理分发到的事件
-    void Update() override;  //统一更新属性
-    void Render(sf::RenderWindow& window) override;  //统一渲染至屏幕
+    TextState(Application &app,int PageNum);  //初始化页数，初始化页选择
+    void processEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理分发到的事件
+    void update() override;  //统一更新属性
+    void render(sf::RenderWindow& window) override;  //统一渲染至屏幕
 };
 
 #include "TextState.ipp"

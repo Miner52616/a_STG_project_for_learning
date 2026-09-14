@@ -13,7 +13,7 @@ class BulletFactory
 {
     
 private:
-    application& app_;
+    Application& app_;
     Resource* resource_;
     YellowPage* yellowpage_;
 
@@ -25,7 +25,7 @@ private:
 
 
 public:
-    BulletFactory(application& app);
+    BulletFactory(Application& app);
     void setResource(Resource* resource);
     void setYellowPage(YellowPage* yellowpage);
     int getPoolSize();
@@ -36,4 +36,4 @@ public:
     Bullet* getBullet();
 };
 
-void copyconfig(BulletConfig* copy,BulletConfig* origin);
+//void copyconfig(BulletConfig* copy,BulletConfig* origin);

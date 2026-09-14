@@ -3,7 +3,7 @@
 #include "packages/YellowPage.h"
 #include <SFML/Graphics.hpp>
 
-class application;
+class Application;
 class PhaseController;
 class BulletManager;
 class CollisionSystem;
@@ -12,7 +12,7 @@ class AimMove2;
 class Phase
 {
 protected:
-    //application &app_;
+    //Application &app_;
     //BulletManager &bulletmanager_;
     //CollisionSystem &collisionsystem_;
     Resource* resource_;

@@ -3,17 +3,17 @@
 #include "states/GameState.h"
 #include "states/ManualState.h"
 #include "states/EndStoryState.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include <iostream>
 
-MenuState::MenuState(application &app):
+MenuState::MenuState(Application &app):
     ButtonState(app,MenuButtonNum),current_phase_(1),clock_(30),
-    title_(app.mainFont_),
-    text1_(app.mainFont_),
-    text2_(app.mainFont_),
-    text3_(app.mainFont_),
-    text4_(app.mainFont_),
-    star_curtain2_(app.curtain_texture1_)
+    title_(app.assets_resource_.mainFont_),
+    text1_(app.assets_resource_.mainFont_),
+    text2_(app.assets_resource_.mainFont_),
+    text3_(app.assets_resource_.mainFont_),
+    text4_(app.assets_resource_.mainFont_),
+    star_curtain2_(app.assets_resource_.curtain_texture1_)
     //star_curtain_(app.curtain_texture1_)
 {
     buttonlist_[0].setButtonText("Phantasm Start");
@@ -119,12 +119,12 @@ MenuState::MenuState(application &app):
     clock_.reset();
 }
 
-void MenuState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
+void MenuState::processEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
 {
-    ButtonState<MenuState>::ProcessEvent(window,event);
+    ButtonState<MenuState>::processEvent(window,event);
 }
 
-void MenuState::Update()
+void MenuState::update()
 {
     rec_.setTargetPosition({50,buttonlist_[focus_-1].getButtonPosition().y});
     //star_curtain_.update();
@@ -191,13 +191,13 @@ void MenuState::Update()
     }
 
     rec_.update();
-    ButtonState<MenuState>::Update();
+    ButtonState<MenuState>::update();
 }
 
-void MenuState::Render(sf::RenderWindow& window)
+void MenuState::render(sf::RenderWindow& window)
 {
     rec_.render(window);
-    ButtonState<MenuState>::Render(window);
+    ButtonState<MenuState>::render(window);
     curtain_.render(window);
 
     title_.DrawText(window);
@@ -287,11 +287,11 @@ void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed
 /*
 
 #include "MenuState.h"
-#include "application.h"
+#include "Application.h"
 #include "Button.h"
 #include <iostream>
 
-MenuState::MenuState(application &app):
+MenuState::MenuState(Application &app):
     State(app),focus(ButtonNum)
 {
     buttonlist[0].setButtonText("Quit");
@@ -322,12 +322,12 @@ void MenuState::DrawButton(sf::RenderWindow& window)
     }
 }
 
-void MenuState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
+void MenuState::processEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
 {
     event->visit([this,&window](const auto event){this->HandleEvent(window,event);});
 }
 
-void MenuState::Update()
+void MenuState::update()
 {
     for(int i=1;i<=ButtonNum;i++)
     {
@@ -346,7 +346,7 @@ void MenuState::updatebuttonlist()
     }
 }
 
-void MenuState::Render(sf::RenderWindow& window)
+void MenuState::render(sf::RenderWindow& window)
 {
     window.clear();
     DrawButton(window);

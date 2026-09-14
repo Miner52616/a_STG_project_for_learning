@@ -1,10 +1,10 @@
 #include "states/PauseState.h"
 #include "states/ManualState.h"
-#include "core/application.h" 
+#include "core/Application.h" 
 #include <iostream>
 
-PauseState::PauseState(application &app):
-    ButtonState(app,PauButtonNum),title_(app.mainFont_),title2_(app.mainFont_)
+PauseState::PauseState(Application &app):
+    ButtonState(app,PauButtonNum),title_(app.assets_resource_.mainFont_),title2_(app.assets_resource_.mainFont_)
 {
     title_.setTextText("一时停止");
     title_.setTextSize(60);
@@ -31,9 +31,9 @@ PauseState::PauseState(application &app):
     }
 }
 
-void PauseState::Render(sf::RenderWindow& window)
+void PauseState::render(sf::RenderWindow& window)
 {
-    ButtonState::Render(window);
+    ButtonState::render(window);
     title_.DrawText(window);
     title2_.DrawText(window);
 }

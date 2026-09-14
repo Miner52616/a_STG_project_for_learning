@@ -14,8 +14,8 @@ private:
 
 public:
     using ButtonState<PauseState>::HandleEvent;
-    PauseState(application &app);
-    void Render(sf::RenderWindow& window);
+    PauseState(Application &app);
+    void render(sf::RenderWindow& window);
     void HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed&);
 
     bool blocksRender() const {return false;}

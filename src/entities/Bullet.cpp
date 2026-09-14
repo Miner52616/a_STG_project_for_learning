@@ -1,9 +1,10 @@
 #include "entities/Bullet.h"
 #include "behaviors/Behavior.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "mathematics/mathematics.h"
 #include "manager/PhaseController.h"
 #include "manager/BulletManager.h"
+#include "batch/Batch.h"
 #include <iostream>
 
 Bullet::Bullet(sf::Texture &texture,sf::Vector2f position):
@@ -139,39 +140,42 @@ bool Bullet::isOut()
     }
 }
 
-void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position)
+void Bullet::rebuild()
 {
-    if(&texture!=bullet_texture_)
+    if(bulletconfig_->texture_!=bullet_texture_)
     {
         //std::cout<<"texture reset"<<std::endl;
-        bullet_texture_=&texture;
+        bullet_texture_=bulletconfig_->texture_;
         picture_.setTexture(*bullet_texture_,true);
     }
     rebuild_Initialize();
     picture_.setScale({1.414,1.414});
     picture_.setOrigin(picture_.getLocalBounds().getCenter());
-    position_=position;
+    damage_=bulletconfig_->damage_;
+    position_=bulletconfig_->spawn_point_;
     hitbox_r_=bulletconfig_->r_;
     hitbox_draw_.setRadius(hitbox_r_);
     hitbox_draw_.setOrigin(hitbox_draw_.getLocalBounds().getCenter());
-}
+    
+    //子弹敌我重新设置
+    if
+    (
+        (bulletconfig_->bulletclass_==BulletClasses::PlayerBullet)
+        ||((bulletconfig_->bulletclass_==BulletClasses::PlayerAimBullet))
+    )
+    {
+        ofplayer_=true;
+    }
+    else
+    {
+        ofplayer_=false;
+    }
 
-void Bullet::rebuild(sf::Texture &texture,sf::Vector2f position,float damage)
-{
-    if(&texture!=bullet_texture_)
+    //batch重新绑定。如果config绑定了batch，则也需要将子弹加入batch（引用计数+1）
+    if((bulletconfig_->shareconfig_.batch_)!=nullptr)
     {
-        //std::cout<<"texture reset"<<std::endl;
-        bullet_texture_=&texture;
-        picture_.setTexture(*bullet_texture_,true);
+        bulletconfig_->shareconfig_.batch_->add_bullet();
     }
-    rebuild_Initialize();
-    picture_.setScale({1.414,1.414});
-    picture_.setOrigin(picture_.getLocalBounds().getCenter());
-    damage_=damage;
-    position_=position;
-    hitbox_r_=bulletconfig_->r_;
-    hitbox_draw_.setRadius(hitbox_r_);
-    hitbox_draw_.setOrigin(hitbox_draw_.getLocalBounds().getCenter());
 }
 
 void Bullet::rebuild_Initialize()

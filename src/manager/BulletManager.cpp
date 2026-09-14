@@ -4,7 +4,7 @@
 #include "ui/Frame.h"
 #include "core/Clock.h"
 
-BulletManager::BulletManager(application &app,std::vector<Bullet*> &bulletlist,BulletFactory &bulletfactory):
+BulletManager::BulletManager(Application &app,std::vector<Bullet*> &bulletlist,BulletFactory &bulletfactory):
     app_(app),bulletlist_(bulletlist),bulletfactory_(bulletfactory)//,outline_(outline),player_(player)
 {
     std::cout<<"build BulletManager"<<std::endl;

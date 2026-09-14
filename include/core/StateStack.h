@@ -31,17 +31,17 @@ public:
 
     void applyStateChanges(); //响应push/pop申请
 
-    void ProcessEvent(sf::RenderWindow& window,const auto& event);  //处理被分发到的事件
-    void Update();  //统一更新属性
-    void Render(sf::RenderWindow& window);  //统一渲染至屏幕
+    void processEvent(sf::RenderWindow& window,const auto& event);  //处理被分发到的事件
+    void update();  //统一更新属性
+    void render(sf::RenderWindow& window);  //统一渲染至屏幕
 
 private:
     ChangeState changestate_;
     std::vector<std::unique_ptr<State>> stack_;
-    application &app_;
+    Application &app_;
 
 public:
-    StateStack(application &app); //初始化申请为“保持”状态
+    StateStack(Application &app); //初始化申请为“保持”状态
 };
 
 #include "core/StateStack.ipp"

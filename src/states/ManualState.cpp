@@ -1,9 +1,9 @@
 #include "states/ManualState.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include <iostream>
 #include <sol/sol.hpp>
 
-ManualState::ManualState(application &app):
+ManualState::ManualState(Application &app):
     TextState(app,ManPageNum)
 {   
     auto& lua=app_.lua_;
@@ -61,9 +61,9 @@ ManualState::ManualState(application &app):
     }
 }
 
-void ManualState::Update()
+void ManualState::update()
 {
-    TextState::Update();
+    TextState::update();
     for(int i=1;i<=buttonlist_.size();i++)
     {
         buttonlist_[i-1].setButtonFocused(not_befocused);
@@ -75,9 +75,9 @@ void ManualState::Update()
     }
 }
 
-void ManualState::Render(sf::RenderWindow& window)
+void ManualState::render(sf::RenderWindow& window)
 {
-    TextState::Render(window);
+    TextState::render(window);
     for(int i=1;i<=buttonlist_.size();i++)
     {
         window.draw(buttonlist_[i-1].getButtonText_());

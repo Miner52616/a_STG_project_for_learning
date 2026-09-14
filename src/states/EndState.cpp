@@ -1,10 +1,10 @@
 #include "states/EndState.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "states/GameState.h"
 #include <iostream>
 
-EndState::EndState(application &app,GameState& gamestate):
-    ButtonState(app,EndButtonNum),gamestate_(gamestate),title_(app.mainFont_),title2_(app.mainFont_),title3_(app.mainFont_)
+EndState::EndState(Application &app,GameState& gamestate):
+    ButtonState(app,EndButtonNum),gamestate_(gamestate),title_(app.assets_resource_.mainFont_),title2_(app.assets_resource_.mainFont_),title3_(app.assets_resource_.mainFont_)
 {
     title_.setTextText("满身疮痍！");
     title_.setTextSize(60);
@@ -109,9 +109,9 @@ void EndState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed&
     }
 }
 
-void EndState::Render(sf::RenderWindow& window)
+void EndState::render(sf::RenderWindow& window)
 {
-    ButtonState::Render(window);
+    ButtonState::render(window);
     title_.DrawText(window);
     title2_.DrawText(window);
     title3_.DrawText(window);

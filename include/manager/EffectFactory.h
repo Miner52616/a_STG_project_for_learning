@@ -5,12 +5,12 @@
 
 class Effect;
 class Overlay;
-class application;
+class Application;
 
 class EffectFactory
 {
 private:
-    application& app_;
+    Application& app_;
 
     int poolsize_=8000;
     std::vector<Effect> effectlist_;
@@ -20,11 +20,11 @@ private:
     Effect* getEffect();
 
 public:
-    EffectFactory(application& app);
+    EffectFactory(Application& app);
     std::unique_ptr<Overlay> create(OverlayConfig* overlayconfig);
     //std::unique_ptr<Effect> create(EffectConfig* effectconfig);
     Effect* create(EffectConfig* effectconfig);
     void destroy(Effect* effect);
 };
 
-void copyconfig(EffectConfig* copy,EffectConfig* origin);
+//void copyconfig(EffectConfig* copy,EffectConfig* origin);

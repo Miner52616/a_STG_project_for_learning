@@ -1,7 +1,7 @@
 #pragma once
 #include "entities/Bullet.h"
 
-class application;
+class Application;
 class Frame;
 
 class PlayerBullet:public Bullet

@@ -4,6 +4,9 @@
 
 **项目主要用于学习C++和面向对象**
 
+**2026.9.13**
+
+
 ## 简介
 一个使用 **C++ 和 SFML** 编写的2D STG游戏框架
 
@@ -19,27 +22,35 @@
 
 已完成经过优化的碰撞检测
 
+已完成包括batch批管理、全局函数表、特殊自定义行为函数在内的弹幕射击方法
+
 
 **近期任务：**
 
-1 在现有弹幕演出体系下构建加强的 发射初始化-弹幕batch统一控制-子弹执行 的弹幕管理体系
+增强游戏调试的易操作性。制作设置页面及其配置文件setting.lua与开发者模式选项及其开发者配置文件debug.lua；在程序关键部分提供输出程序运行情况的语句，可以打印至控制台或者日志文件中
 
-2 在现有表达体系下尝试设计多种弹幕，探索封装弹幕设计工具的方向
+整个项目进一步优化明确代码架构，删除冗余代码，解决学习过程中架构设计的遗留问题
 
-3 逐步加入更多特效/演出 ，从而推动特效/演出系统的细化和完善
+在页面栈基础上尝试页面衔接无缝流畅
 
-4 进一步减小渲染压力，完善渲染渲染流程的性能性同时保持项目可读性
+1 进一步减小渲染压力。使用sf::VertexArray统一获取对象顶点，最后再提交GPU，完善渲染渲染流程的性能性同时保持项目可读性
 
 
 **阶段目标：**
 
-尝试使用此框架设计一个流程、弹幕、演出、特效都较为完善的闭环关卡
+尝试使用此框架设计一个包含道中和boss战全流程、弹幕、演出、特效都较为完善的闭环关卡
+
+固定代码架构，固定新开发功能时的思路
 
 ......
 
 此外，后续将继续完善和优化页面系统和游戏系统的框架。
 
 后续也将继续优化框架的游戏性能
+
+同时会逐步实现游戏的各种机制直至完全
+
+同时进行内容创作。在现有表达体系下尝试设计多种弹幕，探索封装弹幕设计工具的方向，并逐步加入更多特效/演出，从而推动特效/演出系统的细化和完善
 
 
 
@@ -92,6 +103,8 @@ Manager申请到申请后，将申请交给Factory创建对象，并将返回的
 **游戏性能的优化：**
 
 短生命周期、高频创建对象使用对象池
+
+对象池对象通过索引全局函数表确定行为优化性能；需要对少数对象特别定义行为时可以传递行为lambda
 
 碰撞检测采用“粗判”（距离与碰撞半径判定）+细判（离散帧的连线连续碰撞检测）多级检测方式
 
@@ -159,37 +172,11 @@ cmake --build .
 
 main.exe将生成于./main.exe
 
-
-也可以使用g++手动编译（示例如下）：
-
-**实际请务必根据安装的SFML位置自行指定路径！！！**
-**这段g++手动编译命令最后更新于2026.2。项目此后有变动，请自行将所有.cpp文件加入编译命令中**
-
-```bash
-g++ src/main.cpp src/application.cpp src/core/state.cpp src/core StateStack.cpp src/core/Clock.cpp \
-    src/states/MenuState.cpp src/states/DifficultyState.cpp src/states/ManualState.cpp src/states/GameState.cpp src/states/PauseState.cpp \
-    src/manager/EnemyManager.cpp src/manager/BulletManager.cpp src/manager/PhaseController.cpp src/manager/CollisionSystem.cpp \
-    src/phases/Phase.cpp src/phases/basicphases/StartPhase.cpp src/phases/basicphases/TimePhase.cpp src/phases/basicphases/EventPhase.cpp src/phases/phases/MidPhase.cpp src/phases/phases/VoidPhase.cpp src/phases/phases/BossPhase.cpp src/phases/phases/SpellPhase.cpp \
-    src/bullets/PlayerBullet.cpp src/bullets/LinearBullet.cpp\
-    src/ui/Button.cpp src/ui/Page.cpp src/ui/Text.cpp src/ui/Frame.cpp \
-    src/entities/Entity.cpp src/entities/Player.cpp src/entities/Enemy.cpp src/entities/Bullet.cpp src/entities/Boss.cpp src/enemies/Enemy1.cpp \
-    src/mathematics/mathematics.cpp \
-    src/collision/CollisionCheck.cpp \
-    -std=c++20 \
-    -Iinclude \
-    -IC:/msys64/mingw64/include \
-    -LC:/msys64/mingw64/lib \
-    -lsfml-graphics -lsfml-window -lsfml-system \
-    -o main.exe
-```
-
-也请务必将.exe文件生成在项目文件夹根目录下（test文件夹下）。
-
 --- 
 
 ## 运行方式
 
-编译成功后，运行生成在根目录的可执行文件(可以直接双击main.exe)
+编译成功后，直接运行生成在根目录的可执行文件(可以直接双击main.exe)
 ./main.exe
 
 ---
@@ -216,6 +203,9 @@ Manual页
 - Z: 射击
 - X: 使用bomb
 - Esc：游戏暂停
+
+Ending剧情
+- Z：下一句对话，最后一句对话后退出
 
 ---
 

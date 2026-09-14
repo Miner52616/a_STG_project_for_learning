@@ -49,7 +49,8 @@ public:
     void setDead(bool dead);
     void initialize();
     void setActive(bool active);
-    void rebuild(sf::Texture &texture,sf::Vector2f position);
+    void rebuild();
+    //void rebuild(sf::Texture &texture,sf::Vector2f position);
     void rebuild_initialize();
     EffectConfig* getEffectConfig();
 

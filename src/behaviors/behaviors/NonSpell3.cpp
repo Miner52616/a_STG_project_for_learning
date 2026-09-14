@@ -2,7 +2,7 @@
 #include "behaviors/behaviors/BasicShooter.h"
 #include "mathematics/mathematics.h"
 #include "entities/Entity.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "manager/BatchManager.h"
 
 NonSpell3::NonSpell3(Entity* entity,Resource* resource,YellowPage* yellowpage):

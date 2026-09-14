@@ -1,6 +1,6 @@
 #include "manager/DropFactory.h"
 #include "packages/DropConfig.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "entities/Drop.h"
 #include <iostream>
 

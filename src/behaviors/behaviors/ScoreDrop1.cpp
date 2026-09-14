@@ -1,4 +1,4 @@
-#include "core/application.h"
+#include "core/Application.h"
 #include "behaviors/behaviors/ScoreDrop1.h"
 #include "packages/DropConfig.h"
 #include "mathematics/mathematics.h"

@@ -121,16 +121,16 @@ private:
     std::unique_ptr<YellowPage> yellowpage_;
 
 public:
-    void ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理被分发到的事件
-    void Update() override;  //统一更新属性
-    void Render(sf::RenderWindow& window) override;  //统一渲染至屏幕
+    void processEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理被分发到的事件
+    void update() override;  //统一更新属性
+    void render(sf::RenderWindow& window) override;  //统一渲染至屏幕
     int getLife();
     void setLife(int life);
     void setScore(int score);
     bool isContinued();
 
 public:
-    GameState(application &app);  //初始化起始帧，初始化资源引用，初始化实体设置
+    GameState(Application &app);  //初始化起始帧，初始化资源引用，初始化实体设置
 
 protected:
     void set_ui();

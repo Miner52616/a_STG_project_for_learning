@@ -1,5 +1,5 @@
 #include "phases/Phase.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "manager/PhaseController.h"
 #include "manager/BulletManager.h"
 #include "manager/CollisionSystem.h"

@@ -14,7 +14,7 @@ public:
     Page(const sf::Font &font);  //默认页面设置，初始化资源引用
 
 public:
-    void Render(sf::RenderWindow& window);  //渲染页面至屏幕
+    void render(sf::RenderWindow& window);  //渲染页面至屏幕
 
     void setTextlistLength(int num);  //设置页面文字组件数（设置文字数组大小）
     void setTextText(int num,const std::string text);  //设置页面的文字组件的文字

@@ -1,5 +1,5 @@
 #include "manager/ScriptLoader.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "core/LuaManager.h"
 #include "packages/Resource.h"
 #include "packages/YellowPage.h"

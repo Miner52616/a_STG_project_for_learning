@@ -1,7 +1,7 @@
 #include "behaviors/behaviors/NonSpell2.h"
 #include "packages/BulletConfig.h"
 #include "mathematics/mathematics.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "entities/Entity.h"
 #include "manager/BulletManager.h"
 
@@ -23,6 +23,7 @@ void NonSpell2_1::setBulletConfig()
     bulletconfig_.a_=0.05;
     bulletconfig_.v2_=4;
     bulletconfig_.clock1_.set_target(30);
+    bulletconfig_.clock1_.reset();
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet2;
     bulletconfig_.bulletbehavior_=BulletBehavior::Rotate;
 }
@@ -101,7 +102,10 @@ void NonSpell2_2::setBulletConfig()
     bulletconfig_.v3_=6.4;
     bulletconfig_.direction2_={0,1};
     bulletconfig_.clock1_.set_target(30);
+    bulletconfig_.clock1_.reset();
     bulletconfig_.clock2_.set_target(80);
+    bulletconfig_.clock2_.reset();
+    bulletconfig_.clock3_.reset();
     bulletconfig_.bullet_index_={6,8};
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet3;
     bulletconfig_.bulletbehavior_=BulletBehavior::Rotate;

@@ -1,5 +1,5 @@
 #include "behaviors/behaviors/BreezyBlossom4.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "manager/BulletManager.h"
 #include "mathematics/mathematics.h"
 #include "entities/Player.h"

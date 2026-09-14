@@ -27,11 +27,11 @@ private:
     bool ispressing_;
 
 public:
-    EndStoryState(application &app);
+    EndStoryState(Application &app);
 
-    void ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理被分发到的事件
-    void Update() override;  //统一更新属性
-    void Render(sf::RenderWindow& window) override;  //统一渲染至屏幕
+    void processEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理被分发到的事件
+    void update() override;  //统一更新属性
+    void render(sf::RenderWindow& window) override;  //统一渲染至屏幕
     void Load(const std::string& path);
 
 private:

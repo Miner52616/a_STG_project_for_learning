@@ -1,5 +1,5 @@
 #include "manager/EffectFactory.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "effects/Effect.h"
 #include "effects/effects/LeiTan_Air.h"
 #include "overlays/overlays/PictureOverlay.h"
@@ -7,7 +7,7 @@
 #include "behaviors/behaviors/MarkDead.h"
 #include <iostream>
 
-EffectFactory::EffectFactory(application& app):
+EffectFactory::EffectFactory(Application& app):
     app_(app)
 {
     initialize(poolsize_);
@@ -19,7 +19,7 @@ void EffectFactory::initialize(int size)
     std::cout<<"effect storage "<<size<<std::endl;
     for (int i=1;i<=size;i++)
     {
-        effectlist_.emplace_back(app_.overlay1Texture_,sf::Vector2f{0,0},(long long int)60);
+        effectlist_.emplace_back(app_.assets_resource_.overlay1Texture_,sf::Vector2f{0,0},(long long int)60);
         free_list_.push_back(i-1);
     }
     //std::cout<<"effect pool initialized"<<std::endl;
@@ -74,11 +74,11 @@ Effect* EffectFactory::create(EffectConfig* effectconfig)
 {
     Effect* effect=getEffect();
 
-    copyconfig(effect->getEffectConfig(),effectconfig);
+    //copyconfig(effect->getEffectConfig(),effectconfig);
+    *(effect->getEffectConfig())=*effectconfig;
 
     //重新初始化特效，特别单独处理texture的更换
-    effect->rebuild(*(effectconfig->texture_),effectconfig->spawn_point_);
-    effect->setTime(effectconfig->time_);
+    effect->rebuild();
 
     return effect;
 }
@@ -102,7 +102,7 @@ std::unique_ptr<Overlay> EffectFactory::create(OverlayConfig* overlayconfig)
         break;
 
     case OverlayType::Text_Overlay:
-        textoverlay=std::make_unique<TextOverlay>(app_.mainFont_);
+        textoverlay=std::make_unique<TextOverlay>(app_.assets_resource_.mainFont_);
         textoverlay->setTextText(overlayconfig->text_);
         textoverlay->setTextSize(overlayconfig->text_size_);
         textoverlay->setTextColor(sf::Color{255,255,255,overlayconfig->color_alpha_});
@@ -124,6 +124,8 @@ std::unique_ptr<Overlay> EffectFactory::create(OverlayConfig* overlayconfig)
     }
 }
 
+/*
+
 void copyconfig(EffectConfig* copy,EffectConfig* origin)
 {
     //除了texture引用外全员复制
@@ -142,3 +144,5 @@ void copyconfig(EffectConfig* copy,EffectConfig* origin)
     copy->random_rotate_=origin->random_rotate_;
     copy->color_alpha_=origin->color_alpha_;
 }
+
+*/

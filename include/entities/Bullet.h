@@ -61,8 +61,9 @@ public:
     bool isPlayer();
     bool isNotClear();
     bool isOut();
-    void rebuild(sf::Texture &texture,sf::Vector2f position);
-    void rebuild(sf::Texture &texture,sf::Vector2f position,float damage);
+    void rebuild();
+    //void rebuild(sf::Texture &texture,sf::Vector2f position);
+    //void rebuild(sf::Texture &texture,sf::Vector2f position,float damage);
     void rebuild_Initialize();
     void initialize();
     void setBulletConfig(std::unique_ptr<BulletConfig> bulletconfig);

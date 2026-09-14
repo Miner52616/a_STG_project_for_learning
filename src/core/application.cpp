@@ -1,11 +1,12 @@
-#include "core/application.h"
+#include "core/Application.h"
 //#include "core/StateStack.h"
 #include "states/MenuState.h"
 #include <iostream>
 
-application::application():
+Application::Application():
     stack_(*(this)),
-    window_(sf::VideoMode({1280,960}),"thssm_0.1.2.0"),
+    window_(sf::VideoMode({1280,960}),"thssm_0.1.2.0")
+    /*
     mainFont_("assets/fonts/abc.ttf"),
     playerTexture_("assets/textures/player.png"),
     enemyTexture_("assets/textures/enemy.png"),
@@ -38,6 +39,7 @@ application::application():
     effectsheetTexture_("assets/textures/sheets/effect_sheet.png"),
     curtain_texture1_("assets/textures/curtain1.png"),
     void_texture_("assets/textures/void.png")
+    */
 {
     window_.setVerticalSyncEnabled(false);
     window_.setFramerateLimit(60);
@@ -47,7 +49,7 @@ application::application():
     window_.setView(gameview_);
     stack_.push(std::make_unique<MenuState>(*this));
 
-    color_flip_.loadFromFile("assets/shaders/ColorFlip.frag",sf::Shader::Type::Fragment);
+    //color_flip_.loadFromFile("assets/shaders/ColorFlip.frag",sf::Shader::Type::Fragment);
 
     history_data_=lua_.loadSave();
 
@@ -65,38 +67,49 @@ application::application():
     //std::cout <<history_data_.cleared_<<std::endl;
 }
 
-bool application::IsRunning() const
+void Application::run()
+{
+    while(isRunning())
+    {
+        processEvent();
+        update();
+        render();
+        end_operation();
+    }
+}
+
+bool Application::isRunning() const
 {
     return window_.isOpen();
 }
 
-void application::ProcessEvent()
+void Application::processEvent()
 {
     //状态栈逐个处理事件
     while(const auto event=window_.pollEvent())
     {
-        stack_.ProcessEvent(window_,event);
+        stack_.processEvent(window_,event);
     }
 }
 
-void application::Update()
+void Application::update()
 {
-    stack_.Update();
+    stack_.update();
 }
 
-void application::Render()
+void Application::render()
 {
     window_.clear();
-    stack_.Render(window_);
+    stack_.render(window_);
     window_.display();
 }
 
-void application::End_operation()
+void Application::end_operation()
 {
     stack_.applyStateChanges();
 }
 
-void application::applyLetterBox()
+void Application::applyLetterBox()
 {
     float windowRatio =
         window_.getSize().x / static_cast<float>(window_.getSize().y);

@@ -1,5 +1,5 @@
 #pragma once
-#include "core/application.h"
+#include "core/Application.h"
 #include "entities/Player.h"
 #include "entities/Bullet.h"
 #include "bullets/LinearBullet.h"
@@ -10,13 +10,13 @@
 class BulletManager
 {
 private:
-    application &app_;
+    Application &app_;
     std::vector<Bullet*> &bulletlist_;
     BulletFactory &bulletfactory_;
     Resource* resource_;
 
 public:
-    BulletManager(application &app,std::vector<Bullet*> &bulletlist,BulletFactory &bulletfactory);
+    BulletManager(Application &app,std::vector<Bullet*> &bulletlist,BulletFactory &bulletfactory);
     //void add_process(std::unique_ptr<Bullet> bullet);
     void add_process(BulletConfig* bulletconfig,EffectConfig* effectconfig);
     void setResource(Resource* resource);

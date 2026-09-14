@@ -1,7 +1,7 @@
 #include "behaviors/behaviors/NonSpell1.h"
 #include "packages/BulletConfig.h"
 #include "mathematics/mathematics.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "entities/Entity.h"
 #include "manager/BulletManager.h"
 

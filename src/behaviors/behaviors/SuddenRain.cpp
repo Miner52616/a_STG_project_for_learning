@@ -1,6 +1,6 @@
 #include "behaviors/behaviors/SuddenRain.h"
 #include "mathematics/mathematics.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "entities/Entity.h"
 #include "manager/BulletManager.h"
 

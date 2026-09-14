@@ -2,7 +2,8 @@
 #include "phases/phases/SpellPhase.h"
 
 Boss::Boss(const sf::Texture &texture,Resource* resource):
-    Entity(texture),resource_(resource),phasecontroller_(resource->app_,phaselist_),beaten_(false)
+    //Entity(texture),resource_(resource),phasecontroller_(resource->app_,phaselist_),beaten_(false)
+    Entity(texture),resource_(resource),phasecontroller_(phaselist_),beaten_(false)
 {
     hitbox_r_=80;
 }

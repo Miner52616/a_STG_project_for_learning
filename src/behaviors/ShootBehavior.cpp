@@ -1,5 +1,5 @@
 #include "behaviors/ShootBehavior.h"
-#include "core/application.h"
+#include "core/Application.h"
 
 ShootBehavior::ShootBehavior(Resource* resource,YellowPage* yellowpage):
     Behavior(resource,yellowpage),effectconfig_(resource->app_.effectsheetTexture_)

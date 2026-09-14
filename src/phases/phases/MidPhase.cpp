@@ -1,5 +1,5 @@
 #include "phases/phases/MidPhase.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "manager/EnemyManager.h"
 #include "manager/BulletManager.h"
 #include "manager/PhaseController.h"

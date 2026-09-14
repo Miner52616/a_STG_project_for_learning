@@ -1,5 +1,5 @@
 #include "bullets/PlayerBullet.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "ui/Frame.h"
 
 PlayerBullet::PlayerBullet(sf::Texture &texture,sf::Vector2f position):

@@ -1,13 +1,13 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-class application;
+class Application;
 
 //实体，所有实体的基类
 class Entity
 {
 protected:
-    //application &app_;
+    //Application &app_;
     const sf::Texture &texture_;
     sf::Vector2f position_;
     sf::Vector2f prev_position_;
@@ -30,5 +30,5 @@ public:
     virtual void drawtexture(sf::RenderTexture& texture);
 
 public:
-    Entity(/*application &app,*/const sf::Texture &texture);  //初始化资源引用，默认实体设置
+    Entity(/*Application &app,*/const sf::Texture &texture);  //初始化资源引用，默认实体设置
 };

@@ -1,9 +1,9 @@
 #include "states/DifficultyState.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "states/GameState.h"
 #include <iostream>
 
-DifficultyState::DifficultyState(application &app):
+DifficultyState::DifficultyState(Application &app):
     ButtonState(app,DifButtonNum),current_phase_(1)
 {
     buttonlist_[0].setButtonText("Easy");
@@ -24,15 +24,15 @@ DifficultyState::DifficultyState(application &app):
     }
 }
 
-void DifficultyState::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
+void DifficultyState::processEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
 {
     if(current_phase_==1)
     {
-        ButtonState<DifficultyState>::ProcessEvent(window,event);
+        ButtonState<DifficultyState>::processEvent(window,event);
     }
 }
 
-void DifficultyState::Update()
+void DifficultyState::update()
 {
     if(current_phase_==2)
     {
@@ -73,12 +73,12 @@ void DifficultyState::Update()
         curtain_.update();
     }
 
-    ButtonState<DifficultyState>::Update();
+    ButtonState<DifficultyState>::update();
 }
 
-void DifficultyState::Render(sf::RenderWindow& window)
+void DifficultyState::render(sf::RenderWindow& window)
 {
-    ButtonState<DifficultyState>::Render(window);
+    ButtonState<DifficultyState>::render(window);
     curtain_.render(window);
 }
 

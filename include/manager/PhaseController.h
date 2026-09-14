@@ -4,21 +4,22 @@
 #include <memory>
 #include "phases/Phase.h"
 
-class application;
+//class Application;
 class BulletManager;
 class AimMove2;
 
 class PhaseController
 {
 private:
-    application &app_;
+    //Application &app_;
     std::vector<std::unique_ptr<Phase>> &phaselist_; 
 
     int current_;
     bool change_;
 
 public:
-    PhaseController(application &app,std::vector<std::unique_ptr<Phase>> &phaselist);
+    //PhaseController(Application &app,std::vector<std::unique_ptr<Phase>> &phaselist);
+    PhaseController(std::vector<std::unique_ptr<Phase>> &phaselist);
 
     void add_process(std::unique_ptr<Phase> phase);
     void update();

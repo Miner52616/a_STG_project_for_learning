@@ -13,7 +13,7 @@ void Page::addText()
     textlist_.emplace_back(font_);
 }
 
-void Page::Render(sf::RenderWindow& window)
+void Page::render(sf::RenderWindow& window)
 {
     for(int i=1;i<=textlist_.size();i++)
     {

@@ -8,7 +8,7 @@
 #include "packages/EffectConfig.h"
 #include "overlays/overlays/texturecurtains/MissCurtain.h"
 
-class application;
+class Application;
 class Frame;
 class BulletManager;
 class Child_Plane;

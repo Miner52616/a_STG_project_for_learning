@@ -14,8 +14,8 @@ private:
 
 public:
     using TextState<ManualState>::HandleEvent;
-    ManualState(application &app);  //初始化各页，初始化各页的各文字
-    void Update() override;
-    void Render(sf::RenderWindow& window) override;
+    ManualState(Application &app);  //初始化各页，初始化各页的各文字
+    void update() override;
+    void render(sf::RenderWindow& window) override;
     void HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed&);  //处理“按钮按下”事件
 };

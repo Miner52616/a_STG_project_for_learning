@@ -3,7 +3,7 @@
 //#include "state.h"
 #include <iostream>
 
-StateStack::StateStack(application &app):
+StateStack::StateStack(Application &app):
     app_(app)
 {
     changestate_.action=Action::Maintain;
@@ -29,23 +29,23 @@ void StateStack::clear()
     stack_.clear();
 }
 
-void StateStack::Update()
+void StateStack::update()
 {
     for (auto it = stack_.rbegin(); it != stack_.rend(); ++it)
     {
-        (*it)->Update();
+        (*it)->update();
         if ((*it)->blocksUpdate())
             break;
     }
 }
 
-void StateStack::Render(sf::RenderWindow& window)
+void StateStack::render(sf::RenderWindow& window)
 {
     std::vector<State*> renderlist;
 
     for (auto it = stack_.rbegin(); it != stack_.rend(); ++it) 
     {
-        //(*it)->Render(window);
+        //(*it)->render(window);
         renderlist.emplace_back(it->get());
         if ((*it)->blocksRender())
             break;
@@ -53,7 +53,7 @@ void StateStack::Render(sf::RenderWindow& window)
 
     for(auto it=renderlist.rbegin();it!=renderlist.rend();++it)
     {
-        (*it)->Render(window);
+        (*it)->render(window);
     }
 }
 

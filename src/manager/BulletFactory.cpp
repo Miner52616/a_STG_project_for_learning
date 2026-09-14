@@ -1,12 +1,11 @@
 #include "manager/BulletFactory.h"
 #include "manager/EffectFactory.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "behaviors/behaviors/DirectMove1.h"
 #include "behaviors/behaviors/AimMove3.h"
-#include "batch/Batch.h"
 #include <iostream>
 
-BulletFactory::BulletFactory(application& app):
+BulletFactory::BulletFactory(Application& app):
     app_(app)
 {
     //std::cout<<"build BulletFactory"<<std::endl;
@@ -44,7 +43,7 @@ void BulletFactory::initialize(int size)
     std::cout<<"bullet storage "<<size<<std::endl;
     for (int i=1;i<=size;i++)
     {
-        bulletlist_.emplace_back(app_.bulletsheetTexture_,sf::Vector2f{0,0});
+        bulletlist_.emplace_back(app_.assets_resource_.bulletsheetTexture_,sf::Vector2f{0,0});
         free_list_.push_back(i-1);
     }
 }
@@ -81,34 +80,18 @@ Bullet* BulletFactory::create(BulletConfig* bulletconfig,EffectConfig* effectcon
     Bullet* bullet=getBullet();
 
     //子弹其它可选用属性，通过bulletconfig传递
-    copyconfig(bullet->getBulletConfig(),bulletconfig);
-    copyconfig(bullet->getEffectConfig(),effectconfig);
+    //copyconfig(bullet->getBulletConfig(),bulletconfig);
+    *(bullet->getBulletConfig())=*bulletconfig;//注意，在修改了bulletconfig，使用=号复制后，复制不再会自动reset所有时钟
+    //copyconfig(bullet->getEffectConfig(),effectconfig);
+    *(bullet->getEffectConfig())=*effectconfig;
 
-    //重新初始化和设置子弹核心属性，特别单独处理texture的更换
-    bullet->rebuild(bulletconfig->texture_,bulletconfig->spawn_point_,bulletconfig->damage_);
-    bullet->setHitbox_r(bulletconfig->r_);
-    if
-    (
-        (bulletconfig->bulletclass_==BulletClasses::PlayerBullet)
-        ||((bulletconfig->bulletclass_==BulletClasses::PlayerAimBullet))
-    )
-    {
-        bullet->setbelong(true);
-    }
-    else
-    {
-        bullet->setbelong(false);
-    }
-
-    //与batch之间的联动，如果config绑定了batch，则也需要将子弹加入batch（引用计数+1）
-    if((bulletconfig->shareconfig_.batch_)!=nullptr)
-    {
-        bulletconfig->shareconfig_.batch_->add_bullet();
-    }
+    //重新初始化和设置子弹核心属性
+    bullet->rebuild();
 
     return bullet;
 }
 
+/*
 void copyconfig(BulletConfig* copy,BulletConfig* origin)
 {
     //std::cout<<"111"<<std::endl;
@@ -157,3 +140,4 @@ void copyconfig(BulletConfig* copy,BulletConfig* origin)
     copy->target_point3_=origin->target_point3_;
     copy->self_phase_=origin->self_phase_;
 }
+    */

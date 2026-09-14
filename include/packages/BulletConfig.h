@@ -94,7 +94,7 @@ public:
 
     ShareConfig shareconfig_;
 
-    sf::Texture& texture_;//子弹将使用的贴图。现在一般直接给子弹一个贴图表
+    sf::Texture* texture_;//子弹将使用的贴图。现在一般直接给子弹一个贴图表
 
 public:
     BulletConfig(sf::Texture& texture);

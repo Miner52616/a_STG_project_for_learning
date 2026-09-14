@@ -1,9 +1,9 @@
-#include "core/application.h"
+#include "core/Application.h"
 #include "ui/Button.h"
 #include <iostream>
 
 template<typename Derived>
-ButtonState<Derived>::ButtonState(application &app,int ButtonNum):
+ButtonState<Derived>::ButtonState(Application &app,int ButtonNum):
     State(app),focus_(1)
 {
     //buttonlist_.resize(ButtonNum);
@@ -43,7 +43,7 @@ void ButtonState<Derived>::DrawButton_(sf::RenderWindow& window)
 }
 
 template<typename Derived>
-void ButtonState<Derived>::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
+void ButtonState<Derived>::processEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
 {
     event->visit
     (
@@ -55,7 +55,7 @@ void ButtonState<Derived>::ProcessEvent(sf::RenderWindow& window,const std::opti
 }
 
 template<typename Derived>
-void ButtonState<Derived>::Update()
+void ButtonState<Derived>::update()
 {
     for(int i=1;i<=buttonlist_.size();i++)
     {
@@ -76,7 +76,7 @@ void ButtonState<Derived>::updatebuttonlist_()
 }
 
 template<typename Derived>
-void ButtonState<Derived>::Render(sf::RenderWindow& window)
+void ButtonState<Derived>::render(sf::RenderWindow& window)
 {
     //window.clear();
     DrawButton_(window);

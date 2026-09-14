@@ -1,0 +1,38 @@
+#include "packages/AssetsResource.h"
+
+AssetsResource::AssetsResource():
+    mainFont_("assets/fonts/abc.ttf"),
+    playerTexture_("assets/textures/player.png"),
+    enemyTexture_("assets/textures/enemy.png"),
+    bulletTexture_("assets/textures/bullet.png"),
+    score_dropTexture_("assets/textures/score_drop.png"),
+    power_dropTexture_("assets/textures/power_drop.png"),
+    child_planeTexture_("assets/textures/child_plane.png"),
+    lifeUI_("assets/textures/life.png"),
+    bombUI_("assets/textures/bomb.png"),
+    spellnumUI_("assets/textures/spell_num.png"),
+    LeiTanTexture_("assets/textures/LeiTan.png"),
+    LeiTan_AirTexture_("assets/textures/LeiTan_Air.png"),
+    overlay1Texture_("assets/textures/overlay1.png"),
+    blossom_small_bulletTexture("assets/textures/blossom_small.png"),
+    red_light_bulletTexture_("assets/textures/red_light_bullet.png"),
+    blue_light_bulletTexture_("assets/textures/blue_light_bullet.png"),
+    deep_blue_light_bulletTexture_("assets/textures/deep_blue_light_bullet.png"),
+    hitboxTexture_("assets/textures/hitbox.png"),
+    Air_1_1Texture_("assets/textures/air/air1.png"),
+    Air_1_2Texture_("assets/textures/air/air2.png"),
+    Air_1_3Texture_("assets/textures/air/air3.png"),
+    Air_1_4Texture_("assets/textures/air/air4.png"),
+    Air_1_5Texture_("assets/textures/air/air5.png"),
+    Air_1_6Texture_("assets/textures/air/air6.png"),
+    Air_1_7Texture_("assets/textures/air/air7.png"),
+    Air_1_8Texture_("assets/textures/air/air8.png"),
+    bulletsheetTexture_("assets/textures/sheets/bullet_sheet.png"),
+    bulletsheetTexture2_("assets/textures/sheets/big_bullet_sheet.png"),
+    playersheetTexture_("assets/textures/sheets/player_sheet.png"),
+    effectsheetTexture_("assets/textures/sheets/effect_sheet.png"),
+    curtain_texture1_("assets/textures/curtain1.png"),
+    void_texture_("assets/textures/void.png")
+{
+    color_flip_.loadFromFile("assets/shaders/ColorFlip.frag",sf::Shader::Type::Fragment);
+}

@@ -1,8 +1,8 @@
-#include "core/application.h"
+#include "core/Application.h"
 #include <iostream>
 
 template<typename Derived>
-TextState<Derived>::TextState(application &app,int PageNum):
+TextState<Derived>::TextState(Application &app,int PageNum):
     State(app),focus_(1)
 {
     //pagelist_.resize(PageNum);
@@ -19,7 +19,7 @@ void TextState<Derived>::setPagelistLength(int length)
 }
 
 template<typename Derived>
-void TextState<Derived>::ProcessEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
+void TextState<Derived>::processEvent(sf::RenderWindow& window,const std::optional<sf::Event> event)
 {
     event->visit
     (
@@ -32,13 +32,13 @@ void TextState<Derived>::ProcessEvent(sf::RenderWindow& window,const std::option
 }
 
 template<typename Derived>
-void TextState<Derived>::Update()
+void TextState<Derived>::update()
 {
     //std::cout<<"update success\n";
 }
 
 template<typename Derived>
-void TextState<Derived>::Render(sf::RenderWindow& window)
+void TextState<Derived>::render(sf::RenderWindow& window)
 {
     if (focus_ < 1 || focus_ > static_cast<int>(pagelist_.size()))
     {
@@ -47,7 +47,7 @@ void TextState<Derived>::Render(sf::RenderWindow& window)
     }
 
     //window.clear();
-    pagelist_[focus_-1].Render(window);
+    pagelist_[focus_-1].render(window);
     //window.display();
     //std::cout<<"render success\n";
 }

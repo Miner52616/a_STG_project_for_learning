@@ -2,7 +2,7 @@
 #include <memory>
 #include "packages/YellowPage.h"
 
-class application;
+class AssetsResource;
 class BulletManager;
 class DropManager;
 class BombManager;
@@ -16,8 +16,8 @@ class NumLine1;
 class Resource
 {
 public:
-    Resource(application &app,BulletManager &bulletmanager,DropManager &dropmanager,BombManager &bombmanager,EffectManager &effectmanager,BatchManager& batchmanager,CollisionSystem &collisionsystem,PhaseController &phasecontroller);
-    application &app_;
+    Resource(AssetsResource &app,BulletManager &bulletmanager,DropManager &dropmanager,BombManager &bombmanager,EffectManager &effectmanager,BatchManager& batchmanager,CollisionSystem &collisionsystem,PhaseController &phasecontroller);
+    AssetsResource &app_;
     BulletManager &bulletmanager_;
     DropManager &dropmanager_;
     BombManager &bombmanager_;

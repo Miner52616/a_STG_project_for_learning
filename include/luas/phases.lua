@@ -9,6 +9,54 @@ phasetable=
                 HP=2000,
                 bossname="Kochiya Sanae",
                 spellname=" ",
+                spellnum=2,
+                name_x=-100,
+                name_y=-100,
+                voidspell=true,
+                spellcard=false,
+                behaviortable=
+                {
+                    {
+                        type="MoveTo",
+                        v=0.1,
+                        x=385,
+                        y=350
+                    }
+                }
+            },
+
+            {
+                time=2400,
+                HP=4500,
+                bossname="Kochiya Sanae",
+                spellname=" ",
+                spellnum=2,
+                name_x=-100,
+                name_y=-100,
+                voidspell=false,
+                spellcard=true,
+                behaviortable=
+                {
+                    {
+                        type="NonSpell2"
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=10
+                        }
+                    },
+                }
+            },
+
+            {
+                time=120,
+                HP=2000,
+                bossname="Kochiya Sanae",
+                spellname=" ",
                 spellnum=5,
                 name_x=-100,
                 name_y=-100,

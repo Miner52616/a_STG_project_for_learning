@@ -1,5 +1,5 @@
 #include "behaviors/behaviors/DivideSea.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "batch/Batch.h"
 #include "manager/BatchManager.h"
 #include "manager/BulletManager.h"

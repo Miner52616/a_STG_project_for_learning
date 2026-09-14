@@ -19,7 +19,7 @@ public:
     using ButtonState<EndState>::HandleEvent;
     bool blocksRender() const {return false;}
     
-    EndState(application &app,GameState& gamestate);
-    void Render(sf::RenderWindow& window) override;
+    EndState(Application &app,GameState& gamestate);
+    void render(sf::RenderWindow& window) override;
     void HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed&);
 };

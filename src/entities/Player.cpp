@@ -1,5 +1,5 @@
 #include "entities/Player.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "ui/Frame.h"
 #include "ui/NumLine1.h"
 #include "bullets/PlayerBullet.h"

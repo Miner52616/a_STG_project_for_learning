@@ -1,18 +1,21 @@
-#include "core/application.h"
+#include "core/Application.h"
 
 //主程序入口
 int main()
 {
-    application app;
+    Application app;
     
+    app.run();
+    /*
     //程序主循环，每帧由app进行相同操作
-    while(app.IsRunning())
+    while(app.isRunning())
     {
-        app.ProcessEvent();
-        app.Update();
-        app.Render();
-        app.End_operation(); 
+        app.processEvent();
+        app.update();
+        app.render();
+        app.end_operation(); 
     }
+        */
 
-    return 0;
+    return 52616;
 }

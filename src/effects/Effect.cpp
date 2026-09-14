@@ -1,6 +1,6 @@
 #include "effects/Effect.h"
 #include "packages/EffectConfig.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include "mathematics/mathematics.h"
 
 Effect::Effect(sf::Texture &texture):
@@ -91,6 +91,53 @@ void Effect::setActive(bool active)
     active_=active;
 }
 
+void Effect::rebuild()
+{
+    texture_=effectconfig_.texture_;
+    picture_.setTexture(*texture_,true);
+
+    switch (effectconfig_.effecttype_)
+    {
+    case LeiTan_Air:
+        break;
+    
+    case Bullet_Air:
+        {
+            Two_Vector2i rect=effectsheet_transform(effectconfig_.effect_index_);
+            sf::Vector2i position={rect.vec1_.x, rect.vec1_.y};
+            sf::Vector2i size={rect.vec2_.x, rect.vec2_.y};
+            picture_.setTextureRect({position,size});
+            break;
+        }
+
+    case PlayerBullet_Air:
+        {
+            Two_Vector2i rect=playersheet_effect_transform(effectconfig_.effect_index_);
+            sf::Vector2i position={rect.vec1_.x, rect.vec1_.y};
+            sf::Vector2i size={rect.vec2_.x, rect.vec2_.y};
+            picture_.setTextureRect({position,size});
+            break;
+        }
+    
+    default:
+        break;
+    }
+    picture_.setScale({1.414,1.414});
+    picture_.setOrigin(picture_.getLocalBounds().getCenter());
+    prev_position_={0,0};
+    dead_=false;
+    clock_.set_target(48);
+
+    setPosition(effectconfig_.spawn_point_);
+    clock_.reset();
+    texture_clock_.set_ready();
+
+    setTime(effectconfig_.time_);
+
+    rebuild_initialize();
+}
+
+/*
 void Effect::rebuild(sf::Texture &texture,sf::Vector2f position)
 {
     texture_=&texture;
@@ -133,6 +180,7 @@ void Effect::rebuild(sf::Texture &texture,sf::Vector2f position)
 
     rebuild_initialize();
 }
+    */
 
 void Effect::rebuild_initialize()
 {

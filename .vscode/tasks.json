@@ -7,7 +7,7 @@
       "command": "g++",
       "args": [
         "src/main.cpp",
-        "src/core/application.cpp",
+        "src/core/Application.cpp",
         "src/core/state.cpp",
         "src/core/Clock.cpp",
         "src/manager/EnemyManager.cpp",

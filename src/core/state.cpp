@@ -1,9 +1,9 @@
 #include "core/state.h"
-#include "core/application.h"
+#include "core/Application.h"
 #include <iostream>
 
-State::State(application &app):
-    app_(app),font_(app.mainFont_)
+State::State(Application &app):
+    app_(app),font_(app.assets_resource_.mainFont_)
 {
     ;
 }
