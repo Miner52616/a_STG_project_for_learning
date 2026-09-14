@@ -38,8 +38,8 @@ protected:
     bool dead_;
     bool active_;
     float damage_;
-    std::unique_ptr<BulletConfig> bulletconfig_;
-    std::unique_ptr<BulletConfig> sonconfig_;
+    BulletConfig bulletconfig_;
+    BulletConfig sonconfig_;
     EffectConfig effectconfig_;
     sf::CircleShape hitbox_draw_;
 
@@ -66,7 +66,7 @@ public:
     //void rebuild(sf::Texture &texture,sf::Vector2f position,float damage);
     void rebuild_Initialize();
     void initialize();
-    void setBulletConfig(std::unique_ptr<BulletConfig> bulletconfig);
+    //void setBulletConfig(std::unique_ptr<BulletConfig> bulletconfig);
     //void initialize_EffectConfig();
     //void initialize_playerEffectConfig();
     //void reset_EffectConfig();

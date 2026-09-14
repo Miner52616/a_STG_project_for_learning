@@ -9,6 +9,63 @@ phasetable=
                 HP=2000,
                 bossname="Kochiya Sanae",
                 spellname=" ",
+                spellnum=3,
+                name_x=-100,
+                name_y=-100,
+                voidspell=true,
+                spellcard=false,
+                behaviortable=
+                {
+                    {
+                        type="MoveTo",
+                        v=0.1,
+                        x=385,
+                        y=250
+                    }
+                }
+            },
+
+            {
+                time=4200,
+                HP=4200,
+                bossname="Kochiya Sanae",
+                spellname="岚符「大孔雀暴风」",
+                spellnum=3,
+                name_x=750,
+                name_y=25,
+                voidspell=false,
+                spellcard=true,
+                behaviortable=
+                {
+                    {
+                        type="TheStorm"
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Score",
+                            dropnum=20
+                        }
+                    },
+
+                    {
+                        type="ScoreDrop1",
+                        dropconfig=
+                        {
+                            droptype="Power",
+                            dropnum=5
+                        }
+                    },
+                }
+            },
+
+            {
+                time=120,
+                HP=2000,
+                bossname="Kochiya Sanae",
+                spellname=" ",
                 spellnum=2,
                 name_x=-100,
                 name_y=-100,

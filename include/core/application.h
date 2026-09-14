@@ -70,6 +70,6 @@ private:
     void end_operation();  //一套流程中最后的操作
 public:
     Application();  //初始化窗口属性，初始化资源加载，初始化状态栈
-    void run();
+    void run();//app运行主循环
     void applyLetterBox();
 };
