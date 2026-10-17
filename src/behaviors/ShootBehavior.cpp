@@ -16,7 +16,7 @@ ShootBehavior::ShootBehavior(Resource* resource,YellowPage* yellowpage,long long
 void ShootBehavior::setEffectConfig()
 {
     effectconfig_.effect_index_={1,1};
-    effectconfig_.effecttype_=Bullet_Air;
+    effectconfig_.effecttype_=EffectType::Bullet_Air;
     effectconfig_.random_rotate_=true;
     effectconfig_.texturelist_size_=8;
     effectconfig_.current_texture_num_=0;

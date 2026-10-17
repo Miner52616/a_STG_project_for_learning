@@ -6,25 +6,17 @@
 
 class Behavior;
 class Resource;
+class UpdateTableLibrary;
+class UpdateSpecialLibrary;
+
 //子弹
 class Bullet:public Entity
 {
 //更新函数表函数声明为友元函数
-friend void aim_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-friend void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-friend void direct_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-friend void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-friend void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-friend void gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-friend void rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-friend void behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-friend void rotate_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-friend void rotate_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-friend void void_update(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+friend UpdateTableLibrary;
 
 //单独全局更新函数声明为友元函数
-friend void divide_sea1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-friend void divide_sea2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+friend UpdateSpecialLibrary;
 
 protected:
     bool show_hitbox_=true;
@@ -94,25 +86,32 @@ public:
 };
 
 //以下为更新函数表的函数
+class UpdateTableLibrary
+{
+public:
+    static void aim_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+    static void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+    static void direct_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+    static void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+    static void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+    static void gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+    static void rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+    static void behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+    static void rotate_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);//绕着中心点的多阶段的移动函数
+    static void rotate_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+    static void void_update(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+};
+
 using UpdateFunc = void(*)(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-
-void aim_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-void direct_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-void gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-void rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-void behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-void rotate_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);//绕着中心点的多阶段的移动函数
-void rotate_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-void void_update(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-
 extern UpdateFunc update_table[];
 
 /**************************************************************************************** */
 //以下为不在函数表内统一调度的override_update_function
 //这里面一般一个函数只有某种极特定的子弹会调用，故直接写在外面，需要时直接取用函数指针指定
 
-void divide_sea1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
-void divide_sea2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+class UpdateSpecialLibrary
+{
+public:
+    static void divide_sea1(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+    static void divide_sea2(Bullet& bullet,YellowPage* yellowpage,Resource* resource);
+};

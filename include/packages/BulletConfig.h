@@ -7,7 +7,7 @@
 #include "packages/Resource.h"
 #include "packages/YellowPage.h"
 
-enum BulletClasses
+enum class BulletClasses
 {
     LinearBullet=0,
     PlayerBullet=1,
@@ -23,14 +23,14 @@ enum BulletClasses
     VoidUpdate=11,
 };
 
-enum BulletBehavior
+enum class BulletBehavior
 {
     Fix=0,
     Rotate=1,
     Direct=2
 };
 
-enum BulletSize
+enum class BulletSize
 {
     Small=0,
     Big=1,

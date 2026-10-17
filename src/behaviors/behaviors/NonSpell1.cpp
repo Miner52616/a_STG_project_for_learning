@@ -24,8 +24,8 @@ void NonSpell1_1::setBulletConfig()
 {
     bulletconfig_.r_=3;
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
-    bulletconfig_.bulletsize_=Small;
-    bulletconfig_.bulletbehavior_=Direct;
+    bulletconfig_.bulletsize_=BulletSize::Small;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Direct;
     bulletconfig_.bullet_index_={7,8};
 }
 

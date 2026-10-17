@@ -106,9 +106,9 @@ NonSpell3::NonSpell3(Entity* entity,Resource* resource,YellowPage* yellowpage):
 void NonSpell3::setBulletConfig()
 {
     bulletconfig_.r_=5;
-    bulletconfig_.bulletclass_=PhaseCenterRotateExpandBullet1;
-    bulletconfig_.bulletbehavior_=Rotate;
-    bulletconfig_.bulletsize_=Small;
+    bulletconfig_.bulletclass_=BulletClasses::PhaseCenterRotateExpandBullet1;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Rotate;
+    bulletconfig_.bulletsize_=BulletSize::Small;
     bulletconfig_.bullet_index_={7,11};
 
     bulletconfig_.v_=0;
@@ -117,9 +117,9 @@ void NonSpell3::setBulletConfig()
     bulletconfig_.rotate_angle_=0.5;
 
     bulletconfig2_.r_=5;
-    bulletconfig2_.bulletclass_=DirectBullet1;
-    bulletconfig2_.bulletbehavior_=Direct;
-    bulletconfig2_.bulletsize_=Small;
+    bulletconfig2_.bulletclass_=BulletClasses::DirectBullet1;
+    bulletconfig2_.bulletbehavior_=BulletBehavior::Direct;
+    bulletconfig2_.bulletsize_=BulletSize::Small;
     bulletconfig2_.bullet_index_={9,8};
 
     bulletconfig2_.v_=7.5;

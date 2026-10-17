@@ -16,6 +16,7 @@ public:
     void setTextSize(int size);  //设置文字大小
     void setTextColor(sf::Color color);  //设置文字颜色
     void changeOrigin(bool change);
+    void setOriginCenter();
     sf::Vector2f getPosition();
 
     void DrawText(sf::RenderWindow& window);  //渲染文字至窗口

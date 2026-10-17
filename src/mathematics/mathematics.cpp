@@ -329,3 +329,23 @@ Two_Vector2i effectsheet_transform(const sf::Vector2i& want)
 
     return rect;
 }
+
+std::string numberToChinese(int number)
+{
+    const std::string chinese[]=
+    {
+        "〇", "一", "二", "三", "四",
+        "五", "六", "七", "八", "九"
+    };
+
+    std::string numberString=std::to_string(number);
+    std::string result;
+
+    for (char c:numberString)
+    {
+        int digit=c-'0';
+        result+=chinese[digit];
+    }
+
+    return result;
+}

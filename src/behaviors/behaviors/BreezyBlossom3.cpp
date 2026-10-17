@@ -40,7 +40,7 @@ void BreezyBlossom3::update()
 void BreezyBlossom3::setBulletConfig()
 {
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
-    bulletconfig_.bulletsize_=Big;
+    bulletconfig_.bulletsize_=BulletSize::Big;
     bulletconfig_.r_=13;
     bulletconfig_.bullet_index_={3,2};
 }

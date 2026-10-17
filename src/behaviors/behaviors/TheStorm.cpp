@@ -32,7 +32,7 @@ void TheStorm1::setBulletConfig()
     //bulletconfig_.v2_=4;
     bulletconfig_.clock1_.set_target(initial_delay_time_);
     bulletconfig_.clock1_.reset();
-    bulletconfig_.bulletsize_=Small;
+    bulletconfig_.bulletsize_=BulletSize::Small;
     bulletconfig_.bullet_index_={11,3};
     bulletconfig_.bullet_index2_={11,5};
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
@@ -67,11 +67,11 @@ void TheStorm1::update()
                 {
                     if(i==1)
                     {
-                        bulletconfig_.bulletclass_=Behavior_DirectBullet1;
+                        bulletconfig_.bulletclass_=BulletClasses::Behavior_DirectBullet1;
                     }
                     else
                     {
-                        bulletconfig_.bulletclass_=DirectBullet1;
+                        bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
                     }
                     bulletconfig_.v_=(float)3+(float)i*4/25;
                     resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
@@ -121,7 +121,7 @@ void TheStorm2::setBulletConfig()
     //bulletconfig_.v2_=4;
     bulletconfig_.clock1_.set_target(initial_delay_time_);
     bulletconfig_.clock1_.reset();
-    bulletconfig_.bulletsize_=Small;
+    bulletconfig_.bulletsize_=BulletSize::Small;
     bulletconfig_.bullet_index_={11,3};
     bulletconfig_.bullet_index2_={11,5};
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
@@ -158,11 +158,11 @@ void TheStorm2::update()
                     {
                         if(i==1)
                         {
-                            bulletconfig_.bulletclass_=Behavior_DirectBullet1;
+                            bulletconfig_.bulletclass_=BulletClasses::Behavior_DirectBullet1;
                         }
                         else
                         {
-                            bulletconfig_.bulletclass_=DirectBullet1;
+                            bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
                         }
                         bulletconfig_.v_=(float)3+(float)i*4/25;
                         resource_->bulletmanager_.add_process(&bulletconfig_,&effectconfig_);
@@ -211,7 +211,7 @@ void TheStorm3::setBulletConfig()
     //bulletconfig_.v2_=4;
     bulletconfig_.clock1_.set_target(initial_delay_time_);
     bulletconfig_.clock1_.reset();
-    bulletconfig_.bulletsize_=Small;
+    bulletconfig_.bulletsize_=BulletSize::Small;
     bulletconfig_.bullet_index_={11,3};
     bulletconfig_.bullet_index2_={11,5};
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
@@ -294,7 +294,7 @@ void TheStorm4::setBulletConfig()
     //bulletconfig_.v2_=4;
     bulletconfig_.clock1_.set_target(initial_delay_time_);
     bulletconfig_.clock1_.reset();
-    bulletconfig_.bulletsize_=Small;
+    bulletconfig_.bulletsize_=BulletSize::Small;
     bulletconfig_.bullet_index_={11,3};
     bulletconfig_.bullet_index2_={11,5};
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;

@@ -2,11 +2,31 @@
 #include "entities/Player.h"
 #include "behaviors/behaviors/DropMove1.h"
 #include "behaviors/behaviors/AimMove1.h"
+#include "packages/AssetsResource.h"
+#include "manager/EffectManager.h"
+#include "mathematics/mathematics.h"
+#include "ui/NumLine1.h"
 
 Drop::Drop(const sf::Texture &texture):
-    Entity(texture),getbox_r_(80),phase_(1),v1_(-5),v2_(10),v2final_(30),a_(0.1)
+    Entity(texture),getbox_r_(80),phase_(1),v1_(-5),v2_(10),v2final_(30),a_(0.1),
+    effectconfig_(resource_->app_.effectsheetTexture_)
 {
-    ;
+    setEffectConfig();
+}
+
+Drop::Drop(const sf::Texture &texture,Resource* resource,YellowPage* yellowpage):
+    Entity(texture),
+    resource_(resource),yellowpage_(yellowpage),
+    getbox_r_(80),phase_(1),v1_(-5),v2_(10),v2final_(30),a_(0.1),
+    effectconfig_(resource_->app_.effectsheetTexture_)
+{
+    setEffectConfig();
+}
+
+void Drop::setEffectConfig()
+{
+    effectconfig_.isText=true;
+    effectconfig_.effecttype_=EffectType::VoidUpdate;
 }
 
 void Drop::setResource(Resource* resource)
@@ -68,6 +88,11 @@ bool Drop::isGot()
     }
 }
 
+void Drop::setScore(int score)
+{
+    score_=score;
+}
+
 void Drop::update()
 {
     //std::cout<<phase_<<std::endl;
@@ -112,4 +137,26 @@ void Drop::update()
 void Drop::drawtexture(sf::RenderTexture& texture)
 {
     texture.draw(picture_);
+}
+
+void Drop::score()
+{
+    switch (getType())
+    {
+    case DropType::Score:
+        score_=the_min(500,750*((900-getPosition().y)/900))+500;
+        yellowpage_->score_line_.setCurrentNum(yellowpage_->score_line_.getCurrentNum()+score_);
+        effectconfig_.spawn_point_=getPosition();
+        effectconfig_.text_=numberToChinese(score_);
+        resource_->effectmanager_.add_process(&effectconfig_);
+        break;
+
+    case DropType::Power:
+        score_=5;
+        yellowpage_->power_line_.setCurrentNum(yellowpage_->power_line_.getCurrentNum()+score_);
+        break;
+
+    default:
+        break;
+    }
 }

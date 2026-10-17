@@ -38,10 +38,10 @@ void StarRite1::setBulletConfig()
     bulletconfig_.v3_=3;
     bulletconfig_.a2_=0.05;
     bulletconfig_.clock1_.set_target(30);
-    bulletconfig_.bulletclass_=PhaseCenterRotateBullet1;
-    bulletconfig_.bulletbehavior_=Rotate;
-    bulletconfig_.bulletbehavior2_=Rotate;
-    bulletconfig_.bulletsize_=Small;
+    bulletconfig_.bulletclass_=BulletClasses::PhaseCenterRotateBullet1;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Rotate;
+    bulletconfig_.bulletbehavior2_=BulletBehavior::Rotate;
+    bulletconfig_.bulletsize_=BulletSize::Small;
     bulletconfig_.bullet_index_={7,11};
     bulletconfig_.bullet_index2_={7,11};
     bulletconfig_.random_son_direction_=true;

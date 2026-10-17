@@ -41,6 +41,16 @@ void DropManager::update()
 
 void DropManager::clear_dead()
 {
+    /*
+    for(auto it=droplist_.begin();it!=droplist_.end();++it)
+    {
+        if((*it)->isDead())
+        {
+            (*it)->endOperation();
+        }
+    }
+        */
+
     droplist_.erase
     (
         std::remove_if

@@ -3,15 +3,15 @@
 #include "core/Application.h"
 #include "mathematics/mathematics.h"
 
-Effect::Effect(sf::Texture &texture):
-    texture_(&texture),picture_(texture),position_({0,0}),prev_position_({0,0}),dead_(false),clock_(48),effectconfig_(texture),texture_clock_(4)
+Effect::Effect(sf::Texture &texture,sf::Font& font):
+    texture_(&texture),picture_(texture),font_(&font),text_(font),position_({0,0}),prev_position_({0,0}),dead_(false),clock_(48),effectconfig_(texture),texture_clock_(4)
 {
     texture_clock_.set_ready();
     clock_.reset();
 }
 
-Effect::Effect(sf::Texture &texture,sf::Vector2f position,long long int time):
-    texture_(&texture),picture_(texture),position_(position),prev_position_({0,0}),dead_(false),clock_(time),effectconfig_(texture),texture_clock_(4)
+Effect::Effect(sf::Texture &texture,sf::Font& font,sf::Vector2f position,long long int time):
+    texture_(&texture),picture_(texture),font_(&font),text_(font),position_(position),prev_position_({0,0}),dead_(false),clock_(time),effectconfig_(texture),texture_clock_(4)
 {
     texture_clock_.set_ready();
     clock_.reset();
@@ -21,6 +21,7 @@ void Effect::setPosition(sf::Vector2f position)
 {
     position_=position;
     picture_.setPosition(position_);
+    text_.setTextPosition(position_);
 }
 
 void Effect::store_position()
@@ -38,10 +39,12 @@ sf::Vector2f Effect::getprevPosition()
     return prev_position_;
 }
 
+/*
 void Effect::setResource(Resource* resource)
 {
     resource_=resource;
 }
+    */
 
 bool Effect::isDead() const
 {
@@ -54,20 +57,18 @@ void Effect::markDead()
     dead_=true;
 }
 
+/*
 void Effect::addBehavior(std::unique_ptr<Behavior> behavior)
 {
     behaviorlist_.emplace_back(std::move(behavior));
 }
+    */
 
 void Effect::update()
 {
     store_position();
-    /*
-    for(auto it=behaviorlist_.begin();it!=behaviorlist_.end();++it)
-    {
-        (*it)->update();
-    }*/
-    effect_update_table[effectconfig_.effecttype_](*this);
+    
+    effect_update_table[static_cast<std::size_t>(effectconfig_.effecttype_)](*this);
 
     clock_.count();
     if(clock_.get_condition())
@@ -96,12 +97,14 @@ void Effect::rebuild()
     texture_=effectconfig_.texture_;
     picture_.setTexture(*texture_,true);
 
+    //font_=effectconfig_.font_;
+
     switch (effectconfig_.effecttype_)
     {
-    case LeiTan_Air:
+    case EffectType::LeiTan_Air:
         break;
     
-    case Bullet_Air:
+    case EffectType::Bullet_Air:
         {
             Two_Vector2i rect=effectsheet_transform(effectconfig_.effect_index_);
             sf::Vector2i position={rect.vec1_.x, rect.vec1_.y};
@@ -110,7 +113,7 @@ void Effect::rebuild()
             break;
         }
 
-    case PlayerBullet_Air:
+    case EffectType::PlayerBullet_Air:
         {
             Two_Vector2i rect=playersheet_effect_transform(effectconfig_.effect_index_);
             sf::Vector2i position={rect.vec1_.x, rect.vec1_.y};
@@ -122,19 +125,36 @@ void Effect::rebuild()
     default:
         break;
     }
+
     picture_.setScale({1.414,1.414});
     picture_.setOrigin(picture_.getLocalBounds().getCenter());
+    if(effectconfig_.random_rotate_)
+    {
+        //std::cout<<"rotate"<<std::endl;
+        picture_.setRotation(sf::degrees(getRandomNum(0,360)));
+    }
+    else
+    {
+        //std::cout<<"no rotate"<<std::endl;
+        picture_.setRotation(sf::degrees(90));
+    }
+
+    picture_.setColor(sf::Color{255,255,255,effectconfig_.color_alpha_});
+
+    text_.setTextText(effectconfig_.text_);
+    text_.setTextSize(effectconfig_.text_size_);
+    text_.setOriginCenter();
+
     prev_position_={0,0};
     dead_=false;
-    clock_.set_target(48);
 
     setPosition(effectconfig_.spawn_point_);
+
+    setTime(effectconfig_.time_);
     clock_.reset();
     texture_clock_.set_ready();
 
-    setTime(effectconfig_.time_);
-
-    rebuild_initialize();
+    //rebuild_initialize();
 }
 
 /*
@@ -182,6 +202,7 @@ void Effect::rebuild(sf::Texture &texture,sf::Vector2f position)
 }
     */
 
+/*
 void Effect::rebuild_initialize()
 {
     if(effectconfig_.random_rotate_)
@@ -197,6 +218,7 @@ void Effect::rebuild_initialize()
 
     picture_.setColor(sf::Color{255,255,255,effectconfig_.color_alpha_});
 }
+    */
 
 EffectConfig* Effect::getEffectConfig()
 {
@@ -205,12 +227,26 @@ EffectConfig* Effect::getEffectConfig()
 
 void Effect::drawwindow(sf::RenderWindow& window)
 {
-    window.draw(picture_);
+    if(effectconfig_.isText)
+    {
+        text_.DrawText(window);
+    }
+    else
+    {
+        window.draw(picture_);
+    }
 }
 
 void Effect::drawtexture(sf::RenderTexture& texture)
 {
-    texture.draw(picture_);
+    if(effectconfig_.isText)
+    {
+        text_.DrawText(texture);
+    }
+    else
+    {
+        texture.draw(picture_);
+    }
 }
 
 void Effect::setTime(long long int time)
@@ -221,13 +257,15 @@ void Effect::setTime(long long int time)
 /******************************************************* */
 
 //匀速直线运动
-void direct_move1(Effect& effect)
+/*
+void EffectUpdateTableLibrary::direct_move1(Effect& effect)
 {
     effect.setPosition(effect.getPosition()+effect.effectconfig_.v_*effect.effectconfig_.direction_);
 }
+    */
 
 //含加速度的减速至目标速度的减速运动
-void direct_move2(Effect& effect)
+void EffectUpdateTableLibrary::direct_move2(Effect& effect)
 {
     effect.setPosition(effect.getPosition()+effect.effectconfig_.v_*effect.effectconfig_.direction_);
     if(effect.effectconfig_.v_>effect.effectconfig_.v2_)
@@ -240,7 +278,7 @@ void direct_move2(Effect& effect)
     }
 }
 
-void keep_static(Effect& effect)
+void EffectUpdateTableLibrary::keep_static(Effect& effect)
 {
     if(effect.texture_clock_.get_condition())
     {
@@ -268,7 +306,7 @@ void keep_static(Effect& effect)
     effect.texture_clock_.count();
 }
 
-void keep_static2(Effect& effect)
+void EffectUpdateTableLibrary::keep_static2(Effect& effect)
 {
     effect.setPosition(effect.getPosition()+effect.effectconfig_.v_*effect.effectconfig_.direction_);
     if(effect.texture_clock_.get_condition())
@@ -292,9 +330,15 @@ void keep_static2(Effect& effect)
     effect.texture_clock_.count();
 }
 
+void EffectUpdateTableLibrary::void_update(Effect& effect)
+{
+    ;
+}
+
 EffectUpdateFunc effect_update_table[]=
 {
-    direct_move2,
-    keep_static,
-    keep_static2
+    EffectUpdateTableLibrary::direct_move2,
+    EffectUpdateTableLibrary::keep_static,
+    EffectUpdateTableLibrary::keep_static2,
+    EffectUpdateTableLibrary::void_update
 };

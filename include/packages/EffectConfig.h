@@ -1,11 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 
-enum EffectType
+enum class EffectType
 {
     LeiTan_Air=0,
     Bullet_Air=1,
-    PlayerBullet_Air=2
+    PlayerBullet_Air=2,
+    VoidUpdate=3,
 };
 
 enum class OverlayType
@@ -30,6 +31,10 @@ public:
     int current_texture_num_=0;
     bool random_rotate_=true;
     sf::Vector2i effect_index_={1,1};
+    bool isText=false;
+    //sf::Font* font_;
+    std::string text_=" ";
+    int text_size_=15;
     //std::vector<sf::Texture*> texturelist_;
 
 public:

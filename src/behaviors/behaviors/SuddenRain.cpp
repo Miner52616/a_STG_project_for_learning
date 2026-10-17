@@ -29,9 +29,9 @@ void SuddenRain1::setBulletConfig()
     //bulletconfig_.v2_=5.5;
     //bulletconfig_.a_=0.05;
     bulletconfig_.direction2_={0,1};
-    bulletconfig_.bulletsize_=Small;
+    bulletconfig_.bulletsize_=BulletSize::Small;
     bulletconfig_.bullet_index_={9,5};
-    bulletconfig_.bulletclass_=GravityBullet;
+    bulletconfig_.bulletclass_=BulletClasses::GravityBullet;
     bulletconfig_.bulletbehavior_=BulletBehavior::Direct;
 }
 
@@ -93,10 +93,10 @@ void SuddenRain2::setBulletConfig()
     bulletconfig_.rotate_angle_=1.4;
     bulletconfig_.rotate_angle2_=120;
     bulletconfig_.a_=0.5;
-    bulletconfig_.bulletsize_=Big;
+    bulletconfig_.bulletsize_=BulletSize::Big;
     bulletconfig_.bullet_index_={6,2};
-    bulletconfig_.bulletclass_=RotateBullet1;
-    bulletconfig_.bulletbehavior_=Fix;
+    bulletconfig_.bulletclass_=BulletClasses::RotateBullet1;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Fix;
 }
 
 void SuddenRain2::update()

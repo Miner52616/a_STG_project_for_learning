@@ -19,12 +19,12 @@ DivideSea1::DivideSea1(Entity* entity,Resource* resource,YellowPage* yellowpage)
 void DivideSea1::setBulletConfig()
 {
     bulletconfig_.r_=15;
-    bulletconfig_.bulletclass_=VoidUpdate;
-    bulletconfig_.bulletbehavior_=Fix;
-    bulletconfig_.bulletsize_=Large;
+    bulletconfig_.bulletclass_=BulletClasses::VoidUpdate;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Fix;
+    bulletconfig_.bulletsize_=BulletSize::Large;
     bulletconfig_.bullet_index_={2,1};
 
-    bulletconfig_.specialized_update_func_=divide_sea1;
+    bulletconfig_.specialized_update_func_=UpdateSpecialLibrary::divide_sea1;
 
     bulletconfig_.v_=0.08;
     bulletconfig_.v2_=0;
@@ -137,13 +137,13 @@ DivideSea2::DivideSea2(Entity* entity,Resource* resource,YellowPage* yellowpage)
 void DivideSea2::setBulletConfig()
 {
     bulletconfig_.r_=15;
-    bulletconfig_.bulletclass_=VoidUpdate;
-    bulletconfig_.bulletbehavior_=Fix;
-    bulletconfig_.bulletsize_=Large;
+    bulletconfig_.bulletclass_=BulletClasses::VoidUpdate;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Fix;
+    bulletconfig_.bulletsize_=BulletSize::Large;
     bulletconfig_.bullet_index_={2,1};
     bulletconfig_.spawn_point_.x=-10;
 
-    bulletconfig_.specialized_update_func_=divide_sea2;
+    bulletconfig_.specialized_update_func_=UpdateSpecialLibrary::divide_sea2;
     
     bulletconfig_.v_=0.12;
     bulletconfig_.v2_=0;
@@ -189,13 +189,13 @@ DivideSea3::DivideSea3(Entity* entity,Resource* resource,YellowPage* yellowpage)
 void DivideSea3::setBulletConfig()
 {
     bulletconfig_.r_=15;
-    bulletconfig_.bulletclass_=VoidUpdate;
-    bulletconfig_.bulletbehavior_=Fix;
-    bulletconfig_.bulletsize_=Large;
+    bulletconfig_.bulletclass_=BulletClasses::VoidUpdate;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Fix;
+    bulletconfig_.bulletsize_=BulletSize::Large;
     bulletconfig_.bullet_index_={2,1};
     bulletconfig_.spawn_point_.x=780;
 
-    bulletconfig_.specialized_update_func_=divide_sea2;
+    bulletconfig_.specialized_update_func_=UpdateSpecialLibrary::divide_sea2;
     
     bulletconfig_.v_=0.12;
     bulletconfig_.v2_=0;
@@ -240,9 +240,9 @@ DivideSea4::DivideSea4(Entity* entity,Resource* resource,YellowPage* yellowpage)
 void DivideSea4::setBulletConfig()
 {
     bulletconfig_.r_=3;
-    bulletconfig_.bulletclass_=DirectBullet1;
-    bulletconfig_.bulletbehavior_=Direct;
-    bulletconfig_.bulletsize_=Small;
+    bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Direct;
+    bulletconfig_.bulletsize_=BulletSize::Small;
     bulletconfig_.bullet_index_={10,7};
   
     //bulletconfig_.v_=4;

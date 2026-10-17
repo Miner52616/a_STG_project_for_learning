@@ -20,9 +20,9 @@ std::unique_ptr<Drop> DropFactory::create(DropConfig* dropconfig)
     switch (dropconfig->droptype_)
     {
     case DropType::Score:
-        drop=std::make_unique<Drop>(resource_->app_.score_dropTexture_);
-        drop->setResource(resource_);
-        drop->setYellowPage(yellowpage_);
+        drop=std::make_unique<Drop>(resource_->app_.score_dropTexture_,resource_,yellowpage_);
+        //drop->setResource(resource_);
+        //drop->setYellowPage(yellowpage_);
         drop->setPosition(dropconfig->spawn_point_);
         drop->setType(dropconfig->droptype_);
 
@@ -31,9 +31,9 @@ std::unique_ptr<Drop> DropFactory::create(DropConfig* dropconfig)
         break;
 
     case DropType::Power:
-        drop=std::make_unique<Drop>(resource_->app_.power_dropTexture_);
-        drop->setResource(resource_);
-        drop->setYellowPage(yellowpage_);
+        drop=std::make_unique<Drop>(resource_->app_.score_dropTexture_,resource_,yellowpage_);
+        //drop->setResource(resource_);
+        //drop->setYellowPage(yellowpage_);
         drop->setPosition(dropconfig->spawn_point_);
         drop->setType(dropconfig->droptype_);
 
@@ -42,9 +42,9 @@ std::unique_ptr<Drop> DropFactory::create(DropConfig* dropconfig)
         break;
     
     default:
-        drop=std::make_unique<Drop>(resource_->app_.score_dropTexture_);
-        drop->setResource(resource_);
-        drop->setYellowPage(yellowpage_);
+        drop=std::make_unique<Drop>(resource_->app_.score_dropTexture_,resource_,yellowpage_);
+        //drop->setResource(resource_);
+        //drop->setYellowPage(yellowpage_);
         drop->setPosition(dropconfig->spawn_point_);
         drop->setType(dropconfig->droptype_);
 

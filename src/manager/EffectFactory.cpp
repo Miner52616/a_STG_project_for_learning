@@ -1,7 +1,7 @@
 #include "manager/EffectFactory.h"
 #include "core/Application.h"
 #include "effects/Effect.h"
-#include "effects/effects/LeiTan_Air.h"
+//#include "effects/effects/LeiTan_Air.h"
 #include "overlays/overlays/PictureOverlay.h"
 #include "overlays/overlays/TextOverlay.h"
 #include "behaviors/behaviors/MarkDead.h"
@@ -19,7 +19,7 @@ void EffectFactory::initialize(int size)
     std::cout<<"effect storage "<<size<<std::endl;
     for (int i=1;i<=size;i++)
     {
-        effectlist_.emplace_back(app_.assets_resource_.overlay1Texture_,sf::Vector2f{0,0},(long long int)60);
+        effectlist_.emplace_back(app_.assets_resource_.overlay1Texture_,app_.assets_resource_.mainFont_,sf::Vector2f{0,0},(long long int)60);
         free_list_.push_back(i-1);
     }
     //std::cout<<"effect pool initialized"<<std::endl;
@@ -77,7 +77,7 @@ Effect* EffectFactory::create(EffectConfig* effectconfig)
     //copyconfig(effect->getEffectConfig(),effectconfig);
     *(effect->getEffectConfig())=*effectconfig;
 
-    //重新初始化特效，特别单独处理texture的更换
+    //重新初始化特效，单独处理texture和font等effect中固有属性的更换
     effect->rebuild();
 
     return effect;

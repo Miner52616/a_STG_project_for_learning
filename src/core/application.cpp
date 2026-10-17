@@ -5,7 +5,8 @@
 
 Application::Application():
     stack_(*(this)),
-    window_(sf::VideoMode({1280,960}),"thssm_0.1.2.0")
+    window_(sf::VideoMode({1280,960}),"thssm_0.1.2.0"),
+    performance_(assets_resource_.mainFont_)
     /*
     mainFont_("assets/fonts/abc.ttf"),
     playerTexture_("assets/textures/player.png"),
@@ -71,6 +72,7 @@ void Application::run()
 {
     while(isRunning())
     {
+        performance_.startWorktime();
         processEvent();
         update();
         render();
@@ -101,6 +103,8 @@ void Application::render()
 {
     window_.clear();
     stack_.render(window_);
+    performance_.endWorktime();
+    performance_.render(window_);
     window_.display();
 }
 

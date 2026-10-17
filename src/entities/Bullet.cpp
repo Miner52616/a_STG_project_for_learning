@@ -69,7 +69,7 @@ void Bullet::update()
     
     //if(bulletconfig_.bulletclass_==DirectBullet2)
     //std::cout<<"111"<<std::endl;
-    update_table[bulletconfig_.bulletclass_](*this,yellowpage_,resource_);
+    update_table[static_cast<std::size_t>(bulletconfig_.bulletclass_)](*this,yellowpage_,resource_);
     if(bulletconfig_.specialized_update_func_)
     {
         bulletconfig_.specialized_update_func_(*this,yellowpage_,resource_);
@@ -375,7 +375,7 @@ void Bullet::drawwindow(sf::RenderWindow& window)
 //开销小，未使用开根号
 //目前没有子弹使用这个移动函数
 //使用配置v_ target_point_
-void aim_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+void UpdateTableLibrary::aim_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_.v_*(bullet.bulletconfig_.target_point_-bullet.getPosition()));
 }
@@ -384,7 +384,7 @@ void aim_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 //有一定开销，使用了开根号
 //自机的诱导弹使用这个移动函数
 //使用配置a_
-void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+void UpdateTableLibrary::aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     sf::Vector2f target=resource->phasecontroller_.get_closest_target(bullet.getPosition());
     if(target!=(sf::Vector2f{2500,2500}))
@@ -403,7 +403,7 @@ void aim_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 //子弹匀速直线移动
 //开销很小
 //使用配置v_ direction_
-void direct_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+void UpdateTableLibrary::direct_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_.v_*bullet.bulletconfig_.direction_);
 }
@@ -411,7 +411,7 @@ void direct_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 //两个阶段的直线移动。第一阶段子弹以v_匀速直线移动，第二阶段在第一阶段基础上开始加速，加速至上限速度后匀速直线运动
 //开销很小
 //使用配置v_ a_ v2_ direction_ clock1_
-void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+void UpdateTableLibrary::direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     if(!bullet.bulletconfig_.clock1_.get_condition())
     {
@@ -433,7 +433,7 @@ void direct_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 //基本为NonSpell2特化使用
 //有一定开销
 //使用配置v_ v2_ v3_ a_ a2_ direction_ clock1_ clock2_ clock3_
-void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+void UpdateTableLibrary::direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     if(!bullet.bulletconfig_.clock3_.get_condition())
     {
@@ -472,7 +472,7 @@ void direct_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 //子弹会受到固定大小方向向下的加速度，同时子弹也有速度上限
 //有一定开销
 //使用配置v_ v2_  direction_（初速度方向） a_
-void gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+void UpdateTableLibrary::gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_.v_*bullet.bulletconfig_.direction_);
     
@@ -490,7 +490,7 @@ void gravity_move(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 
 //子弹从匀速移动，但每帧都移动方向都会旋转固定角度，直到旋转角度上限
 //使用配置v_ direction_ rotate_angle_ rotate_angle2_
-void rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+void UpdateTableLibrary::rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_.v_*bullet.bulletconfig_.direction_);
 
@@ -505,7 +505,7 @@ void rotate_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 //子母弹。母弹匀速直线运动，每一定时间触发一次生成一波子弹。子弹生成方向随机
 //母弹使用配置v_ direction_ clock1_ bullet_num_
 //子弹使用配置v2_ r2_ bullet_index2_
-void behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+void UpdateTableLibrary::behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     bullet.setPosition(bullet.getPosition()+bullet.bulletconfig_.v_*bullet.bulletconfig_.direction_);
     if(bullet.bulletconfig_.clock1_.get_condition())
@@ -518,9 +518,9 @@ void behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
         bullet.sonconfig_.bullet_index_=bullet.bulletconfig_.bullet_index2_;
         //bullet.sonconfig_..direction_=roundwithCenter({0,0},{1,0},bullet.bulletconfig_.angle2_);
         //bullet.sonconfig_..angle_=bullet.bulletconfig_.angle2_;
-        bullet.sonconfig_.bulletbehavior_=Direct;
-        bullet.sonconfig_.bulletclass_=DirectBullet1;
-        bullet.sonconfig_.bulletsize_=Small;
+        bullet.sonconfig_.bulletbehavior_=BulletBehavior::Direct;
+        bullet.sonconfig_.bulletclass_=BulletClasses::DirectBullet1;
+        bullet.sonconfig_.bulletsize_=BulletSize::Small;
 
         for(int i=1;i<=bullet.bulletconfig_.bullet_num_;i++)
         {
@@ -535,7 +535,7 @@ void behavior_move1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 //需要有共享状态batch控制的多阶段多旋转中心旋转移动子弹。阶段由共享状态控制。第一阶段绕一个中心旋转指定的角度后停止，第二阶段绕第二个中心加速旋转至速度上限
 //同时也是子母弹。在共享状态trigger为true触发时发射子弹
 //基本为StarRite特化使用
-void rotate_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+void UpdateTableLibrary::rotate_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     if(bullet.bulletconfig_.shareconfig_.active_)
     {
@@ -581,7 +581,7 @@ void rotate_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
         {
             //std::cout<<"111"<<std::endl;
             bullet.sonconfig_.spawn_point_=bullet.getPosition();
-            bullet.sonconfig_.bulletclass_=DirectBullet2;
+            bullet.sonconfig_.bulletclass_=BulletClasses::DirectBullet2;
             bullet.sonconfig_.v_=0;
             bullet.sonconfig_.r_=bullet.bulletconfig_.r2_;
             bullet.sonconfig_.v2_=bullet.bulletconfig_.v3_;
@@ -609,7 +609,7 @@ void rotate_move2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
     }
 }
 
-void rotate_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+void UpdateTableLibrary::rotate_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     if(bullet.bulletconfig_.shareconfig_.active_)
     {
@@ -649,30 +649,30 @@ void rotate_move3(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
     }
 }
 
-void void_update(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+void UpdateTableLibrary::void_update(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     ;
 }
 
 UpdateFunc update_table[]=
 {
-    aim_move1,
-    direct_move1,
-    direct_move1,
-    direct_move2,
-    aim_move2,
-    direct_move3,
-    gravity_move,
-    rotate_move1,
-    behavior_move1,
-    rotate_move2,
-    rotate_move3,
-    void_update
+    UpdateTableLibrary::aim_move1,
+    UpdateTableLibrary::direct_move1,
+    UpdateTableLibrary::direct_move1,
+    UpdateTableLibrary::direct_move2,
+    UpdateTableLibrary::aim_move2,
+    UpdateTableLibrary::direct_move3,
+    UpdateTableLibrary::gravity_move,
+    UpdateTableLibrary::rotate_move1,
+    UpdateTableLibrary::behavior_move1,
+    UpdateTableLibrary::rotate_move2,
+    UpdateTableLibrary::rotate_move3,
+    UpdateTableLibrary::void_update
 };
 
 /****************************************************************************************************************** */
 
-void divide_sea1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+void UpdateSpecialLibrary::divide_sea1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     if(bullet.bulletconfig_.shareconfig_.active_)
     {
@@ -736,7 +736,7 @@ void divide_sea1(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
     }
 }
 
-void divide_sea2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
+void UpdateSpecialLibrary::divide_sea2(Bullet& bullet,YellowPage* yellowpage,Resource* resource)
 {
     switch(bullet.bulletconfig_.self_phase_)
     {

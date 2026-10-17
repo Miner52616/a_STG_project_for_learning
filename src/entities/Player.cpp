@@ -87,7 +87,7 @@ void Player::setEffectConfig()
 {
     effectconfig_=std::make_unique<EffectConfig>(resource_->app_.playersheetTexture_);
     effectconfig_->effect_index_={1,1};
-    effectconfig_->effecttype_=PlayerBullet_Air;
+    effectconfig_->effecttype_=EffectType::PlayerBullet_Air;
     effectconfig_->random_rotate_=false;
     effectconfig_->texturelist_size_=4;
     effectconfig_->current_texture_num_=0;
@@ -822,7 +822,7 @@ void Child_Plane::update()
         bulletconfig_->v_=10;
         bulletconfig_->spawn_point_=getPosition();
         bulletconfig_->bullet_index_={1,11};
-        bulletconfig_->bulletbehavior_=Direct;
+        bulletconfig_->bulletbehavior_=BulletBehavior::Direct;
 
         effectconfig_->effect_index_={1,2};
         effectconfig_->v_=0;
@@ -835,7 +835,7 @@ void Child_Plane::update()
         bulletconfig_->v_=70;
         bulletconfig_->spawn_point_=getPosition();
         bulletconfig_->bullet_index_={9,1};
-        bulletconfig_->bulletbehavior_=Fix;
+        bulletconfig_->bulletbehavior_=BulletBehavior::Fix;
 
         effectconfig_->effect_index_={9,2};
         effectconfig_->v_=1;
@@ -904,7 +904,7 @@ void Child_Plane::setEffectConfig()
     effectconfig_->v_=1;
     effectconfig_->direction_={0,-1};
     effectconfig_->color_alpha_=192;
-    effectconfig_->effecttype_=PlayerBullet_Air;
+    effectconfig_->effecttype_=EffectType::PlayerBullet_Air;
     effectconfig_->random_rotate_=false;
     effectconfig_->texturelist_size_=4;
     effectconfig_->current_texture_num_=0;

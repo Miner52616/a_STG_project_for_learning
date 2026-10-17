@@ -201,7 +201,7 @@ NonSpell2_2_1::NonSpell2_2_1(Entity* entity,Resource* resource,YellowPage* yello
 
     reset();
 
-    bulletconfig_.bulletbehavior_=Rotate;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Rotate;
     bulletconfig_.bullet_index_={7,11};
 }
 
@@ -224,7 +224,7 @@ NonSpell2_2_2::NonSpell2_2_2(Entity* entity,Resource* resource,YellowPage* yello
     
     reset();
 
-    bulletconfig_.bulletbehavior_=Rotate;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Rotate;
     bulletconfig_.bullet_index_={3,11};
 }
 
@@ -265,7 +265,7 @@ NonSpell2_1_2::NonSpell2_1_2(Entity* entity,Resource* resource,YellowPage* yello
 
     bulletconfig_.v3_=4;
     bulletconfig_.a2_=-0.05;
-    bulletconfig_.bulletbehavior_=Rotate;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Rotate;
     bulletconfig_.bullet_index_={7,11};
 }
 
@@ -282,7 +282,7 @@ void NonSpell2_1_2::update()
                 NonSpell2_2::reset();
                 bulletconfig_.v3_=4;
                 bulletconfig_.a2_=-0.05;
-                bulletconfig_.bulletbehavior_=Rotate;
+                bulletconfig_.bulletbehavior_=BulletBehavior::Rotate;
                 bulletconfig_.bullet_index_={7,11};
                 for(int i=1;i<=group_num_;i++)
                 {
@@ -387,8 +387,8 @@ void NonSpell2_3::setBulletConfig()
 {
     bulletconfig_.r_=3;
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
-    bulletconfig_.bulletbehavior_=Direct;
-    bulletconfig_.bulletsize_=Small;
+    bulletconfig_.bulletbehavior_=BulletBehavior::Direct;
+    bulletconfig_.bulletsize_=BulletSize::Small;
     bulletconfig_.bullet_index_={6,8};
 }
 

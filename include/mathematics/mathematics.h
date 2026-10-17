@@ -46,4 +46,6 @@ Two_Vector2i playersheet_bullet_transform(const sf::Vector2i& want);
 Two_Vector2i playersheet_effect_transform(const sf::Vector2i& want);
 Two_Vector2i effectsheet_transform(const sf::Vector2i& want);
 
+std::string numberToChinese(int number);
+
 #include "mathematics/mathematics.ipp"

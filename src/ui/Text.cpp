@@ -42,6 +42,11 @@ void Text::changeOrigin(bool change)
     }
 }
 
+void Text::setOriginCenter()
+{
+    text_.setOrigin(text_.getLocalBounds().getCenter());
+}
+
 void Text::setTextSize(int size)
 {
     text_.setCharacterSize(size);

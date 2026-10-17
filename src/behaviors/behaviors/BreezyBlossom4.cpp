@@ -38,7 +38,7 @@ void BreezyBlossom4::update()
 void BreezyBlossom4::setBulletConfig()
 {
     bulletconfig_.bulletclass_=BulletClasses::DirectBullet1;
-    bulletconfig_.bulletsize_=Large;
+    bulletconfig_.bulletsize_=BulletSize::Large;
     bulletconfig_.r_=18;
     bulletconfig_.v_=8;
     bulletconfig_.bullet_index_={1,1};
