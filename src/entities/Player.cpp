@@ -22,10 +22,11 @@ Player::Player(const sf::Texture &texture/*,Frame &outline*/,Resource* resource)
     v_limit_(0),
     grazebox_r(50),
     shining_(false),
-    control_mode_(1),
+    control_state_(Control_State::NORMAL),
     clock_((long long int)2),
     life_clock_((long long int)240),
     bomb_clock_((long long int)180),
+    dying_clock_((long long int)8),
     auto_clock_((long long int)60),
     shining_clock_(2),
     resource_(resource),
@@ -45,6 +46,7 @@ Player::Player(const sf::Texture &texture/*,Frame &outline*/,Resource* resource)
     hitbox_r_=1;
     hitbox_.setRadius(hitbox_r_);
 
+    dying_clock_.reset();
     auto_clock_.reset();
     //std::cout<<"1"<<std::endl;
     setBulletConfig();
@@ -247,7 +249,15 @@ int Player::getGrazebox_r()
 
 void Player::be_damage()
 {
-    if((life_>=0)&&(life_clock_.get_condition()))
+    if(life_clock_.get_condition())
+    {
+        control_state_=Control_State::DYING;
+    }
+}
+
+void Player::be_damage2()
+{
+    if(life_>=0)
     {
         resource_->bulletmanager_.clear_common_enemybullet();
         life_--;
@@ -260,7 +270,7 @@ void Player::be_damage()
         miss_curtain_.setPosition({(int)getPosition().x,(int)getPosition().y});
 
         setPosition({385,850});
-        control_mode_=2;
+        control_state_=Control_State::BORNING;
         life_clock_.reset();
     }
 }
@@ -432,9 +442,9 @@ void Player::update()
         a_=a_high_;
     }
     
-    switch (control_mode_)
+    switch (control_state_)
     {
-    case 1:
+    case Control_State::NORMAL:
         {
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)))
             {
@@ -729,13 +739,28 @@ void Player::update()
             break;
         }
 
-    case 2:
+    case Control_State::DYING:
+        {
+            if(dying_clock_.get_condition())
+            {
+                dying_clock_.reset();
+                control_state_=Control_State::BORNING;
+                be_damage2();
+            }
+            dying_clock_.count();
+
+            //不会清除speed属性，被濒死时自机移动状态冻结
+            check_position();
+            break;
+        }
+
+    case Control_State::BORNING:
         {
             auto_clock_.count();
             if(auto_clock_.get_condition())
             {
                 auto_clock_.reset();
-                control_mode_=1;
+                control_state_=Control_State::NORMAL;
             }
 
             speed_x_=0;
@@ -772,7 +797,13 @@ void Player::update()
         if(bomb_clock_.get_condition())
         {
             useBomb();
+            if(control_state_==Control_State::DYING)
+            {
+                control_state_=Control_State::NORMAL;
+                dying_clock_.reset();
+            }
             bomb_clock_.reset();
+            life_clock_.reset();
         }
     }
 

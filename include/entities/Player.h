@@ -13,6 +13,13 @@ class Frame;
 class BulletManager;
 class Child_Plane;
 
+enum class Control_State
+{
+    NORMAL=1,
+    DYING=2,
+    BORNING=3,
+};
+
 //玩家，作为游戏中的自机
 class Player:public Entity
 {
@@ -28,12 +35,13 @@ private:
     float v_limit_;
     int grazebox_r;
     bool shining_;
-    int control_mode_;
+    Control_State control_state_;
     Clock shining_clock_;//闪烁速度
     Clock clock_;
     Clock life_clock_;//miss冷却（miss后无敌时间）
     Clock bomb_clock_;//bomb冷却
-    Clock auto_clock_;
+    Clock dying_clock_;//决死计时
+    Clock auto_clock_;//miss后自动移动时间
     //Frame &outline_;
     YellowPage* yellowpage_;
     Resource* resource_;
@@ -62,6 +70,7 @@ private:
     void setOverlayConfig();
     void resetBombConfig();
     void useBomb();
+    void be_damage2();
 
 public:
     Player(const sf::Texture &texture/*,Frame &outline*/,Resource* resource);  //初始化资源引用，默认玩家设置
