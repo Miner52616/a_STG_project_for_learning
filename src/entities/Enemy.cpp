@@ -85,6 +85,7 @@ void Enemy::update(long long int frame)
         {
             (*it)->update();
         }
+        setMiddlePosition();
     }
 }
 
@@ -108,6 +109,22 @@ void Enemy::drawtexture(sf::RenderTexture& texture)
     if(exist_)
     {
         texture.draw(picture_);
+    }
+}
+
+void Enemy::drawwindow_mid(sf::RenderWindow& window)
+{
+    if(exist_)
+    {
+        window.draw(middle_picture_);
+    }
+}
+
+void Enemy::drawtexture_mid(sf::RenderTexture& texture)
+{
+    if(exist_)
+    {
+        texture.draw(middle_picture_);
     }
 }
 

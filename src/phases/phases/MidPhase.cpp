@@ -43,6 +43,11 @@ void MidPhase::render(sf::RenderTexture& texture)
     enemymanager_.render(texture);
 }
 
+void MidPhase::render_mid(sf::RenderTexture& texture)
+{
+    enemymanager_.render_mid(texture);
+}
+
 void MidPhase::add_enemy(std::unique_ptr<Enemy> enemy)
 {
     enemymanager_.add_process(std::move(enemy));

@@ -10,6 +10,8 @@
 
 GameState::GameState(Application &app):
     State(app),
+    key_frame_interpolation_(app.debug_.key_frame_interpolation_),
+    current_interpolation_(key_frame_interpolation_),
     frame_(0),
     high_score_(0),
     score_(0),
@@ -45,6 +47,7 @@ GameState::GameState(Application &app):
 
     //**** 1 ui界面和游戏小窗基础设置
     //设置ui（ui完全不依赖资源）
+    set_window();
     set_ui();
     set_gamewindow();
     std::cout<<"UI and Gamewindow Set"<<std::endl;
@@ -93,6 +96,20 @@ GameState::GameState(Application &app):
 
     std::cout<<"Game Prepared!"<<std::endl;
     std::cout<<"/////////////////////////////////////////////////////////////"<<std::endl;
+}
+
+void GameState::set_window()
+{
+    //设置窗口
+    current_interpolation_=key_frame_interpolation_;
+    if(key_frame_interpolation_)
+    {
+        app_.window_.setFramerateLimit(120);
+    }
+    else
+    {
+        app_.window_.setFramerateLimit(60);
+    }
 }
 
 void GameState::set_ui()
@@ -311,6 +328,7 @@ void GameState::processEvent(sf::RenderWindow& window,const std::optional<sf::Ev
 
 void GameState::update()
 {
+    app_.performance_.startWorktime(Clock_List::UPDATE_CLOCK);
     //curtain_.update();
     star_curtain1_.update();
     star_curtain2_.update();
@@ -381,27 +399,50 @@ void GameState::update()
     clock_update();
 
     frame_++;
+
+    app_.performance_.endWorktime(Clock_List::UPDATE_CLOCK);
 }
 
 void GameState::render(sf::RenderWindow& window)
 {
+    app_.performance_.startWorktime(Clock_List::RENDER_CLOCK1);
     game_window_.clear();
+    game_window_middle_.clear();
     origin_window_.clear();
-
-    outline1_.drawwindow(window);
-    outline1_.drawTexture(origin_window_);
 
     //player_->drawwindow(window);
     player_->drawtexture(game_window_);
+    player_->drawtexture_mid(game_window_middle_);
 
     dropmanager_.render(game_window_);
+    dropmanager_.render_mid(game_window_middle_);
     bulletmanager_.render(game_window_);
+    bulletmanager_.render_mid(game_window_middle_);
     bombmanager_.render(game_window_);
+    bombmanager_.render_mid(game_window_middle_);
     effectmanager_.render(game_window_);
+    effectmanager_.render(game_window_middle_);
 
     phasecontroller_.render(game_window_);
+    phasecontroller_.render_mid(game_window_middle_);
 
     player_->drawMissShaders(game_window_);
+    player_->drawMissShaders(game_window_middle_);
+
+    if(current_interpolation_)
+    {
+        render_mid(window);
+    }
+    else
+    {
+        app_.performance_.endWorktime(Clock_List::RENDER_CLOCK1);
+        app_.performance_.startWorktime(Clock_List::DISPLAY_CLOCK1);
+        app_.performance_.endWorktime(Clock_List::DISPLAY_CLOCK1);
+    }
+
+    app_.performance_.startWorktime(Clock_List::RENDER_CLOCK2);
+    outline1_.drawwindow(window);
+    outline1_.drawTexture(origin_window_);
 
     window_sprite_.setTexture(game_window_.getTexture());
     window.draw(window_sprite_);
@@ -437,6 +478,30 @@ void GameState::render(sf::RenderWindow& window)
     star_curtain3_.render(window);
     star_curtain2_.render(window);
     star_curtain1_.render(window);
+    app_.performance_.endWorktime(Clock_List::RENDER_CLOCK2);
+}
+
+void GameState::switchOnOperation()
+{
+    current_interpolation_=key_frame_interpolation_;
+    if(key_frame_interpolation_)
+    {
+        app_.window_.setFramerateLimit(120);
+    }
+    else
+    {
+        app_.window_.setFramerateLimit(60);
+    }
+}
+
+void GameState::switchOffOperation()
+{
+    current_interpolation_=false;
+}
+
+State_Type GameState::getStateType()
+{
+    return State_Type::GameState;
 }
 
 int GameState::getLife()
@@ -457,6 +522,53 @@ void GameState::setScore(int score)
 bool GameState::isContinued()
 {
     return player_->isContinued();
+}
+
+void GameState::render_mid(sf::RenderWindow& window)
+{
+    outline1_.drawwindow(window);
+    outline1_.drawTexture(origin_window_);
+
+    window_sprite_.setTexture(game_window_middle_.getTexture());
+    window.draw(window_sprite_);
+    origin_window_.draw(window_sprite_);
+
+    difficulty_.DrawText(window);
+    difficulty_.DrawText(origin_window_);
+
+    high_score_line_.render(window);
+    high_score_line_.render(origin_window_);
+    score_line_.render(window);
+    score_line_.render(origin_window_);
+    power_line_.render(window);
+    power_line_.render(origin_window_);
+    graze_line_.render(window);
+    graze_line_.render(origin_window_);
+
+    bullet_line_.render(window);
+    bullet_line_.render(origin_window_);
+    effect_line_.render(window);
+    effect_line_.render(origin_window_);
+    fps_line_.render(window);
+    fps_line_.render(origin_window_);
+
+    life_line_.render(window);
+    life_line_.render(origin_window_);
+    bomb_line_.render(window);
+    bomb_line_.render(origin_window_);
+
+    //curtain_.render(window);
+    star_curtain3_.setTexture(origin_window_.getTexture());
+    
+    star_curtain3_.render(window);
+    star_curtain2_.render(window);
+    star_curtain1_.render(window);
+
+    app_.performance_.endWorktime(Clock_List::RENDER_CLOCK1);
+    app_.performance_.startWorktime(Clock_List::DISPLAY_CLOCK1);
+    window.display();
+    window.clear();
+    app_.performance_.endWorktime(Clock_List::DISPLAY_CLOCK1);
 }
 
 void GameState::fps_update()

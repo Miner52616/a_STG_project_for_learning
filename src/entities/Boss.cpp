@@ -12,6 +12,7 @@ void Boss::update()
 {
     store_position();
     phasecontroller_.update();
+    setMiddlePosition();
     if(!phasecontroller_.apply_change())
     {
         beaten_=true;
@@ -26,6 +27,11 @@ void Boss::render(sf::RenderWindow& window)
 void Boss::render(sf::RenderTexture& texture)
 {
     phasecontroller_.render(texture);
+}
+
+void Boss::render_mid(sf::RenderTexture& texture)
+{
+    phasecontroller_.render_mid(texture);
 }
 
 void Boss::add_phase(std::unique_ptr<Phase> spellphase)

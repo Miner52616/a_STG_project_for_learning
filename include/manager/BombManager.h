@@ -23,5 +23,6 @@ public:
     void clear_dead();
     void ProcessCollision();
     void render(sf::RenderTexture& texture);
+    void render_mid(sf::RenderTexture& texture);
     void set_Resource(Resource* resource);
 };

@@ -111,6 +111,7 @@ void LeiTan::update()
         markDead();
         break;
     }
+    setMiddlePosition();
 }
 
 void LeiTan::phase_change()

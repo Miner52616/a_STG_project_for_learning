@@ -7,3 +7,13 @@ State::State(Application &app):
 {
     ;
 }
+
+void State::switchOnOperation()
+{
+    app_.window_.setFramerateLimit(60);
+}
+
+void State::switchOffOperation()
+{
+    ;
+}

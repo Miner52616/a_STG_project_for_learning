@@ -1,0 +1,63 @@
+#include "ui/NumLine2.h"
+#include <iostream>
+
+NumLine2::NumLine2(const sf::Font &font):
+    current_num_(0),max_num_(8),font_(font),text_(font_),finaltext_(font_)
+{
+    text_.setCharacterSize(35);
+    finaltext_.setCharacterSize(35);
+}
+
+int NumLine2::getCurrentNum()
+{
+    return current_num_;
+}
+
+void NumLine2::setLineText(const std::string text)
+{
+    text_.setString(text);
+}
+
+void NumLine2::setLinePosition(sf::Vector2f position)
+{
+    text_.setPosition(position);
+    finaltext_.setPosition(position);
+    position_=position;
+}
+
+void NumLine2::setLineSize(float size)
+{
+    text_.setCharacterSize(size);
+    finaltext_.setCharacterSize(size);
+}
+
+void NumLine2::setMaxNum(float num)
+{
+    max_num_=num;
+}
+
+void NumLine2::setCurrentNum(float num)
+{
+    current_num_=num;
+    if(num>max_num_)
+    {
+        current_num_=max_num_;
+    }
+    //std::cout<<current_num_<<std::endl;
+}
+
+void NumLine2::render(sf::RenderWindow& window)
+{
+    //sf::Text finaltext=text_;
+    //std::string final=text_.getString()+"  "+std::to_string(current_num_);
+    std::string num=std::format("{:.2f}",current_num_);
+    finaltext_.setString(text_.getString()+"  "+num);
+    window.draw(finaltext_);
+}
+
+void NumLine2::render(sf::RenderTexture& texture)
+{
+    //std::string final=text_.getString()+"  "+std::to_string(current_num_);
+    finaltext_.setString(text_.getString()+"  "+std::to_string(current_num_));
+    texture.draw(finaltext_);
+}

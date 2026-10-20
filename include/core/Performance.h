@@ -4,8 +4,11 @@
 
 enum class Clock_List
 {
-    FPS_CLOCK=0,
-    FRAME_CLOCK=1
+    UPDATE_CLOCK=0,
+    RENDER_CLOCK1=1,
+    DISPLAY_CLOCK1=2,
+    RENDER_CLOCK2=3,
+    DISPLAY_CLOCK2=4
 };
 
 class Performance
@@ -13,6 +16,7 @@ class Performance
 private:
     const sf::Font& font_;
     NumLine1 worktime_line_;
+    std::vector<std::vector<int>> lists_;
 
     int frame_count_;
     float worktime_;
@@ -24,6 +28,7 @@ public:
     sf::Time getTime(int num);
     void render(sf::RenderWindow& window);
 
-    void startWorktime();
-    void endWorktime();
+    void startWorktime(Clock_List clock);
+    void endWorktime(Clock_List clock);
+    void save();
 };

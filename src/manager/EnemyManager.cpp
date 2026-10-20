@@ -31,6 +31,14 @@ void EnemyManager::render(sf::RenderTexture& texture)
     }
 }
 
+void EnemyManager::render_mid(sf::RenderTexture& texture)
+{
+    for(auto it=enemylist_.begin();it!=enemylist_.end();++it)
+    {
+        (*it)->drawtexture_mid(texture);
+    }
+}
+
 void EnemyManager::clear_dead()
 {
     enemylist_.erase

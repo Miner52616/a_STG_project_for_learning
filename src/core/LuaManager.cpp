@@ -68,6 +68,7 @@ Debug LuaManager::loadDebug()
     sol::table debug_table=lua_["debug"];
     debug.hitbox_exist_=debug_table["hitbox_exist"];
     debug.debug_information_=debug_table["debug_information"];
+    debug.key_frame_interpolation_=debug_table["key_frame_interpolation"];
 
     return debug;
 }

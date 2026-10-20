@@ -25,6 +25,7 @@ public:
     void update();
     void render(sf::RenderWindow& window);
     void render(sf::RenderTexture& texture);
+    void render_mid(sf::RenderTexture& texture);
     void be_damage(float damage);
     void ProcessCollision();
     Phase* getCurrentPhase() const;

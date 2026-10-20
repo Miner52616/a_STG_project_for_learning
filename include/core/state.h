@@ -3,6 +3,12 @@
 
 class Application;
 
+enum class State_Type
+{
+    GameState=0,
+    Others=1
+};
+
 //页面，所有类型页面的基类
 class State
 {
@@ -16,6 +22,11 @@ public:
 
     virtual bool blocksUpdate() const {return true;}  //是否阻断叠加下方的页面更新
     virtual bool blocksRender() const {return true;}  //是否阻断叠加下方的页面渲染
+
+    virtual void switchOnOperation();  //切换操作，页面切换时调用
+    virtual void switchOffOperation();
+
+    virtual State_Type getStateType() {return State_Type::Others;};
 
 protected:
     Application &app_;

@@ -123,6 +123,18 @@ void SpellPhase::render(sf::RenderTexture& texture)
     spellnum_.render(texture);
 }
 
+void SpellPhase::render_mid(sf::RenderTexture& texture)
+{
+    boss_->drawtexture_mid(texture);
+    if(!voidspell_)
+    {
+        texture.draw(HPline_);
+        timer_.render(texture);
+    }
+    spellname_.render(texture);
+    spellnum_.render(texture);
+}
+
 void SpellPhase::addBehavior(std::unique_ptr<Behavior> behavior)
 {
     behaviorlist_.emplace_back(std::move(behavior));

@@ -34,6 +34,11 @@ void VoidPhase::render(sf::RenderTexture& texture)
     ;
 }
 
+void VoidPhase::render_mid(sf::RenderTexture& texture)
+{
+    ;
+}
+
 void VoidPhase::be_damage(float damage)
 {
     ;

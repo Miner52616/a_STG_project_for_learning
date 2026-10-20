@@ -81,3 +81,11 @@ void DropManager::render(sf::RenderTexture& texture)
     }
     //std::cout<<"render success"<<std::endl;
 }
+
+void DropManager::render_mid(sf::RenderTexture& texture)
+{
+    for(auto it=droplist_.begin();it!=droplist_.end();++it)
+    {
+        (*it)->drawtexture_mid(texture);
+    }
+}

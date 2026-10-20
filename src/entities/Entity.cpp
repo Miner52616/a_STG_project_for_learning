@@ -3,15 +3,17 @@
 #include <iostream>
 
 Entity::Entity(/*Application &app,*/const sf::Texture &texture):
-    /*app_(app),*/texture_(texture),hitbox_r_(5),picture_(texture_),position_({0,0}),prev_position_({0,0})
-    {
-        hitbox_.setRadius(hitbox_r_);
+    /*app_(app),*/texture_(texture),hitbox_r_(5),picture_(texture_),middle_picture_(texture_),
+    position_({0,0}),prev_position_({0,0})
+{
+    hitbox_.setRadius(hitbox_r_);
 
-        hitbox_.setOrigin(hitbox_.getGlobalBounds().getCenter());
-        picture_.setOrigin(picture_.getGlobalBounds().getCenter());
+    hitbox_.setOrigin(hitbox_.getGlobalBounds().getCenter());
+    picture_.setOrigin(picture_.getGlobalBounds().getCenter());
+    middle_picture_.setOrigin(middle_picture_.getGlobalBounds().getCenter());
 
-        setPosition();
-    }
+    setPosition();
+}
 
 void Entity::setPosition()
 {
@@ -23,6 +25,19 @@ void Entity::setPosition(sf::Vector2f position)
 {
     position_=position;
     setPosition();
+}
+
+void Entity::setMiddlePosition()
+{
+    if(prev_position_==(sf::Vector2f{0,0}))
+    {
+        middle_position_=position_;
+    }
+    else
+    {
+        middle_position_=0.5f*(prev_position_+position_);
+    }
+    middle_picture_.setPosition(middle_position_);
 }
 
 void Entity::store_position()
@@ -54,5 +69,17 @@ void Entity::drawwindow(sf::RenderWindow& window)
 void Entity::drawtexture(sf::RenderTexture& texture)
 {
     texture.draw(picture_);
+    //texture.draw(hitbox_);
+}
+
+void Entity::drawwindow_mid(sf::RenderWindow& window)
+{
+    window.draw(middle_picture_);
+    //window.draw(hitbox_);
+}
+
+void Entity::drawtexture_mid(sf::RenderTexture& texture)
+{
+    texture.draw(middle_picture_);
     //texture.draw(hitbox_);
 }

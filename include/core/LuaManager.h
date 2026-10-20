@@ -13,6 +13,7 @@ class Debug
 public:
     bool hitbox_exist_=false;
     bool debug_information_=false;
+    bool key_frame_interpolation_=false;
 };
 
 class LuaManager

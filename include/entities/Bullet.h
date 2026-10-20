@@ -37,6 +37,7 @@ protected:
     BulletConfig sonconfig_;
     EffectConfig effectconfig_;
     sf::CircleShape hitbox_draw_;
+    sf::CircleShape hitbox_draw_mid_;
 
 private:
     void selfbehavior();
@@ -49,7 +50,9 @@ public:
 public:
     virtual void update();
     void drawtexture(sf::RenderTexture& texture) override;
+    void drawtexture_mid(sf::RenderTexture& texture) override;
     void setPosition(sf::Vector2f position) override;
+    void setMiddlePosition() override;
 
     bool isDead() const;
     bool isAcitve();

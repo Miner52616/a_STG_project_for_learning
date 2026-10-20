@@ -95,13 +95,13 @@ void Drop::setScore(int score)
 
 void Drop::update()
 {
+    store_position();
     //std::cout<<phase_<<std::endl;
     switch(phase_)
     {
         case 1:
         {
             //move1_->update();//后续如果需要再加入可组合行为
-            store_position();
             setPosition({getPosition().x,getPosition().y+v1_});
             v1_=v1_+a_;
             if(v1_>=6)
@@ -119,7 +119,6 @@ void Drop::update()
         case 2:
         {
             //move2_->update();
-            store_position();
             //resource_->player_->getPosition();
             //sf::Vector2f p=getPosition()+v2_*((resource_->player_->getPosition()-getPosition())/((resource_->player_->getPosition()-getPosition()).length()));
             setPosition(getPosition()+v2final_*((yellowpage_->player_->getPosition()-getPosition())/((yellowpage_->player_->getPosition()-getPosition()).length())));
@@ -127,6 +126,9 @@ void Drop::update()
             break;
         }
     }
+
+    setMiddlePosition();
+
     if(getPosition().y>=950)
     {
         markDead();

@@ -20,4 +20,5 @@ public:
     void update();
     void clear_dead();
     void render(sf::RenderTexture& texture);
+    void render_mid(sf::RenderTexture& texture);
 };

@@ -73,12 +73,13 @@ void Application::run()
 {
     while(isRunning())
     {
-        performance_.startWorktime();
         processEvent();
         update();
         render();
         end_operation();
     }
+
+    performance_.save();
 }
 
 bool Application::isRunning() const
@@ -104,12 +105,19 @@ void Application::render()
 {
     window_.clear();
     stack_.render(window_);
-    performance_.endWorktime();
     if(debug_.debug_information_)
     {
         performance_.render(window_);
     }
+    if(stack_.getCurrentState()==State_Type::GameState)
+    {
+        performance_.startWorktime(Clock_List::DISPLAY_CLOCK2);
+    }
     window_.display();
+    if(stack_.getCurrentState()==State_Type::GameState)
+    {
+        performance_.endWorktime(Clock_List::DISPLAY_CLOCK2);
+    }
 }
 
 void Application::end_operation()

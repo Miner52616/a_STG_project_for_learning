@@ -31,6 +31,8 @@ public:
 
     void applyStateChanges(); //响应push/pop申请
 
+    State_Type getCurrentState();
+
     void processEvent(sf::RenderWindow& window,const auto& event);  //处理被分发到的事件
     void update();  //统一更新属性
     void render(sf::RenderWindow& window);  //统一渲染至屏幕

@@ -76,6 +76,10 @@ void StateStack::clearRequest()
 
 void StateStack::applyStateChanges()
 {
+    if(!stack_.empty())
+    {
+        stack_.back()->switchOffOperation();
+    }
     switch(changestate_.action)
     {
         case Action::Push:
@@ -106,6 +110,22 @@ void StateStack::applyStateChanges()
             break;
         }
     }
+    if(!stack_.empty())
+    {
+        stack_.back()->switchOnOperation();
+    }
 
     changestate_.action=Action::Maintain;
+}
+
+State_Type StateStack::getCurrentState()
+{
+    if(!stack_.empty())
+    {
+        return stack_.back()->getStateType();
+    }
+    else
+    {
+        return State_Type::Others;
+    }
 }

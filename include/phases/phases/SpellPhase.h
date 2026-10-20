@@ -33,6 +33,7 @@ public:
     void update() override;
     void render(sf::RenderWindow& window) override;
     void render(sf::RenderTexture& texture) override;
+    void render_mid(sf::RenderTexture& texture) override;
     void addBehavior(std::unique_ptr<Behavior> behavior);
     void setHP(float HP);
     bool isDead() const;

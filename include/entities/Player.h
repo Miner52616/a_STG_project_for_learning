@@ -52,6 +52,7 @@ private:
     std::vector<std::unique_ptr<Child_Plane>> child_planes_;
 
     sf::Sprite hitbox_texture_;
+    sf::Sprite middle_hitbox_texture_;
     sf::CircleShape point_;
 
     MissCurtain miss_curtain_;
@@ -77,6 +78,7 @@ public:
     void update();  //更新玩家属性
     void drawwindow(sf::RenderWindow& window) override;  //渲染玩家至屏幕
     void drawtexture(sf::RenderTexture& texture) override;
+    void drawtexture_mid(sf::RenderTexture& texture) override;
     void drawMissShaders(sf::RenderTexture& texture);
     void clock_count();
 
@@ -85,6 +87,7 @@ public:
     void setYellowPage(YellowPage* yellowpage);
     void setPosition() override;
     void setPosition(sf::Vector2f position) override;
+    void setMiddlePosition() override;
     bool isContinued();
     bool isMissed();
     void setMissed(bool miss);

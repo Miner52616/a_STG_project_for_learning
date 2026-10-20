@@ -26,6 +26,7 @@ public:
     void clear_common_enemybullet();
     void render(sf::RenderWindow& window);
     void render(sf::RenderTexture& texture);
+    void render_mid(sf::RenderTexture& texture);
 
 private:
     void bulletlist_update();

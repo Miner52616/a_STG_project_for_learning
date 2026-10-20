@@ -1,5 +1,6 @@
 debug=
 {
-    debug_information=false,
-    hitbox_exist=true
+    debug_information=true,
+    hitbox_exist=false,
+    key_frame_interpolation=true
 }

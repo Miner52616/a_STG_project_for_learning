@@ -125,6 +125,14 @@ void BulletManager::render(sf::RenderTexture& texture)
     }
 }
 
+void BulletManager::render_mid(sf::RenderTexture& texture)
+{
+    for(auto it=bulletlist_.begin();it!=bulletlist_.end();++it)
+    {
+        (*it)->drawtexture_mid(texture);
+    }
+}
+
 void BulletManager::bulletlist_update()
 {
     /*

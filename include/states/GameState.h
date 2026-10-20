@@ -4,6 +4,7 @@
 #include "ui/Frame.h"
 #include "ui/NumLine1_1.h"
 #include "ui/NumLine1.h"
+#include "ui/NumLine2.h"
 #include "ui/Text.h"
 #include "overlays/overlays/Curtain1.h"
 #include "overlays/overlays/texturecurtains/StarCurtain.h"
@@ -42,6 +43,10 @@
 
 class GameState:public State
 {
+//debug状态及设置配置
+private:
+    bool key_frame_interpolation_;
+
 private:
     long long int frame_;
     long long int high_score_;
@@ -52,6 +57,8 @@ private:
     int frame_count_=0;
     float fps_=0;
 
+    bool current_interpolation_;
+
     Frame outline1_;
     Text difficulty_;
     NumLine1 high_score_line_;
@@ -60,10 +67,11 @@ private:
     NumLine1 graze_line_;
     NumLine1 bullet_line_;
     NumLine1 effect_line_;
-    NumLine1 fps_line_;
+    NumLine2 fps_line_;
     NumLine1_1 life_line_;
     NumLine1_1 bomb_line_;
 
+    sf::RenderTexture game_window_middle_{{770u,900u}};
     sf::RenderTexture game_window_{{770u,900u}};
     sf::RenderTexture origin_window_{{1280u,960u}};
     sf::Sprite window_sprite_;
@@ -124,6 +132,9 @@ public:
     void processEvent(sf::RenderWindow& window,const std::optional<sf::Event> event) override;  //处理被分发到的事件
     void update() override;  //统一更新属性
     void render(sf::RenderWindow& window) override;  //统一渲染至屏幕
+    void switchOnOperation() override;  //切换操作，页面切换时调用
+    void switchOffOperation() override;
+    State_Type getStateType() override;
     int getLife();
     void setLife(int life);
     void setScore(int score);
@@ -133,6 +144,7 @@ public:
     GameState(Application &app);  //初始化起始帧，初始化资源引用，初始化实体设置
 
 protected:
+    void set_window();
     void set_ui();
     void set_gamewindow();
     void bundle_resource();
@@ -143,6 +155,7 @@ protected:
     void read_script();
     void bundle_leader_menber();
 
+    void render_mid(sf::RenderWindow& window);
     void fps_update();
     void clock_update();
     void continue_check();

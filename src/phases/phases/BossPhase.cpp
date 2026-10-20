@@ -34,6 +34,11 @@ void BossPhase::render(sf::RenderTexture& texture)
     boss_->render(texture);
 }
 
+void BossPhase::render_mid(sf::RenderTexture& texture)
+{
+    boss_->render_mid(texture);
+}
+
 void BossPhase::setBoss(std::unique_ptr<Boss> boss)
 {
     boss_=std::move(boss);
