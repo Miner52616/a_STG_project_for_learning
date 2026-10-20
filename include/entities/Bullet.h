@@ -8,6 +8,7 @@ class Behavior;
 class Resource;
 class UpdateTableLibrary;
 class UpdateSpecialLibrary;
+class Debug;
 
 //子弹
 class Bullet:public Entity
@@ -18,9 +19,11 @@ friend UpdateTableLibrary;
 //单独全局更新函数声明为友元函数
 friend UpdateSpecialLibrary;
 
+//debug相关属性
 protected:
-    bool show_hitbox_=true;
+    bool show_hitbox_;
 
+protected:
     Resource* resource_;//追踪弹将向phasecontroller申请最近的目标位置
     YellowPage* yellowpage_;//自机狙将访问player获取player位置
     sf::Texture* bullet_texture_;
@@ -40,6 +43,7 @@ private:
 
 public:
     Bullet(sf::Texture &texture,sf::Vector2f position);  //初始化子弹位置，初始化资源引用，默认子弹设置
+    Bullet(sf::Texture &texture,sf::Vector2f position,Debug debug);
     Bullet(sf::Texture &texture,sf::Vector2f position,float damage);
 
 public:

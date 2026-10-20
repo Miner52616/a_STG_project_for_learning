@@ -4,6 +4,7 @@
 #include "mathematics/mathematics.h"
 #include "manager/PhaseController.h"
 #include "manager/BulletManager.h"
+#include "core/LuaManager.h"
 #include "batch/Batch.h"
 #include <iostream>
 
@@ -11,7 +12,24 @@ Bullet::Bullet(sf::Texture &texture,sf::Vector2f position):
     Entity(texture),bullet_texture_(&texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(100),
     effectconfig_(texture),
     bulletconfig_(texture),
-    sonconfig_(texture)
+    sonconfig_(texture),
+    show_hitbox_(false)
+{
+    //bulletconfig_=BulletConfig(texture);
+    //sonconfig_=BulletConfig(texture);
+    position_=position;
+    hitbox_r_=10;
+    hitbox_draw_.setRadius(hitbox_r_);
+    hitbox_draw_.setFillColor(sf::Color::Red);
+    hitbox_draw_.setOrigin(hitbox_draw_.getLocalBounds().getCenter());
+}
+
+Bullet::Bullet(sf::Texture &texture,sf::Vector2f position,Debug debug):
+    Entity(texture),bullet_texture_(&texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(100),
+    effectconfig_(texture),
+    bulletconfig_(texture),
+    sonconfig_(texture),
+    show_hitbox_(debug.hitbox_exist_)
 {
     //bulletconfig_=BulletConfig(texture);
     //sonconfig_=BulletConfig(texture);
@@ -26,7 +44,8 @@ Bullet::Bullet(sf::Texture &texture,sf::Vector2f position,float damage):
     Entity(texture),bullet_texture_(&texture),exist_(true),dead_(false),active_(false),grazed_(false),ofplayer_(true),damage_(damage),
     effectconfig_(texture),
     bulletconfig_(texture),
-    sonconfig_(texture)
+    sonconfig_(texture),
+    show_hitbox_(false)
 {
     //bulletconfig_=std::make_unique<BulletConfig>(texture);
     //sonconfig_=std::make_unique<BulletConfig>(texture);

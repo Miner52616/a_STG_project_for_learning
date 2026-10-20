@@ -53,6 +53,7 @@ Application::Application():
     //color_flip_.loadFromFile("assets/shaders/ColorFlip.frag",sf::Shader::Type::Fragment);
 
     history_data_=lua_.loadSave();
+    debug_=lua_.loadDebug();
 
     std::cout <<"------------------------------------------"<<std::endl;
     std::cout <<"Playing Manual"<<std::endl;
@@ -104,7 +105,10 @@ void Application::render()
     window_.clear();
     stack_.render(window_);
     performance_.endWorktime();
-    performance_.render(window_);
+    if(debug_.debug_information_)
+    {
+        performance_.render(window_);
+    }
     window_.display();
 }
 

@@ -12,12 +12,14 @@ class CollisionSystem;
 class PhaseController;
 class Player;
 class NumLine1;
+class Debug;
 
 class Resource
 {
 public:
-    Resource(AssetsResource &app,BulletManager &bulletmanager,DropManager &dropmanager,BombManager &bombmanager,EffectManager &effectmanager,BatchManager& batchmanager,CollisionSystem &collisionsystem,PhaseController &phasecontroller);
+    Resource(AssetsResource &app,Debug &debug,BulletManager &bulletmanager,DropManager &dropmanager,BombManager &bombmanager,EffectManager &effectmanager,BatchManager& batchmanager,CollisionSystem &collisionsystem,PhaseController &phasecontroller);
     AssetsResource &app_;
+    Debug &debug_;
     BulletManager &bulletmanager_;
     DropManager &dropmanager_;
     BombManager &bombmanager_;

@@ -51,7 +51,7 @@ GameState::GameState(Application &app):
 
     //**** 2 各种资源包创建并初始化，同时创建好资源包需要的对象
     //初始化资源，资源包含各大manager和system的引用
-    resource_=std::make_unique<Resource>(app.assets_resource_,bulletmanager_,dropmanager_,bombmanager_,effectmanager_,batchmanager_,collisionsystem_,phasecontroller_);
+    resource_=std::make_unique<Resource>(app.assets_resource_,app.debug_,bulletmanager_,dropmanager_,bombmanager_,effectmanager_,batchmanager_,collisionsystem_,phasecontroller_);
     std::cout<<"Resource Set"<<std::endl;
 
     //创建并初始化玩家对象

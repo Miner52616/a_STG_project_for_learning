@@ -60,6 +60,18 @@ SaveData LuaManager::loadSave()
     return data;
 }
 
+Debug LuaManager::loadDebug()
+{
+    Debug debug;
+    loadScript("include/luas/debug.lua");
+
+    sol::table debug_table=lua_["debug"];
+    debug.hitbox_exist_=debug_table["hitbox_exist"];
+    debug.debug_information_=debug_table["debug_information"];
+
+    return debug;
+}
+
 void LuaManager::writeSave(const SaveData& data)
 {
     std::ofstream file("include/luas/save.lua");

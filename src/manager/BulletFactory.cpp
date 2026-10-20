@@ -43,7 +43,7 @@ void BulletFactory::initialize(int size)
     std::cout<<"bullet storage "<<size<<std::endl;
     for (int i=1;i<=size;i++)
     {
-        bulletlist_.emplace_back(app_.assets_resource_.bulletsheetTexture_,sf::Vector2f{0,0});
+        bulletlist_.emplace_back(app_.assets_resource_.bulletsheetTexture_,sf::Vector2f{0,0},app_.debug_);
         free_list_.push_back(i-1);
     }
 }

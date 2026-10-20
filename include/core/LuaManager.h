@@ -8,6 +8,13 @@ public:
     int high_score_=0;
 };
 
+class Debug
+{
+public:
+    bool hitbox_exist_=false;
+    bool debug_information_=false;
+};
+
 class LuaManager
 {
 public:
@@ -16,5 +23,6 @@ public:
     LuaManager();
     void loadScript(const std::string& path);
     SaveData loadSave();
+    Debug loadDebug();
     void writeSave(const SaveData& data);
 };
