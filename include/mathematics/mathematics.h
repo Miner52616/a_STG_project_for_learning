@@ -4,6 +4,8 @@
 #include <optional>
 #include <string>
 
+class Keys;
+
 class Two_Vector2i
 {
 public:
@@ -50,5 +52,13 @@ Two_Vector2i playersheet_effect_transform(const sf::Vector2i& want);
 Two_Vector2i effectsheet_transform(const sf::Vector2i& want);
 
 std::string numberToChinese(int number);
+
+std::uint8_t encodeInput(const Keys& input);
+Keys decodeInput(std::uint8_t bits);
+
+bool writeU32(std::ostream& out, std::uint32_t value);
+bool readU32(std::istream& in, std::uint32_t& value);
+
+bool replaceReplayFile(const std::filesystem::path& temp_path,const std::filesystem::path& final_path);
 
 #include "mathematics/mathematics.ipp"

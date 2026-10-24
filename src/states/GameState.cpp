@@ -8,6 +8,7 @@
 #include "collision/CollisionCheck.h"
 #include "mathematics/mathematics.h"
 #include <iostream>
+#include <fstream>
 
 GameState::GameState(Application &app,bool replay_mode):
     State(app),
@@ -104,7 +105,13 @@ GameState::~GameState()
 {
     if(!replay_mode_)
     {
-        app_.lua_.writeReplay(replay_,seed_);
+        //app_.lua_.writeReplay(replay_,seed_);
+        //saveReplay("replay/replay.rep");
+        
+        if(saveReplay("replay/replay.rep.tmp"))
+        {
+            replaceReplayFile("replay/replay.rep.tmp","replay/replay.rep");
+        }
     }
 }
 
@@ -123,6 +130,8 @@ void GameState::set_application()
 
     if(replay_mode_)
     {
+        loadReplay("replay/replay.rep");
+        /*
         app_.lua_.loadScript("replay/replay.lua");
         
         sol::table replay=app_.lua_.lua()["replay"];
@@ -146,6 +155,7 @@ void GameState::set_application()
             replay_.emplace_back(store);
         }
         frame_limit_=replay_.size();
+        */
     }
     else
     {
@@ -623,6 +633,7 @@ void GameState::input_update()
 {
     if(replay_mode_)
     {
+        std::cout<<replay_.size()<<std::endl;
         keys_=replay_[frame_].keys_;
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl))
         {
@@ -790,6 +801,189 @@ void GameState::handlecollision()
     bombmanager_.ProcessCollision();
     resource_->collisionsystem_.ProcessCollision(yellowpage_->player_);
     phasecontroller_.ProcessCollision();
+}
+
+bool GameState::saveReplay(const std::string& path)
+{
+    //检查replay长度是否超出uint32的大小（（bushi这是录了多久
+    if(replay_.size()>std::numeric_limits<std::uint32_t>::max())
+    {
+        std::cout<<"Replay is too long, Fail to Save Replay!!!!"<<std::endl;
+        return false;
+    }
+
+    std::ofstream file(path,std::ios::binary|std::ios::trunc);
+
+    //确保文件打开而且可读写
+    if(!file)
+    {
+        std::cout<<"Fail to Open Replay File"<<std::endl;
+        return false;
+    }
+
+    //写入replay文件校验标志
+    constexpr char lable[]={'5','2','6','1','6'};
+    file.write(lable,sizeof(lable));
+
+    //写入种子
+    if(!writeU32(file,seed_))
+    {
+        std::cout<<"Fail to Write Seed"<<std::endl;
+        return false;
+    }
+
+    //写入总帧数
+    std::uint32_t total_frame=static_cast<std::uint32_t>(replay_.size());
+    if(!writeU32(file,total_frame))
+    {
+        std::cout<<"Fail to Write Total Frames"<<std::endl;
+        return false;
+    }
+
+    //写入每帧信息
+    for (auto it=replay_.begin();it!=replay_.end();++it)
+    {
+        const std::uint8_t bits=encodeInput(it->keys_);
+
+        file.put(static_cast<char>(bits));
+
+        if (!file)
+        {
+            std::cout<<"writing replay break!!!"<<std::endl;
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool GameState::loadReplay(const std::string& path)
+{
+    std::ifstream file(path,std::ios::binary);
+
+    //保证文件打开
+    if(!file)
+    {
+        std::cout<<"Fail to Open Replay File"<<std::endl;
+        return false;
+    }
+
+    //确认文件校验标
+    char lable[5];
+    file.read(lable,sizeof(lable));
+
+    char wanted_lable[]={'5','2','6','1','6'};
+
+    if
+    (
+        lable[0]!=wanted_lable[0]||
+        lable[1]!=wanted_lable[1]||
+        lable[2]!=wanted_lable[2]||
+        lable[3]!=wanted_lable[3]||
+        lable[4]!=wanted_lable[4]
+    )
+    {
+        std::cout<<"Replay Lable Wrong!!!"<<std::endl;
+        std::cout<<"Replay Lable SHOULD BE 5 2 6 1 6!!!!!"<<std::endl;
+        return false;
+    }
+
+    //读取随机数种子
+    std::uint32_t seed;
+    if(!readU32(file,seed))
+    {
+        std::cout<<"Fail to Read Seed"<<std::endl;
+        return false;
+    }
+
+    //读取总帧数
+    std::uint32_t frame_limit;
+    if(!readU32(file,frame_limit))
+    {
+        std::cout<<"Fail to Read Total Frames"<<std::endl;
+        return false;
+    }
+    if(frame_limit>(static_cast<std::uint32_t>(216000)))
+    {
+        std::cout<<"Replay Loading Ends for Abnormal Total Frames"<<std::endl;
+        return false;
+    }
+
+    //replay总帧数验证
+    const std::streampos dataStart=file.tellg();
+
+    if (dataStart == std::streampos(-1))
+    {
+        std::cout<<"Broken Replay1, Replay Frame Start Area Abnormal!!"<<std::endl;
+        return false;
+    }
+
+    file.seekg(0, std::ios::end);
+
+    if (!file)
+        return false;
+
+    const std::streampos fileEnd = file.tellg();
+
+    if ((fileEnd == std::streampos(-1))||(fileEnd < dataStart))
+    {
+        std::cout<<"Broken Replay2, Replay Frame End Area Abnormal!!"<<std::endl;
+        return false;
+    }
+
+    const std::uint64_t remaining=static_cast<std::uint64_t>(fileEnd - dataStart);
+    if (remaining!=frame_limit)
+    {
+        std::cout<<"Broken Replay3, Replay Length Abnormal!!"<<std::endl;
+        return false;
+    }
+
+    file.seekg(dataStart);
+
+    //读取每帧
+    std::vector<uint8_t> replay_bits;
+    replay_bits.reserve(frame_limit);
+
+    for (std::uint32_t i=1;i<=frame_limit;++i)
+    {
+        const auto ch = file.get();
+
+        if (ch == std::char_traits<char>::eof())
+        {
+            std::cout<<"Broken Replay4"<<std::endl;
+            std::cout<<"frame num "<<i<<std::endl;
+            return false;
+        }
+
+        const uint8_t bits = static_cast<std::uint8_t>(
+            static_cast<unsigned char>(ch)
+        );
+
+        // 当前格式只允许使用低 7 位。
+        if ((bits & 0x80u) != 0)
+        {
+            std::cout<<"Broken Replay5, A Frame Abnormal"<<std::endl;
+            return false;
+        }
+
+        replay_bits.push_back(bits);
+    }
+
+    std::vector<FrameInformation> replay;
+    replay.reserve(frame_limit);
+    for(auto it=replay_bits.begin();it!=replay_bits.end();++it)
+    {
+        FrameInformation information;
+        information.keys_=decodeInput((*it));
+        replay.push_back(information);
+    }
+
+    // 全部读取成功后再更新目标对象。
+    replay_=std::move(replay);
+    seed_=resetSeed(seed);
+    frame_limit_=frame_limit;
+
+    return true;
 }
 
 void GameState::HandleEvent(sf::RenderWindow& window,const sf::Event::Closed)

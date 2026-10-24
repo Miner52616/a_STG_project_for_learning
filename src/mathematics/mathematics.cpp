@@ -3,7 +3,15 @@
 #include <random>
 #include <math.h>
 #include <iostream>
+#include <filesystem>
+#include <system_error>
 #include "mathematics/math_namespace.h"
+#include "packages/Keys.h"
+
+#ifdef _WIN32
+#define NOMINMAX
+#include <windows.h>
+#endif
 
 namespace stg_math
 {
@@ -368,4 +376,99 @@ std::string numberToChinese(int number)
     }
 
     return result;
+}
+
+std::uint8_t encodeInput(const Keys& input)
+{
+    std::uint8_t bits = 0;
+
+    if (input.key_Up_)     
+    bits|=(1u<<0);
+    if (input.key_Down_)   
+    bits|=(1u<<1);
+    if (input.key_Left_)   
+    bits|=(1u<<2);
+    if (input.key_Right_)  
+    bits|=(1u<<3);
+    if (input.key_LShift_) 
+    bits|=(1u<<4);
+    if (input.key_Z_)      
+    bits|=(1u<<5);
+    if (input.key_X_)      
+    bits|=(1u<<6);
+
+    return bits;
+}
+
+Keys decodeInput(std::uint8_t bits)
+{
+    Keys input;
+
+    input.key_Up_=(bits&(1u << 0))!=0;
+    input.key_Down_=(bits&(1u<<1))!=0;
+    input.key_Left_=(bits&(1u<<2))!=0;
+    input.key_Right_=(bits&(1u<<3))!=0;
+    input.key_LShift_=(bits&(1u<<4))!=0;
+    input.key_Z_=(bits&(1u<<5))!=0;
+    input.key_X_=(bits&(1u<<6))!=0;
+
+    return input;
+}
+
+bool writeU32(std::ostream& out, std::uint32_t value)
+{
+    for (int i = 0; i < 4; ++i)
+    {
+        const char byte = static_cast<char>(value & 0xFFu);
+
+        out.put(byte);
+
+        if (!out)
+            return false;
+
+        value >>= 8;
+    }
+
+    return true;
+}
+
+bool readU32(std::istream& in, std::uint32_t& value)
+{
+    value = 0;
+
+    for (int i = 0; i < 4; ++i)
+    {
+        const auto ch = in.get();
+
+        if (ch == std::char_traits<char>::eof())
+            return false;
+
+        const auto byte = static_cast<std::uint32_t>(
+            static_cast<unsigned char>(ch)
+        );
+
+        value |= byte << (i * 8);
+    }
+
+    return true;
+}
+
+bool replaceReplayFile(const std::filesystem::path& temp_path,const std::filesystem::path& final_path)
+{
+#ifdef _WIN32
+    // Windows：允许替换已经存在的正式文件。
+    // 两个文件应当位于同一磁盘卷。
+    return MoveFileExW(
+        temp_path.c_str(),
+        final_path.c_str(),
+        MOVEFILE_REPLACE_EXISTING | MOVEFILE_WRITE_THROUGH
+    ) != 0;
+#else
+    // POSIX 系统：同一文件系统内，rename 可以原子替换目标文件。
+    std::error_code ec;
+
+    std::filesystem::rename(temp_path, final_path, ec);
+
+    return !ec;
+#endif
 }

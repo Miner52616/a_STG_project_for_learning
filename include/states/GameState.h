@@ -55,7 +55,7 @@ private:
 
 private:
     long long int frame_;
-    int frame_limit_;//用于回放时限制运行总帧数，正常游玩时此变量不使用
+    unsigned int frame_limit_;//用于回放时限制运行总帧数，正常游玩时此变量不使用
     long long int high_score_;
     long long int score_;
 
@@ -166,6 +166,9 @@ protected:
     void set_phase();
     void read_script();
     void bundle_leader_menber();
+
+    bool saveReplay(const std::string& path);
+    bool loadReplay(const std::string& path);
 
     void render_mid(sf::RenderWindow& window);
     void input_update();
