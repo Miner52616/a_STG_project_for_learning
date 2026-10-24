@@ -25,7 +25,7 @@ public:
     virtual void update()=0;
     virtual void render(sf::RenderWindow& window)=0;
     virtual void render(sf::RenderTexture& texture)=0;
-    virtual void render_mid(sf::RenderTexture& texture)=0;
+    virtual void render_mid(sf::RenderTexture& texture,int num)=0;
     bool isFinish();
     virtual void be_damage(float damage)=0;
     virtual void ProcessCollision()=0;

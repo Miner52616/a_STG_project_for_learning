@@ -3,14 +3,23 @@
 #include <iostream>
 
 Entity::Entity(/*Application &app,*/const sf::Texture &texture):
-    /*app_(app),*/texture_(texture),hitbox_r_(5),picture_(texture_),middle_picture_(texture_),
+    /*app_(app),*/texture_(texture),hitbox_r_(5),picture_(texture_),//middle_picture_(texture_),
     position_({0,0}),prev_position_({0,0})
 {
     hitbox_.setRadius(hitbox_r_);
 
     hitbox_.setOrigin(hitbox_.getGlobalBounds().getCenter());
     picture_.setOrigin(picture_.getGlobalBounds().getCenter());
-    middle_picture_.setOrigin(middle_picture_.getGlobalBounds().getCenter());
+    for(int i=1;i<=picture_list_size_;i++)
+    {
+        middle_picture_list_.emplace_back(texture_);
+        middle_position_list_.emplace_back(sf::Vector2f{0,0});
+    }
+    for(auto it=middle_picture_list_.begin();it!=middle_picture_list_.end();++it)
+    {
+        it->setOrigin(it->getGlobalBounds().getCenter());
+    }
+    //middle_picture_.setOrigin(middle_picture_.getGlobalBounds().getCenter());
 
     setPosition();
 }
@@ -31,13 +40,25 @@ void Entity::setMiddlePosition()
 {
     if(prev_position_==(sf::Vector2f{0,0}))
     {
-        middle_position_=position_;
+        //middle_position_=position_;
+        for(auto it=middle_position_list_.begin();it!=middle_position_list_.end();++it)
+        {
+            (*it)=position_;
+        }
     }
     else
     {
-        middle_position_=0.5f*(prev_position_+position_);
+        //middle_position_=0.5f*(prev_position_+position_);
+        for(int i=1;i<=picture_list_size_;i++)
+        {
+            middle_position_list_[i-1]=(static_cast<float>(i)/static_cast<float>(picture_list_size_+1))*position_+(static_cast<float>(picture_list_size_+1-i)/static_cast<float>(picture_list_size_+1))*prev_position_;
+        }
     }
-    middle_picture_.setPosition(middle_position_);
+    //middle_picture_.setPosition(middle_position_);
+    for(int i=1;i<=picture_list_size_;i++)
+    {
+        middle_picture_list_[i-1].setPosition(middle_position_list_[i-1]);
+    }
 }
 
 void Entity::store_position()
@@ -72,14 +93,14 @@ void Entity::drawtexture(sf::RenderTexture& texture)
     //texture.draw(hitbox_);
 }
 
-void Entity::drawwindow_mid(sf::RenderWindow& window)
+void Entity::drawwindow_mid(sf::RenderWindow& window,int num)
 {
-    window.draw(middle_picture_);
+    window.draw(middle_picture_list_[num-1]);
     //window.draw(hitbox_);
 }
 
-void Entity::drawtexture_mid(sf::RenderTexture& texture)
+void Entity::drawtexture_mid(sf::RenderTexture& texture,int num)
 {
-    texture.draw(middle_picture_);
+    texture.draw(middle_picture_list_[num-1]);
     //texture.draw(hitbox_);
 }

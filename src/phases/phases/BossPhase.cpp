@@ -34,9 +34,9 @@ void BossPhase::render(sf::RenderTexture& texture)
     boss_->render(texture);
 }
 
-void BossPhase::render_mid(sf::RenderTexture& texture)
+void BossPhase::render_mid(sf::RenderTexture& texture,int num)
 {
-    boss_->render_mid(texture);
+    boss_->render_mid(texture,num);
 }
 
 void BossPhase::setBoss(std::unique_ptr<Boss> boss)

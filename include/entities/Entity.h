@@ -10,14 +10,17 @@ protected:
     //Application &app_;
     const sf::Texture &texture_;
     sf::Vector2f position_;
-    sf::Vector2f middle_position_;
+    //sf::Vector2f middle_position_;
+    std::vector<sf::Vector2f> middle_position_list_;
     sf::Vector2f prev_position_;
     int hitbox_r_;
 
 protected:
     sf::CircleShape hitbox_;
     sf::Sprite picture_;
-    sf::Sprite middle_picture_;
+    //sf::Sprite middle_picture_;
+    int picture_list_size_=3;
+    std::vector<sf::Sprite> middle_picture_list_;
 
 public:
     virtual void setPosition();
@@ -31,8 +34,8 @@ public:
 
     virtual void drawwindow(sf::RenderWindow& window);  //渲染实体至屏幕
     virtual void drawtexture(sf::RenderTexture& texture);
-    virtual void drawwindow_mid(sf::RenderWindow& window);
-    virtual void drawtexture_mid(sf::RenderTexture& texture);
+    virtual void drawwindow_mid(sf::RenderWindow& window,int num);
+    virtual void drawtexture_mid(sf::RenderTexture& texture,int num);
 
 public:
     Entity(/*Application &app,*/const sf::Texture &texture);  //初始化资源引用，默认实体设置

@@ -15,7 +15,7 @@ public:
     void update() override;
     void render(sf::RenderWindow& window) override;
     void render(sf::RenderTexture& texture) override;
-    void render_mid(sf::RenderTexture& texture) override;
+    void render_mid(sf::RenderTexture& texture,int num) override;
     void setBoss(std::unique_ptr<Boss> boss);
     Boss* getBoss();
     void be_damage(float damage) override;

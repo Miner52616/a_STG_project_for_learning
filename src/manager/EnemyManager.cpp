@@ -31,11 +31,11 @@ void EnemyManager::render(sf::RenderTexture& texture)
     }
 }
 
-void EnemyManager::render_mid(sf::RenderTexture& texture)
+void EnemyManager::render_mid(sf::RenderTexture& texture,int num)
 {
     for(auto it=enemylist_.begin();it!=enemylist_.end();++it)
     {
-        (*it)->drawtexture_mid(texture);
+        (*it)->drawtexture_mid(texture,num);
     }
 }
 

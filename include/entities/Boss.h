@@ -21,7 +21,7 @@ public:
     virtual void update();
     virtual void render(sf::RenderWindow& window);
     virtual void render(sf::RenderTexture& texture);
-    virtual void render_mid(sf::RenderTexture& texture);
+    virtual void render_mid(sf::RenderTexture& texture,int num);
     void add_phase(std::unique_ptr<Phase> spellphase);
     PhaseController* getPhaseController();
     void be_damage(float damage);

@@ -58,6 +58,7 @@ void NumLine2::render(sf::RenderWindow& window)
 void NumLine2::render(sf::RenderTexture& texture)
 {
     //std::string final=text_.getString()+"  "+std::to_string(current_num_);
-    finaltext_.setString(text_.getString()+"  "+std::to_string(current_num_));
+    std::string num=std::format("{:.2f}",current_num_);
+    finaltext_.setString(text_.getString()+"  "+num);
     texture.draw(finaltext_);
 }

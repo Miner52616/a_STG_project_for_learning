@@ -39,6 +39,6 @@ public:
     virtual void clock_count();
     void drawwindow(sf::RenderWindow& window) override;  //渲染敌人至屏幕
     void drawtexture(sf::RenderTexture& texture) override;
-    void drawwindow_mid(sf::RenderWindow& window) override;
-    void drawtexture_mid(sf::RenderTexture& texture) override;
+    void drawwindow_mid(sf::RenderWindow& window,int num) override;
+    void drawtexture_mid(sf::RenderTexture& texture,int num) override;
 };

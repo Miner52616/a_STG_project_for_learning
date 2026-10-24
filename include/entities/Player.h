@@ -52,7 +52,8 @@ private:
     std::vector<std::unique_ptr<Child_Plane>> child_planes_;
 
     sf::Sprite hitbox_texture_;
-    sf::Sprite middle_hitbox_texture_;
+    std::vector<sf::Sprite> middle_hitbox_texture_list_;
+    //sf::Sprite middle_hitbox_texture_;
     sf::CircleShape point_;
 
     MissCurtain miss_curtain_;
@@ -78,7 +79,7 @@ public:
     void update();  //更新玩家属性
     void drawwindow(sf::RenderWindow& window) override;  //渲染玩家至屏幕
     void drawtexture(sf::RenderTexture& texture) override;
-    void drawtexture_mid(sf::RenderTexture& texture) override;
+    void drawtexture_mid(sf::RenderTexture& texture,int num) override;
     void drawMissShaders(sf::RenderTexture& texture);
     void clock_count();
 

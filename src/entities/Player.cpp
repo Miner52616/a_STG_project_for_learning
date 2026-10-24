@@ -12,7 +12,7 @@
 Player::Player(const sf::Texture &texture/*,Frame &outline*/,Resource* resource):
     Entity(texture),
     hitbox_texture_(resource->app_.hitboxTexture_),
-    middle_hitbox_texture_(resource->app_.hitboxTexture_),
+    //middle_hitbox_texture_(resource->app_.hitboxTexture_),
     hitbox_exist_(false),
     a_low_(3),
     a_high_(4.5),
@@ -45,8 +45,17 @@ Player::Player(const sf::Texture &texture/*,Frame &outline*/,Resource* resource)
     hitbox_texture_.setOrigin(hitbox_texture_.getGlobalBounds().getCenter());
     hitbox_texture_.setScale({2,2});
 
-    middle_hitbox_texture_.setOrigin(middle_hitbox_texture_.getGlobalBounds().getCenter());
-    middle_hitbox_texture_.setScale({2,2});
+    for(int i=1;i<=3;i++)
+    {
+        middle_hitbox_texture_list_.emplace_back(resource->app_.hitboxTexture_);
+    }
+    for(auto it=middle_hitbox_texture_list_.begin();it!=middle_hitbox_texture_list_.end();++it)
+    {
+        it->setOrigin(it->getGlobalBounds().getCenter());
+        it->setScale({2,2});
+    }
+    //middle_hitbox_texture_.setOrigin(middle_hitbox_texture_.getGlobalBounds().getCenter());
+    //middle_hitbox_texture_.setScale({2,2});
 
     hitbox_r_=1;
     hitbox_.setRadius(hitbox_r_);
@@ -219,6 +228,7 @@ void Player::setPosition(sf::Vector2f position)
 
 void Player::setMiddlePosition()
 {
+    /*
     if(prev_position_==(sf::Vector2f{0,0}))
     {
         middle_position_=position_;
@@ -229,6 +239,12 @@ void Player::setMiddlePosition()
     }
     middle_hitbox_texture_.setPosition(middle_position_);
     middle_picture_.setPosition(middle_position_);
+    */
+    Entity::setMiddlePosition();
+    for(int i=1;i<=picture_list_size_;i++)
+    {
+       middle_hitbox_texture_list_[i-1].setPosition(middle_position_list_[i-1]);
+    }
 }
 
 bool Player::isContinued()
@@ -323,17 +339,17 @@ void Player::drawtexture(sf::RenderTexture& texture)
     }
 }
 
-void Player::drawtexture_mid(sf::RenderTexture& texture)
+void Player::drawtexture_mid(sf::RenderTexture& texture,int num)
 {
-    texture.draw(middle_picture_);
+    texture.draw(middle_picture_list_[num-1]);
     for(int i=1;i<=power_/100;i++)
     {
-        child_planes_[i-1]->drawtexture_mid(texture);
+        child_planes_[i-1]->drawtexture_mid(texture,num);
     }
     if(hitbox_exist_)
     {
         //texture.draw(point_);
-        texture.draw(middle_hitbox_texture_);
+        texture.draw(middle_hitbox_texture_list_[num-1]);
     }
 }
 
@@ -350,7 +366,11 @@ void Player::update()
     if(life_clock_.get_condition())
     {
         picture_.setColor({255,255,255,255});
-        middle_picture_.setColor({255,255,255,255});
+        //middle_picture_.setColor({255,255,255,255});
+        for(auto it=middle_picture_list_.begin();it!=middle_picture_list_.end();++it)
+        {
+            it->setColor({255,255,255,255});
+        }
     }
     else
     {
@@ -360,13 +380,21 @@ void Player::update()
             {
                 shining_=false;
                 picture_.setColor({255,255,255,255});
-                middle_picture_.setColor({255,255,255,255});
+                //middle_picture_.setColor({255,255,255,255});
+                for(auto it=middle_picture_list_.begin();it!=middle_picture_list_.end();++it)
+                {
+                    it->setColor({255,255,255,255});
+                }
             }
             else
             {
                 shining_=true;
                 picture_.setColor({255,255,255,127});
-                middle_picture_.setColor({255,255,255,127});
+                //middle_picture_.setColor({255,255,255,127});
+                for(auto it=middle_picture_list_.begin();it!=middle_picture_list_.end();++it)
+                {
+                    it->setColor({255,255,255,127});
+                }
             }
         }
     }

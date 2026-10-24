@@ -22,9 +22,19 @@ Bullet::Bullet(sf::Texture &texture,sf::Vector2f position):
     hitbox_draw_.setRadius(hitbox_r_);
     hitbox_draw_.setFillColor(sf::Color::Red);
     hitbox_draw_.setOrigin(hitbox_draw_.getLocalBounds().getCenter());
-    hitbox_draw_mid_.setRadius(hitbox_r_);
-    hitbox_draw_mid_.setFillColor(sf::Color::Red);
-    hitbox_draw_mid_.setOrigin(hitbox_draw_mid_.getLocalBounds().getCenter());
+    for(int i=1;i<=picture_list_size_;i++)
+    {
+        hitbox_draw_mid_list_.emplace_back();
+    }
+    for(auto it=hitbox_draw_mid_list_.begin();it!=hitbox_draw_mid_list_.end();++it)
+    {
+        it->setRadius(hitbox_r_);
+        it->setFillColor(sf::Color::Red);
+        it->setOrigin(it->getLocalBounds().getCenter());
+    }
+    //hitbox_draw_mid_.setRadius(hitbox_r_);
+    //hitbox_draw_mid_.setFillColor(sf::Color::Red);
+    //hitbox_draw_mid_.setOrigin(hitbox_draw_mid_.getLocalBounds().getCenter());
 }
 
 Bullet::Bullet(sf::Texture &texture,sf::Vector2f position,Debug debug):
@@ -41,9 +51,19 @@ Bullet::Bullet(sf::Texture &texture,sf::Vector2f position,Debug debug):
     hitbox_draw_.setRadius(hitbox_r_);
     hitbox_draw_.setFillColor(sf::Color::Red);
     hitbox_draw_.setOrigin(hitbox_draw_.getLocalBounds().getCenter());
-    hitbox_draw_mid_.setRadius(hitbox_r_);
-    hitbox_draw_mid_.setFillColor(sf::Color::Red);
-    hitbox_draw_mid_.setOrigin(hitbox_draw_mid_.getLocalBounds().getCenter());
+    for(int i=1;i<=picture_list_size_;i++)
+    {
+        hitbox_draw_mid_list_.emplace_back();
+    }
+    for(auto it=hitbox_draw_mid_list_.begin();it!=hitbox_draw_mid_list_.end();++it)
+    {
+        it->setRadius(hitbox_r_);
+        it->setFillColor(sf::Color::Red);
+        it->setOrigin(it->getLocalBounds().getCenter());
+    }
+    //hitbox_draw_mid_.setRadius(hitbox_r_);
+    //hitbox_draw_mid_.setFillColor(sf::Color::Red);
+    //hitbox_draw_mid_.setOrigin(hitbox_draw_mid_.getLocalBounds().getCenter());
 }
 
 Bullet::Bullet(sf::Texture &texture,sf::Vector2f position,float damage):
@@ -60,9 +80,19 @@ Bullet::Bullet(sf::Texture &texture,sf::Vector2f position,float damage):
     hitbox_draw_.setRadius(hitbox_r_);
     hitbox_draw_.setFillColor(sf::Color::Red);
     hitbox_draw_.setOrigin(hitbox_draw_.getLocalBounds().getCenter());
-    hitbox_draw_mid_.setRadius(hitbox_r_);
-    hitbox_draw_mid_.setFillColor(sf::Color::Red);
-    hitbox_draw_mid_.setOrigin(hitbox_draw_mid_.getLocalBounds().getCenter());
+    for(int i=1;i<=picture_list_size_;i++)
+    {
+        hitbox_draw_mid_list_.emplace_back();
+    }
+    for(auto it=hitbox_draw_mid_list_.begin();it!=hitbox_draw_mid_list_.end();++it)
+    {
+        it->setRadius(hitbox_r_);
+        it->setFillColor(sf::Color::Red);
+        it->setOrigin(it->getLocalBounds().getCenter());
+    }
+    //hitbox_draw_mid_.setRadius(hitbox_r_);
+    //hitbox_draw_mid_.setFillColor(sf::Color::Red);
+    //hitbox_draw_mid_.setOrigin(hitbox_draw_mid_.getLocalBounds().getCenter());
 }
 
 void Bullet::selfbehavior()
@@ -77,7 +107,11 @@ void Bullet::selfbehavior()
     case BulletBehavior::Rotate:
         {
             picture_.rotate(sf::degrees(3));
-            middle_picture_.rotate(sf::degrees(3));
+            //middle_picture_.rotate(sf::degrees(3));
+            for(auto it=middle_picture_list_.begin();it!=middle_picture_list_.end();++it)
+            {
+                it->rotate(sf::degrees(3));
+            }
             break;
         }
 
@@ -85,7 +119,11 @@ void Bullet::selfbehavior()
         {
             //std::cout<<"1"<<std::endl;
             picture_.setRotation(sf::degrees(bulletconfig_.angle_));
-            middle_picture_.setRotation(sf::degrees(bulletconfig_.angle_));
+            //middle_picture_.setRotation(sf::degrees(bulletconfig_.angle_));
+            for(auto it=middle_picture_list_.begin();it!=middle_picture_list_.end();++it)
+            {
+                it->setRotation(sf::degrees(bulletconfig_.angle_));
+            }
             break;
         }
     
@@ -134,12 +172,13 @@ void Bullet::drawtexture(sf::RenderTexture& texture)
     }
 }
 
-void Bullet::drawtexture_mid(sf::RenderTexture& texture)
+void Bullet::drawtexture_mid(sf::RenderTexture& texture,int num)
 {
-    texture.draw(middle_picture_);
+    //texture.draw(middle_picture_);
+    texture.draw(middle_picture_list_[num-1]);
     if(show_hitbox_)
     {
-        texture.draw(hitbox_draw_mid_);
+        texture.draw(hitbox_draw_mid_list_[num-1]);
     }
 }
 
@@ -152,7 +191,11 @@ void Bullet::setPosition(sf::Vector2f position)
 void Bullet::setMiddlePosition()
 {
     Entity::setMiddlePosition();
-    hitbox_draw_mid_.setPosition(middle_position_);
+    //hitbox_draw_mid_.setPosition(middle_position_);
+    for(int i=1;i<=picture_list_size_;i++)
+    {
+        hitbox_draw_mid_list_[i-1].setPosition(middle_position_list_[i-1]);
+    }
 }
 
 bool Bullet::isDead() const
@@ -199,20 +242,34 @@ void Bullet::rebuild()
         //std::cout<<"texture reset"<<std::endl;
         bullet_texture_=bulletconfig_.texture_;
         picture_.setTexture(*bullet_texture_,true);
-        middle_picture_.setTexture(*bullet_texture_,true);
+        //middle_picture_.setTexture(*bullet_texture_,true);
+        for(auto it=middle_picture_list_.begin();it!=middle_picture_list_.end();++it)
+        {
+            it->setTexture(*bullet_texture_,true);
+        }
     }
     rebuild_Initialize();
     picture_.setScale({1.414,1.414});
     picture_.setOrigin(picture_.getLocalBounds().getCenter());
-    middle_picture_.setScale({1.414,1.414});
-    middle_picture_.setOrigin(middle_picture_.getLocalBounds().getCenter());
+    //middle_picture_.setScale({1.414,1.414});
+    //middle_picture_.setOrigin(middle_picture_.getLocalBounds().getCenter());
+    for(auto it=middle_picture_list_.begin();it!=middle_picture_list_.end();++it)
+    {
+        it->setScale({1.414,1.414});
+        it->setOrigin(it->getLocalBounds().getCenter());
+    }
     damage_=bulletconfig_.damage_;
     position_=bulletconfig_.spawn_point_;
     hitbox_r_=bulletconfig_.r_;
     hitbox_draw_.setRadius(hitbox_r_);
     hitbox_draw_.setOrigin(hitbox_draw_.getLocalBounds().getCenter());
-    hitbox_draw_mid_.setRadius(hitbox_r_);
-    hitbox_draw_mid_.setOrigin(hitbox_draw_mid_.getLocalBounds().getCenter());
+    //hitbox_draw_mid_.setRadius(hitbox_r_);
+    //hitbox_draw_mid_.setOrigin(hitbox_draw_mid_.getLocalBounds().getCenter());
+    for(auto it=hitbox_draw_mid_list_.begin();it!=hitbox_draw_mid_list_.end();++it)
+    {
+        it->setRadius(hitbox_r_);
+        it->setOrigin(it->getLocalBounds().getCenter());
+    }
 
     //子弹敌我重新设置
     if
@@ -246,8 +303,13 @@ void Bullet::rebuild_Initialize()
             sf::Vector2i size={rect.vec2_.x, rect.vec2_.y};
             picture_.setTextureRect({position,size});
             picture_.setRotation(sf::degrees(-90));
-            middle_picture_.setTextureRect({position,size});
-            middle_picture_.setRotation(sf::degrees(-90));
+            //middle_picture_.setTextureRect({position,size});
+            //middle_picture_.setRotation(sf::degrees(-90));
+            for(auto it=middle_picture_list_.begin();it!=middle_picture_list_.end();++it)
+            {
+                it->setTextureRect({position,size});
+                it->setRotation(sf::degrees(-90));
+            }
 
             //initialize_playerEffectConfig();
             break;
@@ -264,7 +326,11 @@ void Bullet::rebuild_Initialize()
                     sf::Vector2i position={rect.vec1_.x, rect.vec1_.y};
                     sf::Vector2i size={rect.vec2_.x, rect.vec2_.y};
                     picture_.setTextureRect({position,size});
-                    middle_picture_.setTextureRect({position,size});
+                    //middle_picture_.setTextureRect({position,size});
+                    for(auto it=middle_picture_list_.begin();it!=middle_picture_list_.end();++it)
+                    {
+                        it->setTextureRect({position,size});
+                    }
                     //picture_.setRotation(sf::degrees(90));
 
                     break;
@@ -276,7 +342,11 @@ void Bullet::rebuild_Initialize()
                     sf::Vector2i position={rect.vec1_.x, rect.vec1_.y};
                     sf::Vector2i size={rect.vec2_.x, rect.vec2_.y};
                     picture_.setTextureRect({position,size});
-                    middle_picture_.setTextureRect({position,size});
+                    //middle_picture_.setTextureRect({position,size});
+                    for(auto it=middle_picture_list_.begin();it!=middle_picture_list_.end();++it)
+                    {
+                        it->setTextureRect({position,size});
+                    }
                     //picture_.setRotation(sf::degrees(90));
 
                     break;
@@ -288,7 +358,11 @@ void Bullet::rebuild_Initialize()
                     sf::Vector2i position={rect.vec1_.x, rect.vec1_.y};
                     sf::Vector2i size={rect.vec2_.x, rect.vec2_.y};
                     picture_.setTextureRect({position,size});
-                    middle_picture_.setTextureRect({position,size});
+                    //middle_picture_.setTextureRect({position,size});
+                    for(auto it=middle_picture_list_.begin();it!=middle_picture_list_.end();++it)
+                    {
+                        it->setTextureRect({position,size});
+                    }
                     //picture_.setRotation(sf::degrees(90));
 
                     break;
@@ -305,7 +379,11 @@ void Bullet::rebuild_Initialize()
     }
 
     picture_.setColor(sf::Color{255,255,255,bulletconfig_.color_alpha_});
-    middle_picture_.setColor(sf::Color{255,255,255,bulletconfig_.color_alpha_});
+    //middle_picture_.setColor(sf::Color{255,255,255,bulletconfig_.color_alpha_});
+    for(auto it=middle_picture_list_.begin();it!=middle_picture_list_.end();++it)
+    {
+        it->setColor(sf::Color{255,255,255,bulletconfig_.color_alpha_});;
+    }
 }
 
 void Bullet::initialize()

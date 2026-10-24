@@ -112,19 +112,19 @@ void Enemy::drawtexture(sf::RenderTexture& texture)
     }
 }
 
-void Enemy::drawwindow_mid(sf::RenderWindow& window)
+void Enemy::drawwindow_mid(sf::RenderWindow& window,int num)
 {
     if(exist_)
     {
-        window.draw(middle_picture_);
+        window.draw(middle_picture_list_[num-1]);
     }
 }
 
-void Enemy::drawtexture_mid(sf::RenderTexture& texture)
+void Enemy::drawtexture_mid(sf::RenderTexture& texture,int num)
 {
     if(exist_)
     {
-        texture.draw(middle_picture_);
+        texture.draw(middle_picture_list_[num-1]);
     }
 }
 

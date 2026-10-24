@@ -43,9 +43,9 @@ void MidPhase::render(sf::RenderTexture& texture)
     enemymanager_.render(texture);
 }
 
-void MidPhase::render_mid(sf::RenderTexture& texture)
+void MidPhase::render_mid(sf::RenderTexture& texture,int num)
 {
-    enemymanager_.render_mid(texture);
+    enemymanager_.render_mid(texture,num);
 }
 
 void MidPhase::add_enemy(std::unique_ptr<Enemy> enemy)

@@ -51,6 +51,7 @@ private:
 //自身状态
 private:
     bool current_interpolation_;
+    int interpolation_num_;
     bool replay_mode_=false;
 
 private:
@@ -73,10 +74,13 @@ private:
     NumLine1 bullet_line_;
     NumLine1 effect_line_;
     NumLine2 fps_line_;
+    NumLine2 replay_speed_line_;//此UI只在回放时启用
+    Text replay_speed_line2_;//此UI只在回放时启用
     NumLine1_1 life_line_;
     NumLine1_1 bomb_line_;
 
-    sf::RenderTexture game_window_middle_{{770u,900u}};
+    //sf::RenderTexture game_window_middle_{{770u,900u}};
+    std::vector<sf::RenderTexture> game_window_middle_list_;
     sf::RenderTexture game_window_{{770u,900u}};
     sf::RenderTexture origin_window_{{1280u,960u}};
     sf::Sprite window_sprite_;
@@ -171,6 +175,7 @@ protected:
     bool loadReplay(const std::string& path);
 
     void render_mid(sf::RenderWindow& window);
+    void render_ui(sf::RenderWindow& window);
     void input_update();
     void fps_update();
     void clock_update();

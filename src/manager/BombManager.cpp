@@ -53,11 +53,11 @@ void BombManager::render(sf::RenderTexture& texture)
     }
 }
 
-void BombManager::render_mid(sf::RenderTexture& texture)
+void BombManager::render_mid(sf::RenderTexture& texture,int num)
 {
     for(auto it=bomblist_.begin();it!=bomblist_.end();++it)
     {
-        (*it)->drawtexture_mid(texture);
+        (*it)->drawtexture_mid(texture,num);
     }
 }
 

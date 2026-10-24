@@ -26,6 +26,8 @@ GameState::GameState(Application &app,bool replay_mode):
     bullet_line_(app_.assets_resource_.mainFont_),
     effect_line_(app_.assets_resource_.mainFont_),
     fps_line_(app_.assets_resource_.mainFont_),
+    replay_speed_line_(app_.assets_resource_.mainFont_),
+    replay_speed_line2_(app_.assets_resource_.mainFont_),
     life_line_(app_.assets_resource_.mainFont_,app_.assets_resource_.lifeUI_),
     bomb_line_(app_.assets_resource_.mainFont_,app_.assets_resource_.bombUI_),
     outline1_({75,30},{845,930},5,sf::Color::Black,sf::Color(128,128,128)),
@@ -121,10 +123,12 @@ void GameState::set_application()
     current_interpolation_=key_frame_interpolation_;
     if(key_frame_interpolation_)
     {
+        interpolation_num_=1;
         app_.window_.setFramerateLimit(120);
     }
     else
     {
+        interpolation_num_=0;
         app_.window_.setFramerateLimit(60);
     }
 
@@ -207,6 +211,14 @@ void GameState::set_ui()
     fps_line_.setLineText("Fps");
     fps_line_.setCurrentNum(0);
     fps_line_.setMaxNum(999999999);
+    replay_speed_line_.setLineSize(25);
+    replay_speed_line_.setLinePosition({675,900});
+    replay_speed_line_.setLineText("Speed");
+    replay_speed_line_.setCurrentNum(1.00);
+    replay_speed_line_.setMaxNum(9999999);
+    replay_speed_line2_.setTextSize(25);
+    replay_speed_line2_.setTextPosition({815,900});
+    replay_speed_line2_.setTextText("X");
 
     high_score_line_.setLinePosition({865,130});
     high_score_line_.setLineText("High Score");
@@ -238,6 +250,10 @@ void GameState::set_ui()
 
 void GameState::set_gamewindow()
 {
+    for(int i=1;i<=3;i++)
+    {
+        game_window_middle_list_.emplace_back(sf::Vector2u{770u,900u});
+    }
     //初始化设置游戏小窗
     window_sprite_.setTexture(game_window_.getTexture());
     window_sprite_.setScale({1.f,-1.f});
@@ -460,27 +476,59 @@ void GameState::render(sf::RenderWindow& window)
 {
     app_.performance_.startWorktime(Clock_List::RENDER_CLOCK1);
     game_window_.clear();
-    game_window_middle_.clear();
+    //game_window_middle_.clear();
+    for(auto it=game_window_middle_list_.begin();it!=game_window_middle_list_.end();++it)
+    {
+        it->clear();
+    }
     origin_window_.clear();
 
     //player_->drawwindow(window);
     player_->drawtexture(game_window_);
-    player_->drawtexture_mid(game_window_middle_);
+    //player_->drawtexture_mid(game_window_middle_);
+    for(int i=1;i<=3;i++)
+    {
+        player_->drawtexture_mid(game_window_middle_list_[i-1],i);
+    }
 
     dropmanager_.render(game_window_);
-    dropmanager_.render_mid(game_window_middle_);
+    //dropmanager_.render_mid(game_window_middle_);
+    for(int i=1;i<=3;i++)
+    {
+        dropmanager_.render_mid(game_window_middle_list_[i-1],i);
+    }
     bulletmanager_.render(game_window_);
-    bulletmanager_.render_mid(game_window_middle_);
+    //bulletmanager_.render_mid(game_window_middle_);
+    for(int i=1;i<=3;i++)
+    {
+        bulletmanager_.render_mid(game_window_middle_list_[i-1],i);
+    }
     bombmanager_.render(game_window_);
-    bombmanager_.render_mid(game_window_middle_);
+    //bombmanager_.render_mid(game_window_middle_);
+    for(int i=1;i<=3;i++)
+    {
+        bombmanager_.render_mid(game_window_middle_list_[i-1],i);
+    }
     effectmanager_.render(game_window_);
-    effectmanager_.render(game_window_middle_);
+    //effectmanager_.render(game_window_middle_);
+    for(int i=1;i<=3;i++)
+    {
+        effectmanager_.render(game_window_middle_list_[i-1]);
+    }
 
     phasecontroller_.render(game_window_);
-    phasecontroller_.render_mid(game_window_middle_);
+    //phasecontroller_.render_mid(game_window_middle_);
+    for(int i=1;i<=3;i++)
+    {
+        phasecontroller_.render_mid(game_window_middle_list_[i-1],i);
+    }
 
     player_->drawMissShaders(game_window_);
-    player_->drawMissShaders(game_window_middle_);
+    //player_->drawMissShaders(game_window_middle_);
+    for(int i=1;i<=3;i++)
+    {
+        player_->drawMissShaders(game_window_middle_list_[i-1]);
+    }
 
     if(current_interpolation_)
     {
@@ -501,36 +549,8 @@ void GameState::render(sf::RenderWindow& window)
     window.draw(window_sprite_);
     origin_window_.draw(window_sprite_);
 
-    difficulty_.DrawText(window);
-    difficulty_.DrawText(origin_window_);
+    render_ui(window);
 
-    high_score_line_.render(window);
-    high_score_line_.render(origin_window_);
-    score_line_.render(window);
-    score_line_.render(origin_window_);
-    power_line_.render(window);
-    power_line_.render(origin_window_);
-    graze_line_.render(window);
-    graze_line_.render(origin_window_);
-
-    bullet_line_.render(window);
-    bullet_line_.render(origin_window_);
-    effect_line_.render(window);
-    effect_line_.render(origin_window_);
-    fps_line_.render(window);
-    fps_line_.render(origin_window_);
-
-    life_line_.render(window);
-    life_line_.render(origin_window_);
-    bomb_line_.render(window);
-    bomb_line_.render(origin_window_);
-
-    //curtain_.render(window);
-    star_curtain3_.setTexture(origin_window_.getTexture());
-    
-    star_curtain3_.render(window);
-    star_curtain2_.render(window);
-    star_curtain1_.render(window);
     app_.performance_.endWorktime(Clock_List::RENDER_CLOCK2);
 }
 
@@ -540,6 +560,7 @@ void GameState::switchOnOperation()
     if(key_frame_interpolation_)
     {
         app_.window_.setFramerateLimit(120);
+        interpolation_num_=1;
     }
     else
     {
@@ -550,6 +571,7 @@ void GameState::switchOnOperation()
 void GameState::switchOffOperation()
 {
     current_interpolation_=false;
+    interpolation_num_=0;
 }
 
 State_Type GameState::getStateType()
@@ -584,13 +606,28 @@ bool GameState::isContinued()
 
 void GameState::render_mid(sf::RenderWindow& window)
 {
-    outline1_.drawwindow(window);
-    outline1_.drawTexture(origin_window_);
+    app_.performance_.endWorktime(Clock_List::RENDER_CLOCK1);
+    app_.performance_.startWorktime(Clock_List::DISPLAY_CLOCK1);
 
-    window_sprite_.setTexture(game_window_middle_.getTexture());
-    window.draw(window_sprite_);
-    origin_window_.draw(window_sprite_);
+    for(int i=1;i<=interpolation_num_;i++)
+    {
+        outline1_.drawwindow(window);
+        outline1_.drawTexture(origin_window_);
 
+        window_sprite_.setTexture(game_window_middle_list_[i-1].getTexture());
+        window.draw(window_sprite_);
+        origin_window_.draw(window_sprite_);
+
+        render_ui(window);
+
+        window.display();
+        window.clear();
+    }
+    app_.performance_.endWorktime(Clock_List::DISPLAY_CLOCK1);
+}
+
+void GameState::render_ui(sf::RenderWindow& window)
+{
     difficulty_.DrawText(window);
     difficulty_.DrawText(origin_window_);
 
@@ -609,6 +646,13 @@ void GameState::render_mid(sf::RenderWindow& window)
     effect_line_.render(origin_window_);
     fps_line_.render(window);
     fps_line_.render(origin_window_);
+    if(replay_mode_)
+    {
+        replay_speed_line_.render(window);
+        replay_speed_line_.render(origin_window_);
+        replay_speed_line2_.DrawText(window);
+        replay_speed_line2_.DrawText(origin_window_);
+    }
 
     life_line_.render(window);
     life_line_.render(origin_window_);
@@ -621,25 +665,21 @@ void GameState::render_mid(sf::RenderWindow& window)
     star_curtain3_.render(window);
     star_curtain2_.render(window);
     star_curtain1_.render(window);
-
-    app_.performance_.endWorktime(Clock_List::RENDER_CLOCK1);
-    app_.performance_.startWorktime(Clock_List::DISPLAY_CLOCK1);
-    window.display();
-    window.clear();
-    app_.performance_.endWorktime(Clock_List::DISPLAY_CLOCK1);
 }
 
 void GameState::input_update()
 {
     if(replay_mode_)
     {
-        std::cout<<replay_.size()<<std::endl;
+        //std::cout<<replay_.size()<<std::endl;
         keys_=replay_[frame_].keys_;
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl))
         {
-            if(current_interpolation_)
+            replay_speed_line_.setCurrentNum(2.00);
+            if(key_frame_interpolation_)
             {
-                app_.window_.setFramerateLimit(240);
+                current_interpolation_=false;
+                interpolation_num_=0;
             }
             else
             {
@@ -649,9 +689,11 @@ void GameState::input_update()
         else
         if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
         {
-            if(current_interpolation_)
+            replay_speed_line_.setCurrentNum(0.25);
+            if(key_frame_interpolation_)
             {
-                app_.window_.setFramerateLimit(60);
+                //app_.window_.setFramerateLimit(60);
+                interpolation_num_=3;
             }
             else
             {
@@ -660,9 +702,12 @@ void GameState::input_update()
         }
         else
         {
-            if(current_interpolation_)
+            replay_speed_line_.setCurrentNum(1.00);
+            if(key_frame_interpolation_)
             {
-                app_.window_.setFramerateLimit(120);
+                current_interpolation_=true;
+                interpolation_num_=1;
+                //app_.window_.setFramerateLimit(120);
             }
             else
             {
@@ -761,7 +806,7 @@ void GameState::fps_update()
         
         if(current_interpolation_)
         {
-            fps_=fps_*2;
+            fps_=fps_*(interpolation_num_+1);
         }
 
         frame_count_=0;

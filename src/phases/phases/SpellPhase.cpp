@@ -123,9 +123,9 @@ void SpellPhase::render(sf::RenderTexture& texture)
     spellnum_.render(texture);
 }
 
-void SpellPhase::render_mid(sf::RenderTexture& texture)
+void SpellPhase::render_mid(sf::RenderTexture& texture,int num)
 {
-    boss_->drawtexture_mid(texture);
+    boss_->drawtexture_mid(texture,num);
     if(!voidspell_)
     {
         texture.draw(HPline_);

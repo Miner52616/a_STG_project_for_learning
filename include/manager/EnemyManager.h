@@ -12,7 +12,7 @@ public:
     void update(long long int frame);
     void render(sf::RenderWindow& window);
     void render(sf::RenderTexture& texture);
-    void render_mid(sf::RenderTexture& texture);
+    void render_mid(sf::RenderTexture& texture,int num);
     void clear_dead();
     void clear();
     void clock_count();

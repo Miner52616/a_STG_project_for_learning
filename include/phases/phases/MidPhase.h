@@ -16,7 +16,7 @@ public:
     void update() override;
     void render(sf::RenderWindow& window) override;
     void render(sf::RenderTexture& texture) override;
-    void render_mid(sf::RenderTexture& texture) override;
+    void render_mid(sf::RenderTexture& texture,int num) override;
     void add_enemy(std::unique_ptr<Enemy> enemy);
     void be_damage(float damage) override;
     void ProcessCollision() override;

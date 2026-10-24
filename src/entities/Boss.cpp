@@ -29,9 +29,9 @@ void Boss::render(sf::RenderTexture& texture)
     phasecontroller_.render(texture);
 }
 
-void Boss::render_mid(sf::RenderTexture& texture)
+void Boss::render_mid(sf::RenderTexture& texture,int num)
 {
-    phasecontroller_.render_mid(texture);
+    phasecontroller_.render_mid(texture,num);
 }
 
 void Boss::add_phase(std::unique_ptr<Phase> spellphase)

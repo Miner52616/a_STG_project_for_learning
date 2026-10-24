@@ -51,12 +51,12 @@ void PhaseController::render(sf::RenderTexture& texture)
     phaselist_[current_-1]->render(texture);
 }
 
-void PhaseController::render_mid(sf::RenderTexture& texture)
+void PhaseController::render_mid(sf::RenderTexture& texture,int num)
 {
     if(phaselist_.empty()) return;
     if (current_ > phaselist_.size()) return;
 
-    phaselist_[current_-1]->render_mid(texture);
+    phaselist_[current_-1]->render_mid(texture,num);
 }
 
 void PhaseController::be_damage(float damage)
