@@ -13,11 +13,12 @@ class PhaseController;
 class Player;
 class NumLine1;
 class Debug;
+class Keys;
 
 class Resource
 {
 public:
-    Resource(AssetsResource &app,Debug &debug,BulletManager &bulletmanager,DropManager &dropmanager,BombManager &bombmanager,EffectManager &effectmanager,BatchManager& batchmanager,CollisionSystem &collisionsystem,PhaseController &phasecontroller);
+    Resource(AssetsResource &app,Debug &debug,BulletManager &bulletmanager,DropManager &dropmanager,BombManager &bombmanager,EffectManager &effectmanager,BatchManager& batchmanager,CollisionSystem &collisionsystem,PhaseController &phasecontroller,Keys &keys);
     AssetsResource &app_;
     Debug &debug_;
     BulletManager &bulletmanager_;
@@ -27,6 +28,7 @@ public:
     BatchManager &batchmanager_;
     CollisionSystem &collisionsystem_;
     PhaseController &phasecontroller_;
+    Keys &keys_;
     //Player* player_;
     //YellowPage yellowpage_;
     //NumLine1 &high_score_line_;

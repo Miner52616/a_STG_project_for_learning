@@ -54,6 +54,7 @@ Application::Application():
 
     history_data_=lua_.loadSave();
     debug_=lua_.loadDebug();
+    performance_.setActive(debug_.debug_information_);
 
     std::cout <<"------------------------------------------"<<std::endl;
     std::cout <<"Playing Manual"<<std::endl;
@@ -105,10 +106,7 @@ void Application::render()
 {
     window_.clear();
     stack_.render(window_);
-    if(debug_.debug_information_)
-    {
-        performance_.render(window_);
-    }
+    performance_.render(window_);
     if(stack_.getCurrentState()==State_Type::GameState)
     {
         performance_.startWorktime(Clock_List::DISPLAY_CLOCK2);
@@ -122,6 +120,10 @@ void Application::render()
 
 void Application::end_operation()
 {
+    if(stack_.getCurrentState()==State_Type::GameState)
+    {
+        performance_.calculate_worktime();
+    }
     stack_.applyStateChanges();
 }
 

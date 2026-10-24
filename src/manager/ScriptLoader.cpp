@@ -51,7 +51,7 @@ void ScriptLoader::loadPhase(const std::string& path)
     std::cout<<"-------------------------------------"<<std::endl;
     std::cout<<"Script Loading"<<std::endl;
 
-    sol::table phasetable=lua_.lua_["phasetable"];
+    sol::table phasetable=lua_.lua()["phasetable"];
     int phasetablesize=phasetable.size();
     std::cout<<"phase num "<<phasetablesize<<std::endl;
     for(int i=1;i<=phasetablesize;i++)

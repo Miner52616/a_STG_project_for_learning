@@ -1,5 +1,9 @@
 #pragma once
+#include <memory>
+#include <string>
 #include <sol/sol.hpp>
+
+class FrameInformation;
 
 class SaveData
 {
@@ -18,12 +22,16 @@ public:
 
 class LuaManager
 {
-public:
+private:
     sol::state lua_;
 
+public:
     LuaManager();
+
+    sol::state& lua();
     void loadScript(const std::string& path);
     SaveData loadSave();
     Debug loadDebug();
     void writeSave(const SaveData& data);
+    void writeReplay(const std::vector<FrameInformation>& replay,const unsigned int& seed);
 };

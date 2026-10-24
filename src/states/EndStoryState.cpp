@@ -1,6 +1,7 @@
 #include "states/EndStoryState.h"
 #include "core/Application.h"
 #include "core/LuaManager.h"
+#include <sol/sol.hpp>
 #include <iostream>
 
 PackText::PackText(const sf::Font& font):
@@ -45,7 +46,7 @@ void EndStoryState::Load(const std::string& path)
     LuaManager& lua=app_.lua_;
     lua.loadScript(path);
 
-    sol::table pages=lua.lua_["pages"];
+    sol::table pages=lua.lua()["pages"];
     int page_num=pages.size();
     
     for(int i=1;i<=page_num;i++)

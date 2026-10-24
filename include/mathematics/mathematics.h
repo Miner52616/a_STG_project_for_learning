@@ -1,6 +1,8 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <vector>
+#include <optional>
+#include <string>
 
 class Two_Vector2i
 {
@@ -12,6 +14,7 @@ public:
 float distancePointToSegment(sf::Vector2f p, sf::Vector2f a, sf::Vector2f b);
 float distancePointToSegment2(sf::Vector2f p, sf::Vector2f a, sf::Vector2f b);
 
+unsigned resetSeed(std::optional<unsigned> seed=std::nullopt);
 float getRandomNum(float a,float b);
 
 int the_min(int a,int b);

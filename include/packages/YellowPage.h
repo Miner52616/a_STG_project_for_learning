@@ -3,6 +3,7 @@
 
 class Player;
 class NumLine1;
+class Keys;
 
 class YellowPage
 {

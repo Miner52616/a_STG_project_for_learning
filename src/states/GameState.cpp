@@ -6,12 +6,14 @@
 #include "phases/phases/BossPhase.h"
 #include "core/Application.h"
 #include "collision/CollisionCheck.h"
+#include "mathematics/mathematics.h"
 #include <iostream>
 
-GameState::GameState(Application &app):
+GameState::GameState(Application &app,bool replay_mode):
     State(app),
     key_frame_interpolation_(app.debug_.key_frame_interpolation_),
     current_interpolation_(key_frame_interpolation_),
+    replay_mode_(replay_mode),
     frame_(0),
     high_score_(0),
     score_(0),
@@ -47,14 +49,14 @@ GameState::GameState(Application &app):
 
     //**** 1 ui界面和游戏小窗基础设置
     //设置ui（ui完全不依赖资源）
-    set_window();
+    set_application();
     set_ui();
     set_gamewindow();
     std::cout<<"UI and Gamewindow Set"<<std::endl;
 
     //**** 2 各种资源包创建并初始化，同时创建好资源包需要的对象
     //初始化资源，资源包含各大manager和system的引用
-    resource_=std::make_unique<Resource>(app.assets_resource_,app.debug_,bulletmanager_,dropmanager_,bombmanager_,effectmanager_,batchmanager_,collisionsystem_,phasecontroller_);
+    resource_=std::make_unique<Resource>(app.assets_resource_,app.debug_,bulletmanager_,dropmanager_,bombmanager_,effectmanager_,batchmanager_,collisionsystem_,phasecontroller_,keys_);
     std::cout<<"Resource Set"<<std::endl;
 
     //创建并初始化玩家对象
@@ -98,7 +100,15 @@ GameState::GameState(Application &app):
     std::cout<<"/////////////////////////////////////////////////////////////"<<std::endl;
 }
 
-void GameState::set_window()
+GameState::~GameState()
+{
+    if(!replay_mode_)
+    {
+        app_.lua_.writeReplay(replay_,seed_);
+    }
+}
+
+void GameState::set_application()
 {
     //设置窗口
     current_interpolation_=key_frame_interpolation_;
@@ -109,6 +119,37 @@ void GameState::set_window()
     else
     {
         app_.window_.setFramerateLimit(60);
+    }
+
+    if(replay_mode_)
+    {
+        app_.lua_.loadScript("replay/replay.lua");
+        
+        sol::table replay=app_.lua_.lua()["replay"];
+        seed_=replay["seed"];
+        resetSeed(seed_);
+
+        sol::table frame_information=replay["frame_information"];
+        int frame_information_size=frame_information.size();
+        for(int i=1;i<=frame_information_size;i++)
+        {
+            sol::table frame=frame_information[i];
+            FrameInformation store;
+            store.current_frame_=frame["current_frame"];
+            store.keys_.key_Up_=frame["key_Up"];
+            store.keys_.key_Down_=frame["key_Down"];
+            store.keys_.key_Left_=frame["key_Left"];
+            store.keys_.key_Right_=frame["key_Right"];
+            store.keys_.key_LShift_=frame["key_LShift"];
+            store.keys_.key_Z_=frame["key_Z"];
+            store.keys_.key_X_=frame["key_X"];
+            replay_.emplace_back(store);
+        }
+        frame_limit_=replay_.size();
+    }
+    else
+    {
+        seed_=resetSeed();
     }
 }
 
@@ -336,6 +377,8 @@ void GameState::update()
 
     continue_check();
 
+    input_update();
+
     player_->update();
 
     phasecontroller_.update();
@@ -509,6 +552,11 @@ int GameState::getLife()
     return life_line_.getCurrentNum();
 }
 
+bool GameState::getReplayMode()
+{
+    return replay_mode_;
+}
+
 void GameState::setLife(int life)
 {
     player_->setLifeNum(life);
@@ -571,6 +619,125 @@ void GameState::render_mid(sf::RenderWindow& window)
     app_.performance_.endWorktime(Clock_List::DISPLAY_CLOCK1);
 }
 
+void GameState::input_update()
+{
+    if(replay_mode_)
+    {
+        keys_=replay_[frame_].keys_;
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LControl))
+        {
+            if(current_interpolation_)
+            {
+                app_.window_.setFramerateLimit(240);
+            }
+            else
+            {
+                app_.window_.setFramerateLimit(120);
+            }
+        }
+        else
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
+        {
+            if(current_interpolation_)
+            {
+                app_.window_.setFramerateLimit(60);
+            }
+            else
+            {
+                app_.window_.setFramerateLimit(30);
+            }
+        }
+        else
+        {
+            if(current_interpolation_)
+            {
+                app_.window_.setFramerateLimit(120);
+            }
+            else
+            {
+                app_.window_.setFramerateLimit(60);
+            }
+        }
+
+
+        if(frame_>=frame_limit_-1)
+        {
+            app_.stack_.pushRequest(std::make_unique<EndState>(app_,*this));
+        }
+    }
+    else
+    {
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+        {
+            keys_.key_Up_=true;
+        }
+        else
+        {
+            keys_.key_Up_=false;
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+        {
+            keys_.key_Down_=true;
+        }
+        else
+        {
+            keys_.key_Down_=false;
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+        {
+            keys_.key_Left_=true;
+        }
+        else
+        {
+            keys_.key_Left_=false;
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+        {
+            keys_.key_Right_=true;
+        }
+        else
+        {
+            keys_.key_Right_=false;
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
+        {
+            keys_.key_LShift_=true;
+        }
+        else
+        {
+            keys_.key_LShift_=false;
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))
+        {
+            keys_.key_Z_=true;
+        }
+        else
+        {
+            keys_.key_Z_=false;
+        }
+
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X))
+        {
+            keys_.key_X_=true;
+        }
+        else
+        {
+            keys_.key_X_=false;
+        }
+
+        FrameInformation frameinformation;
+        frameinformation.current_frame_=frame_;
+        frameinformation.keys_=keys_;
+        
+        replay_.emplace_back(frameinformation);
+    }
+}
+
 void GameState::fps_update()
 {
     float dt=clock_.restart().asSeconds();
@@ -581,6 +748,11 @@ void GameState::fps_update()
     {
         fps_=frame_count_/elapsed_;
         
+        if(current_interpolation_)
+        {
+            fps_=fps_*2;
+        }
+
         frame_count_=0;
         elapsed_=0;
     }

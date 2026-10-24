@@ -13,6 +13,9 @@ enum class Clock_List
 
 class Performance
 {
+//debug参数
+private:
+    bool debug_information=false;
 private:
     const sf::Font& font_;
     NumLine1 worktime_line_;
@@ -22,11 +25,14 @@ private:
     float worktime_;
     sf::Clock clock_list[8];
 
-public:
-    Performance(const sf::Font& font);
+private:
     void reset(int num);
     sf::Time getTime(int num);
+public:
+    Performance(const sf::Font& font);
+    void setActive(bool active);
     void render(sf::RenderWindow& window);
+    void calculate_worktime();
 
     void startWorktime(Clock_List clock);
     void endWorktime(Clock_List clock);

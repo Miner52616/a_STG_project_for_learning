@@ -30,27 +30,39 @@ EndState::EndState(Application &app,GameState& gamestate):
         buttonlist_[i-1].setButtonShake(5,15);
     }
 
-    if(gamestate_.getLife()<0)
-    {
-        buttonlist_[0].setButtonLock(unlocked);
-    }
-    else
+    if(gamestate_.getReplayMode())
     {
         buttonlist_[0].setButtonLock(locked);
         focus_=2;
-        if(gamestate_.isContinued())
+        title_.setTextText("回放播放完毕");
+        title2_.setTextPosition({350,640});
+        title2_.setTextText("Replay End");
+        title3_.setTextText(" ");
+    }
+    else
+    {
+        if(gamestate_.getLife()<0)
         {
-            title_.setTextText("游戏结束");
-            title2_.setTextPosition({350,640});
-            title2_.setTextText("Game Over");
-            title3_.setTextText("争取下次不续关通关吧！");
+            buttonlist_[0].setButtonLock(unlocked);
         }
         else
         {
-            title_.setTextText("游戏通关！");
-            title2_.setTextPosition({350,640});
-            title2_.setTextText(" Game Clear");
-            title3_.setTextText("manual中ending现已解锁！");
+            buttonlist_[0].setButtonLock(locked);
+            focus_=2;
+            if(gamestate_.isContinued())
+            {
+                title_.setTextText("游戏结束");
+                title2_.setTextPosition({350,640});
+                title2_.setTextText("Game Over");
+                title3_.setTextText("争取下次不续关通关吧！");
+            }
+            else
+            {
+                title_.setTextText("游戏通关！");
+                title2_.setTextPosition({350,640});
+                title2_.setTextText(" Game Clear");
+                title3_.setTextText("manual中ending现已解锁！");
+            }
         }
     }
 }

@@ -22,15 +22,17 @@ MenuState::MenuState(Application &app):
     //buttonlist_[1].setButtonText("Extra Start");
     //buttonlist_[1].setButtonPosition({100,200});
     //buttonlist_[1].setButtonLock(locked);
-
-    buttonlist_[1].setButtonText("Manual");
+    buttonlist_[1].setButtonText("Replay");
     buttonlist_[1].setButtonPosition({100,200});
 
-    buttonlist_[2].setButtonText("Ending");
+    buttonlist_[2].setButtonText("Manual");
     buttonlist_[2].setButtonPosition({100,300});
 
-    buttonlist_[3].setButtonText("Quit");
+    buttonlist_[3].setButtonText("Ending");
     buttonlist_[3].setButtonPosition({100,400});
+
+    buttonlist_[4].setButtonText("Quit");
+    buttonlist_[4].setButtonPosition({100,500});
 
     for(int i=1;i<=MenuButtonNum;i++)
     {
@@ -166,12 +168,19 @@ void MenuState::update()
 
                     case 2:
                     {
+                        std::cout<<"watch replay"<<std::endl;
+                        app_.stack_.pushRequest(std::make_unique<GameState>(app_,true));
+                        break;
+                    }
+
+                    case 3:
+                    {
                         std::cout<<"manual for playing"<<std::endl;
                         app_.stack_.pushRequest(std::make_unique<ManualState>(app_));
                         break;
                     }
 
-                    case 3:
+                    case 4:
                     {
                         std::cout<<"watch ending"<<std::endl;
                         std::unique_ptr<EndStoryState> endstorystate=std::make_unique<EndStoryState>(app_);
@@ -264,6 +273,12 @@ void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed
                 }
 
                 case 3:
+                {
+                    current_phase_=3;
+                    break;
+                }
+
+                case 4:
                 {
                     current_phase_=3;
                     break;

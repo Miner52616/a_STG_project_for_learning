@@ -18,6 +18,11 @@ Performance::Performance(const sf::Font& font):
     }
 }
 
+void Performance::setActive(bool active)
+{
+    debug_information=active;
+}
+
 void Performance::reset(int num)
 {
     clock_list[num].restart();
@@ -30,54 +35,77 @@ sf::Time Performance::getTime(int num)
 
 void Performance::render(sf::RenderWindow& window)
 {
-    worktime_line_.render(window);
+    if(debug_information)
+    {
+        worktime_line_.render(window);
+    }
+}
+
+void Performance::calculate_worktime()
+{
+    if(debug_information)
+    {
+        int num=0;
+        for(int i=1;i<=5;i++)
+        {
+            num=num+lists_[i-1].back();
+        }
+        worktime_line_.setCurrentNum(num);
+    }
 }
 
 void Performance::startWorktime(Clock_List clock)
 {
-    reset((int)clock);
+    if(debug_information)
+    {
+        reset((int)clock);
+    }
 }
 
 void Performance::endWorktime(Clock_List clock)
 {
-    worktime_=getTime((int)clock).asMicroseconds();
-    lists_[(int)clock].emplace_back(worktime_);
-    //worktime_line_.setCurrentNum(worktime_);
+    if(debug_information)
+    {
+        worktime_=getTime((int)clock).asMicroseconds();
+        lists_[(int)clock].emplace_back(worktime_);
+    }
 }
 
 void Performance::save()
 {
-    const char* path = "worktime.txt";
-
-    std::ofstream ofs(path, std::ios::out | std::ios::trunc); // 打开即清空
-
-    // 各时钟列表长度可能不一致（如 RENDER_CLOCK2 从未被 endWorktime），
-    // 因此以最短的列表长度为上界，避免越界访问。
-    std::size_t num=lists_[(int)Clock_List::UPDATE_CLOCK].size();
-    num=std::min(num,lists_[(int)Clock_List::RENDER_CLOCK1].size());
-    num=std::min(num,lists_[(int)Clock_List::DISPLAY_CLOCK1].size());
-    num=std::min(num,lists_[(int)Clock_List::RENDER_CLOCK2].size());
-    num=std::min(num,lists_[(int)Clock_List::DISPLAY_CLOCK2].size());
-
-    for(std::size_t i=0;i<num;i++)
+    if(debug_information)
     {
-        ofs<<lists_[(int)Clock_List::UPDATE_CLOCK][i]<<' '
-        <<lists_[(int)Clock_List::RENDER_CLOCK1][i]<<' '
-        <<lists_[(int)Clock_List::DISPLAY_CLOCK1][i]<<' '
-        <<lists_[(int)Clock_List::UPDATE_CLOCK][i]+
-        lists_[(int)Clock_List::RENDER_CLOCK1][i]+
-        lists_[(int)Clock_List::DISPLAY_CLOCK1][i]<<' '
-        <<lists_[(int)Clock_List::RENDER_CLOCK2][i]<<' '
-        <<lists_[(int)Clock_List::DISPLAY_CLOCK2][i]<<' '
-        <<lists_[(int)Clock_List::RENDER_CLOCK2][i]+
-        lists_[(int)Clock_List::DISPLAY_CLOCK2][i]<<' '
-        <<lists_[(int)Clock_List::UPDATE_CLOCK][i]+
-        lists_[(int)Clock_List::RENDER_CLOCK1][i]+
-        lists_[(int)Clock_List::DISPLAY_CLOCK1][i]+
-        lists_[(int)Clock_List::RENDER_CLOCK2][i]+
-        lists_[(int)Clock_List::DISPLAY_CLOCK2][i]
-        << '\n';
-    }
+        const char* path = "worktime.txt";
 
-    ofs.close();
+        std::ofstream ofs(path, std::ios::out | std::ios::trunc);
+
+        // 以最短的列表长度为上界
+        std::size_t num=lists_[(int)Clock_List::UPDATE_CLOCK].size();
+        num=std::min(num,lists_[(int)Clock_List::RENDER_CLOCK1].size());
+        num=std::min(num,lists_[(int)Clock_List::DISPLAY_CLOCK1].size());
+        num=std::min(num,lists_[(int)Clock_List::RENDER_CLOCK2].size());
+        num=std::min(num,lists_[(int)Clock_List::DISPLAY_CLOCK2].size());
+
+        for(std::size_t i=0;i<num;i++)
+        {
+            ofs<<lists_[(int)Clock_List::UPDATE_CLOCK][i]<<' '
+            <<lists_[(int)Clock_List::RENDER_CLOCK1][i]<<' '
+            <<lists_[(int)Clock_List::DISPLAY_CLOCK1][i]<<' '
+            <<lists_[(int)Clock_List::UPDATE_CLOCK][i]+
+            lists_[(int)Clock_List::RENDER_CLOCK1][i]+
+            lists_[(int)Clock_List::DISPLAY_CLOCK1][i]<<' '
+            <<lists_[(int)Clock_List::RENDER_CLOCK2][i]<<' '
+            <<lists_[(int)Clock_List::DISPLAY_CLOCK2][i]<<' '
+            <<lists_[(int)Clock_List::RENDER_CLOCK2][i]+
+            lists_[(int)Clock_List::DISPLAY_CLOCK2][i]<<' '
+            <<lists_[(int)Clock_List::UPDATE_CLOCK][i]+
+            lists_[(int)Clock_List::RENDER_CLOCK1][i]+
+            lists_[(int)Clock_List::DISPLAY_CLOCK1][i]+
+            lists_[(int)Clock_List::RENDER_CLOCK2][i]+
+            lists_[(int)Clock_List::DISPLAY_CLOCK2][i]
+            << '\n';
+        }
+
+        ofs.close();
+    }
 }

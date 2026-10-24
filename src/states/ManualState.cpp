@@ -9,7 +9,7 @@ ManualState::ManualState(Application &app):
     auto& lua=app_.lua_;
     lua.loadScript("include/luas/manual.lua");
     
-    sol::table manual=lua.lua_["manual"];
+    sol::table manual=lua.lua()["manual"];
     int manual_size=manual.size();
 
     setPagelistLength(manual_size);

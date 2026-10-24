@@ -3,6 +3,12 @@
 #include <random>
 #include <math.h>
 #include <iostream>
+#include "mathematics/math_namespace.h"
+
+namespace stg_math
+{
+    std::mt19937 gen(std::random_device{}());
+}
 
 float distancePointToSegment(sf::Vector2f p, sf::Vector2f a, sf::Vector2f b)
 {
@@ -31,18 +37,32 @@ float distancePointToSegment2(sf::Vector2f p, sf::Vector2f a, sf::Vector2f b)
     return (vec.x)*(vec.x)+(vec.y)*(vec.y);
 }
 
+unsigned resetSeed(std::optional<unsigned> seed)
+{
+    unsigned current_seed;
+    if(seed)
+    {
+        current_seed=*seed;
+    }
+    else
+    {
+        current_seed=std::random_device{}();
+    }
+    stg_math::gen.seed(current_seed);
+
+    return current_seed;
+}
+
 float getRandomNum(float a,float b)
 {
     if(a>b)
     {
         std::swap(a,b);
     }
-    std::random_device rd;
-    std::mt19937 gen(rd());
 
-    std::uniform_real_distribution<> dis_double(a,b);
+    std::uniform_real_distribution<float> dis(a,b);
 
-    return (float)dis_double(gen);
+    return dis(stg_math::gen);
 }
 
 int the_min(int a,int b)

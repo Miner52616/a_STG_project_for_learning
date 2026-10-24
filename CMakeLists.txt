@@ -7,6 +7,19 @@ set(CMAKE_CXX_STANDARD 20)
 #////CMAKE寻找依赖库根目录路径，需编译请自行重新修改路径！////
 set(CMAKE_PREFIX_PATH "C:/msys64/mingw64")
 
+# ======================
+# ccache 编译缓存
+# ======================
+find_program(CCACHE_PROGRAM ccache HINTS "${CMAKE_PREFIX_PATH}/bin")
+
+if(CCACHE_PROGRAM)
+    set(CMAKE_CXX_COMPILER_LAUNCHER
+        ${CMAKE_COMMAND} -E env CCACHE_SLOPPINESS=time_macros ${CCACHE_PROGRAM})
+    message(STATUS "ccache: ${CCACHE_PROGRAM}")
+else()
+    message(STATUS "ccache not found, compile cache disabled")
+endif()
+
 
 # ======================
 # 项目结构

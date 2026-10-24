@@ -10,6 +10,8 @@
 #include "overlays/overlays/texturecurtains/StarCurtain.h"
 #include "packages/Resource.h"
 #include "packages/YellowPage.h"
+#include "packages/FrameInformation.h"
+#include "packages/Keys.h"
 #include "entities/Player.h"
 #include "entities/Enemy.h"
 #include "entities/Boss.h"
@@ -46,9 +48,14 @@ class GameState:public State
 //debug状态及设置配置
 private:
     bool key_frame_interpolation_;
+//自身状态
+private:
+    bool current_interpolation_;
+    bool replay_mode_=false;
 
 private:
     long long int frame_;
+    int frame_limit_;//用于回放时限制运行总帧数，正常游玩时此变量不使用
     long long int high_score_;
     long long int score_;
 
@@ -56,8 +63,6 @@ private:
     float elapsed_=0;
     int frame_count_=0;
     float fps_=0;
-
-    bool current_interpolation_;
 
     Frame outline1_;
     Text difficulty_;
@@ -105,6 +110,8 @@ private:
     PhaseController phasecontroller_;
     ScriptLoader scriptloader_;
 
+    std::vector<FrameInformation> replay_;
+
     std::unique_ptr<Player> player_;
     std::unique_ptr<Enemy> enemy1_;
     std::unique_ptr<Enemy> enemy2_;
@@ -125,6 +132,9 @@ private:
     std::unique_ptr<BossPhase> bossphase1_;
     std::unique_ptr<VoidPhase> voidphase2_;
 
+    Keys keys_;
+    unsigned int seed_;
+
     std::unique_ptr<Resource> resource_;
     std::unique_ptr<YellowPage> yellowpage_;
 
@@ -136,15 +146,17 @@ public:
     void switchOffOperation() override;
     State_Type getStateType() override;
     int getLife();
+    bool getReplayMode();
     void setLife(int life);
     void setScore(int score);
     bool isContinued();
 
 public:
-    GameState(Application &app);  //初始化起始帧，初始化资源引用，初始化实体设置
+    GameState(Application &app,bool replay_mode=false);  //初始化起始帧，初始化资源引用，初始化实体设置
+    ~GameState();
 
 protected:
-    void set_window();
+    void set_application();
     void set_ui();
     void set_gamewindow();
     void bundle_resource();
@@ -156,6 +168,7 @@ protected:
     void bundle_leader_menber();
 
     void render_mid(sf::RenderWindow& window);
+    void input_update();
     void fps_update();
     void clock_update();
     void continue_check();

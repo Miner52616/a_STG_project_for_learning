@@ -7,6 +7,7 @@
 #include "manager/BombManager.h"
 #include "manager/EffectManager.h"
 #include "mathematics/mathematics.h"
+#include "packages/Keys.h"
 
 Player::Player(const sf::Texture &texture/*,Frame &outline*/,Resource* resource):
     Entity(texture),
@@ -370,7 +371,7 @@ void Player::update()
         }
     }
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
+    if(resource_->keys_.key_LShift_/*sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift)*/)
     {
         hitbox_exist_=true;
         switch (power_/100)
@@ -481,7 +482,7 @@ void Player::update()
     {
     case Control_State::NORMAL:
         {
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)))
+            if((resource_->keys_.key_Up_)&&(resource_->keys_.key_Left_)/*sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))*/)
             {
                 if(speed_x_<v_limit_*0.707)
                 {
@@ -519,7 +520,7 @@ void Player::update()
                 check_position();
             }
             else
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left)))
+            if(/*sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))*/(resource_->keys_.key_Down_)&&(resource_->keys_.key_Left_))
             {
                 if(speed_x_<v_limit_*0.707)
                 {
@@ -557,7 +558,7 @@ void Player::update()
                 check_position();
             }
             else
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))
+            if((resource_->keys_.key_Up_)&&(resource_->keys_.key_Right_))
             {
                 if(speed_x_<v_limit_*0.707)
                 {
@@ -595,7 +596,7 @@ void Player::update()
                 check_position();
             }
             else
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down)&&(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right)))
+            if((resource_->keys_.key_Down_)&&(resource_->keys_.key_Right_))
             {
                 if(speed_x_<v_limit_*0.707)
                 {
@@ -633,7 +634,7 @@ void Player::update()
                 check_position();
             }
             else
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Up))
+            if((resource_->keys_.key_Up_))
             {
                 if(speed_x_>0)
                 {
@@ -663,7 +664,7 @@ void Player::update()
                 check_position();
             }
             else
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Down))
+            if((resource_->keys_.key_Down_))
             {
                 if(speed_x_>0)
                 {
@@ -693,7 +694,7 @@ void Player::update()
                 check_position();
             }
             else
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+            if((resource_->keys_.key_Left_))
             {
                 if(speed_y_>0)
                 {
@@ -723,7 +724,7 @@ void Player::update()
                 check_position();
             }
             else
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+            if((resource_->keys_.key_Right_))
             {
                 if(speed_y_>0)
                 {
@@ -801,7 +802,7 @@ void Player::update()
             speed_x_=0;
             speed_y_=0;
 
-            setPosition({position_.x,(position_.y)-2.5});
+            setPosition({position_.x,(position_.y)-2.5f});
             check_position();
             break;
         }
@@ -810,7 +811,7 @@ void Player::update()
         break;
     }
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))
+    if((resource_->keys_.key_Z_))
     {
         if(clock_.get_condition())
         {
@@ -827,7 +828,7 @@ void Player::update()
         }
     }
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::X))
+    if((resource_->keys_.key_X_))
     {
         if(bomb_clock_.get_condition())
         {
@@ -882,7 +883,7 @@ void Child_Plane::update()
     //setPosition(getPosition()+(float)0.15*(target_position_-getPosition()));
     setRelativePosition(getRelativePosition()+(float)0.15*(target_position_-getRelativePosition()));
     
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift))
+    if(resource_->keys_.key_LShift_/*sf::Keyboard::isKeyPressed(sf::Keyboard::Key::LShift)*/)
     {
         bulletconfig_->damage_=1.5;
         bulletconfig_->bulletclass_=BulletClasses::PlayerAimBullet;
@@ -909,7 +910,7 @@ void Child_Plane::update()
         effectconfig_->v_=1;
     }
     
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z))
+    if(resource_->keys_.key_Z_/*sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Z)*/)
     {
         if(clock_.get_condition())
         {
