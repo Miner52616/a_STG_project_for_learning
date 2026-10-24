@@ -45,7 +45,7 @@ Player::Player(const sf::Texture &texture/*,Frame &outline*/,Resource* resource)
     hitbox_texture_.setOrigin(hitbox_texture_.getGlobalBounds().getCenter());
     hitbox_texture_.setScale({2,2});
 
-    for(int i=1;i<=3;i++)
+    for(int i=1;i<=picture_list_size_;i++)
     {
         middle_hitbox_texture_list_.emplace_back(resource->app_.hitboxTexture_);
     }

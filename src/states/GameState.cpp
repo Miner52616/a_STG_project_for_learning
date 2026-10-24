@@ -250,7 +250,7 @@ void GameState::set_ui()
 
 void GameState::set_gamewindow()
 {
-    for(int i=1;i<=3;i++)
+    for(int i=1;i<=window_list_size_;i++)
     {
         game_window_middle_list_.emplace_back(sf::Vector2u{770u,900u});
     }
@@ -486,46 +486,46 @@ void GameState::render(sf::RenderWindow& window)
     //player_->drawwindow(window);
     player_->drawtexture(game_window_);
     //player_->drawtexture_mid(game_window_middle_);
-    for(int i=1;i<=3;i++)
+    for(int i=1;i<=window_list_size_;i++)
     {
         player_->drawtexture_mid(game_window_middle_list_[i-1],i);
     }
 
     dropmanager_.render(game_window_);
     //dropmanager_.render_mid(game_window_middle_);
-    for(int i=1;i<=3;i++)
+    for(int i=1;i<=window_list_size_;i++)
     {
         dropmanager_.render_mid(game_window_middle_list_[i-1],i);
     }
     bulletmanager_.render(game_window_);
     //bulletmanager_.render_mid(game_window_middle_);
-    for(int i=1;i<=3;i++)
+    for(int i=1;i<=window_list_size_;i++)
     {
         bulletmanager_.render_mid(game_window_middle_list_[i-1],i);
     }
     bombmanager_.render(game_window_);
     //bombmanager_.render_mid(game_window_middle_);
-    for(int i=1;i<=3;i++)
+    for(int i=1;i<=window_list_size_;i++)
     {
         bombmanager_.render_mid(game_window_middle_list_[i-1],i);
     }
     effectmanager_.render(game_window_);
     //effectmanager_.render(game_window_middle_);
-    for(int i=1;i<=3;i++)
+    for(int i=1;i<=window_list_size_;i++)
     {
         effectmanager_.render(game_window_middle_list_[i-1]);
     }
 
     phasecontroller_.render(game_window_);
     //phasecontroller_.render_mid(game_window_middle_);
-    for(int i=1;i<=3;i++)
+    for(int i=1;i<=window_list_size_;i++)
     {
         phasecontroller_.render_mid(game_window_middle_list_[i-1],i);
     }
 
     player_->drawMissShaders(game_window_);
     //player_->drawMissShaders(game_window_middle_);
-    for(int i=1;i<=3;i++)
+    for(int i=1;i<=window_list_size_;i++)
     {
         player_->drawMissShaders(game_window_middle_list_[i-1]);
     }
@@ -614,7 +614,7 @@ void GameState::render_mid(sf::RenderWindow& window)
         outline1_.drawwindow(window);
         outline1_.drawTexture(origin_window_);
 
-        window_sprite_.setTexture(game_window_middle_list_[i-1].getTexture());
+        window_sprite_.setTexture(game_window_middle_list_[(i-1)+i*(window_list_size_/(interpolation_num_+1))].getTexture());
         window.draw(window_sprite_);
         origin_window_.draw(window_sprite_);
 
@@ -693,11 +693,11 @@ void GameState::input_update()
             if(key_frame_interpolation_)
             {
                 //app_.window_.setFramerateLimit(60);
-                interpolation_num_=3;
+                interpolation_num_=7;
             }
             else
             {
-                app_.window_.setFramerateLimit(30);
+                app_.window_.setFramerateLimit(15);
             }
         }
         else

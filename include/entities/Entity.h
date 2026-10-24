@@ -19,7 +19,7 @@ protected:
     sf::CircleShape hitbox_;
     sf::Sprite picture_;
     //sf::Sprite middle_picture_;
-    int picture_list_size_=3;
+    int picture_list_size_=7;
     std::vector<sf::Sprite> middle_picture_list_;
 
 public:

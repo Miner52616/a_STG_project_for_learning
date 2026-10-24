@@ -80,6 +80,7 @@ private:
     NumLine1_1 bomb_line_;
 
     //sf::RenderTexture game_window_middle_{{770u,900u}};
+    int window_list_size_=7;
     std::vector<sf::RenderTexture> game_window_middle_list_;
     sf::RenderTexture game_window_{{770u,900u}};
     sf::RenderTexture origin_window_{{1280u,960u}};
