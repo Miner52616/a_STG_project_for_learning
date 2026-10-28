@@ -37,6 +37,7 @@ public:
     void setButtonSize(int size);
     void setButtonLock(int lock);  //设置按钮锁定状态
     void update();  //更新按钮属性
+    void render(sf::RenderWindow& window);
     void setPhase(int phase);
     bool isDone();
     void setDone(bool done);

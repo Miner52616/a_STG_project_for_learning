@@ -1,10 +1,14 @@
 #include "states/PauseState.h"
 #include "states/ManualState.h"
+#include "states/ReplayState.h"
+#include "states/GameState.h"
 #include "core/Application.h" 
 #include <iostream>
 
-PauseState::PauseState(Application &app):
-    ButtonState(app,PauButtonNum),title_(app.assets_resource_.mainFont_),title2_(app.assets_resource_.mainFont_)
+PauseState::PauseState(Application &app,GameState* game):
+    ButtonState(app,PauButtonNum),
+    game_(game),
+    title_(app.assets_resource_.mainFont_),title2_(app.assets_resource_.mainFont_)
 {
     title_.setTextText("一时停止");
     title_.setTextSize(60);
@@ -20,14 +24,22 @@ PauseState::PauseState(Application &app):
     //buttonlist_[1].setButtonPosition({100,700});
 
     buttonlist_[1].setButtonText("Manual");
-    buttonlist_[1].setButtonPosition({100,800});
+    buttonlist_[1].setButtonPosition({100,760});
 
-    buttonlist_[2].setButtonText("Return to Title");
-    buttonlist_[2].setButtonPosition({100,900});
+    buttonlist_[2].setButtonText("Save Replay");
+    buttonlist_[2].setButtonPosition({100,820});
+
+    buttonlist_[3].setButtonText("Return to Title");
+    buttonlist_[3].setButtonPosition({100,880});
 
     for(int i=1;i<=PauButtonNum;i++)
     {
         buttonlist_[i-1].setButtonShake(5,15);
+    }
+
+    if(game->getReplayMode())
+    {
+        buttonlist_[2].setButtonLock(locked);
     }
 }
 
@@ -72,9 +84,10 @@ void PauseState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPresse
     {
         switch (focus_)
         {
-            case 4:
+            case 3:
             {
                 //app_.stack_.clearRequest();
+                app_.stack_.pushRequest(std::make_unique<ReplayState>(app_,game_));
                 break;
             }
         
@@ -84,7 +97,7 @@ void PauseState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPresse
                 break;
             }
 
-            case 3:
+            case 4:
             {
                 //app_.stack_.pushRequest(std::make_unique<ManualState>(app_));
                 app_.stack_.clearRequest();

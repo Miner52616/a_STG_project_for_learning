@@ -1,6 +1,7 @@
 #include "states/EndState.h"
 #include "core/Application.h"
 #include "states/GameState.h"
+#include "states/ReplayState.h"
 #include <iostream>
 
 EndState::EndState(Application &app,GameState& gamestate):
@@ -19,11 +20,11 @@ EndState::EndState(Application &app,GameState& gamestate):
     buttonlist_[0].setButtonText("Continue");
     buttonlist_[0].setButtonPosition({100,700});
 
-    //buttonlist_[1].setButtonText("Return to title with replay");
-    //buttonlist_[1].setButtonPosition({100,700});
-
-    buttonlist_[1].setButtonText("Return to title");
+    buttonlist_[1].setButtonText("Save Replay");
     buttonlist_[1].setButtonPosition({100,800});
+
+    buttonlist_[2].setButtonText("Return to title");
+    buttonlist_[2].setButtonPosition({100,900});
     
     for(int i=1;i<=EndButtonNum;i++)
     {
@@ -33,7 +34,8 @@ EndState::EndState(Application &app,GameState& gamestate):
     if(gamestate_.getReplayMode())
     {
         buttonlist_[0].setButtonLock(locked);
-        focus_=2;
+        buttonlist_[1].setButtonLock(locked);
+        focus_=3;
         title_.setTextText("回放播放完毕");
         title2_.setTextPosition({350,640});
         title2_.setTextText("Replay End");
@@ -44,13 +46,19 @@ EndState::EndState(Application &app,GameState& gamestate):
         if(gamestate_.getLife()<0)
         {
             buttonlist_[0].setButtonLock(unlocked);
+            if(gamestate_.isContinued())
+            {
+                title_.setTextText("再次满身疮痍！因为续关了，不可保存Replay");
+                buttonlist_[1].setButtonLock(locked);
+            }
         }
         else
         {
             buttonlist_[0].setButtonLock(locked);
-            focus_=2;
             if(gamestate_.isContinued())
             {
+                focus_=3;
+                buttonlist_[1].setButtonLock(locked);
                 title_.setTextText("游戏结束");
                 title2_.setTextPosition({350,640});
                 title2_.setTextText("Game Over");
@@ -58,6 +66,7 @@ EndState::EndState(Application &app,GameState& gamestate):
             }
             else
             {
+                focus_=3;
                 title_.setTextText("游戏通关！");
                 title2_.setTextPosition({350,640});
                 title2_.setTextText(" Game Clear");
@@ -111,6 +120,11 @@ void EndState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed&
             }
             
             case 2:
+            {
+                app_.stack_.pushRequest(std::make_unique<ReplayState>(app_,&gamestate_));
+            }
+
+            case 3:
             {
                 app_.stack_.clearRequest();
                 break;

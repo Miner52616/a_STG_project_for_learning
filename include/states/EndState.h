@@ -3,7 +3,7 @@
 #include "ui/Text.h"
 
 //总按钮数为2
-constexpr int EndButtonNum=2;
+constexpr int EndButtonNum=3;
 
 class GameState;
 

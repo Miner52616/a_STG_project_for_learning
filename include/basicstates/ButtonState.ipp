@@ -13,6 +13,7 @@ ButtonState<Derived>::ButtonState(Application &app,int ButtonNum):
 template<typename Derived>
 void ButtonState<Derived>::setbuttonlistLength(int length)
 {
+    buttonlist_.reserve(length);
     for(;buttonlist_.size()<length;)
     {
         buttonlist_.emplace_back(font_);

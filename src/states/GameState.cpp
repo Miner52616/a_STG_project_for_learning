@@ -10,11 +10,12 @@
 #include <iostream>
 #include <fstream>
 
-GameState::GameState(Application &app,bool replay_mode):
+GameState::GameState(Application &app,std::string path):
     State(app),
     key_frame_interpolation_(app.debug_.key_frame_interpolation_),
     current_interpolation_(key_frame_interpolation_),
-    replay_mode_(replay_mode),
+    //replay_mode_(replay_mode),
+    path_(path),
     frame_(0),
     high_score_(0),
     score_(0),
@@ -105,16 +106,20 @@ GameState::GameState(Application &app,bool replay_mode):
 
 GameState::~GameState()
 {
+    /*
     if(!replay_mode_)
     {
         //app_.lua_.writeReplay(replay_,seed_);
         //saveReplay("replay/replay.rep");
         
-        if(saveReplay("replay/replay.rep.tmp"))
+        std::string name="normal";
+        name.resize(static_cast<std::size_t>(10),' ');
+        if(saveReplay("replay/replay.rep.tmp",name))
         {
-            replaceReplayFile("replay/replay.rep.tmp","replay/replay.rep");
+            replaceReplayFile("replay/replay.rep.tmp","replay/replay_1.rep");
         }
     }
+        */
 }
 
 void GameState::set_application()
@@ -132,9 +137,10 @@ void GameState::set_application()
         app_.window_.setFramerateLimit(60);
     }
 
-    if(replay_mode_)
+    if(path_!=" ")
     {
-        loadReplay("replay/replay.rep");
+        replay_mode_=true;
+        loadReplay(path_);
         /*
         app_.lua_.loadScript("replay/replay.lua");
         
@@ -848,7 +854,7 @@ void GameState::handlecollision()
     phasecontroller_.ProcessCollision();
 }
 
-bool GameState::saveReplay(const std::string& path)
+bool GameState::saveReplay(const std::string& path,const std::string& name)
 {
     //检查replay长度是否超出uint32的大小（（bushi这是录了多久
     if(replay_.size()>std::numeric_limits<std::uint32_t>::max())
@@ -869,6 +875,10 @@ bool GameState::saveReplay(const std::string& path)
     //写入replay文件校验标志
     constexpr char lable[]={'5','2','6','1','6'};
     file.write(lable,sizeof(lable));
+
+    //写入本次replay名字
+    //name.resize(static_cast<std::size_t>(10),' ');
+    file.write(name.data(),static_cast<std::streamsize>(name.size()));
 
     //写入种子
     if(!writeU32(file,seed_))
@@ -929,9 +939,15 @@ bool GameState::loadReplay(const std::string& path)
     )
     {
         std::cout<<"Replay Lable Wrong!!!"<<std::endl;
-        std::cout<<"Replay Lable SHOULD BE 5 2 6 1 6!!!!!"<<std::endl;
+        //std::cout<<"the Wrong Lable is "
+        //<<lable[0]<<lable[1]<<lable[2]<<lable[3]<<lable[4]
+        //<<", Which Should be 52616!"<<std::endl;
         return false;
     }
+
+    //读取存档名（其实用不上）
+    std::string name;
+    file.read(name.data(),10);
 
     //读取随机数种子
     std::uint32_t seed;
@@ -1048,6 +1064,6 @@ void GameState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed
     if(key.code==sf::Keyboard::Key::Escape)
     {
         std::cout<<"Game Pause"<<std::endl;
-        app_.stack_.pushRequest(std::make_unique<PauseState>(app_));
+        app_.stack_.pushRequest(std::make_unique<PauseState>(app_,this));
     }
 }

@@ -111,6 +111,11 @@ void Button::update()
     shake_->update();
 }
 
+void Button::render(sf::RenderWindow& window)
+{
+    window.draw(text_);
+}
+
 void Button::setPhase(int phase)
 {
     phase_=phase;

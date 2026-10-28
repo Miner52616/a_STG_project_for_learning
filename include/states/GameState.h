@@ -53,6 +53,7 @@ private:
     bool current_interpolation_;
     int interpolation_num_;
     bool replay_mode_=false;
+    std::string path_=" ";
 
 private:
     long long int frame_;
@@ -157,8 +158,9 @@ public:
     bool isContinued();
 
 public:
-    GameState(Application &app,bool replay_mode=false);  //初始化起始帧，初始化资源引用，初始化实体设置
+    GameState(Application &app,std::string path=" ");  //初始化起始帧，初始化资源引用，初始化实体设置
     ~GameState();
+    bool saveReplay(const std::string& path,const std::string& name);
 
 protected:
     void set_application();
@@ -172,7 +174,6 @@ protected:
     void read_script();
     void bundle_leader_menber();
 
-    bool saveReplay(const std::string& path);
     bool loadReplay(const std::string& path);
 
     void render_mid(sf::RenderWindow& window);

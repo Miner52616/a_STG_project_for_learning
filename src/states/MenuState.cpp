@@ -3,6 +3,7 @@
 #include "states/GameState.h"
 #include "states/ManualState.h"
 #include "states/EndStoryState.h"
+#include "states/ReplayState.h"
 #include "core/Application.h"
 #include <iostream>
 
@@ -169,7 +170,8 @@ void MenuState::update()
                     case 2:
                     {
                         std::cout<<"watch replay"<<std::endl;
-                        app_.stack_.pushRequest(std::make_unique<GameState>(app_,true));
+                        //app_.stack_.pushRequest(std::make_unique<GameState>(app_,true));
+                        app_.stack_.pushRequest(std::make_unique<ReplayState>(app_));
                         break;
                     }
 
