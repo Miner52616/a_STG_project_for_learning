@@ -12,8 +12,8 @@
 
 GameState::GameState(Application &app,std::string path):
     State(app),
-    key_frame_interpolation_(app.debug_.key_frame_interpolation_),
-    current_interpolation_(key_frame_interpolation_),
+    //key_frame_interpolation_(app.debug_.key_frame_interpolation_),
+    //current_interpolation_(key_frame_interpolation_),
     //replay_mode_(replay_mode),
     path_(path),
     frame_(0),
@@ -125,6 +125,7 @@ GameState::~GameState()
 void GameState::set_application()
 {
     //设置窗口
+    key_frame_interpolation_=app_.setting_["游戏与回放插帧"];
     current_interpolation_=key_frame_interpolation_;
     if(key_frame_interpolation_)
     {

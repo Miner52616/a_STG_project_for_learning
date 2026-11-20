@@ -1,6 +1,8 @@
 #pragma once
 #include "basicstates/ButtonState.h"
 #include "ui/KeyBoard.h"
+#include "overlays/overlays/RecShape1.h"
+#include "ui/Text.h"
 
 constexpr int ReplayButtonNum=30;
 
@@ -13,6 +15,10 @@ private:
     KeyBoard keyboard_;
     sf::Vector2f target_position_;
     sf::Vector2f current_position_;
+
+    Text title_;
+    RecShape1 rec1_;
+    RecShape1 rec2_;
 
     bool save_mode_=false;
 

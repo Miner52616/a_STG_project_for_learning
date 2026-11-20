@@ -15,6 +15,7 @@ public:
 
     SaveData history_data_;
     Debug debug_;
+    std::unordered_map<std::string,bool> setting_;
 
 public:
     //窗口与应用系统资源/系统本身

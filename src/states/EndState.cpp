@@ -122,6 +122,7 @@ void EndState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed&
             case 2:
             {
                 app_.stack_.pushRequest(std::make_unique<ReplayState>(app_,&gamestate_));
+                break;
             }
 
             case 3:

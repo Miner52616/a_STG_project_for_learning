@@ -472,3 +472,9 @@ bool replaceReplayFile(const std::filesystem::path& temp_path,const std::filesys
     return !ec;
 #endif
 }
+
+std::string toStdString(const sf::String& str)
+{
+    sf::U8String utf8=str.toUtf8();
+    return std::string(utf8.begin(),utf8.end());
+}

@@ -9,6 +9,7 @@ ReplayState::ReplayState(Application &app,GameState* game):
     ButtonState(app,ReplayButtonNum),
     game_(game),
     keyboard_(app.assets_resource_.mainFont_),
+    title_(app_.assets_resource_.mainFont_),
     target_position_({100,1200}),current_position_({100,1200})
     //save_mode_(save_mode)
 {
@@ -21,10 +22,28 @@ ReplayState::ReplayState(Application &app,GameState* game):
 
     button_target_position_.resize(ReplayButtonNum);
 
+    title_.setTextSize(40);
+    if(save_mode_)
+    {
+        title_.setTextText("Save Replay ~ 写下日记");
+    }
+    else
+    {
+        title_.setTextText("Replay Room ~ 想起日记写过点什么");
+    }
+    title_.setTextPosition({120,30});
+
+    rec1_.setspeed(0.1);
+    rec1_.setSize({2560,35});
+    rec1_.setTargetPosition({-200,70});
+    rec2_.setspeed(0.1);
+    rec2_.setSize({35,2560});
+    rec1_.setTargetPosition({-200,-200});
+
     load_replay();
     for(int i=1;i<=ReplayButtonNum;i++)
     {
-        buttonlist_[i-1].setButtonPosition({100,(float)70+((float)i*(float)25)});
+        buttonlist_[i-1].setButtonPosition({150,(float)70+((float)i*(float)28)});
         buttonlist_[i-1].setButtonShake(0,0);
     }
 }
@@ -83,11 +102,6 @@ void ReplayState::load_replay()
 
 void ReplayState::update()
 {
-    ButtonState::update();
-    current_position_=current_position_+0.1f*(target_position_-current_position_);
-    keyboard_.setPosition(current_position_);
-    keyboard_.update();
-
     switch(phase_)
     {
         
@@ -95,9 +109,11 @@ void ReplayState::update()
         {
             for(int i=1;i<=ReplayButtonNum;i++)
             {
-                button_target_position_[i-1]={100,(float)70+((float)i*(float)25)};
+                button_target_position_[i-1]={150,(float)70+((float)i*(float)28)};
             }
             target_position_={100,1200};
+            rec1_.setTargetPosition({-200,buttonlist_[focus_-1].getButtonPosition().y});
+            rec2_.setTargetPosition({-200,-200});
             break;
         }
             
@@ -107,6 +123,8 @@ void ReplayState::update()
             button_target_position_[focus_-1]={500,560};
             target_position_={500,600};
             buttonlist_[focus_-1].setButtonText(std::to_string(focus_)+"  "+keyboard_.getString());
+            rec1_.setTargetPosition({-200,keyboard_.getFocusedButton().y});
+            rec2_.setTargetPosition({keyboard_.getFocusedButton().x,-200});
             break;
         }
     default:
@@ -120,10 +138,20 @@ void ReplayState::update()
         buttonlist_[i-1].setButtonPosition(buttonlist_[i-1].getButtonPosition()+0.1f*(button_target_position_[i-1]-buttonlist_[i-1].getButtonPosition()));
         buttonlist_[i-1].setButtonShake(0,0);
     }
+
+    ButtonState::update();
+    current_position_=current_position_+0.1f*(target_position_-current_position_);
+    keyboard_.setPosition(current_position_);
+    keyboard_.update();
+    rec1_.update();
+    rec2_.update();
 }
 
 void ReplayState::render(sf::RenderWindow& window)
 {
+    rec1_.render(window);
+    rec2_.render(window);
+    title_.DrawText(window);
     ButtonState::render(window);
     keyboard_.render(window);
 }

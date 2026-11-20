@@ -61,4 +61,9 @@ bool readU32(std::istream& in, std::uint32_t& value);
 
 bool replaceReplayFile(const std::filesystem::path& temp_path,const std::filesystem::path& final_path);
 
+template<typename Type>
+Type P_calculate(Type current,Type target,float speed);
+
+std::string toStdString(const sf::String& str);
+
 #include "mathematics/mathematics.ipp"

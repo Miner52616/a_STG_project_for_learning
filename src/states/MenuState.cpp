@@ -4,6 +4,7 @@
 #include "states/ManualState.h"
 #include "states/EndStoryState.h"
 #include "states/ReplayState.h"
+#include "states/SettingState.h"
 #include "core/Application.h"
 #include <iostream>
 
@@ -32,8 +33,11 @@ MenuState::MenuState(Application &app):
     buttonlist_[3].setButtonText("Ending");
     buttonlist_[3].setButtonPosition({100,400});
 
-    buttonlist_[4].setButtonText("Quit");
+    buttonlist_[4].setButtonText("Option");
     buttonlist_[4].setButtonPosition({100,500});
+
+    buttonlist_[5].setButtonText("Quit");
+    buttonlist_[5].setButtonPosition({100,600});
 
     for(int i=1;i<=MenuButtonNum;i++)
     {
@@ -188,6 +192,14 @@ void MenuState::update()
                         std::unique_ptr<EndStoryState> endstorystate=std::make_unique<EndStoryState>(app_);
                         endstorystate->Load("include/luas/endstory.lua");
                         app_.stack_.pushRequest(std::move(endstorystate));
+                        break;
+                    }
+
+                    case 5:
+                    {
+                        std::cout<<"set options"<<std::endl;
+                        app_.stack_.pushRequest(std::make_unique<SettingState>(app_));
+                        break;
                     }
                     
                 default:
@@ -211,11 +223,11 @@ void MenuState::render(sf::RenderWindow& window)
     ButtonState<MenuState>::render(window);
     curtain_.render(window);
 
-    title_.DrawText(window);
-    text1_.DrawText(window);
-    text2_.DrawText(window);
-    text3_.DrawText(window);
-    text4_.DrawText(window);
+    //title_.DrawText(window);
+    //text1_.DrawText(window);
+    //text2_.DrawText(window);
+    //text3_.DrawText(window);
+    //text4_.DrawText(window);
 
     star_curtain2_.render(window);
     //star_curtain_.render(window);
@@ -281,6 +293,12 @@ void MenuState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPressed
                 }
 
                 case 4:
+                {
+                    current_phase_=3;
+                    break;
+                }
+
+                case 5:
                 {
                     current_phase_=3;
                     break;

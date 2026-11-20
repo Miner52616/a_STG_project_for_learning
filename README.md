@@ -207,13 +207,13 @@ main.exe将生成于./main.exe
 主菜单
 - Up / Down： 选择按钮
 - Z： 确定
-- X / Esc： 选择Quit
+- X / Esc： 选择“Quit”按钮
 
-Replay播放
+Replay回放播放时
 - LCtrl： 2倍速播放回放
 - LShift： 0.25倍速播放回放
 
-Manual页
+Manual说明书页
 - Up / Down： 翻页
 - X / Esc： 返回上一级菜单
 
@@ -224,12 +224,24 @@ Manual页
 - X: 使用bomb
 - Esc：游戏暂停
 
-暂停页/游戏结束页/回放结束页面
+暂停页面/游戏结束页面/回放结束页面
 - Up / Down： 选择按钮
 - Z： 确定
 - X / Esc： 选择最后一个按钮
 
-Ending剧情
+Replay回放保存及选择页面
+- Up / Down： 选择回放槽位
+- Up / Down / Left / Right:  保存回放时，虚拟键盘按键选择
+- Z： 确定
+- X / Esc： 取消/返回上一级菜单
+
+Option设置页面
+- Up / Down： 选择设置选项
+- Z： 修改设置项状态/确定
+- X： 选中“保存并退出”按钮
+- Esc： 返回上一级菜单（不保存设置修改）
+
+Ending剧情页面
 - Z：下一句对话。最后一句对话后将自动退出
 
 ---

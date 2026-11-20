@@ -93,6 +93,11 @@ void KeyBoard::setPosition(sf::Vector2f position)
     }
 }
 
+sf::Vector2f KeyBoard::getFocusedButton()
+{
+    return key_net_[focus_[0]-1][focus_[1]-1].getButtonPosition();
+}
+
 std::vector<int> KeyBoard::getFocus()
 {
     return focus_;

@@ -23,6 +23,7 @@ public:
     void update();
     void render(sf::RenderWindow& window);
     void setPosition(sf::Vector2f position);
+    sf::Vector2f getFocusedButton();
     std::vector<int> getFocus();
     void setFocus(const std::vector<int>& focus);
     std::string getString();

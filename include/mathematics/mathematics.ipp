@@ -9,3 +9,9 @@ T get_random_from(std::vector<T> vector)
     std::uniform_int_distribution<> dis_int(0,vector.size()-1);
     return vector[dis_int(stg_math::gen)];
 }
+
+template<typename Type>
+Type P_calculate(Type current,Type target,float speed)
+{
+    return current+speed*(target-current);
+}
