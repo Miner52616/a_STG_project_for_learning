@@ -3,6 +3,7 @@
 #include <sol/sol.hpp>
 #include <fstream>
 #include <iostream>
+#include "packages/LuaBulletContext.h"
 
 LuaManager::LuaManager()
     //lua_(std::make_unique<sol::state>())
@@ -15,6 +16,13 @@ LuaManager::LuaManager()
         sol::lib::table
     );
 
+    lua_.new_usertype<LuaBulletContext>
+    (
+        "BulletContext",
+        "getPosition",&LuaBulletContext::getPosition,
+        "spawnBullet",&LuaBulletContext::spawnBullet,
+        "random",&LuaBulletContext::random
+    );
 }
 
 sol::state& LuaManager::lua()
