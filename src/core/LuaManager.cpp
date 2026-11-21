@@ -4,14 +4,16 @@
 #include <fstream>
 #include <iostream>
 //#include "lua_packages/LuaBulletContext.h"
-#include "lua_packages/LuaPackages.h"
-#include "lua_packages/LuaEntity.h"
-#include "lua_packages/LuaBatch.h"
-#include "packages/BulletConfig.h"
-#include "packages/EffectConfig.h"
-#include "packages/BatchConfig.h"
-#include "packages/LuaDependency.h"
-#include "core/Clock.h"
+//#include "lua_packages/LuaPackages.h"
+//#include "lua_packages/LuaEntity.h"
+//#include "lua_packages/LuaBatch.h"
+//#include "packages/BulletConfig.h"
+//#include "packages/EffectConfig.h"
+//#include "packages/BatchConfig.h"
+//#include "packages/LuaDependency.h"
+//#include "core/Clock.h"
+//#include "packages/AssetsResource.h"
+#include "core/LuaBindings.h"
 
 LuaManager::LuaManager()
     //lua_(std::make_unique<sol::state>())
@@ -45,6 +47,8 @@ void LuaManager::registerLua()
 
 void LuaManager::registerSFML()
 {
+    registerSFMLBindings(lua_);
+    /*
     lua_.new_usertype<sf::Vector2f>
     (
         "Vector2f",
@@ -66,10 +70,17 @@ void LuaManager::registerSFML()
         "Texture",
         sol::no_constructor
     );
+    */
 }
 
 void LuaManager::registerPackages()
 {
+    registerClockBindings(lua_);
+    registerAssetsResourceBindings(lua_);
+    registerBulletConfigBindings(lua_);
+    registerEffectConfigBindings(lua_);
+    registerBatchConfigBindings(lua_);
+    /*
     lua_.new_usertype<Clock>
     (
         "Clock",
@@ -80,6 +91,16 @@ void LuaManager::registerPackages()
         "get_condition",&Clock::get_condition,
         "get_target",&Clock::get_target,
         "set_target",&Clock::set_target
+    );
+
+    lua_.new_usertype<AssetsResource>
+    (
+        "AssetsResource",
+        sol::no_constructor,
+        "bulletsheetTexture_",&AssetsResource::bulletsheetTexture_,
+        "bulletsheetTexture2_",&AssetsResource::bulletsheetTexture2_,
+        "effectsheetTexture_",&AssetsResource::effectsheetTexture_,
+        "playersheetTexture_",&AssetsResource::playersheetTexture_
     );
 
     lua_.new_enum<BulletClasses>
@@ -99,6 +120,7 @@ void LuaManager::registerPackages()
             {"PhaseCenterRotateExpandBullet1",BulletClasses::PhaseCenterRotateExpandBullet1},
             {"VoidUpdate",BulletClasses::VoidUpdate}
         }
+            
     );
 
     lua_.new_enum<BulletBehavior>
@@ -221,10 +243,14 @@ void LuaManager::registerPackages()
         "resource_",&LuaDependency::resource_,
         "entity_",&LuaDependency::entity_
     );
+    
+    */
 }
 
 void LuaManager::registerLuaPackages()
 {
+    registerLuaPackageBindings(lua_);
+    /*
     lua_.new_usertype<LuaResource>
     (
         "Resource",
@@ -244,6 +270,7 @@ void LuaManager::registerLuaPackages()
         "bundle_config",&LuaBatch::bundle_config,
         "set_add_finished",&LuaBatch::set_add_finished
     );
+    */
 }
 
 sol::state& LuaManager::lua()

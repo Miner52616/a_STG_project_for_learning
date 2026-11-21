@@ -3,11 +3,17 @@
 #include "manager/BulletManager.h"
 #include "manager/BatchManager.h"
 #include "lua_packages/LuaBatch.h"
+#include "packages/AssetsResource.h"
 
 LuaResource::LuaResource(Resource* resource):
     resource_(resource)
 {
     ;
+}
+
+AssetsResource* LuaResource::getAssetResource()
+{
+    return &(resource_->app_);
 }
 
 void LuaResource::addBullet(BulletConfig* bulletconfig,EffectConfig* effectconfig)

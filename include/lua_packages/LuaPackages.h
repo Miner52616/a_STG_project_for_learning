@@ -5,6 +5,7 @@ class BulletConfig;
 class EffectConfig;
 class BatchConfig;
 class LuaBatch;
+class AssetsResource;
 
 class LuaResource
 {
@@ -13,6 +14,7 @@ private:
 
 public:
     LuaResource(Resource* resource_);
+    AssetsResource* getAssetResource();
     void addBullet(BulletConfig* bulletconfig,EffectConfig* effectconfig);
     LuaBatch addBatch(BatchConfig* batchconfig);
 };

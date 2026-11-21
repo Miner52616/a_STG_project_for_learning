@@ -37,6 +37,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 # 创建可执行文件
 add_executable(main ${SRC_FILES})
 
+# MinGW 下 PE/COFF 目标文件最多支持 32767 个 section，
+# LuaManager.cpp 这类模板密集的大 TU 会超出限制，导致链接时大量
+# "undefined reference"（符号所在 section 索引溢出）。启用大对象格式。
+if(MINGW)
+    target_compile_options(main PRIVATE -Wa,-mbig-obj)
+endif()
+
 # 预编译头加快编译速度
 target_precompile_headers(main PRIVATE
     <SFML/Graphics.hpp>
