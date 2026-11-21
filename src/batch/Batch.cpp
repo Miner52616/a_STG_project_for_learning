@@ -14,11 +14,13 @@ Batch::Batch(const BatchConfig* batchconfig):
     current_batch_num_(0),
     add_finish_(false),
     clock_(0),
+    clock2_(0),
     phase_(1),
     trigger_(false)
 {
     copyBatchConfig(&batchconfig_,batchconfig);
     clock_.reset();
+    clock2_.reset();
 }
 
 int Batch::get_current_num()

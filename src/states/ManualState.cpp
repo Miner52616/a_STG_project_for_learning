@@ -7,7 +7,7 @@ ManualState::ManualState(Application &app):
     TextState(app,ManPageNum)
 {   
     auto& lua=app_.lua_;
-    lua.loadScript("include/luas/manual.lua");
+    lua.loadScript("lua_files/manual.lua");
     
     sol::table manual=lua.lua()["manual"];
     int manual_size=manual.size();

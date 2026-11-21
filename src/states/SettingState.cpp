@@ -10,7 +10,7 @@ SettingState::SettingState(Application& app):
     title_.setTextPosition({120,30});
 
     LuaManager& lua=app_.lua_;
-    lua.loadScript("include/luas/setting.lua");
+    lua.loadScript("lua_files/setting.lua");
 
     sol::table setting_state=lua.lua()["setting"];
     int setting_state_size=setting_state.size();
@@ -123,7 +123,7 @@ void SettingState::HandleEvent(sf::RenderWindow& window,const sf::Event::KeyPres
 
 void SettingState::saveSetting()
 {
-    std::ofstream file("include/luas/setting.lua");
+    std::ofstream file("lua_files/setting.lua");
     if (!file.is_open())
     {
         std::cout<<"无法写入setting.lua"<<std::endl;

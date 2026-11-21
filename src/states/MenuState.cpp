@@ -190,7 +190,7 @@ void MenuState::update()
                     {
                         std::cout<<"watch ending"<<std::endl;
                         std::unique_ptr<EndStoryState> endstorystate=std::make_unique<EndStoryState>(app_);
-                        endstorystate->Load("include/luas/endstory.lua");
+                        endstorystate->Load("lua_files/endstory.lua");
                         app_.stack_.pushRequest(std::move(endstorystate));
                         break;
                     }

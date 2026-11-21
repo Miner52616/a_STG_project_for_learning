@@ -7,6 +7,7 @@ std::unique_ptr<Batch> BatchFactory::create(BatchConfig* batchconfig)
     std::unique_ptr<Batch> batch;
     batch=std::make_unique<Batch>(batchconfig);
     batch->clock_.set_target(batchconfig->target_time_);
+    batch->clock2_.set_target(batchconfig->target_time_);
 
     return std::move(batch);
 }

@@ -25,6 +25,12 @@ class LuaManager
 private:
     sol::state lua_;
 
+private:
+    void registerLua();
+
+    void registerSFML();//注册SFML的类
+    void registerPackages();//注册C++原生数据包到Lua
+    void registerLuaPackages();//注册C++特别封装的包到Lua
 public:
     LuaManager();
 

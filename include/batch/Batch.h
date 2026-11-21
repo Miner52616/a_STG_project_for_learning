@@ -18,6 +18,7 @@ public:
     //std::function<void(Batch*)> update_func_;
     BatchConfig batchconfig_;
     Clock clock_;
+    Clock clock2_;
 
     int phase_=1;
     bool trigger_=false;

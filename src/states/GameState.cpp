@@ -170,6 +170,7 @@ void GameState::set_application()
     }
     else
     {
+        replay_.reserve(static_cast<std::uint32_t>(216000));//提前reserve一下replay保存容器，防止游戏中因为扩容内存分配而卡顿
         seed_=resetSeed();
     }
 }
@@ -337,7 +338,7 @@ void GameState::set_phase()
 
 void GameState::read_script()
 {
-    scriptloader_.loadPhase("include/luas/phases.lua");
+    scriptloader_.loadPhase("lua_files/phases.lua");
 }
 
 void GameState::bundle_leader_menber()

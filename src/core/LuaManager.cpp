@@ -3,7 +3,14 @@
 #include <sol/sol.hpp>
 #include <fstream>
 #include <iostream>
-#include "packages/LuaBulletContext.h"
+//#include "lua_packages/LuaBulletContext.h"
+#include "lua_packages/LuaPackages.h"
+#include "lua_packages/LuaEntity.h"
+#include "lua_packages/LuaBatch.h"
+#include "packages/BulletConfig.h"
+#include "packages/EffectConfig.h"
+#include "packages/BatchConfig.h"
+#include "packages/LuaDependency.h"
 
 LuaManager::LuaManager()
     //lua_(std::make_unique<sol::state>())
@@ -16,12 +23,213 @@ LuaManager::LuaManager()
         sol::lib::table
     );
 
+    registerLua();
+    /*
     lua_.new_usertype<LuaBulletContext>
     (
         "BulletContext",
         "getPosition",&LuaBulletContext::getPosition,
         "spawnBullet",&LuaBulletContext::spawnBullet,
         "random",&LuaBulletContext::random
+    );
+    */
+}
+
+void LuaManager::registerLua()
+{
+    registerSFML();
+    registerPackages();
+    registerLuaPackages();
+}
+
+void LuaManager::registerSFML()
+{
+    lua_.new_usertype<sf::Vector2f>
+    (
+        "Vector2f",
+        sol::constructors<sf::Vector2f(float,float)>(),
+        "x",&sf::Vector2f::x,
+        "y",&sf::Vector2f::y
+    );
+
+    lua_.new_usertype<sf::Vector2i>
+    (
+        "Vector2i",
+        sol::constructors<sf::Vector2i(int,int)>(),
+        "x",&sf::Vector2i::x,
+        "y",&sf::Vector2i::y
+    );
+
+    lua_.new_usertype<sf::Texture>
+    (
+        "Texture",
+        sol::no_constructor
+    );
+}
+
+void LuaManager::registerPackages()
+{
+    lua_.new_enum<BulletClasses>
+    (   
+        "BulletClasses",
+        {
+            {"LinearBullet",BulletClasses::LinearBullet},
+            {"PlayerBullet",BulletClasses::PlayerBullet},
+            {"DirectBullet1",BulletClasses::DirectBullet1},
+            {"DirectBullet2",BulletClasses::DirectBullet2},
+            {"PlayerAimBullet",BulletClasses::PlayerAimBullet},
+            {"DirectBullet3",BulletClasses::DirectBullet3},
+            {"GravityBullet",BulletClasses::GravityBullet},
+            {"RotateBullet1",BulletClasses::RotateBullet1},
+            {"Behavior_DirectBullet1",BulletClasses::Behavior_DirectBullet1},
+            {"PhaseCenterRotateBullet1",BulletClasses::PhaseCenterRotateBullet1},
+            {"PhaseCenterRotateExpandBullet1",BulletClasses::PhaseCenterRotateExpandBullet1},
+            {"VoidUpdate",BulletClasses::VoidUpdate}
+        }
+    );
+
+    lua_.new_enum<BulletBehavior>
+    (
+        "BulletBehavior",
+        {
+            {"Fix",BulletBehavior::Fix},
+            {"Rotate",BulletBehavior::Rotate},
+            {"Direct",BulletBehavior::Direct}
+        }
+    );
+
+    lua_.new_enum<BulletSize>
+    (
+        "BulletSize",
+        {
+            {"Small",BulletSize::Small},
+            {"Big",BulletSize::Big},
+            {"Large",BulletSize::Large}
+        }
+    );
+
+    lua_.new_usertype<BulletConfig>
+    (
+        "BulletConfig",
+        sol::constructors<BulletConfig(sf::Texture& texture)>(),
+        "x_",&BulletConfig::x_,
+        "v_",&BulletConfig::v_,
+        "a_",&BulletConfig::a_,
+        "a2_",&BulletConfig::a2_,
+        "v2_",&BulletConfig::v2_,
+        "v3_",&BulletConfig::v3_,
+        "rotate_angle_",&BulletConfig::rotate_angle_,
+        "rotate_angle2_",&BulletConfig::rotate_angle2_,
+        "r_",&BulletConfig::r_,
+        "r2_",&BulletConfig::r2_,
+        "damage_",&BulletConfig::damage_,
+        "angle_",&BulletConfig::angle_,
+        "angle2_",&BulletConfig::angle2_,
+        "bullet_num_",&BulletConfig::bullet_num_,
+        "random_son_direction_",&BulletConfig::random_son_direction_,
+        "not_clear_",&BulletConfig::not_clear_,
+        "self_phase_",&BulletConfig::self_phase_,
+        "color_alpha_",&BulletConfig::color_alpha_,
+        "clock1_",&BulletConfig::clock1_,
+        "clock2_",&BulletConfig::clock2_,
+        "clock3_",&BulletConfig::clock3_,
+        "direction_",&BulletConfig::direction_,
+        "direction2_",&BulletConfig::direction2_,
+        "spawn_point_",&BulletConfig::spawn_point_,
+        "center_point_",&BulletConfig::center_point_,
+        "center_point2_",&BulletConfig::center_point2_,
+        "target_point_",&BulletConfig::target_point_,
+        "target_point2_",&BulletConfig::target_point2_,
+        "target_point3_",&BulletConfig::target_point3_,
+        "bulletclass_",&BulletConfig::bulletclass_,
+        "bulletbehavior_",&BulletConfig::bulletbehavior_,
+        "bulletbehavior2_",&BulletConfig::bulletbehavior2_,
+        "bulletsize_",&BulletConfig::bulletsize_,
+        "bullet_index_",&BulletConfig::bullet_index_,
+        "bullet_index2_",&BulletConfig::bullet_index2_
+    );
+
+    lua_.new_enum<EffectType>
+    (
+        "EffectType",
+        {
+            {"LeiTan_Air",EffectType::LeiTan_Air},
+            {"Bullet_Air",EffectType::Bullet_Air},
+            {"PlayerBullet_Air",EffectType::PlayerBullet_Air},
+            {"VoidUpdate",EffectType::VoidUpdate}
+        }
+    );
+
+    lua_.new_enum<OverlayType>
+    (
+        "OverlayType",
+        {
+            {"Picture_Overlay",OverlayType::Picture_Overlay},
+            {"Text_Overlay",OverlayType::Text_Overlay}
+        }
+    );
+
+    lua_.new_usertype<EffectConfig>
+    (
+        "EffectConfig",
+        sol::constructors<EffectConfig(sf::Texture& texture)>(),
+        "spawn_point_",&EffectConfig::spawn_point_,
+        "effecttype_",&EffectConfig::effecttype_,
+        "time_",&EffectConfig::time_,
+        "a_",&EffectConfig::a_,
+        "v_",&EffectConfig::v_,
+        "v2_",&EffectConfig::v2_,
+        "color_alpha_",&EffectConfig::color_alpha_,
+        "direction_",&EffectConfig::direction_,
+        "texture_",&EffectConfig::texture_,
+        "texturelist_size_",&EffectConfig::texturelist_size_,
+        "current_texture_num_",&EffectConfig::current_texture_num_,
+        "random_rotate_",&EffectConfig::random_rotate_,
+        "effect_index_",&EffectConfig::effect_index_,
+        "isText",&EffectConfig::isText,
+        //"font_",&EffectConfig::font_,
+        "text_",&EffectConfig::text_,
+        "text_size_",&EffectConfig::text_size_
+    );
+
+    lua_.new_usertype<BatchConfig>
+    (
+        "BatchConfig",
+        sol::constructors<BatchConfig()>(),
+        "target_time_",&BatchConfig::target_time_,
+        "target_time2_",&BatchConfig::target_time2_,
+        "target_time3_",&BatchConfig::target_time3_
+    );
+
+    lua_.new_usertype<LuaDependency>
+    (
+        "LuaDependency",
+        //sol::constructors<LuaDependency(LuaResource,LuaEntity)>(),
+        "resource_",&LuaDependency::resource_,
+        "entity_",&LuaDependency::entity_
+    );
+}
+
+void LuaManager::registerLuaPackages()
+{
+    lua_.new_usertype<LuaResource>
+    (
+        "Resource",
+        "addBullet",&LuaResource::addBullet,
+        "addBatch",&LuaResource::addBatch
+    );
+
+    lua_.new_usertype<LuaEntity>
+    (
+        "Entity",
+        "getPosition",&LuaEntity::getPosition
+    );
+
+    lua_.new_usertype<LuaBatch>
+    (
+        "LuaBatch",
+        "bundle_config",&LuaBatch::bundle_config,
+        "set_add_finished",&LuaBatch::set_add_finished
     );
 }
 
@@ -41,7 +249,7 @@ SaveData LuaManager::loadSave()
 
     try
     {
-        sol::load_result script = lua_.load_file("include/luas/save.lua");
+        sol::load_result script = lua_.load_file("lua_files/save.lua");
 
         if (!script.valid())
         {
@@ -80,7 +288,7 @@ SaveData LuaManager::loadSave()
 Debug LuaManager::loadDebug()
 {
     Debug debug;
-    loadScript("include/luas/debug.lua");
+    loadScript("lua_files/debug.lua");
 
     sol::table debug_table=(lua_)["debug"];
     debug.hitbox_exist_=debug_table["hitbox_exist"];
@@ -92,7 +300,7 @@ Debug LuaManager::loadDebug()
 
 void LuaManager::writeSave(const SaveData& data)
 {
-    std::ofstream file("include/luas/save.lua");
+    std::ofstream file("lua_files/save.lua");
 
     if (!file.is_open())
     {

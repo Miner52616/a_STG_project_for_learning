@@ -1,6 +1,7 @@
 #include "core/LuaObject.h"
+#include "packages/LuaDependency.h"
 
-LuaFunction::LuaFunction(sol::state& lua,const std::string& path,LuaBulletContext* context)
+LuaFunction::LuaFunction(sol::state& lua,const std::string& path,LuaDependency dependency)
 {
     //从路径加载Lua文件
     sol::load_result load_result=lua.load_file(path);
@@ -24,7 +25,7 @@ LuaFunction::LuaFunction(sol::state& lua,const std::string& path,LuaBulletContex
 
     //获取模块中的new函数，调用new，创建Lua对象（初步约定以new为Lua“类”的构造函数）
     sol::protected_function constructor=module["new"];
-    sol::protected_function_result object_result=constructor(context);//运行构造函数后返回的Lua对象
+    sol::protected_function_result object_result=constructor(dependency);//运行构造函数后返回的Lua对象
     if (!object_result.valid())
     {
         sol::error err=object_result;
