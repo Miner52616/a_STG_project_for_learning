@@ -11,6 +11,7 @@
 #include "packages/EffectConfig.h"
 #include "packages/BatchConfig.h"
 #include "packages/LuaDependency.h"
+#include "core/Clock.h"
 
 LuaManager::LuaManager()
     //lua_(std::make_unique<sol::state>())
@@ -69,6 +70,18 @@ void LuaManager::registerSFML()
 
 void LuaManager::registerPackages()
 {
+    lua_.new_usertype<Clock>
+    (
+        "Clock",
+        sol::no_constructor,
+        "count",&Clock::count,
+        "reset",&Clock::reset,
+        "set_ready",&Clock::set_ready,
+        "get_condition",&Clock::get_condition,
+        "get_target",&Clock::get_target,
+        "set_target",&Clock::set_target
+    );
+
     lua_.new_enum<BulletClasses>
     (   
         "BulletClasses",

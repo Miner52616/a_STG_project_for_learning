@@ -52,6 +52,7 @@ Application::Application():
 
     //color_flip_.loadFromFile("assets/shaders/ColorFlip.frag",sf::Shader::Type::Fragment);
 
+    loadSetting();
     history_data_=lua_.loadSave();
     debug_=lua_.loadDebug();
     performance_.setActive(debug_.debug_information_);
@@ -68,6 +69,21 @@ Application::Application():
     std::cout <<std::endl;
     //std::cout <<history_data_.high_score_<<std::endl;
     //std::cout <<history_data_.cleared_<<std::endl;
+}
+
+void Application::loadSetting()
+{
+    lua_.loadScript("lua_files/setting.lua");
+    sol::table setting_table=lua_.lua()["setting"];
+    int setting_size=setting_table.size();
+
+    for(int i=1;i<=setting_size;i++)
+    {
+        sol::table setting=setting_table[i];
+        std::string name=setting["name"];
+        bool state=setting["state"];
+        setting_[name]=state;
+    }
 }
 
 void Application::run()

@@ -27,6 +27,8 @@ public:
     Performance performance_;
 
 private:
+    void loadSetting();
+private:
     bool isRunning() const;  //窗口是否还在打开着
     void processEvent();  //处理产生的所有事件
     void update();  //统一更新属性
