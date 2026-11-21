@@ -3,6 +3,7 @@
 #include "lua_packages/LuaEntity.h"
 #include "lua_packages/LuaBatch.h"
 #include "packages/LuaDependency.h"
+#include "packages/AssetsResource.h"
 
 void registerLuaPackageBindings(sol::state& lua)
 {
@@ -11,7 +12,7 @@ void registerLuaPackageBindings(sol::state& lua)
         "Resource",
         "addBullet",&LuaResource::addBullet,
         "addBatch",&LuaResource::addBatch,
-        "getAssetResource",&LuaResource::getAssetResource
+        "getAssetResource",&LuaResource::getAssetsResource
     );
 
     lua.new_usertype<LuaEntity>

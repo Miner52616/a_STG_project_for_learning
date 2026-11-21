@@ -14,7 +14,7 @@ private:
 
 public:
     LuaResource(Resource* resource_);
-    AssetsResource* getAssetResource();
+    AssetsResource* getAssetsResource();
     void addBullet(BulletConfig* bulletconfig,EffectConfig* effectconfig);
     LuaBatch addBatch(BatchConfig* batchconfig);
 };

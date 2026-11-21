@@ -11,7 +11,7 @@ LuaResource::LuaResource(Resource* resource):
     ;
 }
 
-AssetsResource* LuaResource::getAssetResource()
+AssetsResource* LuaResource::getAssetsResource()
 {
     return &(resource_->app_);
 }
